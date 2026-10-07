@@ -2,14 +2,17 @@
 import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth'
+import { useRequestWizardStore } from '@/stores/requestWizard'
 
 import '@/styles/public.css'
 
 const auth = useAuthStore()
 const router = useRouter()
+const wizard = useRequestWizardStore()
 
-/** Oturumu kapatır ve ana sayfaya döner. */
+/** Oturumu kapatır, kişisel bilgi içeren başvuru taslağını siler ve ana sayfaya döner. */
 async function logout() {
+  wizard.reset()
   await auth.logout()
   await router.push({ name: 'landing' })
 }

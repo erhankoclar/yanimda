@@ -85,6 +85,36 @@
   border-radius: var(--radius-control);
 }
 
+/* Görsel olarak gizli ama ekran okuyucuların okuduğu metin. */
+.public-layout .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Bağlantı görünümlü düğme (ör. "Düzenle", "Tekrar dene"). */
+.public-layout .link-button {
+  min-height: 2.75rem;
+  padding: 0 var(--space-2);
+  border: 0;
+  background: none;
+  color: var(--color-linden-dark);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.public-layout .wizard-fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 /* Form alanlarının ortak görünümü (BaseInput, BaseSelect, BaseTextarea). */
 .public-layout .field {
   display: grid;
