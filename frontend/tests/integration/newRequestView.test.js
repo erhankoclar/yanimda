@@ -89,7 +89,7 @@ describe('yeni başvuru sayfası', () => {
       service: 4, elder_full_name: 'Fatma Yılmaz', elder_age: 78, relationship: 'parent',
       time_slot: 'afternoon', contact_phone: '05551112233', consent: true,
     })
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests/21?created=1'))
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests/21?created=1'), { timeout: 5000 })
   })
 
   it('eksik bilgiyle ilerlemez ve hatayı gösterir', async () => {

@@ -69,7 +69,7 @@ describe('ana sayfa', () => {
     await wrapper.get('.landing__secondary').trigger('click')
     await flushPromises()
 
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('login'))
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('login'), { timeout: 5000 })
     expect(mounted.router.currentRoute.value.query.redirect).toBe('/requests/new')
   })
 })

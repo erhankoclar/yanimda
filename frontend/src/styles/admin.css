@@ -1,0 +1,74 @@
+/*
+ * Admin paneli görsel dili. Son kullanıcı tarafından (public.css) tamamen ayrıdır;
+ * değişkenler yalnızca .admin-shell ve admin giriş sayfası altında tanımlıdır.
+ */
+.admin-shell,
+.admin-auth {
+  --admin-bg: #f4f6f5;
+  --admin-surface: #ffffff;
+  --admin-ink: #18211f;
+  --admin-ink-soft: #5b6662;
+  --admin-line: #e2e7e5;
+  --admin-primary: #1f5f55;
+  --admin-primary-tint: #e3efeb;
+  --admin-accent: #f29e4c;
+  --admin-success: #1f7a4d;
+  --admin-danger: #b3261e;
+  --admin-radius: 0.9rem;
+  --admin-shadow: 0 1px 2px rgb(16 40 36 / 0.05), 0 4px 16px rgb(16 40 36 / 0.06);
+  --admin-sidebar-width: 16rem;
+
+  min-height: 100vh;
+  background: var(--admin-bg);
+  color: var(--admin-ink);
+  font-family: 'Atkinson Hyperlegible Next', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.admin-shell *,
+.admin-auth * {
+  box-sizing: border-box;
+}
+
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3,
+.admin-auth h1 {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* İçerik kartı: dashboard ve liste sayfalarındaki beyaz bloklar. */
+.admin-shell .admin-panel {
+  padding: 1.25rem;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius);
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+}
+
+.admin-shell .admin-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.admin-shell .admin-panel__head h2 {
+  font-size: 1.1rem;
+}
+
+.admin-shell .visually-hidden,
+.admin-auth .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
