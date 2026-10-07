@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from apps.care.models import CareRequest
-from apps.care.stats import DAILY_SERIES_DAYS
+from apps.care.services.stats_service import DAILY_SERIES_DAYS
 from apps.care.tests.factories import make_care_request, make_service, make_user
 
 

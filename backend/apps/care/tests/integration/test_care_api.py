@@ -308,9 +308,8 @@ class DuplicateOpenRequestApiTests(CareRequestApiTestCase):
         """
         from unittest.mock import patch
 
-        from apps.care.serializers import CareRequestSerializer
 
-        with patch.object(CareRequestSerializer, '_has_open_duplicate', return_value=False):
+        with patch('apps.care.services.care_request_service.has_open_duplicate', return_value=False):
             self.create()
             response = self.create()
 

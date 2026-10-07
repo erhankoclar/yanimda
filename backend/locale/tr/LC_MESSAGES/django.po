@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-08 01:56+0300\n"
+"POT-Creation-Date: 2026-10-08 02:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,15 +146,6 @@ msgstr ""
 msgid "Accounts"
 msgstr "Hesaplar"
 
-msgid "The email address is required."
-msgstr "E-posta adresi zorunludur."
-
-msgid "Superuser must have is_staff=True."
-msgstr "Süper kullanıcı için is_staff=True olmalıdır."
-
-msgid "Superuser must have is_superuser=True."
-msgstr "Süper kullanıcı için is_superuser=True olmalıdır."
-
 msgid "email address"
 msgstr "e-posta adresi"
 
@@ -208,6 +199,15 @@ msgstr "İletişim telefon numarası. İsteğe bağlı, en fazla 20 karakter."
 msgid "A user with this email address already exists."
 msgstr "Bu e-posta adresiyle kayıtlı bir kullanıcı zaten var."
 
+msgid "The email address is required."
+msgstr "E-posta adresi zorunludur."
+
+msgid "Superuser must have is_staff=True."
+msgstr "Süper kullanıcı için is_staff=True olmalıdır."
+
+msgid "Superuser must have is_superuser=True."
+msgstr "Süper kullanıcı için is_superuser=True olmalıdır."
+
 msgid "First and last name of the applicant."
 msgstr "Başvuru sahibinin adı ve soyadı."
 
@@ -253,10 +253,6 @@ msgid ""
 "statuses."
 msgstr ""
 "Talebin mevcut durumundan geçebileceği durumlar. Son durumlarda boştur."
-
-#, python-format
-msgid "A request in \"%(current)s\" status cannot be moved to \"%(target)s\"."
-msgstr "\"%(current)s\" durumundaki bir talep \"%(target)s\" durumuna taşınamaz."
 
 msgid "Status value."
 msgstr "Durum değeri."
@@ -315,7 +311,6 @@ msgstr "Yeni, inceleniyor veya atandı durumundaki başvurular."
 msgid "Open applications that nobody has reviewed yet."
 msgstr "Henüz kimsenin incelemediği açık başvurular."
 
-#| msgid "Name of the service type."
 msgid "Number of active service types."
 msgstr "Aktif hizmet türü sayısı."
 
@@ -331,15 +326,12 @@ msgstr "Ekibi bekleyen başvurular."
 msgid "Quick inquiries from the landing page."
 msgstr "Ana sayfadan gelen hızlı talepler."
 
-#| msgid "Selected service type."
 msgid "Active service types."
 msgstr "Aktif hizmet türleri."
 
-#| msgid "Name of the service type."
 msgid "Icon key of the service type."
 msgstr "Hizmet türünün ikon anahtarı."
 
-#| msgid "Request count of every status, in flow order."
 msgid "Count for every label, in the same order."
 msgstr "Her etiket için sayı, aynı sırayla."
 
@@ -349,21 +341,18 @@ msgstr "Bir dönemin uzunluğu."
 msgid "Start date of every period, oldest first."
 msgstr "Her dönemin başlangıç tarihi, eskiden yeniye."
 
-#| msgid "Selected service type."
 msgid "One line per active service type."
 msgstr "Her aktif hizmet türü için bir çizgi."
 
 msgid "Quick inquiry or application."
 msgstr "Hızlı talep veya başvuru."
 
-#| msgid "Identifier of the service type."
 msgid "Identifier of the quick inquiry or application."
 msgstr "Hızlı talebin veya başvurunun kimliği."
 
 msgid "Contact name for inquiries, elder name for applications."
 msgstr "Hızlı taleplerde ulaşılacak kişinin, başvurularda yaşlının adı."
 
-#| msgid "Registration time."
 msgid "Creation time."
 msgstr "Oluşturulma zamanı."
 
@@ -382,7 +371,6 @@ msgstr "Son hızlı talepler ve başvurular."
 msgid "Oldest applications waiting for review."
 msgstr "İncelenmeyi bekleyen en eski başvurular."
 
-#| msgid "Request count of every status, in flow order."
 msgid "Application count of every status."
 msgstr "Her durumdaki başvuru sayısı."
 
@@ -621,7 +609,6 @@ msgstr ""
 "admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalıdır; hizmete göre "
 "filtrelenebilir, ad, e-posta ve açıklamaya göre aranabilir.</p>"
 
-#| msgid "Admin: dashboard statistics"
 msgid "Admin: dashboard"
 msgstr "Yönetim: gösterge paneli"
 
@@ -981,6 +968,10 @@ msgid ""
 msgstr ""
 "%(elder)s için bu hizmette zaten açık bir başvurunuz var. Başvuru "
 "tamamlandığında veya iptal edildiğinde yeniden başvurabilirsiniz."
+
+#, python-format
+msgid "A request in \"%(current)s\" status cannot be moved to \"%(target)s\"."
+msgstr "\"%(current)s\" durumundaki bir talep \"%(target)s\" durumuna taşınamaz."
 
 msgid "Enter a valid phone number."
 msgstr "Geçerli bir telefon numarası girin."

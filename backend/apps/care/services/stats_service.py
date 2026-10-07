@@ -1,4 +1,4 @@
-"""Admin dashboard istatistiklerinin hesaplanması."""
+"""Admin özet istatistiklerinin (eski /api/admin/stats/) okuma servisi."""
 
 from datetime import timedelta
 
