@@ -25,6 +25,9 @@ services:
       ALLOWED_HOSTS: localhost,127.0.0.1,backend
       DATABASE_URL: postgres://yanimda:yanimda@db:5432/yanimda
       CORS_ALLOWED_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+      # Yalnızca yerel geliştirme içindir; üretimde kullanmayın.
+      DJANGO_SUPERUSER_EMAIL: admin@yanimda.local
+      DJANGO_SUPERUSER_PASSWORD: Yanimda-Admin-2026
     volumes:
       - ./backend:/app
       - /app/.venv
