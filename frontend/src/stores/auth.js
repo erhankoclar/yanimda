@@ -82,9 +82,19 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
   }
 
-  /** Kullanıcının oturumunu kapatır. */
-  function logout() {
+  /**
+   * Oturumu sunucuda sonlandırır ve yerel oturumu temizler.
+   *
+   * Sunucuya ulaşılamasa bile yerel token'lar silinir; kullanıcı çıkmış sayılır.
+   *
+   * @returns {Promise<void>}
+   */
+  async function logout() {
+    const refresh = tokenStorage.getRefresh()
     clearSession()
+    if (refresh) {
+      await authApi.logout(refresh).catch(() => {})
+    }
   }
 
   onSessionExpired(() => {

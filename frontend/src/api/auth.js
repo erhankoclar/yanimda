@@ -6,6 +6,8 @@ export const authApi = {
   /** @returns {Promise<{ access: string, refresh: string }>} */
   login: (email, password) => http.post('/auth/token/', { email, password }, { skipAuthRefresh: true })
     .then((response) => response.data),
+  /** Refresh token'ı sunucuda kara listeye alır. */
+  logout: (refresh) => http.post('/auth/logout/', { refresh }, { skipAuthRefresh: true }),
   me: () => http.get('/auth/me/').then((response) => response.data),
   /** @param {{ first_name?: string, last_name?: string, phone?: string }} payload */
   updateMe: (payload) => http.patch('/auth/me/', payload).then((response) => response.data),

@@ -10,7 +10,7 @@ const router = useRouter()
 
 /** Oturumu kapatır ve ana sayfaya döner. */
 async function logout() {
-  auth.logout()
+  await auth.logout()
   await router.push({ name: 'landing' })
 }
 </script>

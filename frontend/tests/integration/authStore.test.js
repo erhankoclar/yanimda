@@ -76,17 +76,30 @@ describe('auth store', () => {
     expect(tokenStorage.getAccess()).toBeNull()
   })
 
-  it('çıkış yapınca kullanıcıyı ve token’ları temizler', async () => {
-    useFakeApi(routeHandler({
+  it('çıkış yapınca refresh token’ı sunucuya bildirir ve oturumu temizler', async () => {
+    const calls = useFakeApi(routeHandler({
       'POST /auth/token/': () => [200, { access: 'a1', refresh: 'r1' }],
       'GET /auth/me/': () => [200, APPLICANT],
+      'POST /auth/logout/': () => [200, {}],
     }))
     const auth = useAuthStore()
     await auth.login('ayse@example.com', 'parola')
 
-    auth.logout()
+    await auth.logout()
 
+    const logoutCall = calls.find((call) => call.url === '/auth/logout/')
+    expect(JSON.parse(logoutCall.data)).toEqual({ refresh: 'r1' })
     expect(auth.isAuthenticated).toBe(false)
     expect(tokenStorage.getRefresh()).toBeNull()
+  })
+
+  it('sunucuya ulaşılamasa da çıkışta yerel oturumu temizler', async () => {
+    tokenStorage.set({ access: 'a1', refresh: 'r1' })
+    useFakeApi(routeHandler({ 'POST /auth/logout/': () => [500, {}] }))
+    const auth = useAuthStore()
+
+    await expect(auth.logout()).resolves.toBeUndefined()
+
+    expect(tokenStorage.getAccess()).toBeNull()
   })
 })
