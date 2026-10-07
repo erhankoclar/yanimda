@@ -218,3 +218,102 @@ class CareRequestReadApiTests(CareRequestApiTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['elder_full_name'], care_request.elder_full_name)
         self.assertEqual(response.data['status'], CareRequest.Status.NEW)
+
+
+class DuplicateOpenRequestApiTests(CareRequestApiTestCase):
+    def duplicate_message(self, elder='Fatma Yılmaz'):
+        """
+        Mükerrer talep hata mesajını etkin dilde oluşturur.
+
+        Args:
+            elder (str): Yaşlının adı soyadı.
+
+        Returns:
+            str: Beklenen hata mesajı.
+        """
+        return gettext(
+            'You already have an open request for this service for %(elder)s. '
+            'You can apply again when it is completed or cancelled.'
+        ) % {'elder': elder}
+
+    def test_rejects_second_open_request_for_same_elder_and_service(self):
+        """
+        Aynı yaşlı için aynı hizmete ikinci açık talebin reddedildiğini doğrular.
+
+        Senaryo:
+        - Bir talep oluşturulur.
+        - Aynı hizmet ve yaşlı adı (farklı harf büyüklüğü ve boşlukla) tekrar gönderilir.
+
+        Beklenti:
+        - İkinci istek 400 dönmeli, hata `service` alanında olmalı ve tek talep kalmalıdır.
+        """
+        self.create()
+
+        response = self.create(elder_full_name='  fatma YILMAZ ')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['service'], [self.duplicate_message('fatma YILMAZ')])
+        self.assertEqual(CareRequest.objects.count(), 1)
+
+    def test_allows_same_service_for_another_elder(self):
+        """Aynı hizmetin başka bir yaşlı için istenebildiğini doğrular."""
+        self.create()
+
+        response = self.create(elder_full_name='Ahmet Yılmaz')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_allows_another_service_for_same_elder(self):
+        """Aynı yaşlı için farklı bir hizmet istenebildiğini doğrular."""
+        self.create()
+
+        response = self.create(service=make_service().id)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_allows_reapply_after_request_is_closed(self):
+        """
+        Tamamlanan veya iptal edilen talepten sonra aynı hizmete yeniden başvurulabildiğini doğrular.
+
+        Senaryo:
+        - Talep oluşturulup tamamlandı yapılır, yeniden başvurulur.
+        - Yeni talep iptal edilip tekrar başvurulur.
+
+        Beklenti:
+        - Her iki yeniden başvuru da 201 dönmelidir.
+        """
+        self.create()
+        CareRequest.objects.update(status=CareRequest.Status.COMPLETED)
+        self.assertEqual(self.create().status_code, status.HTTP_201_CREATED)
+
+        CareRequest.objects.filter(status=CareRequest.Status.NEW).update(status=CareRequest.Status.CANCELLED)
+
+        self.assertEqual(self.create().status_code, status.HTTP_201_CREATED)
+
+    def test_other_applicants_request_does_not_block(self):
+        """Başka bir kullanıcının aynı yaşlı ve hizmet için açık talebinin engel olmadığını doğrular."""
+        make_care_request(service=self.service)
+
+        self.assertEqual(self.create().status_code, status.HTTP_201_CREATED)
+
+    def test_database_constraint_turns_race_into_validation_error(self):
+        """
+        Eşzamanlı iki isteğin doğrulamayı birlikte geçmesi durumunda 500 yerine 400 döndüğünü doğrular (yarış durumu).
+
+        Senaryo:
+        - Uygulama düzeyindeki mükerrer kontrolü devre dışı bırakılarak iki talep gönderilir.
+
+        Beklenti:
+        - Veritabanı kısıtı ikinci talebi engellemeli; yanıt 400 ve `service` hatası olmalıdır.
+        """
+        from unittest.mock import patch
+
+        from apps.care.serializers import CareRequestSerializer
+
+        with patch.object(CareRequestSerializer, '_has_open_duplicate', return_value=False):
+            self.create()
+            response = self.create()
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['service'], [self.duplicate_message()])
+        self.assertEqual(CareRequest.objects.count(), 1)

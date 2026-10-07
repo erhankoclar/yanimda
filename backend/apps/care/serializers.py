@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.db import IntegrityError, transaction
 from django.utils import timezone
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
@@ -7,6 +8,7 @@ from rest_framework import serializers
 
 from apps.care import api_descriptions, conf
 from apps.care.models import CareRequest, ServiceType
+from apps.care.text import person_name_key
 from apps.care.validators import normalize_phone
 
 
@@ -147,7 +149,10 @@ class CareRequestSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         """
-        Alternatif kişi adı ve telefonunun birlikte verildiğini doğrular.
+        Çapraz alan kurallarını doğrular.
+
+        Alternatif kişi adı ve telefonu birlikte verilmelidir; başvuru sahibinin
+        aynı yaşlı için aynı hizmette açık bir talebi varsa yenisi reddedilir.
 
         Args:
             attrs (dict[str, Any]): Alan doğrulamasından geçmiş veriler.
@@ -156,7 +161,8 @@ class CareRequestSerializer(serializers.ModelSerializer):
             dict[str, Any]: Değiştirilmemiş veriler.
 
         Raises:
-            serializers.ValidationError: Ad ve telefondan yalnızca biri verilmişse ilgili eksik alan altında.
+            serializers.ValidationError: Alternatif kişi bilgileri eksikse ilgili alan altında,
+                mükerrer açık talep varsa `service` alanı altında.
         """
         name = attrs.get('alternate_contact_name', '').strip()
         phone = attrs.get('alternate_contact_phone', '')
@@ -168,7 +174,44 @@ class CareRequestSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {'alternate_contact_name': gettext('Enter the name of the alternate contact.')},
             )
+        request = self.context.get('request')
+        if request and self._has_open_duplicate(request.user, attrs['service'], attrs['elder_full_name']):
+            raise serializers.ValidationError({'service': self._duplicate_message(attrs['elder_full_name'])})
         return attrs
+
+    @staticmethod
+    def _has_open_duplicate(applicant, service, elder_full_name):
+        """
+        Aynı yaşlı için aynı hizmette açık bir talep olup olmadığını söyler.
+
+        Args:
+            applicant (User): Başvuru sahibi.
+            service (ServiceType): Seçilen hizmet.
+            elder_full_name (str): Yaşlının adı soyadı; Türkçe harf ve büyük/küçük harf duyarsız karşılaştırılır.
+
+        Returns:
+            bool: Açık mükerrer talep varsa True.
+        """
+        return CareRequest.objects.filter(
+            applicant=applicant, service=service, elder_name_key=person_name_key(elder_full_name),
+            status__in=CareRequest.OPEN_STATUSES,
+        ).exists()
+
+    @staticmethod
+    def _duplicate_message(elder_full_name):
+        """
+        Mükerrer talep hata mesajını etkin dilde oluşturur.
+
+        Args:
+            elder_full_name (str): Yaşlının adı soyadı.
+
+        Returns:
+            str: Çevrilmiş hata mesajı.
+        """
+        return gettext(
+            'You already have an open request for this service for %(elder)s. '
+            'You can apply again when it is completed or cancelled.'
+        ) % {'elder': elder_full_name.strip()}
 
     def create(self, validated_data):
         """
@@ -179,7 +222,17 @@ class CareRequestSerializer(serializers.ModelSerializer):
 
         Returns:
             CareRequest: Oluşturulan talep.
+
+        Raises:
+            serializers.ValidationError: Veritabanı mükerrer açık talep kısıtını ihlal ederse.
         """
         validated_data.pop('consent')
         validated_data['consent_given_at'] = timezone.now()
-        return super().create(validated_data)
+        try:
+            # Eşzamanlı iki istek doğrulamayı birlikte geçerse veritabanı kısıtı devreye girer.
+            with transaction.atomic():
+                return super().create(validated_data)
+        except IntegrityError as error:
+            raise serializers.ValidationError(
+                {'service': [self._duplicate_message(validated_data['elder_full_name'])]},
+            ) from error

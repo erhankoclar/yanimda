@@ -164,3 +164,28 @@ class CareRequestStatusTransitionTests(TestCase):
         for current in CareRequest.Status.values:
             with self.subTest(current=current):
                 self.assertTrue(CareRequest(status=current).can_change_status_to(current))
+
+
+class CareRequestOpenConstraintTests(TestCase):
+    def test_constraint_blocks_second_open_request(self):
+        """
+        Veritabanı kısıtının aynı yaşlı ve hizmet için ikinci açık talebi engellediğini doğrular.
+
+        Senaryo:
+        - Aynı başvuru sahibi, hizmet ve büyük/küçük harfi farklı yaşlı adıyla iki talep doğrudan kaydedilir.
+
+        Beklenti:
+        - İkinci kayıt IntegrityError vermelidir.
+        """
+        first = make_care_request()
+
+        with self.assertRaises(IntegrityError):
+            make_care_request(applicant=first.applicant, service=first.service, elder_full_name='FATMA YILMAZ')
+
+    def test_constraint_ignores_closed_requests(self):
+        """Kapanmış (tamamlanan/iptal) talebin yeni açık talebi engellemediğini doğrular."""
+        first = make_care_request(status=CareRequest.Status.COMPLETED)
+
+        second = make_care_request(applicant=first.applicant, service=first.service)
+
+        self.assertEqual(second.status, CareRequest.Status.NEW)

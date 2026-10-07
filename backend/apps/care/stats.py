@@ -11,7 +11,6 @@ from apps.care.models import CareRequest, ServiceType
 
 DAILY_SERIES_DAYS = 14
 RECENT_DAYS = 7
-OPEN_STATUSES = [CareRequest.Status.NEW, CareRequest.Status.REVIEWING, CareRequest.Status.ASSIGNED]
 
 
 def build_dashboard_stats():
@@ -29,7 +28,7 @@ def build_dashboard_stats():
     now = timezone.now()
     totals = CareRequest.objects.aggregate(
         total=Count('id'),
-        open=Count('id', filter=Q(status__in=OPEN_STATUSES)),
+        open=Count('id', filter=Q(status__in=CareRequest.OPEN_STATUSES)),
         recent=Count('id', filter=Q(created_at__gte=now - timedelta(days=RECENT_DAYS))),
     )
     status_counts = dict(CareRequest.objects.values_list('status').annotate(count=Count('id')))

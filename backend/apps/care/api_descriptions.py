@@ -26,6 +26,8 @@ CARE_REQUEST_CREATE_VIEW_DESCRIPTION = _(
     '<h3>Validation rules</h3>'
     '<ul>'
     '<li>An alternate contact name and phone must be given together.</li>'
+    '<li>The applicant cannot have two open requests (new, reviewing or assigned) for the same service '
+    'and the same elder. Elder names are compared ignoring case, spaces and Turkish i variants.</li>'
     '</ul>'
     '<p>Each user can create a limited number of requests per day (<code>care_request_create</code> scope).</p>'
 )

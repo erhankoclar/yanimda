@@ -3,6 +3,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.care.text import person_name_key
+
 
 class ServiceType(models.Model):
     """
@@ -68,6 +70,8 @@ class CareRequest(models.Model):
         ServiceType, on_delete=models.PROTECT, related_name='requests', verbose_name=_('service'),
     )
     elder_full_name = models.CharField(_('elder full name'), max_length=150)
+    # Mükerrer talep kontrolü için Türkçe harf ve büyük/küçük harf duyarsız ad anahtarı.
+    elder_name_key = models.CharField(_('elder name key'), max_length=150, default='', editable=False)
     elder_age = models.PositiveSmallIntegerField(
         _('elder age'), validators=[MinValueValidator(40), MaxValueValidator(120)],
     )
@@ -87,10 +91,20 @@ class CareRequest(models.Model):
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
 
+    OPEN_STATUSES = [Status.NEW, Status.REVIEWING, Status.ASSIGNED]
+
     class Meta:
         verbose_name = _('care request')
         verbose_name_plural = _('care requests')
         ordering = ['-created_at']
+        constraints = [
+            # Aynı başvuru sahibi, aynı yaşlı için aynı hizmete birden fazla açık talep tutamaz.
+            models.UniqueConstraint(
+                fields=['applicant', 'service', 'elder_name_key'],
+                condition=models.Q(status__in=['new', 'reviewing', 'assigned']),
+                name='care_request_unique_open_per_elder_service',
+            ),
+        ]
 
     STATUS_TRANSITIONS = {
         Status.NEW: [Status.REVIEWING, Status.CANCELLED],
@@ -99,6 +113,20 @@ class CareRequest(models.Model):
         Status.COMPLETED: [],
         Status.CANCELLED: [],
     }
+
+    def save(self, *args, **kwargs):
+        """
+        Kaydetmeden önce yaşlı adının karşılaştırma anahtarını günceller.
+
+        Args:
+            *args (Any): Model.save konumsal argümanları.
+            **kwargs (Any): Model.save isimli argümanları.
+        """
+        self.elder_name_key = person_name_key(self.elder_full_name)
+        update_fields = kwargs.get('update_fields')
+        if update_fields is not None and 'elder_full_name' in update_fields:
+            kwargs['update_fields'] = {*update_fields, 'elder_name_key'}
+        super().save(*args, **kwargs)
 
     def next_statuses(self):
         """
