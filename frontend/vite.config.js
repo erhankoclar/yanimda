@@ -27,5 +27,6 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['tests/{unit,component,integration,security,regression,accessibility}/**/*.test.js'],
     restoreMocks: true,
+    setupFiles: ['tests/setup.js'],
   },
 })

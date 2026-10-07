@@ -19,7 +19,7 @@ describe('yönlendirme', () => {
 
     expect(wrapper.find('[data-layout="public"]').exists()).toBe(true)
     expect(wrapper.find('[data-layout="admin"]').exists()).toBe(false)
-    expect(wrapper.get('h1').text()).toContain('yanınızdayız')
+    expect(wrapper.get('h1').text()).toContain('yanında olalım')
   })
 
   it('admin için /admin adresini gösterge paneline yönlendirir ve admin layout’unu kullanır', async () => {

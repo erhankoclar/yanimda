@@ -2,8 +2,6 @@ import { AxiosError } from 'axios'
 
 import { http } from '@/api/http'
 
-const originalAdapter = http.defaults.adapter
-
 /**
  * http istemcisinin adapter'ını sahte bir işleyiciyle değiştirir; gerçek ağ isteği yapılmaz.
  *
@@ -26,9 +24,21 @@ export function useFakeApi(handler) {
   return calls
 }
 
-/** Orijinal adapter'ı geri yükler. */
+/**
+ * Testlerin varsayılan sahte API'si: hizmet listesi boş döner, diğer her istek 404'tür.
+ * Hiçbir test gerçek ağa çıkmaz.
+ *
+ * @param {import('axios').InternalAxiosRequestConfig} config İstek ayarları.
+ * @returns {[number, any]} Durum kodu ve gövde.
+ */
+export function defaultHandler(config) {
+  if (config.method === 'get' && config.url === '/services/') return [200, []]
+  return [404, { detail: 'Not found.' }]
+}
+
+/** Varsayılan sahte API'ye geri döner. */
 export function restoreApi() {
-  http.defaults.adapter = originalAdapter
+  useFakeApi(defaultHandler)
 }
 
 /**
