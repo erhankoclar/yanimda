@@ -23,7 +23,15 @@ TOKEN_OBTAIN_VIEW_DESCRIPTION = _(
 TOKEN_REFRESH_SUMMARY = _('Refresh token')
 TOKEN_REFRESH_VIEW_DESCRIPTION = _(
     '<p>Returns a new access token for a valid refresh token. No authentication header is required.</p>'
-    '<p>Refresh tokens are rotated: a new refresh token is returned and the old one must not be reused.</p>'
+    '<p>Refresh tokens are rotated: a new refresh token is returned and the old one is blacklisted, '
+    'so it cannot be used again.</p>'
+)
+
+LOGOUT_SUMMARY = _('Log out')
+LOGOUT_VIEW_DESCRIPTION = _(
+    '<p>Ends the session on the server by blacklisting the given refresh token. '
+    'No authentication header is required.</p>'
+    '<p>After logout the refresh token cannot be used again. The short-lived access token expires on its own.</p>'
 )
 
 ME_SUMMARY = _('Current user')

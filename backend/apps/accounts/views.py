@@ -1,6 +1,6 @@
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import generics, permissions
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView
 
 from apps.accounts import api_descriptions
 from apps.accounts.serializers import RegisterSerializer, UserSerializer
@@ -39,6 +39,15 @@ class LoginView(TokenObtainPairView):
 )
 class RefreshView(TokenRefreshView):
     __doc__ = api_descriptions.TOKEN_REFRESH_VIEW_DESCRIPTION
+
+
+@extend_schema(
+    tags=['auth'],
+    summary=api_descriptions.LOGOUT_SUMMARY,
+    description=api_descriptions.LOGOUT_VIEW_DESCRIPTION,
+)
+class LogoutView(TokenBlacklistView):
+    __doc__ = api_descriptions.LOGOUT_VIEW_DESCRIPTION
 
 
 @extend_schema_view(
