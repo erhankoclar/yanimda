@@ -1,14 +1,14 @@
 <script setup>
 import { computed } from 'vue'
 
-import { STATUS_LABELS } from '@/constants/care'
+import { statusLabel } from '@/constants/care'
 
 const props = defineProps({
   status: { type: String, required: true },
 })
 
 // Arayüz dilindeki durum etiketi; bilinmeyen durumda değerin kendisi gösterilir.
-const label = computed(() => STATUS_LABELS[props.status] ?? props.status)
+const label = computed(() => statusLabel(props.status))
 </script>
 
 <template>
@@ -33,12 +33,12 @@ const label = computed(() => STATUS_LABELS[props.status] ?? props.status)
 .status-badge--reviewing,
 .status-badge--assigned {
   background: var(--color-accent-tint);
-  color: #6b4a06;
+  color: var(--color-accent-ink);
 }
 
 .status-badge--completed {
   background: var(--color-primary-dark);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 .status-badge--cancelled {

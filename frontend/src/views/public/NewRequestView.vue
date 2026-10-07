@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia'
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 import FormAlert from '@/components/public/FormAlert.vue'
@@ -15,13 +16,10 @@ import { useServices } from '@/composables/useServices'
 import { useAuthStore } from '@/stores/auth'
 import { WIZARD_STEPS, useRequestWizardStore } from '@/stores/requestWizard'
 
-const STEP_TITLES = [
-  'Hangi konuda desteğe ihtiyacınız var?',
-  'Destek kimin için?',
-  'Ne zaman ve nerede?',
-  'Size nasıl ulaşalım?',
-  'Son bir kontrol',
-]
+// Sihirbaz adımlarının çeviri anahtarları (WIZARD_STEPS ile aynı sırada).
+const STEP_KEYS = ['service', 'elder', 'schedule', 'contact', 'review']
+
+const { t } = useI18n()
 
 const route = useRoute()
 const router = useRouter()
@@ -31,6 +29,9 @@ const { step, form, errors, generalError, submitting, isLastStep } = storeToRefs
 const { services, status: servicesStatus, load: loadServices, nameOf } = useServices()
 
 const heading = ref(null)
+
+// İlerleme çubuğundaki adım adları etkin dilde.
+const stepLabels = computed(() => STEP_KEYS.map((key) => t(`wizard.steps.${key}`)))
 
 onMounted(() => {
   const serviceId = Number(route.query.service) || null
@@ -68,8 +69,8 @@ async function focusFirstError() {
 
 <template>
   <section class="wizard" aria-labelledby="wizard-step-title">
-    <WizardProgress :steps="WIZARD_STEPS" :current="step" />
-    <h1 id="wizard-step-title" ref="heading" tabindex="-1">{{ STEP_TITLES[step] }}</h1>
+    <WizardProgress :steps="stepLabels" :current="step" />
+    <h1 id="wizard-step-title" ref="heading" tabindex="-1">{{ t(`wizard.titles.${STEP_KEYS[step]}`) }}</h1>
 
     <form class="surface-card" novalidate @submit.prevent="isLastStep ? send() : goNext()">
       <FormAlert :message="generalError" />
@@ -89,9 +90,9 @@ async function focusFirstError() {
 
       <div class="wizard__nav">
         <PrimaryButton type="submit" block :loading="submitting">
-          {{ isLastStep ? 'Başvuruyu gönder' : 'Devam et' }}
+          {{ isLastStep ? t('wizard.submit') : t('wizard.next') }}
         </PrimaryButton>
-        <PrimaryButton v-if="step > 0" variant="secondary" block @click="wizard.back">Geri dön</PrimaryButton>
+        <PrimaryButton v-if="step > 0" variant="secondary" block @click="wizard.back">{{ t('wizard.back') }}</PrimaryButton>
       </div>
     </form>
   </section>

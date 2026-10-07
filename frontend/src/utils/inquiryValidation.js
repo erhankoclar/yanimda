@@ -1,3 +1,5 @@
+import { t } from '@/i18n'
+
 export const INQUIRY_MESSAGE_MIN = 10
 export const INQUIRY_MESSAGE_MAX = 2000
 
@@ -15,15 +17,15 @@ export function validateInquiry(form) {
   const name = form.full_name.trim().replace(/\s+/g, ' ')
   const message = form.message.trim()
 
-  if (name.length < 2) errors.full_name = 'Adınızı ve soyadınızı yazın.'
-  if (!form.email.trim()) errors.email = 'E-posta adresinizi yazın.'
-  else if (!EMAIL_PATTERN.test(form.email.trim())) errors.email = 'Geçerli bir e-posta adresi yazın. Örnek: ad@ornek.com'
-  if (!form.service) errors.service = 'Bir hizmet seçin.'
+  if (name.length < 2) errors.full_name = t('validation.inquiry.fullName')
+  if (!form.email.trim()) errors.email = t('validation.emailRequired')
+  else if (!EMAIL_PATTERN.test(form.email.trim())) errors.email = t('validation.inquiry.emailInvalid')
+  if (!form.service) errors.service = t('validation.inquiry.service')
   if (message.length < INQUIRY_MESSAGE_MIN) {
-    errors.message = `İhtiyacınızı en az ${INQUIRY_MESSAGE_MIN} karakterle anlatın.`
+    errors.message = t('validation.inquiry.messageMin', { min: INQUIRY_MESSAGE_MIN })
   } else if (message.length > INQUIRY_MESSAGE_MAX) {
-    errors.message = `Açıklama en fazla ${INQUIRY_MESSAGE_MAX} karakter olabilir.`
+    errors.message = t('validation.inquiry.messageMax', { max: INQUIRY_MESSAGE_MAX })
   }
-  if (!form.consent) errors.consent = 'Talebinizi gönderebilmemiz için bu onayı vermeniz gerekiyor.'
+  if (!form.consent) errors.consent = t('validation.inquiry.consent')
   return errors
 }

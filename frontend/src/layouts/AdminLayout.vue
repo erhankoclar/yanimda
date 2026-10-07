@@ -1,10 +1,16 @@
+<script setup>
+import PreferenceControls from '@/components/common/PreferenceControls.vue'
+</script>
+
 <template>
-  <div class="admin-layout" data-layout="admin">
+  <div class="admin-shell admin-layout" data-layout="admin">
     <aside class="admin-layout__sidebar">
-      <span class="admin-layout__brand">Yanımda Yönetim</span>
+      <span class="admin-layout__brand">{{ $t('admin.brand') }}</span>
     </aside>
     <div class="admin-layout__main">
-      <header class="admin-layout__topbar" />
+      <header class="admin-layout__topbar">
+        <PreferenceControls />
+      </header>
       <main class="admin-layout__content">
         <RouterView />
       </main>

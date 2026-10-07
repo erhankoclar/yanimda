@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { requestsApi } from '@/api/requests'
 import RequestListItem from '@/components/public/requests/RequestListItem.vue'
 import PrimaryButton from '@/components/public/PrimaryButton.vue'
 
+const { t } = useI18n()
 const requests = ref([])
 const status = ref('loading')
 const page = ref(1)
@@ -50,19 +52,19 @@ onMounted(loadFirst)
 <template>
   <section aria-labelledby="requests-title">
     <div class="requests__head">
-      <h1 id="requests-title">Başvurularım</h1>
-      <RouterLink class="requests__new" :to="{ name: 'request-new' }">Yeni başvuru</RouterLink>
+      <h1 id="requests-title">{{ t('requests.listTitle') }}</h1>
+      <RouterLink class="requests__new" :to="{ name: 'request-new' }">{{ t('requests.newRequest') }}</RouterLink>
     </div>
 
-    <p v-if="status === 'loading'" role="status">Başvurularınız yükleniyor…</p>
+    <p v-if="status === 'loading'" role="status">{{ t('requests.loading') }}</p>
     <div v-else-if="status === 'error'" role="alert">
-      <p>Başvurularınız şu an yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.</p>
-      <button type="button" class="link-button" @click="loadFirst">Tekrar dene</button>
+      <p>{{ t('requests.loadError') }}</p>
+      <button type="button" class="link-button" @click="loadFirst">{{ t('common.retry') }}</button>
     </div>
     <div v-else-if="!requests.length" class="requests__empty">
-      <h2>Henüz bir başvurunuz yok</h2>
-      <p>Yakınınızın neye ihtiyacı olduğunu birkaç adımda anlatın; ekibimiz sizi arasın.</p>
-      <RouterLink class="requests__cta" :to="{ name: 'request-new' }">Başvuruya başla</RouterLink>
+      <h2>{{ t('requests.emptyTitle') }}</h2>
+      <p>{{ t('requests.emptyText') }}</p>
+      <RouterLink class="requests__cta" :to="{ name: 'request-new' }">{{ t('common.startApplication') }}</RouterLink>
     </div>
     <template v-else>
       <ul class="requests__list">
@@ -71,7 +73,7 @@ onMounted(loadFirst)
         </li>
       </ul>
       <PrimaryButton v-if="hasMore" variant="secondary" block :loading="loadingMore" @click="loadMore">
-        Daha fazla göster
+        {{ t('requests.loadMore') }}
       </PrimaryButton>
     </template>
   </section>
@@ -112,7 +114,7 @@ onMounted(loadFirst)
   padding: var(--space-3) var(--space-6);
   border-radius: var(--radius-control);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   font-weight: 700;
   text-decoration: none;
 }

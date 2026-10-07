@@ -7,6 +7,7 @@ from django.db.models.functions import TruncDate, TruncWeek
 from django.utils import timezone
 
 from apps.care.models import CareRequest, ServiceInquiry, ServiceType
+from apps.care.services.service_type_service import localized
 
 WEEKLY_FROM_DAYS = 90
 RECENT_LIMIT = 8
@@ -121,7 +122,7 @@ def _series(days, source, today, services):
         'datasets': [
             {
                 'service_id': service.id,
-                'name': service.name,
+                'name': localized(service, 'name'),
                 'icon': service.icon,
                 'counts': [counts.get((service.id, start), 0) for start in starts],
             }
@@ -201,7 +202,7 @@ def build_dashboard(days=30, source='all', today=None):
             },
             'services': {
                 'value': len(services),
-                'top_service': top_service.name if top_service and top_service.demand else None,
+                'top_service': localized(top_service, 'name') if top_service and top_service.demand else None,
             },
         },
         'series': _series(days, source, today, services),

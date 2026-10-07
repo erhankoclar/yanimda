@@ -1,5 +1,5 @@
 <template>
   <section>
-    <h1>Gösterge paneli</h1>
+    <h1>{{ $t('admin.titles.dashboard') }}</h1>
   </section>
 </template>

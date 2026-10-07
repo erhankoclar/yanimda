@@ -1,4 +1,5 @@
 import { MAX_ELDER_AGE, MAX_PREFERRED_DAYS_AHEAD, MIN_ELDER_AGE } from '@/constants/care'
+import { t } from '@/i18n'
 
 import { isoDateAfter, toIsoDate } from './dates'
 
@@ -36,40 +37,40 @@ export function validateStep(step, form, today = new Date()) {
   const text = (field) => String(form[field] ?? '').trim()
 
   if (step === 0 && !form.service) {
-    errors.service = 'Devam etmek için bir hizmet seçin.'
+    errors.service = t('validation.request.service')
   }
   if (step === 1) {
-    if (!text('elder_full_name')) errors.elder_full_name = 'Yakınınızın adını ve soyadını yazın.'
+    if (!text('elder_full_name')) errors.elder_full_name = t('validation.request.elderName')
     const age = Number(form.elder_age)
-    if (!text('elder_age')) errors.elder_age = 'Yakınınızın yaşını yazın.'
+    if (!text('elder_age')) errors.elder_age = t('validation.request.elderAgeRequired')
     else if (!Number.isInteger(age) || age < MIN_ELDER_AGE || age > MAX_ELDER_AGE) {
-      errors.elder_age = `Yaş ${MIN_ELDER_AGE} ile ${MAX_ELDER_AGE} arasında bir sayı olmalı.`
+      errors.elder_age = t('validation.request.elderAgeRange', { min: MIN_ELDER_AGE, max: MAX_ELDER_AGE })
     }
-    if (!form.relationship) errors.relationship = 'Yakınınızla ilişkinizi seçin.'
+    if (!form.relationship) errors.relationship = t('validation.request.relationship')
   }
   if (step === 2) {
     const date = text('preferred_date')
-    if (!date) errors.preferred_date = 'Bir tarih seçin.'
-    else if (date < toIsoDate(today)) errors.preferred_date = 'Geçmiş bir tarih seçilemez.'
+    if (!date) errors.preferred_date = t('validation.request.dateRequired')
+    else if (date < toIsoDate(today)) errors.preferred_date = t('validation.request.datePast')
     else if (date > isoDateAfter(MAX_PREFERRED_DAYS_AHEAD, today)) {
-      errors.preferred_date = `En fazla ${MAX_PREFERRED_DAYS_AHEAD} gün sonrası seçilebilir.`
+      errors.preferred_date = t('validation.request.dateFar', { days: MAX_PREFERRED_DAYS_AHEAD })
     }
-    if (!form.time_slot) errors.time_slot = 'Size uygun zaman aralığını seçin.'
-    if (!text('city')) errors.city = 'İli yazın.'
-    if (!text('district')) errors.district = 'İlçeyi yazın.'
-    if (!text('address')) errors.address = 'Açık adresi yazın.'
+    if (!form.time_slot) errors.time_slot = t('validation.request.timeSlot')
+    if (!text('city')) errors.city = t('validation.request.city')
+    if (!text('district')) errors.district = t('validation.request.district')
+    if (!text('address')) errors.address = t('validation.request.address')
   }
   if (step === 3) {
-    if (!text('contact_phone')) errors.contact_phone = 'Size ulaşabileceğimiz telefonu yazın.'
-    else if (!isValidPhone(text('contact_phone'))) errors.contact_phone = 'Telefon 10-15 rakam olmalı. Örnek: 0555 123 45 67'
+    if (!text('contact_phone')) errors.contact_phone = t('validation.request.phoneRequired')
+    else if (!isValidPhone(text('contact_phone'))) errors.contact_phone = t('validation.request.phoneInvalidExample')
     const altName = text('alternate_contact_name')
     const altPhone = text('alternate_contact_phone')
-    if (altName && !altPhone) errors.alternate_contact_phone = 'İkinci kişinin telefonunu da yazın.'
-    if (altPhone && !altName) errors.alternate_contact_name = 'İkinci kişinin adını da yazın.'
-    if (altPhone && !isValidPhone(altPhone)) errors.alternate_contact_phone = 'Telefon 10-15 rakam olmalı.'
+    if (altName && !altPhone) errors.alternate_contact_phone = t('validation.request.alternatePhoneRequired')
+    if (altPhone && !altName) errors.alternate_contact_name = t('validation.request.alternateNameRequired')
+    if (altPhone && !isValidPhone(altPhone)) errors.alternate_contact_phone = t('validation.request.alternatePhoneInvalid')
   }
   if (step === 4 && !form.consent) {
-    errors.consent = 'Başvuruyu göndermek için bu onayı vermeniz gerekiyor.'
+    errors.consent = t('validation.request.consent')
   }
   return errors
 }

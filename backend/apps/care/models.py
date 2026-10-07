@@ -17,6 +17,9 @@ class ServiceType(models.Model):
     name = models.CharField(_('name'), max_length=100)
     slug = models.SlugField(_('slug'), max_length=100, unique=True)
     description = models.CharField(_('description'), max_length=255)
+    # İngilizce arayüz için karşılıklar; boşsa Türkçe metin gösterilir.
+    name_en = models.CharField(_('name (English)'), max_length=100, blank=True)
+    description_en = models.CharField(_('description (English)'), max_length=255, blank=True)
     icon = models.CharField(_('icon key'), max_length=50)
     sort_order = models.PositiveSmallIntegerField(_('sort order'), default=0)
     is_active = models.BooleanField(_('active'), default=True)

@@ -4,6 +4,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { installAdminUiGuard } from '@/admin/installAdminUiGuard'
 import App from '@/App.vue'
 import { createAppRouter } from '@/router'
+import { usePreferencesStore } from '@/stores/preferences'
 
 /**
  * Uygulamayı yeni bir Pinia ve bellek geçmişli gerçek router ile verilen adreste bağlar.
@@ -18,6 +19,7 @@ import { createAppRouter } from '@/router'
 export async function mountApp(path) {
   const pinia = createPinia()
   setActivePinia(pinia)
+  usePreferencesStore(pinia)
   const router = createAppRouter({ pinia, memory: true, initialPath: path })
   const adminUi = { install: (app) => installAdminUiGuard(router, app) }
   const wrapper = mount(App, { global: { plugins: [pinia, adminUi, router] }, attachTo: document.body })

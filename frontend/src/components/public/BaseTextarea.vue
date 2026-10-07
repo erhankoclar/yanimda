@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { useFieldIds } from './useFieldIds'
 
@@ -15,6 +16,7 @@ const props = defineProps({
   maxlength: { type: Number, default: undefined },
 })
 
+const { t } = useI18n()
 const { inputId, hintId, errorId, describedBy } = useFieldIds(() => props)
 
 // Kullanıcıya kaç karakter hakkı kaldığını gösterir.
@@ -25,7 +27,7 @@ const remaining = computed(() => (props.maxlength ? props.maxlength - (model.val
   <div class="field">
     <label class="field__label" :for="inputId">
       {{ label }}
-      <span v-if="!required" class="field__optional">(isteğe bağlı)</span>
+      <span v-if="!required" class="field__optional">{{ t('common.optional') }}</span>
     </label>
     <p v-if="hint" :id="hintId" class="field__hint">{{ hint }}</p>
     <textarea
@@ -38,7 +40,7 @@ const remaining = computed(() => (props.maxlength ? props.maxlength - (model.val
       :aria-invalid="error ? 'true' : 'false'"
       :aria-describedby="describedBy"
     />
-    <p v-if="remaining !== null" class="field__hint">{{ remaining }} karakter kaldı</p>
+    <p v-if="remaining !== null" class="field__hint">{{ t('common.charactersLeft', { count: remaining }) }}</p>
     <p v-if="error" :id="errorId" class="field__error" role="alert">{{ error }}</p>
   </div>
 </template>

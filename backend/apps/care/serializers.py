@@ -7,22 +7,51 @@ from rest_framework import serializers
 
 from apps.care import api_descriptions, conf
 from apps.care.models import CareRequest, ServiceType
-from apps.care.services import care_request_service
+from apps.care.services import care_request_service, service_type_service
 from apps.care.validators import normalize_phone
 
 
 class ServiceTypeSerializer(serializers.ModelSerializer):
-    """Sihirbazda gösterilen hizmet kartının verileri."""
+    """Sihirbazda gösterilen hizmet kartının verileri; ad ve açıklama istek dilinde döner."""
+
+    name = serializers.SerializerMethodField(
+        help_text=_('Service name shown on the card, in the request language (Accept-Language).'),
+    )
+    description = serializers.SerializerMethodField(
+        help_text=_('Short explanation shown under the service name, in the request language.'),
+    )
 
     class Meta:
         model = ServiceType
         fields = ['id', 'name', 'slug', 'description', 'icon']
         extra_kwargs = {
-            'name': {'help_text': _('Service name shown on the card.')},
             'slug': {'help_text': _('Stable, URL safe service key.')},
-            'description': {'help_text': _('Short explanation shown under the service name.')},
             'icon': {'help_text': _('Icon key mapped to an icon by the frontend, for example <code>companion</code>.')},
         }
+
+    def get_name(self, obj) -> str:
+        """
+        Hizmet adını istek dilinde döndürür.
+
+        Args:
+            obj (ServiceType): Hizmet türü.
+
+        Returns:
+            str: Ad.
+        """
+        return service_type_service.localized(obj, 'name')
+
+    def get_description(self, obj) -> str:
+        """
+        Hizmet açıklamasını istek dilinde döndürür.
+
+        Args:
+            obj (ServiceType): Hizmet türü.
+
+        Returns:
+            str: Açıklama.
+        """
+        return service_type_service.localized(obj, 'description')
 
 
 class CareRequestSerializer(serializers.ModelSerializer):

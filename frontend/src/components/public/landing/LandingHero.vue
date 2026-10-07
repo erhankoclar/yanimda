@@ -1,34 +1,34 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
 defineProps({
   authenticated: { type: Boolean, default: false },
 })
 
-const PROMISES = [
-  'Evde bakım, refakat, hastane eşliği ve günlük işler',
-  'Başvurunuzu inceleyip sizi biz arıyoruz',
-  'Başvurunuzun hangi aşamada olduğunu buradan görürsünüz',
-]
+const { t } = useI18n()
+
+const PROMISE_KEYS = ['services', 'call', 'track']
 </script>
 
 <template>
   <section class="hero" aria-labelledby="landing-title">
     <div class="container hero__grid">
       <div class="hero__text">
-        <h1 id="landing-title">Annenizin, babanızın yanında olalım.</h1>
+        <h1 id="landing-title">{{ t('landing.hero.title') }}</h1>
         <p class="hero__lead">
-          Yakınınızın neye ihtiyacı olduğunu birkaç adımda anlatın; ekibimiz sizi arayıp birlikte planlasın.
+          {{ t('landing.hero.lead') }}
         </p>
         <div class="hero__actions">
-          <RouterLink class="landing__cta" :to="{ name: 'landing', hash: '#talep-formu' }">Talep bırakın</RouterLink>
+          <RouterLink class="landing__cta" :to="{ name: 'landing', hash: '#talep-formu' }">{{ t('common.leaveRequest') }}</RouterLink>
           <RouterLink v-if="authenticated" class="landing__secondary" :to="{ name: 'request-list' }">
-            Başvurularımı gör
+            {{ t('landing.hero.viewRequests') }}
           </RouterLink>
           <RouterLink v-else class="landing__secondary" :to="{ name: 'request-new' }">
-            Hesapla detaylı başvuru
+            {{ t('landing.hero.detailed') }}
           </RouterLink>
         </div>
         <ul class="hero__promises">
-          <li v-for="promise in PROMISES" :key="promise">{{ promise }}</li>
+          <li v-for="key in PROMISE_KEYS" :key="key">{{ t(`landing.hero.promises.${key}`) }}</li>
         </ul>
       </div>
 
@@ -36,7 +36,7 @@ const PROMISES = [
         <img
           class="hero__photo"
           src="/images/hero-mother-daughter.webp"
-          alt="Yaşlı bir kadın ve kızı evde sarılmış, gülümsüyor"
+          :alt="t('landing.hero.photoAlt')"
           width="1400"
           height="934"
           fetchpriority="high"
@@ -44,8 +44,8 @@ const PROMISES = [
         <div class="hero__status" aria-hidden="true">
           <span class="hero__status-dot" />
           <span>
-            <strong>Başvurunuz alındı</strong>
-            <span class="hero__status-text">Ekibimiz sizi arayacak</span>
+            <strong>{{ t('landing.hero.statusTitle') }}</strong>
+            <span class="hero__status-text">{{ t('landing.hero.statusText') }}</span>
           </span>
         </div>
       </div>

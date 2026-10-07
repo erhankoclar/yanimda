@@ -28,5 +28,7 @@ export default defineConfig({
     include: ['tests/{unit,component,integration,security,regression,accessibility}/**/*.test.js'],
     restoreMocks: true,
     setupFiles: ['tests/setup.js'],
+    // jsdom'daki axe taramaları paralel yük altında 5 sn varsayılanını aşabiliyor.
+    testTimeout: 15000,
   },
 })

@@ -42,7 +42,7 @@ const YanimdaPreset = definePreset(Aura, {
  */
 export function setupAdminUi(app) {
   app.use(PrimeVue, {
-    theme: { preset: YanimdaPreset, options: { darkModeSelector: false, cssLayer: false } },
+    theme: { preset: YanimdaPreset, options: { darkModeSelector: "[data-theme='dark']", cssLayer: false } },
     locale: trLocale,
   })
   app.use(ToastService)

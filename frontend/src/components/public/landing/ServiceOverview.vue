@@ -1,4 +1,6 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
 import ServiceIcon from '../ServiceIcon.vue'
 
 defineProps({
@@ -6,6 +8,8 @@ defineProps({
   /** Hizmet listesinin yükleme durumu: idle, loading, ready veya error. */
   status: { type: String, required: true },
 })
+
+const { t } = useI18n()
 
 const emit = defineEmits({
   /** Kullanıcı yüklemeyi tekrar denemek istediğinde. */
@@ -17,14 +21,14 @@ const emit = defineEmits({
   <section id="hizmetler" class="service-overview" aria-labelledby="services-title">
     <div class="container">
       <div class="section-intro">
-        <h2 id="services-title">Neler yapabiliriz?</h2>
-        <p>Yakınınızın ihtiyacına en yakın hizmeti seçin; ayrıntıları telefonda birlikte konuşuruz.</p>
+        <h2 id="services-title">{{ t('landing.services.title') }}</h2>
+        <p>{{ t('landing.services.intro') }}</p>
       </div>
 
-      <p v-if="status === 'loading' || status === 'idle'" class="service-overview__note" role="status">Hizmetler yükleniyor…</p>
+      <p v-if="status === 'loading' || status === 'idle'" class="service-overview__note" role="status">{{ t('common.loadingServices') }}</p>
       <div v-else-if="status === 'error'" class="service-overview__note" role="alert">
-        <p>Hizmetler şu an yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.</p>
-        <button type="button" class="service-overview__retry" @click="emit('retry')">Tekrar dene</button>
+        <p>{{ t('landing.services.loadError') }}</p>
+        <button type="button" class="service-overview__retry" @click="emit('retry')">{{ t('common.retry') }}</button>
       </div>
       <ul v-else class="service-overview__list">
         <li v-for="service in services" :key="service.id">
@@ -32,7 +36,7 @@ const emit = defineEmits({
             <span class="service-overview__icon"><ServiceIcon :name="service.icon" /></span>
             <span class="service-overview__name">{{ service.name }}</span>
             <span class="service-overview__description">{{ service.description }}</span>
-            <span class="service-overview__action">Bu hizmet için talep bırak</span>
+            <span class="service-overview__action">{{ t('landing.services.action') }}</span>
           </RouterLink>
         </li>
       </ul>

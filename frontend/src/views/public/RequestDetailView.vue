@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 import { requestsApi } from '@/api/requests'
@@ -7,6 +8,8 @@ import StatusBadge from '@/components/public/requests/StatusBadge.vue'
 import StatusTimeline from '@/components/public/requests/StatusTimeline.vue'
 import { RELATIONSHIP_OPTIONS, TIME_SLOT_OPTIONS, optionLabel } from '@/constants/care'
 import { formatLongDate } from '@/utils/dates'
+
+const { t } = useI18n()
 
 const props = defineProps({
   id: { type: String, required: true },
@@ -24,13 +27,13 @@ const rows = computed(() => {
   const item = request.value
   if (!item) return []
   return [
-    ['Yakınınız', `${item.elder_full_name}, ${item.elder_age} yaşında`],
-    ['Yakınlığınız', optionLabel(RELATIONSHIP_OPTIONS, item.relationship)],
-    ['Tarih', `${formatLongDate(item.preferred_date)}, ${optionLabel(TIME_SLOT_OPTIONS, item.time_slot)}`],
-    ['Adres', `${item.address}, ${item.district} / ${item.city}`],
-    ['Telefonunuz', item.contact_phone],
-    ['İkinci kişi', item.alternate_contact_name ? `${item.alternate_contact_name}, ${item.alternate_contact_phone}` : 'Yok'],
-    ['Notlar', item.elder_notes || 'Yok'],
+    [t('requests.detail.elder'), t('requests.detail.elderValue', { name: item.elder_full_name, age: item.elder_age })],
+    [t('requests.detail.relationship'), optionLabel(RELATIONSHIP_OPTIONS, item.relationship)],
+    [t('requests.detail.date'), `${formatLongDate(item.preferred_date)}, ${optionLabel(TIME_SLOT_OPTIONS, item.time_slot)}`],
+    [t('requests.detail.address'), `${item.address}, ${item.district} / ${item.city}`],
+    [t('requests.detail.phone'), item.contact_phone],
+    [t('requests.detail.alternate'), item.alternate_contact_name ? `${item.alternate_contact_name}, ${item.alternate_contact_phone}` : t('common.none')],
+    [t('requests.detail.notes'), item.elder_notes || t('common.none')],
   ]
 })
 
@@ -50,40 +53,40 @@ onMounted(load)
 
 <template>
   <section aria-labelledby="request-title">
-    <RouterLink class="request-detail__back" :to="{ name: 'request-list' }">Başvurularıma dön</RouterLink>
+    <RouterLink class="request-detail__back" :to="{ name: 'request-list' }">{{ t('requests.detail.back') }}</RouterLink>
 
-    <p v-if="status === 'loading'" role="status">Başvuru yükleniyor…</p>
+    <p v-if="status === 'loading'" role="status">{{ t('requests.detail.loading') }}</p>
 
     <template v-else-if="status === 'not-found'">
-      <h1 id="request-title">Bu başvuru bulunamadı</h1>
-      <p>Bağlantı hatalı olabilir ya da bu başvuru size ait değil.</p>
+      <h1 id="request-title">{{ t('requests.detail.notFoundTitle') }}</h1>
+      <p>{{ t('requests.detail.notFoundText') }}</p>
     </template>
 
     <div v-else-if="status === 'error'" role="alert">
-      <h1 id="request-title">Başvuru yüklenemedi</h1>
-      <p>İnternet bağlantınızı kontrol edip tekrar deneyin.</p>
-      <button type="button" class="link-button" @click="load">Tekrar dene</button>
+      <h1 id="request-title">{{ t('requests.detail.errorTitle') }}</h1>
+      <p>{{ t('requests.detail.errorText') }}</p>
+      <button type="button" class="link-button" @click="load">{{ t('common.retry') }}</button>
     </div>
 
     <template v-else>
       <div v-if="justCreated" class="request-detail__success" role="status">
-        <p class="request-detail__success-title">Başvurunuz alındı</p>
-        <p>Teşekkür ederiz. Ekibimiz başvurunuzu inceleyip {{ request.contact_phone }} numarasından sizi arayacak.</p>
+        <p class="request-detail__success-title">{{ t('requests.detail.createdTitle') }}</p>
+        <p>{{ t('requests.detail.createdText', { phone: request.contact_phone }) }}</p>
       </div>
 
       <div class="request-detail__head">
         <h1 id="request-title">{{ request.service_detail.name }}</h1>
         <StatusBadge :status="request.status" />
       </div>
-      <p class="request-detail__meta">Başvuru no: {{ request.id }}</p>
+      <p class="request-detail__meta">{{ t('requests.detail.number', { id: request.id }) }}</p>
 
       <div class="surface-card request-detail__card">
-        <h2>Başvurunuz nerede?</h2>
+        <h2>{{ t('requests.detail.whereTitle') }}</h2>
         <StatusTimeline :status="request.status" />
       </div>
 
       <div class="surface-card request-detail__card">
-        <h2>Başvuru bilgileri</h2>
+        <h2>{{ t('requests.detail.infoTitle') }}</h2>
         <dl class="request-detail__list">
           <div v-for="[label, value] in rows" :key="label" class="request-detail__row">
             <dt>{{ label }}</dt>
