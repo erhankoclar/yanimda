@@ -8,7 +8,7 @@ Yanımda, yaşlı yakını için evde bakım, refakat, hastane eşliği gibi hiz
 - **Admin paneli:** talepleri, kullanıcıları ve istatistikleri yöneten yoğun bilgi ekranları (PrimeVue).
 - **API:** Django REST Framework, PostgreSQL, JWT kimlik doğrulama.
 
-> **Durum:** Backend API'nin tamamı, frontend altyapısı (yönlendirme, oturum, guard'lar, görsel dil) ve tek tıkla çalıştırma hazırdır. Başvuru sihirbazı ve admin panel ekranları yapım aşamasındadır.
+> **Durum:** Backend API'nin tamamı, son kullanıcı arayüzü (ana sayfa, giriş, kayıt, 5 adımlı başvuru sihirbazı, başvurularım ve başvuru detayı) ve tek tıkla çalıştırma hazırdır. Admin panel ekranları yapım aşamasındadır.
 
 ## İçindekiler
 
@@ -259,7 +259,7 @@ docker compose exec backend sh run_tests.sh security     # tek tür
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (47 test)
+### Frontend (142 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |

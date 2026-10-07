@@ -8,7 +8,7 @@ Yanımda ("by my side") is a web application for families who apply for services
 - **Admin panel:** information-dense screens for requests, users and statistics (PrimeVue).
 - **API:** Django REST Framework, PostgreSQL, JWT authentication.
 
-> **Status:** The complete backend API, the frontend foundation (routing, session, guards, visual language) and one-click start are ready. The application wizard and the admin panel screens are under construction.
+> **Status:** The complete backend API, the public interface (landing page, login, registration, five step application wizard, my requests and request detail) and one-click start are ready. The admin panel screens are under construction.
 
 ## Contents
 
@@ -259,7 +259,7 @@ docker compose exec backend sh run_tests.sh security     # one type
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (47 tests)
+### Frontend (142 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
