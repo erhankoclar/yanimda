@@ -66,8 +66,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Proje yalnızca PostgreSQL ile çalışır; varsayılan değer docker-compose'daki
+# veritabanına makineden (5433 portu) bağlanır.
 DATABASES = {
-    'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'),
+    'default': env.db('DATABASE_URL', default='postgres://yanimda:yanimda@localhost:5433/yanimda'),
 }
 
 AUTH_PASSWORD_VALIDATORS = [
