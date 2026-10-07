@@ -1,0 +1,220 @@
+/*
+ * Son kullanıcı arayüzünün görsel dili ("ıhlamur").
+ * Değişkenler yalnızca .public-layout altında tanımlıdır; admin paneline sızmaz.
+ */
+.public-layout {
+  --color-paper: #ffffff;
+  --color-mist: #f2f6f4;
+  --color-peach: #fdf0e3;
+  --color-surface: #ffffff;
+  --color-ink: #1d2b28;
+  --color-ink-soft: #52605b;
+  --color-line: #dce3df;
+  --color-primary: #1f5f55;
+  --color-primary-dark: #174a42;
+  --color-primary-tint: #e3efeb;
+  --color-accent: #f29e4c;
+  --color-accent-tint: #fdeedd;
+  --color-deep: #143c36;
+  --color-danger: #a3302a;
+  --color-danger-tint: #fbe9e7;
+
+  --font-body: 'Atkinson Hyperlegible Next', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --page-width: 72rem;
+  --shadow-soft: 0 1px 2px rgb(20 60 54 / 0.06), 0 8px 24px rgb(20 60 54 / 0.08);
+  --text-sm: 1rem;
+  --text-base: 1.1875rem;
+  --text-lg: 1.375rem;
+  --text-xl: 1.75rem;
+  --text-2xl: clamp(2rem, 6vw, 2.75rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius-control: 0.75rem;
+  --radius-card: 1.25rem;
+  --tap-size: 3.25rem;
+  --content-width: 40rem;
+  --focus-ring: 0 0 0 3px var(--color-paper), 0 0 0 6px var(--color-accent);
+
+  min-height: 100vh;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.public-layout *,
+.public-layout *::before,
+.public-layout *::after {
+  box-sizing: border-box;
+}
+
+.public-layout h1,
+.public-layout h2,
+.public-layout h3 {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-display);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Sayfa genişliğinde ortalanmış kapsayıcı. */
+.public-layout .container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .public-layout .container {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+.public-layout h1 {
+  font-size: var(--text-2xl);
+}
+
+.public-layout h2 {
+  font-size: var(--text-xl);
+}
+
+.public-layout p {
+  margin: 0 0 var(--space-4);
+  max-width: 34em;
+}
+
+.public-layout a {
+  color: var(--color-primary-dark);
+  text-underline-offset: 0.2em;
+}
+
+.public-layout :focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-control);
+}
+
+/* Odaklanan veya bağlantıyla kaydırılan öğeler yapışkan üst barın altında kalmasın. */
+.public-layout :is(input, select, textarea, [tabindex='-1'], section[id]) {
+  scroll-margin-top: 6rem;
+}
+
+/* İç sayfalarda form ve içerik blokları için beyaz kart. */
+.public-layout .surface-card {
+  padding: var(--space-5);
+  border-radius: 1.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+@media (min-width: 40rem) {
+  .public-layout .surface-card {
+    padding: var(--space-6);
+  }
+}
+
+/* Görsel olarak gizli ama ekran okuyucuların okuduğu metin. */
+.public-layout .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Bağlantı görünümlü düğme (ör. "Düzenle", "Tekrar dene"). */
+.public-layout .link-button {
+  min-height: 2.75rem;
+  padding: 0 var(--space-2);
+  border: 0;
+  background: none;
+  color: var(--color-primary-dark);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.public-layout .wizard-fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Form alanlarının ortak görünümü (BaseInput, BaseSelect, BaseTextarea). */
+.public-layout .field {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.public-layout .field__label {
+  font-weight: 700;
+}
+
+.public-layout .field__optional {
+  font-weight: 400;
+  color: var(--color-ink-soft);
+}
+
+.public-layout .field__hint {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: var(--text-sm);
+}
+
+.public-layout .field__error {
+  margin: 0;
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.public-layout .field__control {
+  width: 100%;
+  min-height: var(--tap-size);
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: inherit;
+}
+
+.public-layout .field__control:hover {
+  border-color: var(--color-ink-soft);
+}
+
+.public-layout .field__control:focus-visible {
+  border-color: var(--color-primary);
+}
+
+.public-layout .field__control[aria-invalid='true'] {
+  border-color: var(--color-danger);
+  background: var(--color-danger-tint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-layout *,
+  .public-layout *::before,
+  .public-layout *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

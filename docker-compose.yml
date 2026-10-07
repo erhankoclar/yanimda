@@ -1,0 +1,89 @@
+name: yanimda
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: yanimda
+      POSTGRES_USER: yanimda
+      POSTGRES_PASSWORD: yanimda
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yanimda -d yanimda"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      DEBUG: "True"
+      SECRET_KEY: docker-dev-only-change-me
+      ALLOWED_HOSTS: localhost,127.0.0.1,backend
+      DATABASE_URL: postgres://yanimda:yanimda@db:5432/yanimda
+      CORS_ALLOWED_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+      # Yalnızca yerel geliştirme içindir; üretimde kullanmayın.
+      DJANGO_SUPERUSER_EMAIL: admin@yanimda.local
+      DJANGO_SUPERUSER_PASSWORD: Yanimda-Admin-2026
+      # Yerel geliştirme ve e2e testleri aynı IP'den çok istek attığı için hız sınırları gevşetilir.
+      # Üretimde bu değişkenler verilmez; koddaki sıkı varsayılanlar geçerlidir.
+      THROTTLE_ACCOUNTS_REGISTER: 1000/hour
+      THROTTLE_ACCOUNTS_LOGIN: 1000/minute
+      THROTTLE_CARE_INQUIRY_CREATE: 1000/hour
+      THROTTLE_CARE_REQUEST_CREATE: 1000/day
+    volumes:
+      - ./backend:/app
+      - /app/.venv
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    # Migration ve varsayılan veriler bitip API yanıt verince sağlıklı sayılır.
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/services/', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:8000
+      VITE_USE_POLLING: "true"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:5173/src/App.vue"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # Uçtan uca testler: docker compose --profile e2e run --rm e2e
+  e2e:
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
+    profiles: ["e2e"]
+    working_dir: /e2e
+    environment:
+      E2E_BASE_URL: http://frontend:5173
+      CI: "1"
+    volumes:
+      - ./e2e:/e2e
+      - /e2e/node_modules
+    command: sh -c "npm ci --silent --no-audit --no-fund && npx playwright test"
+    depends_on:
+      frontend:
+        condition: service_healthy
+
+volumes:
+  db-data:

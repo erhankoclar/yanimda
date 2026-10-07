@@ -1,0 +1,34 @@
+# Render blueprint: Render panelinde "New > Blueprint" ile bu depo seçilerek yayınlanır.
+databases:
+  - name: yanimda-db
+    plan: free
+    databaseName: yanimda
+    user: yanimda
+
+services:
+  - type: web
+    name: yanimda
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/services/
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: yanimda-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: API_DOCS_ENABLED
+        value: "True"
+      # HTTPS'i Render sağlar; HTTP→HTTPS yönlendirmesini de Render yapar (SECURE_SSL_REDIRECT kapalı kalır,
+      # aksi halde Render'ın iç HTTP sağlık kontrolü 301 alır).
+      - key: SECURE_HSTS_SECONDS
+        value: "3600"
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: admin@yanimda.example
+      # Parola depoya yazılmaz; Render panelinde yayın sırasında girilir.
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false

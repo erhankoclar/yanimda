@@ -1,0 +1,895 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-07 20:11+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "First and last name."
+msgstr "Ad ve soyad."
+
+msgid "Number of care requests created by the user."
+msgstr "Kullanıcının oluşturduğu hizmet talebi sayısı."
+
+msgid "Login email address."
+msgstr "Giriş e-posta adresi."
+
+msgid "Profile phone number."
+msgstr "Profil telefon numarası."
+
+msgid "True when the user can access the admin panel."
+msgstr "Kullanıcı admin paneline erişebiliyorsa True."
+
+msgid "False when the account is disabled and cannot log in."
+msgstr "Hesap devre dışıysa ve giriş yapamıyorsa False."
+
+msgid "Registration time."
+msgstr "Kayıt zamanı."
+
+msgid "Last successful login time; null if the user never logged in."
+msgstr "Son başarılı giriş zamanı; kullanıcı hiç giriş yapmadıysa null."
+
+msgid "Register"
+msgstr "Kayıt ol"
+
+msgid ""
+"<p>Creates a new applicant account. No authentication is "
+"required.</p><h3>Processing</h3><ol><li>The email is normalized to lower case"
+" and checked for uniqueness.</li><li>The password is checked against the "
+"password validators.</li><li>The account is created without admin "
+"rights.</li></ol><p>Requests are rate limited per IP address with the "
+"<code>accounts_register</code> scope.</p>"
+msgstr ""
+"<p>Yeni bir başvuru sahibi hesabı oluşturur. Kimlik doğrulama "
+"gerekmez.</p><h3>İşleyiş</h3><ol><li>E-posta küçük harfe çevrilir ve "
+"benzersizliği kontrol edilir.</li><li>Parola, parola kurallarına göre "
+"doğrulanır.</li><li>Hesap admin yetkisi olmadan "
+"oluşturulur.</li></ol><p>İstekler <code>accounts_register</code> kapsamıyla "
+"IP adresi başına hız sınırına tabidir.</p>"
+
+msgid "Log in"
+msgstr "Giriş yap"
+
+msgid ""
+"<p>Returns an access and refresh token pair for valid email and password "
+"credentials. No authentication is required.</p><p>Inactive accounts cannot "
+"log in. Requests are rate limited per IP address with the "
+"<code>accounts_login</code> scope.</p>"
+msgstr ""
+"<p>Geçerli e-posta ve parola için access ve refresh token çifti döndürür. "
+"Kimlik doğrulama gerekmez.</p><p>Pasif hesaplar giriş yapamaz. İstekler "
+"<code>accounts_login</code> kapsamıyla IP adresi başına hız sınırına "
+"tabidir.</p>"
+
+msgid "Refresh token"
+msgstr "Token yenile"
+
+msgid ""
+"<p>Returns a new access token for a valid refresh token. No authentication "
+"header is required.</p><p>Refresh tokens are rotated: a new refresh token is "
+"returned and the old one is blacklisted, so it cannot be used again.</p>"
+msgstr ""
+"<p>Geçerli bir refresh token için yeni access token döndürür. Kimlik "
+"doğrulama başlığı gerekmez.</p><p>Refresh token'lar döndürülür: yeni bir "
+"refresh token verilir ve eskisi kara listeye alınır, bu nedenle tekrar "
+"kullanılamaz.</p>"
+
+msgid "Log out"
+msgstr "Çıkış yap"
+
+msgid ""
+"<p>Ends the session on the server by blacklisting the given refresh token. No"
+" authentication header is required.</p><p>After logout the refresh token "
+"cannot be used again. The short-lived access token expires on its own.</p>"
+msgstr ""
+"<p>Verilen refresh token'ı kara listeye alarak oturumu sunucuda sonlandırır. "
+"Kimlik doğrulama başlığı gerekmez.</p><p>Çıkıştan sonra refresh token tekrar "
+"kullanılamaz. Kısa ömürlü access token kendiliğinden sona erer.</p>"
+
+msgid "Current user"
+msgstr "Oturumdaki kullanıcı"
+
+msgid ""
+"<p>Returns or updates the profile of the authenticated user.</p><p>Only name "
+"and phone fields can be changed; email and admin rights are read-only.</p>"
+msgstr ""
+"<p>Oturum açmış kullanıcının profilini döndürür veya "
+"günceller.</p><p>Yalnızca ad ve telefon alanları değiştirilebilir; e-posta ve"
+" admin yetkisi salt okunurdur.</p>"
+
+msgid "Admin: list users"
+msgstr "Yönetim: kullanıcıları listele"
+
+msgid ""
+"<p>Lists all user accounts with their request counts. Only admin users can "
+"call it.</p><p>Results are paginated and newest first by default. They can be"
+" filtered by admin right and active state, searched by email, name and phone,"
+" and ordered by join date, email or request count.</p>"
+msgstr ""
+"<p>Tüm kullanıcı hesaplarını talep sayılarıyla listeler. Yalnızca admin "
+"kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalıdır ve varsayılan olarak en "
+"yeniden eskiye sıralanır. Admin yetkisi ve aktiflik durumuna göre "
+"filtrelenebilir; e-posta, ad ve telefona göre aranabilir; kayıt tarihi, "
+"e-posta veya talep sayısına göre sıralanabilir.</p>"
+
+msgid "Admin: user detail"
+msgstr "Yönetim: kullanıcı detayı"
+
+msgid ""
+"<p>Returns one user account with its request count and last login. Only admin"
+" users can call it.</p><p>The requests of the user can be listed with the "
+"admin request list filtered by applicant.</p>"
+msgstr ""
+"<p>Bir kullanıcı hesabını talep sayısı ve son girişiyle döndürür. Yalnızca "
+"admin kullanıcılar çağırabilir.</p><p>Kullanıcının talepleri, başvuru "
+"sahibine göre filtrelenmiş admin talep listesiyle listelenebilir.</p>"
+
+msgid ""
+"Identifier of the user. Copy it from <a href=\"#operations-admin-"
+"admin_users_list\">Admin: list users — <code>results[].id</code></a>."
+msgstr ""
+"Kullanıcının kimliği. <a href=\"#operations-admin-admin_users_list\">Yönetim:"
+" kullanıcıları listele — <code>results[].id</code></a> yanıtından kopyalayın."
+
+msgid "Accounts"
+msgstr "Hesaplar"
+
+msgid "The email address is required."
+msgstr "E-posta adresi zorunludur."
+
+msgid "Superuser must have is_staff=True."
+msgstr "Süper kullanıcı için is_staff=True olmalıdır."
+
+msgid "Superuser must have is_superuser=True."
+msgstr "Süper kullanıcı için is_superuser=True olmalıdır."
+
+msgid "email address"
+msgstr "e-posta adresi"
+
+msgid "phone"
+msgstr "telefon"
+
+msgid "user"
+msgstr "kullanıcı"
+
+msgid "users"
+msgstr "kullanıcılar"
+
+msgid "Login email address. Cannot be changed."
+msgstr "Giriş e-posta adresi. Değiştirilemez."
+
+msgid "First name of the user."
+msgstr "Kullanıcının adı."
+
+msgid "Last name of the user."
+msgstr "Kullanıcının soyadı."
+
+msgid ""
+"Contact phone number, for example 05xx xxx xx xx. Optional, at most 20 "
+"characters."
+msgstr ""
+"İletişim telefon numarası, örneğin 05xx xxx xx xx. İsteğe bağlı, en fazla 20 "
+"karakter."
+
+msgid "True when the user can access the admin panel. Read-only."
+msgstr "Kullanıcı admin paneline erişebiliyorsa True. Salt okunurdur."
+
+msgid "Email address used to log in. Must not be registered before."
+msgstr "Giriş için kullanılacak e-posta adresi. Daha önce kayıtlı olmamalıdır."
+
+msgid ""
+"Account password. Must satisfy the password rules (at least 8 characters, not"
+" too common, not entirely numeric). Never returned in responses."
+msgstr ""
+"Hesap parolası. Parola kurallarını sağlamalıdır (en az 8 karakter, çok yaygın"
+" olmayan, yalnızca rakamlardan oluşmayan). Yanıtlarda asla döndürülmez."
+
+msgid "First name of the applicant."
+msgstr "Başvuru sahibinin adı."
+
+msgid "Last name of the applicant."
+msgstr "Başvuru sahibinin soyadı."
+
+msgid "Contact phone number. Optional, at most 20 characters."
+msgstr "İletişim telefon numarası. İsteğe bağlı, en fazla 20 karakter."
+
+msgid "A user with this email address already exists."
+msgstr "Bu e-posta adresiyle kayıtlı bir kullanıcı zaten var."
+
+msgid "First and last name of the applicant."
+msgstr "Başvuru sahibinin adı ve soyadı."
+
+msgid "Login email of the applicant."
+msgstr "Başvuru sahibinin giriş e-postası."
+
+msgid ""
+"Profile phone of the applicant; may differ from the request contact phone."
+msgstr ""
+"Başvuru sahibinin profil telefonu; talepteki iletişim telefonundan farklı "
+"olabilir."
+
+msgid "Applicant who created the request."
+msgstr "Talebi oluşturan başvuru sahibi."
+
+msgid "Requested service type."
+msgstr "Talep edilen hizmet türü."
+
+msgid "Translated label of the status."
+msgstr "Durumun çevrilmiş etiketi."
+
+msgid "Translated label of the time slot."
+msgstr "Zaman aralığının çevrilmiş etiketi."
+
+msgid ""
+"New status. Must be one of <code>next_statuses</code> or the current status."
+msgstr ""
+"Yeni durum. <code>next_statuses</code> değerlerinden biri veya mevcut durum "
+"olmalıdır."
+
+msgid ""
+"Internal note for the admin team. Never shown to the applicant. At most 2000 "
+"characters."
+msgstr ""
+"Yönetim ekibi için iç not. Başvuru sahibine asla gösterilmez. En fazla 2000 "
+"karakter."
+
+msgid "Translated label of the relationship."
+msgstr "Yakınlık derecesinin çevrilmiş etiketi."
+
+msgid ""
+"Statuses the request can move to from its current status. Empty for final "
+"statuses."
+msgstr ""
+"Talebin mevcut durumundan geçebileceği durumlar. Son durumlarda boştur."
+
+#, python-format
+msgid "A request in \"%(current)s\" status cannot be moved to \"%(target)s\"."
+msgstr "\"%(current)s\" durumundaki bir talep \"%(target)s\" durumuna taşınamaz."
+
+msgid "Status value."
+msgstr "Durum değeri."
+
+msgid "Number of requests in this status."
+msgstr "Bu durumdaki talep sayısı."
+
+msgid "Identifier of the service type."
+msgstr "Hizmet türünün kimliği."
+
+msgid "Name of the service type."
+msgstr "Hizmet türünün adı."
+
+msgid "Number of requests for this service type."
+msgstr "Bu hizmet türü için talep sayısı."
+
+msgid "Day in the server time zone."
+msgstr "Sunucu saat dilimine göre gün."
+
+msgid "Number of requests created on this day."
+msgstr "Bu gün oluşturulan talep sayısı."
+
+msgid "Number of all requests."
+msgstr "Tüm taleplerin sayısı."
+
+msgid "Requests that are not completed or cancelled."
+msgstr "Tamamlanmamış veya iptal edilmemiş talepler."
+
+msgid "Requests created in the last 7 days."
+msgstr "Son 7 günde oluşturulan talepler."
+
+msgid "Active users without admin rights."
+msgstr "Admin yetkisi olmayan aktif kullanıcılar."
+
+msgid "Request count of every status, in flow order."
+msgstr "Akış sırasıyla her durumun talep sayısı."
+
+msgid "Request count of every service type."
+msgstr "Her hizmet türünün talep sayısı."
+
+msgid "Requests per day for the last 14 days, oldest first."
+msgstr "Son 14 günün günlük talep sayıları, eskiden yeniye."
+
+msgid "List services"
+msgstr "Hizmetleri listele"
+
+msgid ""
+"<p>Lists the active service types shown in the first step of the request "
+"wizard. No authentication is required.</p><p>Results are not paginated and "
+"are ordered by <code>sort_order</code>, then name. Inactive service types are"
+" never returned.</p>"
+msgstr ""
+"<p>Başvuru sihirbazının ilk adımında gösterilen aktif hizmet türlerini "
+"listeler. Kimlik doğrulama gerekmez.</p><p>Sonuçlar sayfalanmaz; önce "
+"<code>sort_order</code>, sonra ada göre sıralanır. Pasif hizmet türleri "
+"hiçbir zaman döndürülmez.</p>"
+
+msgid "List my requests"
+msgstr "Taleplerimi listele"
+
+msgid ""
+"<p>Lists the care requests of the authenticated applicant, newest "
+"first.</p><p>Only the requests created by the caller are returned; requests "
+"of other users are never visible.</p>"
+msgstr ""
+"<p>Oturum açmış başvuru sahibinin taleplerini en yeniden eskiye "
+"listeler.</p><p>Yalnızca çağıranın oluşturduğu talepler döner; diğer "
+"kullanıcıların talepleri hiçbir zaman görünmez.</p>"
+
+msgid "Create request"
+msgstr "Talep oluştur"
+
+msgid ""
+"<p>Creates a care request on behalf of an elder. Authentication is "
+"required.</p><h3>Processing</h3><ol><li>The caller becomes the applicant of "
+"the request.</li><li>Phone numbers are normalized to digits.</li><li>The "
+"consent time is recorded and the request starts with the <code>new</code> "
+"status.</li></ol><h3>Validation rules</h3><ul><li>An alternate contact name "
+"and phone must be given together.</li><li>The applicant cannot have two open "
+"requests (new, reviewing or assigned) for the same service and the same "
+"elder. Elder names are compared ignoring case, spaces and Turkish i "
+"variants.</li></ul><p>Each user can create a limited number of requests per "
+"day (<code>care_request_create</code> scope).</p>"
+msgstr ""
+"<p>Bir yaşlı adına hizmet talebi oluşturur. Kimlik doğrulama "
+"gerekir.</p><h3>İşleyiş</h3><ol><li>Çağıran kullanıcı talebin başvuru sahibi "
+"olur.</li><li>Telefon numaraları rakamlara normalleştirilir.</li><li>Onay "
+"zamanı kaydedilir ve talep <code>new</code> durumuyla "
+"başlar.</li></ol><h3>Doğrulama kuralları</h3><ul><li>Alternatif kişi adı ve "
+"telefonu birlikte verilmelidir.</li><li>Başvuru sahibinin aynı hizmet ve aynı"
+" yaşlı için iki açık (yeni, inceleniyor veya atandı) talebi olamaz. Yaşlı "
+"adları büyük/küçük harf, boşluk ve Türkçe i varyantları gözetilmeden "
+"karşılaştırılır.</li></ul><p>Her kullanıcı günde sınırlı sayıda talep "
+"oluşturabilir (<code>care_request_create</code> kapsamı).</p>"
+
+msgid "Request detail"
+msgstr "Talep detayı"
+
+msgid ""
+"<p>Returns one care request of the authenticated applicant.</p><p>Requests of"
+" other users respond with not found so that their existence is not "
+"revealed.</p>"
+msgstr ""
+"<p>Oturum açmış başvuru sahibinin tek bir talebini döndürür.</p><p>Diğer "
+"kullanıcıların talepleri, varlıkları açığa çıkmasın diye bulunamadı yanıtı "
+"verir.</p>"
+
+msgid ""
+"Identifier of the care request. Copy it from <a href=\"#operations-requests-"
+"requests_list\">List my requests — <code>results[].id</code></a> or from the "
+"<code>id</code> returned by <a href=\"#operations-requests-"
+"requests_create\">Create request</a>."
+msgstr ""
+"Hizmet talebinin kimliği. <a href=\"#operations-requests-"
+"requests_list\">Taleplerimi listele — <code>results[].id</code></a> "
+"yanıtından veya <a href=\"#operations-requests-requests_create\">Talep "
+"oluştur</a> yanıtındaki <code>id</code> değerinden kopyalayın."
+
+msgid ""
+"Identifier of the selected active service type. Copy it from <a "
+"href=\"#operations-services-services_list\">List services — "
+"<code>[].id</code></a>."
+msgstr ""
+"Seçilen aktif hizmet türünün kimliği. <a href=\"#operations-services-"
+"services_list\">Hizmetleri listele — <code>[].id</code></a> yanıtından "
+"kopyalayın."
+
+msgid "Admin: list requests"
+msgstr "Yönetim: talepleri listele"
+
+msgid ""
+"<p>Lists the care requests of all applicants for the admin panel. Only admin "
+"users can call it.</p><p>Results are paginated and newest first by default. "
+"They can be filtered by status, service, applicant and creation date range, "
+"searched by elder name, applicant email, city, district and phone, and "
+"ordered by creation time, preferred date or status.</p>"
+msgstr ""
+"<p>Admin paneli için tüm başvuru sahiplerinin hizmet taleplerini listeler. "
+"Yalnızca admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalıdır ve "
+"varsayılan olarak en yeniden eskiye sıralanır. Durum, hizmet, başvuru sahibi "
+"ve oluşturulma tarihi aralığına göre filtrelenebilir; yaşlı adı, başvuru "
+"sahibi e-postası, il, ilçe ve telefona göre aranabilir; oluşturulma zamanı, "
+"tercih edilen tarih veya duruma göre sıralanabilir.</p>"
+
+msgid ""
+"Only requests of this service type. Copy the value from <a "
+"href=\"#operations-services-services_list\">List services — "
+"<code>[].id</code></a>."
+msgstr ""
+"Yalnızca bu hizmet türündeki talepler. Değeri <a href=\"#operations-services-"
+"services_list\">Hizmetleri listele — <code>[].id</code></a> yanıtından "
+"kopyalayın."
+
+msgid ""
+"Only requests created by this user. Copy the value from <a "
+"href=\"#operations-admin-admin_users_list\">Admin: list users — "
+"<code>results[].id</code></a>."
+msgstr ""
+"Yalnızca bu kullanıcının oluşturduğu talepler. Değeri <a href=\"#operations-"
+"admin-admin_users_list\">Yönetim: kullanıcıları listele — "
+"<code>results[].id</code></a> yanıtından kopyalayın."
+
+msgid "Only requests in this status."
+msgstr "Yalnızca bu durumdaki talepler."
+
+msgid "Only requests created on or after this date (YYYY-MM-DD)."
+msgstr "Yalnızca bu tarihte veya sonrasında oluşturulan talepler (YYYY-AA-GG)."
+
+msgid "Only requests created on or before this date (YYYY-MM-DD)."
+msgstr "Yalnızca bu tarihte veya öncesinde oluşturulan talepler (YYYY-AA-GG)."
+
+msgid "Admin: request detail"
+msgstr "Yönetim: talep detayı"
+
+msgid ""
+"<p>Returns all details of one care request, including the internal admin note"
+" and the statuses the request can move to. Only admin users can call it.</p>"
+msgstr ""
+"<p>İç yönetici notu ve talebin geçebileceği durumlar dahil, bir hizmet "
+"talebinin tüm ayrıntılarını döndürür. Yalnızca admin kullanıcılar "
+"çağırabilir.</p>"
+
+msgid "Admin: update request"
+msgstr "Yönetim: talebi güncelle"
+
+msgid ""
+"<p>Changes the status and/or the internal admin note of a care request. Only "
+"admin users can call it.</p><h3>Validation rules</h3><ul><li>Status follows "
+"the flow <code>new</code> → <code>reviewing</code> → <code>assigned</code> → "
+"<code>completed</code>; any open request can be "
+"<code>cancelled</code>.</li><li><code>completed</code> and "
+"<code>cancelled</code> are final and cannot be changed.</li><li>Sending the "
+"current status again is allowed, so only the note can be "
+"updated.</li></ul><p>Applicant data cannot be changed from this endpoint.</p>"
+msgstr ""
+"<p>Bir hizmet talebinin durumunu ve/veya iç yönetici notunu değiştirir. "
+"Yalnızca admin kullanıcılar çağırabilir.</p><h3>Doğrulama "
+"kuralları</h3><ul><li>Durum <code>new</code> → <code>reviewing</code> → "
+"<code>assigned</code> → <code>completed</code> akışını izler; açık her talep "
+"<code>cancelled</code> yapılabilir.</li><li><code>completed</code> ve "
+"<code>cancelled</code> son durumlardır, değiştirilemez.</li><li>Mevcut "
+"durumun tekrar gönderilmesine izin verilir; böylece yalnızca not "
+"güncellenebilir.</li></ul><p>Başvuru verileri bu endpoint ile "
+"değiştirilemez.</p>"
+
+msgid ""
+"Identifier of the care request. Copy it from <a href=\"#operations-admin-"
+"admin_requests_list\">Admin: list requests — <code>results[].id</code></a>."
+msgstr ""
+"Hizmet talebinin kimliği. <a href=\"#operations-admin-"
+"admin_requests_list\">Yönetim: talepleri listele — "
+"<code>results[].id</code></a> yanıtından kopyalayın."
+
+msgid "Admin: dashboard statistics"
+msgstr "Yönetim: gösterge paneli istatistikleri"
+
+msgid ""
+"<p>Returns the summary numbers of the admin dashboard. Only admin users can "
+"call it.</p><h3>Processing</h3><ol><li>Requests are counted in total, as open"
+" (not completed or cancelled) and for the last 7 days.</li><li>Applicants are"
+" the active users without admin rights.</li><li>Status and service breakdowns"
+" list every status and every service type, including zero counts.</li><li>The"
+" daily series covers the last 14 days including today in the server time "
+"zone.</li></ol>"
+msgstr ""
+"<p>Admin gösterge panelinin özet sayılarını döndürür. Yalnızca admin "
+"kullanıcılar çağırabilir.</p><h3>İşleyiş</h3><ol><li>Talepler toplamda, açık "
+"(tamamlanmamış veya iptal edilmemiş) olarak ve son 7 gün için "
+"sayılır.</li><li>Başvuru sahipleri, admin yetkisi olmayan aktif "
+"kullanıcılardır.</li><li>Durum ve hizmet dağılımları sıfır sayılar dahil her "
+"durumu ve her hizmet türünü listeler.</li><li>Günlük seri, sunucu saat "
+"dilimine göre bugün dahil son 14 günü kapsar.</li></ol>"
+
+msgid "Send quick inquiry"
+msgstr "Hızlı talep gönder"
+
+#| msgid ""
+#| "<p>Creates a new applicant account. No authentication is "
+#| "required.</p><h3>Processing</h3><ol><li>The email is normalized to lower case"
+#| " and checked for uniqueness.</li><li>The password is checked against the "
+#| "password validators.</li><li>The account is created without admin "
+#| "rights.</li></ol><p>Requests are rate limited per IP address with the "
+#| "<code>accounts_register</code> scope.</p>"
+msgid ""
+"<p>Saves a service inquiry from the quick form on the landing page. No "
+"account or authentication is required.</p><h3>Processing</h3><ol><li>The name"
+" is trimmed and the email is normalized to lower case.</li><li>The consent "
+"time is recorded and the inquiry is stored permanently.</li><li>The response "
+"returns the saved record, so the client shows success only after it is "
+"stored.</li></ol><h3>Validation rules</h3><ul><li>The hidden "
+"<code>website</code> field must stay empty; it is filled only by spam "
+"bots.</li></ul><p>Requests are rate limited per IP address with the "
+"<code>care_inquiry_create</code> scope.</p>"
+msgstr ""
+"<p>Ana sayfadaki hızlı formdan gelen hizmet talebini kaydeder. Hesap veya "
+"kimlik doğrulama gerekmez.</p><h3>İşleyiş</h3><ol><li>Ad soyaddaki fazla "
+"boşluklar temizlenir ve e-posta küçük harfe çevrilir.</li><li>Onay zamanı "
+"kaydedilir ve talep kalıcı olarak saklanır.</li><li>Yanıt kaydedilen kaydı "
+"döndürür; böylece istemci başarıyı yalnızca kayıt saklandıktan sonra "
+"gösterir.</li></ol><h3>Doğrulama kuralları</h3><ul><li>Gizli "
+"<code>website</code> alanı boş kalmalıdır; yalnızca spam botları bu alanı "
+"doldurur.</li></ul><p>İstekler <code>care_inquiry_create</code> kapsamıyla IP"
+" adresi başına hız sınırına tabidir.</p>"
+
+#| msgid ""
+#| "Identifier of the selected active service type. Copy it from <a "
+#| "href=\"#operations-services-services_list\">List services — "
+#| "<code>[].id</code></a>."
+msgid ""
+"Identifier of the requested active service type. Copy it from <a "
+"href=\"#operations-services-services_list\">List services — "
+"<code>[].id</code></a>."
+msgstr ""
+"Talep edilen aktif hizmet türünün kimliği. <a href=\"#operations-services-"
+"services_list\">Hizmetleri listele — <code>[].id</code></a> yanıtından "
+"kopyalayın."
+
+#| msgid "Admin: list users"
+msgid "Admin: list quick inquiries"
+msgstr "Yönetim: hızlı talepleri listele"
+
+#| msgid ""
+#| "<p>Lists all user accounts with their request counts. Only admin users can "
+#| "call it.</p><p>Results are paginated and newest first by default. They can be"
+#| " filtered by admin right and active state, searched by email, name and phone,"
+#| " and ordered by join date, email or request count.</p>"
+msgid ""
+"<p>Lists the inquiries sent from the quick form, newest first. Only admin "
+"users can call it.</p><p>Results are paginated, can be filtered by service "
+"and searched by name, email and description.</p>"
+msgstr ""
+"<p>Hızlı formdan gönderilen talepleri en yeniden eskiye listeler. Yalnızca "
+"admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalıdır; hizmete göre "
+"filtrelenebilir, ad, e-posta ve açıklamaya göre aranabilir.</p>"
+
+msgid "Care services"
+msgstr "Bakım hizmetleri"
+
+#| msgid ""
+#| "Internal note for the admin team. Never shown to the applicant. At most 2000 "
+#| "characters."
+msgid "Name and surname of the person to contact. At least 2 characters."
+msgstr "Ulaşılacak kişinin adı ve soyadı. En az 2 karakter."
+
+msgid "Email address to reply to. Stored in lower case."
+msgstr "Yanıt verilecek e-posta adresi. Küçük harfle saklanır."
+
+msgid ""
+"Short description of the need, for example who needs support and when. "
+"Between 10 and 2000 characters."
+msgstr ""
+"İhtiyacın kısa açıklaması, örneğin kimin ne zaman desteğe ihtiyacı olduğu. 10"
+" ile 2000 karakter arasında."
+
+#| msgid ""
+#| "Must be <code>true</code>: the applicant accepts that the given personal data"
+#| " is processed to plan the service. The acceptance time is stored."
+msgid ""
+"Must be <code>true</code>: the person accepts that the given data is used to "
+"answer the inquiry. The acceptance time is stored."
+msgstr ""
+"<code>true</code> olmalıdır: kişi verilen bilgilerin talebe yanıt vermek için"
+" kullanılmasını kabul eder. Onay zamanı kaydedilir."
+
+msgid "Spam trap. Leave empty; it is hidden from people in the form."
+msgstr "Spam tuzağı. Boş bırakın; formda insanlara gösterilmez."
+
+msgid "Time the inquiry was stored."
+msgstr "Talebin kaydedildiği zaman."
+
+msgid "Enter your name and surname."
+msgstr "Adınızı ve soyadınızı yazın."
+
+#, python-format
+msgid "Please describe the need in at least %(count)d characters."
+msgstr "Lütfen ihtiyacı en az %(count)d karakterle anlatın."
+
+msgid "You must accept the processing of personal data."
+msgstr "Kişisel verilerin işlenmesini onaylamanız gerekir."
+
+msgid "The form could not be sent. Please try again."
+msgstr "Form gönderilemedi. Lütfen tekrar deneyin."
+
+msgid "Creates or updates the default data of the care module."
+msgstr "Bakım modülünün varsayılan verilerini oluşturur veya günceller."
+
+msgid "Service types"
+msgstr "Hizmet türleri"
+
+msgid "CARE DEFAULT DATA SETUP STARTED"
+msgstr "BAKIM MODÜLÜ VARSAYILAN VERİ KURULUMU BAŞLATILDI"
+
+#, python-format
+msgid "%(prefix)s %(label)s started."
+msgstr "%(prefix)s %(label)s işlemi başlatıldı."
+
+#, python-format
+msgid ""
+"%(prefix)s %(label)s completed. Created: %(created)d, Updated: %(updated)d."
+msgstr ""
+"%(prefix)s %(label)s tamamlandı. Oluşturulan: %(created)d, Güncellenen: "
+"%(updated)d."
+
+#, python-format
+msgid "Care default data setup failed: %(error)s"
+msgstr "Bakım modülü varsayılan veri kurulumu başarısız oldu: %(error)s"
+
+#, python-format
+msgid ""
+"All care default data operations completed. Created: %(created)d, Updated: "
+"%(updated)d."
+msgstr ""
+"Tüm bakım modülü varsayılan veri işlemleri tamamlandı. Oluşturulan: "
+"%(created)d, Güncellenen: %(updated)d."
+
+msgid "name"
+msgstr "ad"
+
+msgid "slug"
+msgstr "kısa ad"
+
+msgid "description"
+msgstr "açıklama"
+
+msgid "icon key"
+msgstr "ikon anahtarı"
+
+msgid "sort order"
+msgstr "sıra"
+
+msgid "active"
+msgstr "aktif"
+
+msgid "service type"
+msgstr "hizmet türü"
+
+msgid "service types"
+msgstr "hizmet türleri"
+
+msgid "New"
+msgstr "Yeni"
+
+msgid "Reviewing"
+msgstr "İnceleniyor"
+
+msgid "Assigned"
+msgstr "Atandı"
+
+msgid "Completed"
+msgstr "Tamamlandı"
+
+msgid "Cancelled"
+msgstr "İptal edildi"
+
+msgid "Mother / father"
+msgstr "Annem / babam"
+
+msgid "Grandparent"
+msgstr "Büyükannem / büyükbabam"
+
+msgid "Other relative"
+msgstr "Diğer akrabam"
+
+msgid "Neighbor / friend"
+msgstr "Komşum / dostum"
+
+msgid "Myself"
+msgstr "Kendim"
+
+msgid "Morning (08:00-12:00)"
+msgstr "Sabah (08:00-12:00)"
+
+msgid "Afternoon (12:00-17:00)"
+msgstr "Öğleden sonra (12:00-17:00)"
+
+msgid "Evening (17:00-21:00)"
+msgstr "Akşam (17:00-21:00)"
+
+msgid "applicant"
+msgstr "başvuru sahibi"
+
+msgid "service"
+msgstr "hizmet"
+
+msgid "elder full name"
+msgstr "yaşlının adı soyadı"
+
+msgid "elder name key"
+msgstr "yaşlı adı anahtarı"
+
+msgid "elder age"
+msgstr "yaşlının yaşı"
+
+msgid "relationship"
+msgstr "yakınlık derecesi"
+
+msgid "special notes"
+msgstr "özel notlar"
+
+msgid "preferred date"
+msgstr "tercih edilen tarih"
+
+msgid "time slot"
+msgstr "zaman aralığı"
+
+msgid "city"
+msgstr "il"
+
+msgid "district"
+msgstr "ilçe"
+
+msgid "address"
+msgstr "adres"
+
+msgid "contact phone"
+msgstr "iletişim telefonu"
+
+msgid "alternate contact name"
+msgstr "alternatif kişi adı"
+
+msgid "alternate contact phone"
+msgstr "alternatif kişi telefonu"
+
+msgid "consent given at"
+msgstr "onay zamanı"
+
+msgid "status"
+msgstr "durum"
+
+msgid "admin note"
+msgstr "yönetici notu"
+
+msgid "created at"
+msgstr "oluşturulma zamanı"
+
+msgid "updated at"
+msgstr "güncellenme zamanı"
+
+msgid "care request"
+msgstr "hizmet talebi"
+
+msgid "care requests"
+msgstr "hizmet talepleri"
+
+#| msgid "elder full name"
+msgid "full name"
+msgstr "ad soyad"
+
+#| msgid "service type"
+msgid "service inquiry"
+msgstr "hizmet talebi"
+
+#| msgid "service types"
+msgid "service inquiries"
+msgstr "hizmet talepleri"
+
+msgid "Service name shown on the card."
+msgstr "Kartta gösterilen hizmet adı."
+
+msgid "Stable, URL safe service key."
+msgstr "Değişmeyen, URL'de kullanılabilir hizmet anahtarı."
+
+msgid "Short explanation shown under the service name."
+msgstr "Hizmet adının altında gösterilen kısa açıklama."
+
+msgid ""
+"Icon key mapped to an icon by the frontend, for example "
+"<code>companion</code>."
+msgstr ""
+"Frontend tarafından bir ikonla eşlenen ikon anahtarı, örneğin "
+"<code>companion</code>."
+
+msgid "Selected service type."
+msgstr "Seçilen hizmet türü."
+
+msgid ""
+"Must be <code>true</code>: the applicant accepts that the given personal data"
+" is processed to plan the service. The acceptance time is stored."
+msgstr ""
+"<code>true</code> olmalıdır: başvuru sahibi verilen kişisel verilerin hizmeti"
+" planlamak için işlenmesini kabul eder. Onay zamanı kaydedilir."
+
+msgid "Full name of the elder who will receive the service."
+msgstr "Hizmeti alacak yaşlının adı soyadı."
+
+msgid "Age of the elder, between 40 and 120."
+msgstr "Yaşlının yaşı, 40 ile 120 arasında."
+
+msgid "How the applicant is related to the elder."
+msgstr "Başvuru sahibinin yaşlıya yakınlık derecesi."
+
+msgid ""
+"Optional health or care notes the team should know, for example walking "
+"support or hearing loss."
+msgstr ""
+"Ekibin bilmesi gereken isteğe bağlı sağlık veya bakım notları, örneğin yürüme"
+" desteği veya işitme kaybı."
+
+msgid ""
+"Preferred service date in YYYY-MM-DD format. Cannot be in the past or too far"
+" in the future."
+msgstr ""
+"YYYY-AA-GG biçiminde tercih edilen hizmet tarihi. Geçmişte veya çok ileri bir"
+" tarihte olamaz."
+
+msgid "Preferred part of the day."
+msgstr "Tercih edilen gün dilimi."
+
+msgid "City of the service address."
+msgstr "Hizmet adresinin ili."
+
+msgid "District of the service address."
+msgstr "Hizmet adresinin ilçesi."
+
+msgid "Open address where the service will be given."
+msgstr "Hizmetin verileceği açık adres."
+
+msgid ""
+"Phone number to reach the applicant. 10-15 digits; spaces, parentheses and "
+"dashes are removed."
+msgstr ""
+"Başvuru sahibine ulaşılacak telefon. 10-15 rakam; boşluk, parantez ve tireler"
+" temizlenir."
+
+msgid ""
+"Optional second person to call. Required when an alternate phone is given."
+msgstr ""
+"Aranabilecek isteğe bağlı ikinci kişi. Alternatif telefon verildiğinde "
+"zorunludur."
+
+msgid ""
+"Optional phone of the second person. Required when an alternate name is "
+"given."
+msgstr ""
+"İkinci kişinin isteğe bağlı telefonu. Alternatif kişi adı verildiğinde "
+"zorunludur."
+
+msgid ""
+"Processing status. Set to <code>new</code> on creation and changed only by "
+"the admin team."
+msgstr ""
+"İşlem durumu. Oluşturulurken <code>new</code> olur ve yalnızca yönetim ekibi "
+"tarafından değiştirilir."
+
+msgid "Creation time of the request."
+msgstr "Talebin oluşturulma zamanı."
+
+msgid "The preferred date cannot be in the past."
+msgstr "Tercih edilen tarih geçmişte olamaz."
+
+#, python-format
+msgid "The preferred date can be at most %(days)d days ahead."
+msgstr "Tercih edilen tarih en fazla %(days)d gün sonrası olabilir."
+
+msgid "Enter the phone of the alternate contact."
+msgstr "Alternatif kişinin telefonunu girin."
+
+msgid "Enter the name of the alternate contact."
+msgstr "Alternatif kişinin adını girin."
+
+#, python-format
+msgid ""
+"You already have an open request for this service for %(elder)s. You can "
+"apply again when it is completed or cancelled."
+msgstr ""
+"%(elder)s için bu hizmette zaten açık bir başvurunuz var. Başvuru "
+"tamamlandığında veya iptal edildiğinde yeniden başvurabilirsiniz."
+
+msgid "Enter a valid phone number."
+msgstr "Geçerli bir telefon numarası girin."
+
+msgid "Turkish"
+msgstr "Türkçe"
+
+msgid "English"
+msgstr "İngilizce"
