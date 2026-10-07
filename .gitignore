@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
-*.sqlite3
+*.mo
 .env
 .pytest_cache/
 .coverage
