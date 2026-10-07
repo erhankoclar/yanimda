@@ -61,7 +61,7 @@ const LANGUAGES = [
   display: inline-flex;
   gap: 0.25rem;
   padding: 0.2rem;
-  border: 1px solid var(--pref-line, rgb(0 0 0 / 0.12));
+  border: 1px solid var(--pref-line, color-mix(in srgb, currentColor 22%, transparent));
   border-radius: 999px;
 }
 
@@ -87,7 +87,7 @@ const LANGUAGES = [
 
 .preference-controls__flag.is-active {
   opacity: 1;
-  background: var(--pref-active, rgb(0 0 0 / 0.06));
+  background: var(--pref-active, color-mix(in srgb, currentColor 12%, transparent));
 }
 
 .preference-controls__flag:hover {
@@ -95,7 +95,7 @@ const LANGUAGES = [
 }
 
 .preference-controls__theme {
-  border: 1px solid var(--pref-line, rgb(0 0 0 / 0.12));
+  border: 1px solid var(--pref-line, color-mix(in srgb, currentColor 22%, transparent));
 }
 
 .preference-controls__theme svg {

@@ -33,12 +33,12 @@ const label = computed(() => statusLabel(props.status))
 .status-badge--reviewing,
 .status-badge--assigned {
   background: var(--color-accent-tint);
-  color: #6b4a06;
+  color: var(--color-accent-ink);
 }
 
 .status-badge--completed {
   background: var(--color-primary-dark);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 .status-badge--cancelled {

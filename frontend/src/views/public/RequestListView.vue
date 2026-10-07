@@ -114,7 +114,7 @@ onMounted(loadFirst)
   padding: var(--space-3) var(--space-6);
   border-radius: var(--radius-control);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   font-weight: 700;
   text-decoration: none;
 }

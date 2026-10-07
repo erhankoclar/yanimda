@@ -79,7 +79,7 @@ const sections = computed(() => [
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--color-line);
-  background: rgb(255 255 255 / 0.96);
+  background: var(--color-header-bg);
   backdrop-filter: blur(8px);
 }
 
@@ -195,12 +195,12 @@ const sections = computed(() => [
   padding: 0 var(--space-5);
   border-radius: 999px;
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 .site-header__menu .site-header__cta:hover {
   background: var(--color-primary-dark);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 @media (min-width: 60rem) {
