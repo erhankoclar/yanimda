@@ -6,3 +6,5 @@ psycopg[binary]>=3.2
 djangorestframework-simplejwt>=5.3
 drf-spectacular>=0.28
 django-filter>=24.0
+gunicorn>=23.0
+whitenoise>=6.7

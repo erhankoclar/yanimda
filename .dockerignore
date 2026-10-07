@@ -1,0 +1,14 @@
+.git
+**/node_modules
+**/.venv
+**/__pycache__
+**/*.pyc
+**/*.mo
+backend/.env
+backend/staticfiles
+backend/frontend_dist
+frontend/dist
+e2e
+scripts
+*.md
+!frontend/public/images/CREDITS.md

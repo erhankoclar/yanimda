@@ -2,12 +2,19 @@ import { expect, test } from '@playwright/test'
 
 const PAGES = ['/', '/login', '/register']
 
+// Üretim imajı yerelde düz HTTP üzerinden denenirken tarayıcı, Django'nun gönderdiği
+// Cross-Origin-Opener-Policy başlığını yok saydığını bildirir. HTTPS'te (Render) bu uyarı oluşmaz.
+const IGNORED_CONSOLE = ['Cross-Origin-Opener-Policy header has been ignored']
+
 test.describe('duyarlı düzen', () => {
   for (const path of PAGES) {
     test(`${path} yatay kaydırma oluşturmaz ve konsol hatası vermez`, async ({ page }) => {
       const errors = []
       page.on('pageerror', (error) => errors.push(error.message))
-      page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()) })
+      page.on('console', (message) => {
+        const ignored = IGNORED_CONSOLE.some((text) => message.text().includes(text))
+        if (message.type() === 'error' && !ignored) errors.push(message.text())
+      })
 
       await page.goto(path)
       await expect(page.locator('h1')).toBeVisible()
