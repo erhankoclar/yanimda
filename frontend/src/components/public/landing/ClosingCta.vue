@@ -1,17 +1,23 @@
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <section class="closing" aria-labelledby="closing-title">
     <div class="container">
       <div class="closing__card">
         <div class="closing__text">
-          <h2 id="closing-title">Hazır olduğunuzda buradayız</h2>
-          <p>Başvurunuzu yarıda bırakmanız gerekirse sorun değil; yazdıklarınız bu tarayıcı sekmesinde saklanır.</p>
-          <RouterLink class="closing__cta" :to="{ name: 'request-new' }">Başvuruya başla</RouterLink>
+          <h2 id="closing-title">{{ t('landing.closing.title') }}</h2>
+          <p>{{ t('landing.closing.text') }}</p>
+          <RouterLink class="closing__cta" :to="{ name: 'request-new' }">{{ t('common.startApplication') }}</RouterLink>
         </div>
         <div class="closing__media">
           <img
             class="closing__photo"
             src="/images/holding-hands.webp"
-            alt="Genç bir elin yaşlı bir eli şefkatle tuttuğu yakın çekim"
+            :alt="t('landing.closing.photoAlt')"
             width="900"
             height="1350"
             loading="lazy"

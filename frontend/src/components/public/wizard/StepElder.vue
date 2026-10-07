@@ -1,23 +1,31 @@
 <script setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
 import BaseInput from '../BaseInput.vue'
 import BaseSelect from '../BaseSelect.vue'
 import BaseTextarea from '../BaseTextarea.vue'
 
-import { MAX_ELDER_AGE, MIN_ELDER_AGE, RELATIONSHIP_OPTIONS } from '@/constants/care'
+import { MAX_ELDER_AGE, MIN_ELDER_AGE, RELATIONSHIP_OPTIONS, localizedOptions } from '@/constants/care'
 
 defineProps({
   /** Sihirbaz form nesnesi; alanlar doğrudan güncellenir. */
   form: { type: Object, required: true },
   errors: { type: Object, required: true },
 })
+
+const { t } = useI18n()
+
+// Yakınlık seçenekleri etkin dilde.
+const relationshipOptions = computed(() => localizedOptions(RELATIONSHIP_OPTIONS))
 </script>
 
 <template>
   <div>
-    <BaseInput v-model="form.elder_full_name" label="Adı ve soyadı" autocomplete="off" required :error="errors.elder_full_name" />
+    <BaseInput v-model="form.elder_full_name" :label="t('wizard.elder.name')" autocomplete="off" required :error="errors.elder_full_name" />
     <BaseInput
       v-model="form.elder_age"
-      label="Yaşı"
+      :label="t('wizard.elder.age')"
       type="number"
       inputmode="numeric"
       :min="MIN_ELDER_AGE"
@@ -27,15 +35,15 @@ defineProps({
     />
     <BaseSelect
       v-model="form.relationship"
-      label="Sizin nesiniz?"
-      :options="RELATIONSHIP_OPTIONS"
+      :label="t('wizard.elder.relationship')"
+      :options="relationshipOptions"
       required
       :error="errors.relationship"
     />
     <BaseTextarea
       v-model="form.elder_notes"
-      label="Bilmemiz gereken bir şey var mı?"
-      hint="Örneğin: yürürken desteğe ihtiyaç duyuyor, az işitiyor, şeker hastası."
+      :label="t('wizard.elder.notes')"
+      :hint="t('wizard.elder.notesHint')"
       :maxlength="1000"
       :error="errors.elder_notes"
     />

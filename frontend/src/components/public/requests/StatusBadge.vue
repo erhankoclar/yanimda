@@ -1,14 +1,14 @@
 <script setup>
 import { computed } from 'vue'
 
-import { STATUS_LABELS } from '@/constants/care'
+import { statusLabel } from '@/constants/care'
 
 const props = defineProps({
   status: { type: String, required: true },
 })
 
 // Arayüz dilindeki durum etiketi; bilinmeyen durumda değerin kendisi gösterilir.
-const label = computed(() => STATUS_LABELS[props.status] ?? props.status)
+const label = computed(() => statusLabel(props.status))
 </script>
 
 <template>

@@ -1,5 +1,8 @@
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   /** Adım başlıkları, sırasıyla. */
@@ -9,13 +12,13 @@ const props = defineProps({
 })
 
 // Ekranda ve ekran okuyucuda okunacak "Adım 2 / 5" metni.
-const summary = computed(() => `Adım ${props.current + 1} / ${props.steps.length}`)
+const summary = computed(() => t('wizard.progress.summary', { current: props.current + 1, total: props.steps.length }))
 // İlerleme çubuğunun doluluk oranı.
 const percent = computed(() => Math.round(((props.current + 1) / props.steps.length) * 100))
 </script>
 
 <template>
-  <nav class="wizard-progress" aria-label="Başvuru adımları">
+  <nav class="wizard-progress" :aria-label="t('wizard.progress.label')">
     <p class="wizard-progress__summary">
       <span>{{ summary }}</span>
       <strong>{{ steps[current] }}</strong>
@@ -30,7 +33,7 @@ const percent = computed(() => Math.round(((props.current + 1) / props.steps.len
         :aria-current="index === current ? 'step' : undefined"
         :class="{ 'is-done': index < current, 'is-current': index === current }"
       >
-        {{ step }}<span v-if="index < current" class="visually-hidden"> (tamamlandı)</span>
+        {{ step }}<span v-if="index < current" class="visually-hidden"> {{ t('wizard.progress.done') }}</span>
       </li>
     </ol>
   </nav>

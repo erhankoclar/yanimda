@@ -1,5 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 import PreferenceControls from '@/components/common/PreferenceControls.vue'
@@ -15,6 +16,7 @@ const emit = defineEmits({
   logout: null,
 })
 
+const { t } = useI18n()
 const route = useRoute()
 const menuOpen = ref(false)
 
@@ -23,17 +25,18 @@ watch(() => route.fullPath, () => {
   menuOpen.value = false
 })
 
-const SECTIONS = [
-  { hash: '#hizmetler', label: 'Hizmetler' },
-  { hash: '#nasil-isler', label: 'Nasıl işler?' },
-  { hash: '#sss', label: 'Sık sorulanlar' },
-]
+// Bölüm bağlantıları; etiketler etkin dile göre çözülür.
+const sections = computed(() => [
+  { hash: '#hizmetler', label: t('nav.sections.services') },
+  { hash: '#nasil-isler', label: t('nav.sections.how') },
+  { hash: '#sss', label: t('nav.sections.faq') },
+])
 </script>
 
 <template>
   <header class="site-header">
     <div class="container site-header__bar">
-      <RouterLink :to="{ name: 'landing' }" class="site-header__brand" aria-label="Yanımda ana sayfa">
+      <RouterLink :to="{ name: 'landing' }" class="site-header__brand" :aria-label="t('nav.homeLabel')">
         <BrandMark />
       </RouterLink>
 
@@ -47,23 +50,23 @@ const SECTIONS = [
           @click="menuOpen = !menuOpen"
         >
           <span class="site-header__toggle-lines" aria-hidden="true" />
-          {{ menuOpen ? 'Kapat' : 'Menü' }}
+          {{ menuOpen ? t('nav.close') : t('nav.menu') }}
         </button>
       </div>
 
       <div id="site-menu" class="site-header__menu" :class="{ 'is-open': menuOpen }">
-        <nav class="site-header__sections" aria-label="Sayfa bölümleri">
-          <RouterLink v-for="section in SECTIONS" :key="section.hash" :to="{ name: 'landing', hash: section.hash }">
+        <nav class="site-header__sections" :aria-label="t('nav.sectionsLabel')">
+          <RouterLink v-for="section in sections" :key="section.hash" :to="{ name: 'landing', hash: section.hash }">
             {{ section.label }}
           </RouterLink>
         </nav>
-        <nav class="site-header__account" aria-label="Hesap">
+        <nav class="site-header__account" :aria-label="t('nav.accountLabel')">
           <template v-if="authenticated">
-            <RouterLink :to="{ name: 'request-list' }">Başvurularım</RouterLink>
-            <button type="button" class="site-header__logout" @click="emit('logout')">Çıkış yap</button>
+            <RouterLink :to="{ name: 'request-list' }">{{ t('common.myRequests') }}</RouterLink>
+            <button type="button" class="site-header__logout" @click="emit('logout')">{{ t('nav.logout') }}</button>
           </template>
-          <RouterLink v-else :to="{ name: 'login' }">Giriş yap</RouterLink>
-          <RouterLink class="site-header__cta" :to="{ name: 'landing', hash: '#talep-formu' }">Talep bırakın</RouterLink>
+          <RouterLink v-else :to="{ name: 'login' }">{{ t('nav.login') }}</RouterLink>
+          <RouterLink class="site-header__cta" :to="{ name: 'landing', hash: '#talep-formu' }">{{ t('common.leaveRequest') }}</RouterLink>
         </nav>
       </div>
     </div>

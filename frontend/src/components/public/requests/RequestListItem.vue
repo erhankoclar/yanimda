@@ -1,9 +1,13 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
 import ServiceIcon from '../ServiceIcon.vue'
 import StatusBadge from './StatusBadge.vue'
 
 import { TIME_SLOT_OPTIONS, optionLabel } from '@/constants/care'
 import { formatLongDate } from '@/utils/dates'
+
+const { t } = useI18n()
 
 defineProps({
   /** Başvuru: API'nin döndürdüğü talep nesnesi. */
@@ -16,7 +20,7 @@ defineProps({
     <span class="request-item__icon"><ServiceIcon :name="request.service_detail.icon" /></span>
     <span class="request-item__body">
       <span class="request-item__title">{{ request.service_detail.name }}</span>
-      <span class="request-item__meta">{{ request.elder_full_name }} için</span>
+      <span class="request-item__meta">{{ t('requests.forPerson', { name: request.elder_full_name }) }}</span>
       <span class="request-item__meta">
         {{ formatLongDate(request.preferred_date) }}, {{ optionLabel(TIME_SLOT_OPTIONS, request.time_slot) }}
       </span>

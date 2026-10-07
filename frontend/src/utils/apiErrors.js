@@ -1,3 +1,5 @@
+import { t } from '@/i18n'
+
 /**
  * API hatasını form alanlarına ve genel bir mesaja ayırır.
  *
@@ -12,13 +14,13 @@
 export function parseApiError(error, fieldNames = []) {
   const response = error?.response
   if (!response) {
-    return { fields: {}, general: 'Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.' }
+    return { fields: {}, general: t('errors.network') }
   }
   if (response.status === 429) {
-    return { fields: {}, general: 'Çok fazla deneme yapıldı. Lütfen biraz bekleyip tekrar deneyin.' }
+    return { fields: {}, general: t('errors.tooMany') }
   }
   if (response.status >= 500) {
-    return { fields: {}, general: 'Beklenmeyen bir sorun oluştu. Lütfen biraz sonra tekrar deneyin.' }
+    return { fields: {}, general: t('errors.server') }
   }
 
   const data = response.data ?? {}
@@ -30,7 +32,7 @@ export function parseApiError(error, fieldNames = []) {
     else general.push(message)
   })
   if (!general.length && !Object.keys(fields).length) {
-    general.push('İşlem tamamlanamadı. Bilgileri kontrol edip tekrar deneyin.')
+    general.push(t('errors.generic'))
   }
   return { fields, general: general.join(' ') }
 }

@@ -1,4 +1,6 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
 import { useFieldIds } from './useFieldIds'
 
 // name, maxlength gibi ek öznitelikler kapsayıcıya değil input'a aktarılır.
@@ -16,6 +18,7 @@ const props = defineProps({
   inputmode: { type: String, default: undefined },
 })
 
+const { t } = useI18n()
 const { inputId, hintId, errorId, describedBy } = useFieldIds(() => props)
 </script>
 
@@ -23,7 +26,7 @@ const { inputId, hintId, errorId, describedBy } = useFieldIds(() => props)
   <div class="field">
     <label class="field__label" :for="inputId">
       {{ label }}
-      <span v-if="!required" class="field__optional">(isteğe bağlı)</span>
+      <span v-if="!required" class="field__optional">{{ t('common.optional') }}</span>
     </label>
     <p v-if="hint" :id="hintId" class="field__hint">{{ hint }}</p>
     <input

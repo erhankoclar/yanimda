@@ -1,9 +1,17 @@
 <script setup>
-const STEPS = [
-  { title: 'İhtiyacınızı anlatın', text: 'Hangi hizmet, kimin için, ne zaman ve nerede: beş kısa adımda.' },
-  { title: 'Sizi arayalım', text: 'Ekibimiz başvurunuzu inceler ve ayrıntıları konuşmak için verdiğiniz numaradan sizi arar.' },
-  { title: 'Destek başlasın', text: 'Uygun kişi atanır. Başvurunuzun durumunu her zaman “Başvurularım” sayfasından görebilirsiniz.' },
-]
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const STEP_KEYS = ['describe', 'call', 'start']
+
+// Etkin dildeki adımlar; dil değişince yeniden hesaplanır.
+const steps = computed(() => STEP_KEYS.map((key) => ({
+  key,
+  title: t(`landing.how.steps.${key}.title`),
+  text: t(`landing.how.steps.${key}.text`),
+})))
 </script>
 
 <template>
@@ -12,21 +20,21 @@ const STEPS = [
       <img
         class="how-it-works__photo"
         src="/images/escort-walk.webp"
-        alt="Bastonlu yaşlı bir kadına koluna girerek eşlik eden bir kadın"
+        :alt="t('landing.how.photoAlt')"
         width="900"
         height="1350"
         loading="lazy"
       />
       <div>
-        <h2 id="how-title">Nasıl işler?</h2>
-        <p class="how-it-works__intro">Başvurmak birkaç dakikanızı alır. Gerisini birlikte planlarız.</p>
+        <h2 id="how-title">{{ t('landing.how.title') }}</h2>
+        <p class="how-it-works__intro">{{ t('landing.how.intro') }}</p>
         <ol class="how-it-works__list">
-          <li v-for="step in STEPS" :key="step.title" class="how-it-works__step">
+          <li v-for="step in steps" :key="step.key" class="how-it-works__step">
             <h3>{{ step.title }}</h3>
             <p>{{ step.text }}</p>
           </li>
         </ol>
-        <RouterLink class="landing__cta" :to="{ name: 'request-new' }">Başvuruya başla</RouterLink>
+        <RouterLink class="landing__cta" :to="{ name: 'request-new' }">{{ t('common.startApplication') }}</RouterLink>
       </div>
     </div>
   </section>
