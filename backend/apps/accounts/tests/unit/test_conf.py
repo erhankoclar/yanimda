@@ -21,6 +21,8 @@ class ThrottleConfTests(SimpleTestCase):
         - Giriş oranı ortam değeri, kayıt oranı varsayılan değer olmalıdır.
         """
         with patch.dict(os.environ, {'THROTTLE_ACCOUNTS_LOGIN': '3/minute'}):
+            # Test, çalıştığı ortamda (ör. docker-compose) verilmiş olabilecek ezmelerden bağımsız olmalı.
+            os.environ.pop('THROTTLE_ACCOUNTS_REGISTER', None)
             rates = get_throttle_rates()
 
         self.assertEqual(rates['accounts_login'], '3/minute')
