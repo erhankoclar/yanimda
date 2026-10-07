@@ -56,4 +56,14 @@ describe('dil değişimi', () => {
 
     expect(wrapper.find('.faq__item summary').text()).toBe('What do I need to make a request?')
   })
+
+  it('yönetici giriş sayfasının başlığı da bayrakla İngilizceye geçer', async () => {
+    ;({ wrapper } = await mountApp('/admin/login'))
+
+    expect(wrapper.get('h1').text()).toBe('Yönetici girişi')
+
+    await pickLanguage(1)
+
+    expect(wrapper.get('h1').text()).toBe('Admin sign-in')
+  })
 })

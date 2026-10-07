@@ -1,4 +1,15 @@
 export default {
+  admin: {
+    brand: 'Yanımda Admin',
+    titles: {
+      dashboard: 'Dashboard',
+      login: 'Admin sign-in',
+      requestDetail: 'Request details',
+      requests: 'Requests',
+      userDetail: 'User details',
+      users: 'Users',
+    },
+  },
   auth: {
     login: {
       email: 'Email address',

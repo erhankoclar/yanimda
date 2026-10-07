@@ -1,5 +1,5 @@
 <template>
   <section>
-    <h1>Kullanıcı detayı</h1>
+    <h1>{{ $t('admin.titles.userDetail') }}</h1>
   </section>
 </template>

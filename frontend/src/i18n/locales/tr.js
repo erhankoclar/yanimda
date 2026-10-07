@@ -1,4 +1,15 @@
 export default {
+  admin: {
+    brand: 'Yanımda Yönetim',
+    titles: {
+      dashboard: 'Gösterge paneli',
+      login: 'Yönetici girişi',
+      requestDetail: 'Talep detayı',
+      requests: 'Talepler',
+      userDetail: 'Kullanıcı detayı',
+      users: 'Kullanıcılar',
+    },
+  },
   auth: {
     login: {
       email: 'E-posta adresi',

@@ -7,6 +7,6 @@ import PreferenceControls from '@/components/common/PreferenceControls.vue'
     <div class="admin-auth__preferences">
       <PreferenceControls />
     </div>
-    <h1>Yönetici girişi</h1>
+    <h1>{{ $t('admin.titles.login') }}</h1>
   </section>
 </template>

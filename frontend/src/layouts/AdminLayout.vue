@@ -5,7 +5,7 @@ import PreferenceControls from '@/components/common/PreferenceControls.vue'
 <template>
   <div class="admin-shell admin-layout" data-layout="admin">
     <aside class="admin-layout__sidebar">
-      <span class="admin-layout__brand">Yanımda Yönetim</span>
+      <span class="admin-layout__brand">{{ $t('admin.brand') }}</span>
     </aside>
     <div class="admin-layout__main">
       <header class="admin-layout__topbar">
