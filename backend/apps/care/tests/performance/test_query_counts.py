@@ -96,6 +96,43 @@ class CareQueryCountTests(APITestCase):
 
         self.assertEqual(len(grown.captured_queries), len(baseline.captured_queries))
 
+    def test_dashboard_query_count_is_constant(self):
+        """
+        Dashboard verilerinin kayıt ve hizmet sayısından bağımsız sabit sorguyla hesaplandığını doğrular.
+
+        Senaryo:
+        - Az veriyle sorgu sayısı ölçülür; başvuru, hızlı talep ve hizmet sayısı artırılıp tekrar ölçülür.
+
+        Beklenti:
+        - Sorgu sayısı değişmemelidir.
+        """
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        from django.utils import timezone
+
+        from apps.care.models import ServiceInquiry
+
+        def add_records():
+            service = make_service()
+            make_care_request(service=service)
+            ServiceInquiry.objects.create(
+                full_name='Deneme', email='d@example.com', service=service, message='Kurgusal açıklama',
+                consent_given_at=timezone.now(),
+            )
+
+        self.client.force_authenticate(make_user(is_staff=True))
+        url = reverse('care-admin:dashboard')
+        add_records()
+        with CaptureQueriesContext(connection) as baseline:
+            self.client.get(url, {'days': 90})
+        for _index in range(6):
+            add_records()
+
+        with CaptureQueriesContext(connection) as grown:
+            self.client.get(url, {'days': 90})
+
+        self.assertEqual(len(grown.captured_queries), len(baseline.captured_queries))
+
     def test_service_list_uses_single_query(self):
         """Hizmet listesinin hizmet sayısından bağımsız tek sorguyla döndüğünü doğrular."""
         for _index in range(5):

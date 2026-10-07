@@ -133,3 +133,22 @@ ADMIN_INQUIRY_LIST_VIEW_DESCRIPTION = _(
     '<p>Lists the inquiries sent from the quick form, newest first. Only admin users can call it.</p>'
     '<p>Results are paginated, can be filtered by service and searched by name, email and description.</p>'
 )
+
+ADMIN_DASHBOARD_SUMMARY = _('Admin: dashboard')
+ADMIN_DASHBOARD_VIEW_DESCRIPTION = _(
+    '<p>Returns everything the admin dashboard shows in one call. Only admin users can call it.</p>'
+    '<h3>Processing</h3>'
+    '<ol>'
+    '<li>Cards compare this month until today with the same days of the previous month. '
+    'The change is <code>null</code> when the previous period is zero.</li>'
+    '<li>The series has one line per active service. It counts quick inquiries, applications or both '
+    'and fills empty periods with zero; 90 days are grouped by week starting on Monday.</li>'
+    '<li>Recent items merge the latest quick inquiries and applications by creation time.</li>'
+    '<li>Pending items are the oldest new or reviewing applications.</li>'
+    '</ol>'
+)
+ADMIN_DASHBOARD_DAYS_HELP_TEXT = _('Number of days shown in the service chart: 7, 30 or 90. Defaults to 30.')
+ADMIN_DASHBOARD_SOURCE_HELP_TEXT = _(
+    'What the service chart counts: <code>all</code> (quick inquiries and applications), '
+    '<code>inquiries</code> or <code>requests</code>. Defaults to <code>all</code>.'
+)

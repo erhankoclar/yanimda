@@ -9,8 +9,11 @@ from apps.care import api_descriptions
 from apps.care.admin_serializers import (
     AdminCareRequestDetailSerializer,
     AdminCareRequestListSerializer,
+    DashboardQuerySerializer,
+    DashboardSerializer,
     DashboardStatsSerializer,
 )
+from apps.care.services.dashboard_service import build_dashboard
 from apps.care.filters import AdminCareRequestFilter
 from apps.care.models import CareRequest
 from apps.care.stats import build_dashboard_stats
@@ -97,3 +100,34 @@ class AdminDashboardStatsView(APIView):
             Response: DashboardStatsSerializer şeklinde istatistikler.
         """
         return Response(DashboardStatsSerializer(build_dashboard_stats()).data)
+
+
+@extend_schema(
+    tags=['admin'],
+    summary=api_descriptions.ADMIN_DASHBOARD_SUMMARY,
+    description=api_descriptions.ADMIN_DASHBOARD_VIEW_DESCRIPTION,
+    parameters=[DashboardQuerySerializer],
+    responses=DashboardSerializer,
+)
+class AdminDashboardView(APIView):
+    __doc__ = api_descriptions.ADMIN_DASHBOARD_VIEW_DESCRIPTION
+
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request):
+        """
+        Sorgu parametrelerini doğrular ve dashboard verilerini döndürür.
+
+        Args:
+            request (Request): Admin kullanıcının isteği; `days` ve `source` parametreleri olabilir.
+
+        Returns:
+            Response: DashboardSerializer şeklinde dashboard verileri.
+
+        Raises:
+            ValidationError: `days` veya `source` izin verilen değerlerden biri değilse (400).
+        """
+        query = DashboardQuerySerializer(data=request.query_params)
+        query.is_valid(raise_exception=True)
+        data = build_dashboard(days=int(query.validated_data['days']), source=query.validated_data['source'])
+        return Response(DashboardSerializer(data).data)

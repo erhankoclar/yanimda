@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.care.managers import CareRequestManager, ServiceInquiryManager, ServiceTypeManager
 from apps.care.text import person_name_key
 
 
@@ -19,6 +20,8 @@ class ServiceType(models.Model):
     icon = models.CharField(_('icon key'), max_length=50)
     sort_order = models.PositiveSmallIntegerField(_('sort order'), default=0)
     is_active = models.BooleanField(_('active'), default=True)
+
+    objects = ServiceTypeManager()
 
     class Meta:
         verbose_name = _('service type')
@@ -92,6 +95,8 @@ class CareRequest(models.Model):
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
 
     OPEN_STATUSES = [Status.NEW, Status.REVIEWING, Status.ASSIGNED]
+
+    objects = CareRequestManager()
 
     class Meta:
         verbose_name = _('care request')
@@ -177,6 +182,8 @@ class ServiceInquiry(models.Model):
     message = models.TextField(_('description'))
     consent_given_at = models.DateTimeField(_('consent given at'))
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+
+    objects = ServiceInquiryManager()
 
     class Meta:
         verbose_name = _('service inquiry')

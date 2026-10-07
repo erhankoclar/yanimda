@@ -93,3 +93,27 @@ class AdminResponseContractTests(APITestCase):
         row = self.client.get(reverse('care-admin:inquiry-list')).data['results'][0]
 
         self.assertEqual(set(row), {'id', 'full_name', 'email', 'service', 'message', 'consent_given_at', 'created_at'})
+
+    def test_dashboard_shape(self):
+        """
+        Dashboard yanıtının anahtarlarını ve alt öğe şekillerini doğrular.
+
+        Senaryo:
+        - Bir başvuru oluşturulur ve dashboard çağrılır.
+
+        Beklenti:
+        - Üst düzey anahtarlar, kartlar ve seri/son kayıt/bekleyen öğe alanları sabit kümelerle eşleşmelidir.
+        """
+        make_care_request()
+
+        data = self.client.get(reverse('care-admin:dashboard')).data
+
+        self.assertEqual(set(data), {'cards', 'series', 'recent', 'pending', 'status_breakdown'})
+        self.assertEqual(set(data['cards']), {'total_demand', 'open_requests', 'inquiries', 'services'})
+        self.assertEqual(set(data['cards']['total_demand']), {'value', 'previous', 'change_percent'})
+        self.assertEqual(set(data['series']), {'bucket', 'labels', 'datasets'})
+        self.assertEqual(set(data['series']['datasets'][0]), {'service_id', 'name', 'icon', 'counts'})
+        self.assertEqual(set(data['recent'][0]), {'type', 'id', 'title', 'service', 'created_at', 'status'})
+        self.assertEqual(
+            set(data['pending'][0]), {'id', 'service', 'elder_full_name', 'preferred_date', 'status', 'created_at'},
+        )

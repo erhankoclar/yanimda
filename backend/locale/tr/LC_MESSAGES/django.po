@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-07 20:11+0300\n"
+"POT-Creation-Date: 2026-10-08 01:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -300,6 +300,92 @@ msgstr "Her hizmet türünün talep sayısı."
 msgid "Requests per day for the last 14 days, oldest first."
 msgstr "Son 14 günün günlük talep sayıları, eskiden yeniye."
 
+msgid "Value for this month until today."
+msgstr "Bu ayın başından bugüne değer."
+
+msgid "Value for the same days of the previous month."
+msgstr "Geçen ayın aynı günlerindeki değer."
+
+msgid "Rounded change in percent; null when the previous value is zero."
+msgstr "Yuvarlanmış yüzde değişim; önceki değer sıfırsa null."
+
+msgid "Applications that are new, reviewing or assigned."
+msgstr "Yeni, inceleniyor veya atandı durumundaki başvurular."
+
+msgid "Open applications that nobody has reviewed yet."
+msgstr "Henüz kimsenin incelemediği açık başvurular."
+
+#| msgid "Name of the service type."
+msgid "Number of active service types."
+msgstr "Aktif hizmet türü sayısı."
+
+msgid "Service with the most inquiries and applications; null without data."
+msgstr "En çok hızlı talep ve başvuru alan hizmet; veri yoksa null."
+
+msgid "Quick inquiries and applications together."
+msgstr "Hızlı talepler ve başvurular birlikte."
+
+msgid "Applications waiting for the team."
+msgstr "Ekibi bekleyen başvurular."
+
+msgid "Quick inquiries from the landing page."
+msgstr "Ana sayfadan gelen hızlı talepler."
+
+#| msgid "Selected service type."
+msgid "Active service types."
+msgstr "Aktif hizmet türleri."
+
+#| msgid "Name of the service type."
+msgid "Icon key of the service type."
+msgstr "Hizmet türünün ikon anahtarı."
+
+#| msgid "Request count of every status, in flow order."
+msgid "Count for every label, in the same order."
+msgstr "Her etiket için sayı, aynı sırayla."
+
+msgid "Length of one period."
+msgstr "Bir dönemin uzunluğu."
+
+msgid "Start date of every period, oldest first."
+msgstr "Her dönemin başlangıç tarihi, eskiden yeniye."
+
+#| msgid "Selected service type."
+msgid "One line per active service type."
+msgstr "Her aktif hizmet türü için bir çizgi."
+
+msgid "Quick inquiry or application."
+msgstr "Hızlı talep veya başvuru."
+
+#| msgid "Identifier of the service type."
+msgid "Identifier of the quick inquiry or application."
+msgstr "Hızlı talebin veya başvurunun kimliği."
+
+msgid "Contact name for inquiries, elder name for applications."
+msgstr "Hızlı taleplerde ulaşılacak kişinin, başvurularda yaşlının adı."
+
+#| msgid "Registration time."
+msgid "Creation time."
+msgstr "Oluşturulma zamanı."
+
+msgid "Application status; null for inquiries."
+msgstr "Başvuru durumu; hızlı taleplerde null."
+
+msgid "Summary cards."
+msgstr "Özet kartları."
+
+msgid "Service chart data."
+msgstr "Hizmet grafiği verisi."
+
+msgid "Latest quick inquiries and applications."
+msgstr "Son hızlı talepler ve başvurular."
+
+msgid "Oldest applications waiting for review."
+msgstr "İncelenmeyi bekleyen en eski başvurular."
+
+#| msgid "Request count of every status, in flow order."
+msgid "Application count of every status."
+msgstr "Her durumdaki başvuru sayısı."
+
 msgid "List services"
 msgstr "Hizmetleri listele"
 
@@ -493,13 +579,6 @@ msgstr ""
 msgid "Send quick inquiry"
 msgstr "Hızlı talep gönder"
 
-#| msgid ""
-#| "<p>Creates a new applicant account. No authentication is "
-#| "required.</p><h3>Processing</h3><ol><li>The email is normalized to lower case"
-#| " and checked for uniqueness.</li><li>The password is checked against the "
-#| "password validators.</li><li>The account is created without admin "
-#| "rights.</li></ol><p>Requests are rate limited per IP address with the "
-#| "<code>accounts_register</code> scope.</p>"
 msgid ""
 "<p>Saves a service inquiry from the quick form on the landing page. No "
 "account or authentication is required.</p><h3>Processing</h3><ol><li>The name"
@@ -521,10 +600,6 @@ msgstr ""
 "doldurur.</li></ul><p>İstekler <code>care_inquiry_create</code> kapsamıyla IP"
 " adresi başına hız sınırına tabidir.</p>"
 
-#| msgid ""
-#| "Identifier of the selected active service type. Copy it from <a "
-#| "href=\"#operations-services-services_list\">List services — "
-#| "<code>[].id</code></a>."
 msgid ""
 "Identifier of the requested active service type. Copy it from <a "
 "href=\"#operations-services-services_list\">List services — "
@@ -534,15 +609,9 @@ msgstr ""
 "services_list\">Hizmetleri listele — <code>[].id</code></a> yanıtından "
 "kopyalayın."
 
-#| msgid "Admin: list users"
 msgid "Admin: list quick inquiries"
 msgstr "Yönetim: hızlı talepleri listele"
 
-#| msgid ""
-#| "<p>Lists all user accounts with their request counts. Only admin users can "
-#| "call it.</p><p>Results are paginated and newest first by default. They can be"
-#| " filtered by admin right and active state, searched by email, name and phone,"
-#| " and ordered by join date, email or request count.</p>"
 msgid ""
 "<p>Lists the inquiries sent from the quick form, newest first. Only admin "
 "users can call it.</p><p>Results are paginated, can be filtered by service "
@@ -552,12 +621,46 @@ msgstr ""
 "admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalıdır; hizmete göre "
 "filtrelenebilir, ad, e-posta ve açıklamaya göre aranabilir.</p>"
 
+#| msgid "Admin: dashboard statistics"
+msgid "Admin: dashboard"
+msgstr "Yönetim: gösterge paneli"
+
+msgid ""
+"<p>Returns everything the admin dashboard shows in one call. Only admin users"
+" can call it.</p><h3>Processing</h3><ol><li>Cards compare this month until "
+"today with the same days of the previous month. The change is "
+"<code>null</code> when the previous period is zero.</li><li>The series has "
+"one line per active service. It counts quick inquiries, applications or both "
+"and fills empty periods with zero; 90 days are grouped by week starting on "
+"Monday.</li><li>Recent items merge the latest quick inquiries and "
+"applications by creation time.</li><li>Pending items are the oldest new or "
+"reviewing applications.</li></ol>"
+msgstr ""
+"<p>Admin gösterge panelinin gösterdiği her şeyi tek çağrıda döndürür. "
+"Yalnızca admin kullanıcılar çağırabilir.</p><h3>İşleyiş</h3><ol><li>Kartlar "
+"bu ayın başından bugüne kadarki değeri geçen ayın aynı günleriyle kıyaslar. "
+"Önceki dönem sıfırsa değişim <code>null</code> olur.</li><li>Seride her aktif"
+" hizmet için bir çizgi vardır. Hızlı talepleri, başvuruları veya ikisini "
+"birden sayar ve boş dönemleri sıfırla doldurur; 90 gün pazartesi başlayan "
+"haftalara göre gruplanır.</li><li>Son kayıtlar, en son hızlı talepleri ve "
+"başvuruları oluşturulma zamanına göre birleştirir.</li><li>Bekleyen kayıtlar "
+"en eski yeni veya inceleniyor başvurulardır.</li></ol>"
+
+msgid "Number of days shown in the service chart: 7, 30 or 90. Defaults to 30."
+msgstr "Hizmet grafiğinde gösterilen gün sayısı: 7, 30 veya 90. Varsayılan 30."
+
+msgid ""
+"What the service chart counts: <code>all</code> (quick inquiries and "
+"applications), <code>inquiries</code> or <code>requests</code>. Defaults to "
+"<code>all</code>."
+msgstr ""
+"Hizmet grafiğinin saydığı kayıtlar: <code>all</code> (hızlı talepler ve "
+"başvurular), <code>inquiries</code> veya <code>requests</code>. Varsayılan "
+"<code>all</code>."
+
 msgid "Care services"
 msgstr "Bakım hizmetleri"
 
-#| msgid ""
-#| "Internal note for the admin team. Never shown to the applicant. At most 2000 "
-#| "characters."
 msgid "Name and surname of the person to contact. At least 2 characters."
 msgstr "Ulaşılacak kişinin adı ve soyadı. En az 2 karakter."
 
@@ -571,9 +674,6 @@ msgstr ""
 "İhtiyacın kısa açıklaması, örneğin kimin ne zaman desteğe ihtiyacı olduğu. 10"
 " ile 2000 karakter arasında."
 
-#| msgid ""
-#| "Must be <code>true</code>: the applicant accepts that the given personal data"
-#| " is processed to plan the service. The acceptance time is stored."
 msgid ""
 "Must be <code>true</code>: the person accepts that the given data is used to "
 "answer the inquiry. The acceptance time is stored."
@@ -761,15 +861,12 @@ msgstr "hizmet talebi"
 msgid "care requests"
 msgstr "hizmet talepleri"
 
-#| msgid "elder full name"
 msgid "full name"
 msgstr "ad soyad"
 
-#| msgid "service type"
 msgid "service inquiry"
 msgstr "hizmet talebi"
 
-#| msgid "service types"
 msgid "service inquiries"
 msgstr "hizmet talepleri"
 

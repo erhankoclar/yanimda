@@ -3,6 +3,7 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
+from apps.care import api_descriptions
 from apps.care.models import CareRequest
 from apps.care.serializers import ServiceTypeSerializer
 
@@ -122,3 +123,87 @@ class DashboardStatsSerializer(serializers.Serializer):
     by_status = StatusCountSerializer(many=True, help_text=_('Request count of every status, in flow order.'))
     by_service = ServiceCountSerializer(many=True, help_text=_('Request count of every service type.'))
     daily = DailyCountSerializer(many=True, help_text=_('Requests per day for the last 14 days, oldest first.'))
+
+
+class DashboardQuerySerializer(serializers.Serializer):
+    """Dashboard sorgu parametrelerini doğrular."""
+
+    days = serializers.ChoiceField(
+        choices=[7, 30, 90], default=30, help_text=api_descriptions.ADMIN_DASHBOARD_DAYS_HELP_TEXT,
+    )
+    source = serializers.ChoiceField(
+        choices=['all', 'inquiries', 'requests'], default='all',
+        help_text=api_descriptions.ADMIN_DASHBOARD_SOURCE_HELP_TEXT,
+    )
+
+
+class ComparisonCardSerializer(serializers.Serializer):
+    value = serializers.IntegerField(help_text=_('Value for this month until today.'))
+    previous = serializers.IntegerField(help_text=_('Value for the same days of the previous month.'))
+    change_percent = serializers.IntegerField(
+        allow_null=True, help_text=_('Rounded change in percent; null when the previous value is zero.'),
+    )
+
+
+class OpenRequestsCardSerializer(serializers.Serializer):
+    value = serializers.IntegerField(help_text=_('Applications that are new, reviewing or assigned.'))
+    new = serializers.IntegerField(help_text=_('Open applications that nobody has reviewed yet.'))
+
+
+class ServicesCardSerializer(serializers.Serializer):
+    value = serializers.IntegerField(help_text=_('Number of active service types.'))
+    top_service = serializers.CharField(
+        allow_null=True, help_text=_('Service with the most inquiries and applications; null without data.'),
+    )
+
+
+class DashboardCardsSerializer(serializers.Serializer):
+    total_demand = ComparisonCardSerializer(help_text=_('Quick inquiries and applications together.'))
+    open_requests = OpenRequestsCardSerializer(help_text=_('Applications waiting for the team.'))
+    inquiries = ComparisonCardSerializer(help_text=_('Quick inquiries from the landing page.'))
+    services = ServicesCardSerializer(help_text=_('Active service types.'))
+
+
+class SeriesDatasetSerializer(serializers.Serializer):
+    service_id = serializers.IntegerField(help_text=_('Identifier of the service type.'))
+    name = serializers.CharField(help_text=_('Name of the service type.'))
+    icon = serializers.CharField(help_text=_('Icon key of the service type.'))
+    counts = serializers.ListField(
+        child=serializers.IntegerField(), help_text=_('Count for every label, in the same order.'),
+    )
+
+
+class DashboardSeriesSerializer(serializers.Serializer):
+    bucket = serializers.ChoiceField(choices=['day', 'week'], help_text=_('Length of one period.'))
+    labels = serializers.ListField(
+        child=serializers.DateField(), help_text=_('Start date of every period, oldest first.'),
+    )
+    datasets = SeriesDatasetSerializer(many=True, help_text=_('One line per active service type.'))
+
+
+class RecentItemSerializer(serializers.Serializer):
+    type = serializers.ChoiceField(choices=['inquiry', 'request'], help_text=_('Quick inquiry or application.'))
+    id = serializers.IntegerField(help_text=_('Identifier of the quick inquiry or application.'))
+    title = serializers.CharField(help_text=_('Contact name for inquiries, elder name for applications.'))
+    service = ServiceTypeSerializer(help_text=_('Requested service type.'))
+    created_at = serializers.DateTimeField(help_text=_('Creation time.'))
+    status = serializers.CharField(allow_null=True, help_text=_('Application status; null for inquiries.'))
+
+
+class PendingRequestSerializer(serializers.ModelSerializer):
+    service = ServiceTypeSerializer(read_only=True, help_text=_('Requested service type.'))
+
+    class Meta:
+        model = CareRequest
+        fields = ['id', 'service', 'elder_full_name', 'preferred_date', 'status', 'created_at']
+        read_only_fields = fields
+
+
+class DashboardSerializer(serializers.Serializer):
+    """Admin dashboard yanıtının şekli."""
+
+    cards = DashboardCardsSerializer(help_text=_('Summary cards.'))
+    series = DashboardSeriesSerializer(help_text=_('Service chart data.'))
+    recent = RecentItemSerializer(many=True, help_text=_('Latest quick inquiries and applications.'))
+    pending = PendingRequestSerializer(many=True, help_text=_('Oldest applications waiting for review.'))
+    status_breakdown = StatusCountSerializer(many=True, help_text=_('Application count of every status.'))
