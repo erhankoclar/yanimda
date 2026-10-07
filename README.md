@@ -349,6 +349,19 @@ docker run --rm -v "$PWD:/src:ro" ubuntu:24.04 bash /src/scripts/tests/start-uni
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\tests\start-windows.tests.ps1
 ```
 
+### Geliştirme betikleri
+
+Tekrarlayan işler `scripts/dev/` altındaki betiklerle yapılır; uzun çıktılar `.dev-logs/` klasörüne yazılır, ekrana yalnızca özet gelir.
+
+| Betik | İş |
+| --- | --- |
+| `scripts/dev/check-all.sh [--no-e2e]` | Backend, frontend ve e2e testlerinin tamamı (commit öncesi regresyon) |
+| `scripts/dev/test-backend.sh [tür...]` | Backend testleri (ör. `unit security`) |
+| `scripts/dev/test-frontend.sh [yol...]` | Vitest testleri |
+| `scripts/dev/test-e2e.sh [adres]` | Playwright testleri; adres verilirse oraya karşı |
+| `scripts/dev/screenshots.sh <ad> <none/applicant/admin> <yol...>` | 390/820/1366 px ekran görüntüleri `.shots/<ad>/` altına; yatay taşma ve konsol hatası raporu |
+| `scripts/dev/translations.sh [ceviriler.json]` | Çeviri kataloğunu yeniler, JSON'dan doldurur, eksikleri listeler (`pip install -r backend/requirements-dev.txt`) |
+
 ## Betikler olmadan geliştirme
 
 ```bash

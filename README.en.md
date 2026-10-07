@@ -349,6 +349,19 @@ docker run --rm -v "$PWD:/src:ro" ubuntu:24.04 bash /src/scripts/tests/start-uni
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\tests\start-windows.tests.ps1
 ```
 
+### Development scripts
+
+Repeated tasks run through the scripts in `scripts/dev/`; long output goes to `.dev-logs/` and only a summary is printed.
+
+| Script | Task |
+| --- | --- |
+| `scripts/dev/check-all.sh [--no-e2e]` | All backend, frontend and e2e tests (regression before a commit) |
+| `scripts/dev/test-backend.sh [type...]` | Backend tests (e.g. `unit security`) |
+| `scripts/dev/test-frontend.sh [path...]` | Vitest tests |
+| `scripts/dev/test-e2e.sh [url]` | Playwright tests; against the given URL if any |
+| `scripts/dev/screenshots.sh <name> <none/applicant/admin> <path...>` | 390/820/1366 px screenshots in `.shots/<name>/` with horizontal overflow and console error reports |
+| `scripts/dev/translations.sh [translations.json]` | Refreshes the translation catalog, fills it from JSON and lists gaps (`pip install -r backend/requirements-dev.txt`) |
+
 ## Development without the scripts
 
 ```bash
