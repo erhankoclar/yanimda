@@ -72,12 +72,12 @@ const currentIndex = computed(() => FLOW.findIndex((step) => step.value === prop
 }
 
 .status-timeline__step.is-done::before {
-  border-color: var(--color-linden);
-  background: var(--color-linden);
+  border-color: var(--color-primary);
+  background: var(--color-primary);
 }
 
 .status-timeline__step.is-done::after {
-  background: var(--color-linden);
+  background: var(--color-primary);
 }
 
 .status-timeline__step.is-current {
@@ -85,7 +85,7 @@ const currentIndex = computed(() => FLOW.findIndex((step) => step.value === prop
 }
 
 .status-timeline__step.is-current::before {
-  border: 5px solid var(--color-honey);
+  border: 5px solid var(--color-accent);
   background: var(--color-ink);
 }
 

@@ -26,18 +26,18 @@ const label = computed(() => STATUS_LABELS[props.status] ?? props.status)
 }
 
 .status-badge--new {
-  background: var(--color-linden-tint);
-  color: var(--color-linden-dark);
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
 }
 
 .status-badge--reviewing,
 .status-badge--assigned {
-  background: var(--color-honey-tint);
+  background: var(--color-accent-tint);
   color: #6b4a06;
 }
 
 .status-badge--completed {
-  background: var(--color-linden-dark);
+  background: var(--color-primary-dark);
   color: #fff;
 }
 

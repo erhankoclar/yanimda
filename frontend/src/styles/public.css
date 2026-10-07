@@ -3,20 +3,26 @@
  * Değişkenler yalnızca .public-layout altında tanımlıdır; admin paneline sızmaz.
  */
 .public-layout {
-  --color-paper: #f6f7f2;
+  --color-paper: #ffffff;
+  --color-mist: #f2f6f4;
+  --color-peach: #fdf0e3;
   --color-surface: #ffffff;
-  --color-ink: #1f2a24;
-  --color-ink-soft: #55625a;
-  --color-line: #d9ded5;
-  --color-linden: #4f7136;
-  --color-linden-dark: #3c5729;
-  --color-linden-tint: #e6eddf;
-  --color-honey: #e8b54a;
-  --color-honey-tint: #fbf0d6;
+  --color-ink: #1d2b28;
+  --color-ink-soft: #52605b;
+  --color-line: #dce3df;
+  --color-primary: #1f5f55;
+  --color-primary-dark: #174a42;
+  --color-primary-tint: #e3efeb;
+  --color-accent: #f29e4c;
+  --color-accent-tint: #fdeedd;
+  --color-deep: #143c36;
   --color-danger: #a3302a;
   --color-danger-tint: #fbe9e7;
 
   --font-body: 'Atkinson Hyperlegible Next', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --page-width: 72rem;
+  --shadow-soft: 0 1px 2px rgb(20 60 54 / 0.06), 0 8px 24px rgb(20 60 54 / 0.08);
   --text-sm: 1rem;
   --text-base: 1.1875rem;
   --text-lg: 1.375rem;
@@ -35,7 +41,7 @@
   --radius-card: 1.25rem;
   --tap-size: 3.25rem;
   --content-width: 40rem;
-  --focus-ring: 0 0 0 3px var(--color-paper), 0 0 0 6px var(--color-honey);
+  --focus-ring: 0 0 0 3px var(--color-paper), 0 0 0 6px var(--color-accent);
 
   min-height: 100vh;
   background: var(--color-paper);
@@ -56,9 +62,26 @@
 .public-layout h2,
 .public-layout h3 {
   margin: 0 0 var(--space-4);
-  line-height: 1.2;
-  font-weight: 800;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Sayfa genişliğinde ortalanmış kapsayıcı. */
+.public-layout .container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .public-layout .container {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
 }
 
 .public-layout h1 {
@@ -75,7 +98,7 @@
 }
 
 .public-layout a {
-  color: var(--color-linden-dark);
+  color: var(--color-primary-dark);
   text-underline-offset: 0.2em;
 }
 
@@ -101,7 +124,7 @@
   padding: 0 var(--space-2);
   border: 0;
   background: none;
-  color: var(--color-linden-dark);
+  color: var(--color-primary-dark);
   font: inherit;
   font-weight: 700;
   text-decoration: underline;
@@ -160,7 +183,7 @@
 }
 
 .public-layout .field__control:focus-visible {
-  border-color: var(--color-linden);
+  border-color: var(--color-primary);
 }
 
 .public-layout .field__control[aria-invalid='true'] {

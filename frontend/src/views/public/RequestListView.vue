@@ -102,7 +102,7 @@ onMounted(loadFirst)
   margin-top: var(--space-5);
   padding: var(--space-6) var(--space-5);
   border-radius: var(--radius-card);
-  background: var(--color-linden-tint);
+  background: var(--color-primary-tint);
 }
 
 .requests__cta {
@@ -111,7 +111,7 @@ onMounted(loadFirst)
   min-height: var(--tap-size);
   padding: var(--space-3) var(--space-6);
   border-radius: var(--radius-control);
-  background: var(--color-linden);
+  background: var(--color-primary);
   color: #fff;
   font-weight: 700;
   text-decoration: none;

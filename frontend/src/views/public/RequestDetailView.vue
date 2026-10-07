@@ -101,9 +101,9 @@ onMounted(load)
 .request-detail__success {
   margin-bottom: var(--space-5);
   padding: var(--space-5);
-  border-left: 6px solid var(--color-linden);
+  border-left: 6px solid var(--color-primary);
   border-radius: var(--radius-control);
-  background: var(--color-linden-tint);
+  background: var(--color-primary-tint);
 }
 
 .request-detail__success p {

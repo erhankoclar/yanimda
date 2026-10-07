@@ -7,7 +7,7 @@ const auth = useAuthStore()
 </script>
 
 <template>
-  <div class="landing">
+  <div class="landing container">
     <section class="landing__hero" aria-labelledby="landing-title">
       <h1 id="landing-title">Annenizin, babanızın yanında olalım.</h1>
       <p class="landing__lead">
@@ -64,14 +64,14 @@ const auth = useAuthStore()
   min-height: var(--tap-size);
   padding: var(--space-3) var(--space-6);
   border-radius: var(--radius-control);
-  background: var(--color-linden);
+  background: var(--color-primary);
   color: #fff;
   font-weight: 700;
   text-decoration: none;
 }
 
 .landing__cta:hover {
-  background: var(--color-linden-dark);
+  background: var(--color-primary-dark);
 }
 
 .landing__secondary {
@@ -87,7 +87,7 @@ const auth = useAuthStore()
   margin-top: var(--space-7);
   padding: var(--space-6) var(--space-5);
   border-radius: var(--radius-card);
-  background: var(--color-linden-tint);
+  background: var(--color-primary-tint);
 }
 
 @media (max-width: 30rem) {

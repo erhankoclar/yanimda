@@ -94,8 +94,8 @@ onMounted(load)
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;
-  background: var(--color-linden-tint);
-  color: var(--color-linden-dark);
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
 }
 
 .service-overview__icon :deep(svg) {

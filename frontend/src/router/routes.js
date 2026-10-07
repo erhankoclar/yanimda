@@ -5,7 +5,7 @@ export const routes = [
     path: '/',
     component: () => import('@/layouts/PublicLayout.vue'),
     children: [
-      { path: '', name: 'landing', component: () => import('@/views/public/LandingView.vue') },
+      { path: '', name: 'landing', component: () => import('@/views/public/LandingView.vue'), meta: { fullWidth: true } },
       { path: 'login', name: 'login', component: () => import('@/views/public/LoginView.vue'), meta: { guestOnly: true } },
       { path: 'register', name: 'register', component: () => import('@/views/public/RegisterView.vue'), meta: { guestOnly: true } },
       { path: 'requests/new', name: 'request-new', component: () => import('@/views/public/NewRequestView.vue'), meta: { requiresAuth: true } },

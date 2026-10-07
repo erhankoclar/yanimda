@@ -59,8 +59,8 @@ const isSelected = computed(() => selected.value === props.service.id)
 
 .service-card--selected,
 .service-card--selected:hover {
-  border-color: var(--color-honey);
-  background: var(--color-honey-tint);
+  border-color: var(--color-accent);
+  background: var(--color-accent-tint);
 }
 
 /* Radyo düğmesi görsel olarak gizlenir ama klavye ve ekran okuyucu için kalır. */
@@ -78,8 +78,8 @@ const isSelected = computed(() => selected.value === props.service.id)
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  background: var(--color-linden-tint);
-  color: var(--color-linden-dark);
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
 }
 
 .service-card--selected .service-card__icon {

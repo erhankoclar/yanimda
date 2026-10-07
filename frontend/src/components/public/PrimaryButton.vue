@@ -45,12 +45,12 @@ defineProps({
 }
 
 .primary-button--primary {
-  background: var(--color-linden);
+  background: var(--color-primary);
   color: #fff;
 }
 
 .primary-button--primary:hover:not(:disabled) {
-  background: var(--color-linden-dark);
+  background: var(--color-primary-dark);
 }
 
 .primary-button--secondary {
@@ -65,7 +65,7 @@ defineProps({
 
 .primary-button--ghost {
   background: transparent;
-  color: var(--color-linden-dark);
+  color: var(--color-primary-dark);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }

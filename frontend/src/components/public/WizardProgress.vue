@@ -65,7 +65,7 @@ const percent = computed(() => Math.round(((props.current + 1) / props.steps.len
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--color-linden);
+  background: var(--color-primary);
   transition: width 250ms ease;
 }
 

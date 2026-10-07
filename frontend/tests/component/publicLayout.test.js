@@ -45,6 +45,28 @@ describe('PublicLayout', () => {
 
     expect(mounted.router.currentRoute.value.name).toBe('landing')
     expect(tokenStorage.getAccess()).toBeNull()
-    expect(wrapper.get('nav').text()).toContain('Giriş yap')
+    expect(wrapper.get('nav[aria-label="Hesap"]').text()).toContain('Giriş yap')
+  })
+})
+
+describe('SiteHeader mobil menüsü', () => {
+  it('menü düğmesi menüyü açıp kapatır ve aria-expanded ile bildirir', async () => {
+    ;({ wrapper } = await mountApp('/'))
+    const toggle = wrapper.get('.site-header__toggle')
+
+    expect(toggle.attributes('aria-expanded')).toBe('false')
+    await toggle.trigger('click')
+    expect(toggle.attributes('aria-expanded')).toBe('true')
+    expect(wrapper.get('#site-menu').classes()).toContain('is-open')
+    await toggle.trigger('click')
+    expect(toggle.attributes('aria-expanded')).toBe('false')
+  })
+
+  it('her zaman başvuru çağrısını ve bölüm bağlantılarını içerir', async () => {
+    ;({ wrapper } = await mountApp('/login'))
+
+    expect(wrapper.get('.site-header__cta').attributes('href')).toBe('/requests/new')
+    const sections = wrapper.get('nav[aria-label="Sayfa bölümleri"]').findAll('a').map((link) => link.attributes('href'))
+    expect(sections).toEqual(['/#hizmetler', '/#nasil-isler', '/#sss'])
   })
 })

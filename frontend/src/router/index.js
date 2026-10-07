@@ -16,7 +16,12 @@ export function createAppRouter({ pinia, memory = false }) {
   const router = createRouter({
     history: memory ? createMemoryHistory() : createWebHistory(import.meta.env.BASE_URL),
     routes,
-    scrollBehavior: () => ({ top: 0 }),
+    // Bölüm bağlantıları (#hizmetler gibi) yapışkan üst barın altında kalmayacak şekilde kaydırılır.
+    scrollBehavior: (to, from, savedPosition) => {
+      if (savedPosition) return savedPosition
+      if (to.hash) return { el: to.hash, top: 88, behavior: 'smooth' }
+      return { top: 0 }
+    },
   })
   installGuards(router, pinia)
   return router

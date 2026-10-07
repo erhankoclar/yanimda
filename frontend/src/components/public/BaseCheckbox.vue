@@ -46,8 +46,8 @@ const { inputId, errorId, describedBy } = useFieldIds(() => props)
 }
 
 .checkbox__row:has(.checkbox__input:checked) {
-  border-color: var(--color-linden);
-  background: var(--color-linden-tint);
+  border-color: var(--color-primary);
+  background: var(--color-primary-tint);
 }
 
 .checkbox__input {
@@ -55,7 +55,7 @@ const { inputId, errorId, describedBy } = useFieldIds(() => props)
   width: 1.75rem;
   height: 1.75rem;
   margin: 0;
-  accent-color: var(--color-linden);
+  accent-color: var(--color-primary);
 }
 
 .checkbox__label {
