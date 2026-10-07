@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-07 17:52+0300\n"
+"POT-Creation-Date: 2026-10-07 18:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,7 +137,35 @@ msgstr "İletişim telefon numarası. İsteğe bağlı, en fazla 20 karakter."
 msgid "A user with this email address already exists."
 msgstr "Bu e-posta adresiyle kayıtlı bir kullanıcı zaten var."
 
-#| msgid "service"
+#| msgid "First name of the applicant."
+msgid "First and last name of the applicant."
+msgstr "Başvuru sahibinin adı ve soyadı."
+
+#| msgid "Last name of the applicant."
+msgid "Login email of the applicant."
+msgstr "Başvuru sahibinin giriş e-postası."
+
+msgid ""
+"Profile phone of the applicant; may differ from the request contact phone."
+msgstr ""
+"Başvuru sahibinin profil telefonu; talepteki iletişim telefonundan farklı "
+"olabilir."
+
+#| msgid "How the applicant is related to the elder."
+msgid "Applicant who created the request."
+msgstr "Talebi oluşturan başvuru sahibi."
+
+#| msgid "Selected service type."
+msgid "Requested service type."
+msgstr "Talep edilen hizmet türü."
+
+msgid "Translated label of the status."
+msgstr "Durumun çevrilmiş etiketi."
+
+#| msgid "Translated label of the status."
+msgid "Translated label of the time slot."
+msgstr "Zaman aralığının çevrilmiş etiketi."
+
 msgid "List services"
 msgstr "Hizmetleri listele"
 
@@ -152,7 +180,6 @@ msgstr ""
 "<code>sort_order</code>, sonra ada göre sıralanır. Pasif hizmet türleri "
 "hiçbir zaman döndürülmez.</p>"
 
-#| msgid "care requests"
 msgid "List my requests"
 msgstr "Taleplerimi listele"
 
@@ -165,7 +192,6 @@ msgstr ""
 "listeler.</p><p>Yalnızca çağıranın oluşturduğu talepler döner; diğer "
 "kullanıcıların talepleri hiçbir zaman görünmez.</p>"
 
-#| msgid "care request"
 msgid "Create request"
 msgstr "Talep oluştur"
 
@@ -217,6 +243,49 @@ msgstr ""
 "Seçilen aktif hizmet türünün kimliği. <a href=\"#operations-services-"
 "services_list\">Hizmetleri listele — <code>[].id</code></a> yanıtından "
 "kopyalayın."
+
+#| msgid "List my requests"
+msgid "Admin: list requests"
+msgstr "Yönetim: talepleri listele"
+
+msgid ""
+"<p>Lists the care requests of all applicants for the admin panel. Only admin "
+"users can call it.</p><p>Results are paginated and newest first by default. "
+"They can be filtered by status, service, applicant and creation date range, "
+"searched by elder name, applicant email, city, district and phone, and "
+"ordered by creation time, preferred date or status.</p>"
+msgstr ""
+"<p>Admin paneli için tüm başvuru sahiplerinin hizmet taleplerini listeler. "
+"Yalnızca admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalıdır ve "
+"varsayılan olarak en yeniden eskiye sıralanır. Durum, hizmet, başvuru sahibi "
+"ve oluşturulma tarihi aralığına göre filtrelenebilir; yaşlı adı, başvuru "
+"sahibi e-postası, il, ilçe ve telefona göre aranabilir; oluşturulma zamanı, "
+"tercih edilen tarih veya duruma göre sıralanabilir.</p>"
+
+#| msgid ""
+#| "Identifier of the selected active service type. Copy it from <a "
+#| "href=\"#operations-services-services_list\">List services — "
+#| "<code>[].id</code></a>."
+msgid ""
+"Only requests of this service type. Copy the value from <a "
+"href=\"#operations-services-services_list\">List services — "
+"<code>[].id</code></a>."
+msgstr ""
+"Yalnızca bu hizmet türündeki talepler. Değeri <a href=\"#operations-services-"
+"services_list\">Hizmetleri listele — <code>[].id</code></a> yanıtından "
+"kopyalayın."
+
+msgid "Only requests created by the user with this identifier."
+msgstr "Yalnızca bu kimliğe sahip kullanıcının oluşturduğu talepler."
+
+msgid "Only requests in this status."
+msgstr "Yalnızca bu durumdaki talepler."
+
+msgid "Only requests created on or after this date (YYYY-MM-DD)."
+msgstr "Yalnızca bu tarihte veya sonrasında oluşturulan talepler (YYYY-AA-GG)."
+
+msgid "Only requests created on or before this date (YYYY-MM-DD)."
+msgstr "Yalnızca bu tarihte veya öncesinde oluşturulan talepler (YYYY-AA-GG)."
 
 msgid "Care services"
 msgstr "Bakım hizmetleri"
@@ -395,7 +464,6 @@ msgstr ""
 "Frontend tarafından bir ikonla eşlenen ikon anahtarı, örneğin "
 "<code>companion</code>."
 
-#| msgid "service type"
 msgid "Selected service type."
 msgstr "Seçilen hizmet türü."
 
@@ -405,10 +473,6 @@ msgid ""
 msgstr ""
 "<code>true</code> olmalıdır: başvuru sahibi verilen kişisel verilerin hizmeti"
 " planlamak için işlenmesini kabul eder. Onay zamanı kaydedilir."
-
-#| msgid "Last name of the user."
-msgid "Translated label of the status."
-msgstr "Durumun çevrilmiş etiketi."
 
 msgid "Full name of the elder who will receive the service."
 msgstr "Hizmeti alacak yaşlının adı soyadı."
@@ -433,7 +497,6 @@ msgstr ""
 "YYYY-AA-GG biçiminde tercih edilen hizmet tarihi. Geçmişte veya çok ileri bir"
 " tarihte olamaz."
 
-#| msgid "preferred date"
 msgid "Preferred part of the day."
 msgstr "Tercih edilen gün dilimi."
 
@@ -473,7 +536,6 @@ msgstr ""
 "İşlem durumu. Oluşturulurken <code>new</code> olur ve yalnızca yönetim ekibi "
 "tarafından değiştirilir."
 
-#| msgid "Last name of the user."
 msgid "Creation time of the request."
 msgstr "Talebin oluşturulma zamanı."
 
@@ -490,7 +552,6 @@ msgstr "Kişisel verilerin işlenmesini onaylamanız gerekir."
 msgid "Enter the phone of the alternate contact."
 msgstr "Alternatif kişinin telefonunu girin."
 
-#| msgid "First name of the applicant."
 msgid "Enter the name of the alternate contact."
 msgstr "Alternatif kişinin adını girin."
 

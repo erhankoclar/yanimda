@@ -44,6 +44,32 @@ class CareQueryCountTests(APITestCase):
 
         self.assertEqual(self.count_list_queries(), baseline)
 
+    def test_admin_request_list_has_no_n_plus_one(self):
+        """
+        Admin talep listesinde hizmet ve başvuru sahibi için N+1 sorgu oluşmadığını doğrular.
+
+        Senaryo:
+        - Farklı kullanıcı ve hizmetlere ait 1 talepte sorgu sayısı ölçülür, 10 talebe çıkarılıp tekrar ölçülür.
+
+        Beklenti:
+        - Sorgu sayısı değişmemelidir.
+        """
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+
+        self.client.force_authenticate(make_user(is_staff=True))
+        url = reverse('care-admin:request-list')
+        make_care_request()
+        with CaptureQueriesContext(connection) as baseline:
+            self.client.get(url)
+        for _index in range(9):
+            make_care_request()
+
+        with CaptureQueriesContext(connection) as grown:
+            self.client.get(url)
+
+        self.assertEqual(len(grown.captured_queries), len(baseline.captured_queries))
+
     def test_service_list_uses_single_query(self):
         """Hizmet listesinin hizmet sayısından bağımsız tek sorguyla döndüğünü doğrular."""
         for _index in range(5):

@@ -47,3 +47,20 @@ CARE_REQUEST_SERVICE_HELP_TEXT = _(
     'Identifier of the selected active service type. Copy it from '
     '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
 )
+
+ADMIN_REQUEST_LIST_SUMMARY = _('Admin: list requests')
+ADMIN_REQUEST_LIST_VIEW_DESCRIPTION = _(
+    '<p>Lists the care requests of all applicants for the admin panel. Only admin users can call it.</p>'
+    '<p>Results are paginated and newest first by default. They can be filtered by status, service, '
+    'applicant and creation date range, searched by elder name, applicant email, city, district and phone, '
+    'and ordered by creation time, preferred date or status.</p>'
+)
+
+ADMIN_FILTER_SERVICE_HELP_TEXT = _(
+    'Only requests of this service type. Copy the value from '
+    '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
+)
+ADMIN_FILTER_APPLICANT_HELP_TEXT = _('Only requests created by the user with this identifier.')
+ADMIN_FILTER_STATUS_HELP_TEXT = _('Only requests in this status.')
+ADMIN_FILTER_CREATED_FROM_HELP_TEXT = _('Only requests created on or after this date (YYYY-MM-DD).')
+ADMIN_FILTER_CREATED_TO_HELP_TEXT = _('Only requests created on or before this date (YYYY-MM-DD).')
