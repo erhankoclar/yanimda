@@ -12,6 +12,8 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    // Compose ağındaki tarayıcı testleri siteye servis adıyla erişir.
+    allowedHosts: ['frontend'],
     // Windows'tan Docker'a bağlanan klasörlerde dosya olayları iletilmediği için yoklama kullanılır.
     watch: process.env.VITE_USE_POLLING === 'true' ? { usePolling: true, interval: 300 } : undefined,
     proxy: {
