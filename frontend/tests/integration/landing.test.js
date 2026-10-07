@@ -1,5 +1,5 @@
 import { flushPromises } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { tokenStorage } from '@/api/tokenStorage'
 
@@ -69,7 +69,7 @@ describe('ana sayfa', () => {
     await wrapper.get('.landing__cta').trigger('click')
     await flushPromises()
 
-    expect(mounted.router.currentRoute.value.name).toBe('login')
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('login'))
     expect(mounted.router.currentRoute.value.query.redirect).toBe('/requests/new')
   })
 })

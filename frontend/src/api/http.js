@@ -5,7 +5,8 @@ import { tokenStorage } from './tokenStorage'
 export const API_BASE_URL = '/api'
 const REFRESH_URL = '/auth/token/refresh/'
 
-export const http = axios.create({ baseURL: API_BASE_URL, timeout: 15000 })
+// Backend doğrulama mesajları arayüz diliyle aynı (Türkçe) gelsin.
+export const http = axios.create({ baseURL: API_BASE_URL, timeout: 15000, headers: { 'Accept-Language': 'tr' } })
 
 const sessionExpiredListeners = new Set()
 
