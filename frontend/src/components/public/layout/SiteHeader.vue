@@ -58,7 +58,7 @@ const SECTIONS = [
             <button type="button" class="site-header__logout" @click="emit('logout')">Çıkış yap</button>
           </template>
           <RouterLink v-else :to="{ name: 'login' }">Giriş yap</RouterLink>
-          <RouterLink class="site-header__cta" :to="{ name: 'request-new' }">Başvuru yap</RouterLink>
+          <RouterLink class="site-header__cta" :to="{ name: 'landing', hash: '#talep-formu' }">Talep bırakın</RouterLink>
         </nav>
       </div>
     </div>

@@ -105,3 +105,31 @@ ADMIN_STATS_VIEW_DESCRIPTION = _(
     '<li>The daily series covers the last 14 days including today in the server time zone.</li>'
     '</ol>'
 )
+
+INQUIRY_CREATE_SUMMARY = _('Send quick inquiry')
+INQUIRY_CREATE_VIEW_DESCRIPTION = _(
+    '<p>Saves a service inquiry from the quick form on the landing page. No account or authentication '
+    'is required.</p>'
+    '<h3>Processing</h3>'
+    '<ol>'
+    '<li>The name is trimmed and the email is normalized to lower case.</li>'
+    '<li>The consent time is recorded and the inquiry is stored permanently.</li>'
+    '<li>The response returns the saved record, so the client shows success only after it is stored.</li>'
+    '</ol>'
+    '<h3>Validation rules</h3>'
+    '<ul>'
+    '<li>The hidden <code>website</code> field must stay empty; it is filled only by spam bots.</li>'
+    '</ul>'
+    '<p>Requests are rate limited per IP address with the <code>care_inquiry_create</code> scope.</p>'
+)
+
+INQUIRY_SERVICE_HELP_TEXT = _(
+    'Identifier of the requested active service type. Copy it from '
+    '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
+)
+
+ADMIN_INQUIRY_LIST_SUMMARY = _('Admin: list quick inquiries')
+ADMIN_INQUIRY_LIST_VIEW_DESCRIPTION = _(
+    '<p>Lists the inquiries sent from the quick form, newest first. Only admin users can call it.</p>'
+    '<p>Results are paginated, can be filtered by service and searched by name, email and description.</p>'
+)

@@ -1,18 +1,32 @@
 <script setup>
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+
 import ClosingCta from '@/components/public/landing/ClosingCta.vue'
 import FaqSection from '@/components/public/landing/FaqSection.vue'
 import HowItWorks from '@/components/public/landing/HowItWorks.vue'
+import InquiryForm from '@/components/public/landing/InquiryForm.vue'
 import LandingHero from '@/components/public/landing/LandingHero.vue'
 import ServiceOverview from '@/components/public/landing/ServiceOverview.vue'
+import { useServices } from '@/composables/useServices'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
+const route = useRoute()
+// Hizmetler bir kez yüklenir; hem kartlarda hem talep formunda kullanılır.
+const { services, status, load } = useServices()
+
+// Hizmet kartından gelindiyse formda seçili olacak hizmet.
+const selectedService = computed(() => Number(route.query.service) || null)
+
+onMounted(load)
 </script>
 
 <template>
   <div class="landing">
     <LandingHero :authenticated="auth.isAuthenticated" />
-    <ServiceOverview />
+    <ServiceOverview :services="services" :status="status" @retry="load" />
+    <InquiryForm :services="services" :initial-service="selectedService" />
     <HowItWorks />
     <FaqSection />
     <ClosingCta />

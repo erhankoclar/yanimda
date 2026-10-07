@@ -1,4 +1,10 @@
-from rest_framework.throttling import UserRateThrottle
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+
+
+class InquiryCreateRateThrottle(AnonRateThrottle):
+    """Hesapsız hızlı talep formunu IP adresine göre sınırlar."""
+
+    scope = 'care_inquiry_create'
 
 
 class CareRequestCreateRateThrottle(UserRateThrottle):

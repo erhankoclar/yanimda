@@ -16,7 +16,7 @@ let wrapper
 afterEach(() => wrapper?.unmount())
 
 describe('ana sayfa', () => {
-  it('hizmetleri API’den listeler ve her birini o hizmetle başvuruya bağlar', async () => {
+  it('hizmetleri API’den listeler ve her birini o hizmet seçili talep formuna bağlar', async () => {
     useFakeApi(routeHandler({ 'GET /services/': () => [200, SERVICES] }))
 
     ;({ wrapper } = await mountApp('/'))
@@ -26,7 +26,7 @@ describe('ana sayfa', () => {
       expect.stringContaining('Refakat ve sohbet'),
       expect.stringContaining('Hastane eşliği'),
     ])
-    expect(items[1].attributes('href')).toBe('/requests/new?service=4')
+    expect(items[1].attributes('href')).toBe('/?service=4#talep-formu')
   })
 
   it('hizmetler yüklenemezse açıklama ve tekrar deneme düğmesi gösterir', async () => {
@@ -46,11 +46,11 @@ describe('ana sayfa', () => {
     expect(wrapper.findAll('.service-overview__item')).toHaveLength(2)
   })
 
-  it('başvuru çağrısı başvuru sayfasına gider', async () => {
+  it('ana çağrı talep formuna, ikinci bağlantı hesaplı başvuruya gider', async () => {
     ;({ wrapper } = await mountApp('/'))
 
-    expect(wrapper.get('.landing__cta').attributes('href')).toBe('/requests/new')
-    expect(wrapper.find('.landing__secondary').exists()).toBe(false)
+    expect(wrapper.get('.landing__cta').attributes('href')).toBe('/#talep-formu')
+    expect(wrapper.get('.landing__secondary').attributes('href')).toBe('/requests/new')
   })
 
   it('oturumu açık kullanıcıya başvurularına giden bağlantıyı da gösterir', async () => {
@@ -62,11 +62,11 @@ describe('ana sayfa', () => {
     expect(wrapper.get('.landing__secondary').attributes('href')).toBe('/requests')
   })
 
-  it('oturumsuz kullanıcı başvuruya başlayınca girişe yönlendirilir', async () => {
+  it('oturumsuz kullanıcı hesaplı başvuruya başlayınca girişe yönlendirilir', async () => {
     const mounted = await mountApp('/')
     wrapper = mounted.wrapper
 
-    await wrapper.get('.landing__cta').trigger('click')
+    await wrapper.get('.landing__secondary').trigger('click')
     await flushPromises()
 
     await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('login'))
@@ -78,7 +78,7 @@ describe('ana sayfa bölümleri', () => {
   it('menüdeki bölüm bağlantılarının hedeflerini içerir', async () => {
     ;({ wrapper } = await mountApp('/'))
 
-    ;['hizmetler', 'nasil-isler', 'sss'].forEach((id) => expect(wrapper.find(`#${id}`).exists(), id).toBe(true))
+    ;['hizmetler', 'talep-formu', 'nasil-isler', 'sss'].forEach((id) => expect(wrapper.find(`#${id}`).exists(), id).toBe(true))
   })
 
   it('sık sorulanları açılır kapanır biçimde listeler', async () => {

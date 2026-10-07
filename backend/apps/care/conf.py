@@ -12,6 +12,7 @@ from rest_framework.throttling import SimpleRateThrottle
 
 _DEFAULT_THROTTLE_RATES = {
     'care_request_create': '20/day',
+    'care_inquiry_create': '5/hour',
 }
 
 # Tercih edilen tarihin bugünden en fazla kaç gün sonrası olabileceği.

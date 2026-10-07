@@ -65,7 +65,7 @@ describe('SiteHeader mobil menüsü', () => {
   it('her zaman başvuru çağrısını ve bölüm bağlantılarını içerir', async () => {
     ;({ wrapper } = await mountApp('/login'))
 
-    expect(wrapper.get('.site-header__cta').attributes('href')).toBe('/requests/new')
+    expect(wrapper.get('.site-header__cta').attributes('href')).toBe('/#talep-formu')
     const sections = wrapper.get('nav[aria-label="Sayfa bölümleri"]').findAll('a').map((link) => link.attributes('href'))
     expect(sections).toEqual(['/#hizmetler', '/#nasil-isler', '/#sss'])
   })

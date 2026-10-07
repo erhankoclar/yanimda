@@ -189,3 +189,29 @@ class CareRequestOpenConstraintTests(TestCase):
         second = make_care_request(applicant=first.applicant, service=first.service)
 
         self.assertEqual(second.status, CareRequest.Status.NEW)
+
+
+class ServiceInquiryModelTests(TestCase):
+    def test_str_contains_id_name_and_service(self):
+        """Hızlı talebin metin temsilinin numara, ad ve hizmeti içerdiğini doğrular."""
+        from apps.care.models import ServiceInquiry
+
+        inquiry = ServiceInquiry.objects.create(
+            full_name='Deneme Kişi', email='d@example.com', service=make_service(name='Refakat'),
+            message='Açıklama', consent_given_at=timezone.now(),
+        )
+
+        self.assertEqual(str(inquiry), f'#{inquiry.pk} Deneme Kişi - Refakat')
+
+    def test_service_with_inquiries_cannot_be_deleted(self):
+        """Talebi olan hizmetin silinemediğini doğrular (veri bütünlüğü)."""
+        from apps.care.models import ServiceInquiry
+
+        service = make_service()
+        ServiceInquiry.objects.create(
+            full_name='Deneme', email='d@example.com', service=service, message='Açıklama',
+            consent_given_at=timezone.now(),
+        )
+
+        with self.assertRaises(ProtectedError):
+            service.delete()

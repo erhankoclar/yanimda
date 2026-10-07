@@ -1,13 +1,16 @@
 <script setup>
-import { onMounted } from 'vue'
-
-import { useServices } from '@/composables/useServices'
-
 import ServiceIcon from '../ServiceIcon.vue'
 
-const { services, status, load } = useServices()
+defineProps({
+  services: { type: Array, required: true },
+  /** Hizmet listesinin yükleme durumu: idle, loading, ready veya error. */
+  status: { type: String, required: true },
+})
 
-onMounted(load)
+const emit = defineEmits({
+  /** Kullanıcı yüklemeyi tekrar denemek istediğinde. */
+  retry: null,
+})
 </script>
 
 <template>
@@ -21,15 +24,15 @@ onMounted(load)
       <p v-if="status === 'loading' || status === 'idle'" class="service-overview__note" role="status">Hizmetler yükleniyor…</p>
       <div v-else-if="status === 'error'" class="service-overview__note" role="alert">
         <p>Hizmetler şu an yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.</p>
-        <button type="button" class="service-overview__retry" @click="load">Tekrar dene</button>
+        <button type="button" class="service-overview__retry" @click="emit('retry')">Tekrar dene</button>
       </div>
       <ul v-else class="service-overview__list">
         <li v-for="service in services" :key="service.id">
-          <RouterLink class="service-overview__item" :to="{ name: 'request-new', query: { service: service.id } }">
+          <RouterLink class="service-overview__item" :to="{ name: 'landing', query: { service: service.id }, hash: '#talep-formu' }">
             <span class="service-overview__icon"><ServiceIcon :name="service.icon" /></span>
             <span class="service-overview__name">{{ service.name }}</span>
             <span class="service-overview__description">{{ service.description }}</span>
-            <span class="service-overview__action">Bu hizmete başvur</span>
+            <span class="service-overview__action">Bu hizmet için talep bırak</span>
           </RouterLink>
         </li>
       </ul>
