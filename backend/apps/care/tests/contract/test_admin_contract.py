@@ -77,3 +77,19 @@ class AdminResponseContractTests(APITestCase):
         self.assertEqual(set(data['by_status'][0]), {'status', 'label', 'count'})
         self.assertEqual(set(data['by_service'][0]), {'service_id', 'name', 'count'})
         self.assertEqual(set(data['daily'][0]), {'date', 'count'})
+
+    def test_admin_inquiry_row_fields(self):
+        """Admin hızlı talep satırının alan kümesini doğrular."""
+        from apps.care.models import ServiceInquiry
+        from django.utils import timezone
+
+        from apps.care.tests.factories import make_service
+
+        ServiceInquiry.objects.create(
+            full_name='Deneme', email='d@example.com', service=make_service(), message='Açıklama metni',
+            consent_given_at=timezone.now(),
+        )
+
+        row = self.client.get(reverse('care-admin:inquiry-list')).data['results'][0]
+
+        self.assertEqual(set(row), {'id', 'full_name', 'email', 'service', 'message', 'consent_given_at', 'created_at'})

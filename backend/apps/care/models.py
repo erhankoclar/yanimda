@@ -159,3 +159,35 @@ class CareRequest(models.Model):
             str: `#<id> <hizmet> - <yaşlı adı>` biçiminde metin.
         """
         return f'#{self.pk} {self.service} - {self.elder_full_name}'
+
+
+class ServiceInquiry(models.Model):
+    """
+    Hesap açmadan ana sayfadaki hızlı formla bırakılan hizmet talebi.
+
+    Ekip bu talepleri inceleyip kişiyi e-posta veya telefonla arar; ayrıntılı
+    başvuru (CareRequest) gerekirse görüşme sonrasında oluşturulur.
+    """
+
+    full_name = models.CharField(_('full name'), max_length=150)
+    email = models.EmailField(_('email address'))
+    service = models.ForeignKey(
+        ServiceType, on_delete=models.PROTECT, related_name='inquiries', verbose_name=_('service'),
+    )
+    message = models.TextField(_('description'))
+    consent_given_at = models.DateTimeField(_('consent given at'))
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('service inquiry')
+        verbose_name_plural = _('service inquiries')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        """
+        Talebin numara, kişi ve hizmetle okunabilir temsilini döndürür.
+
+        Returns:
+            str: `#<id> <ad soyad> - <hizmet>` biçiminde metin.
+        """
+        return f'#{self.pk} {self.full_name} - {self.service}'
