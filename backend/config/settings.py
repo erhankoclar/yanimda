@@ -111,9 +111,18 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,
 }
 
+# Swagger / ReDoc: varsayılan olarak yalnızca DEBUG açıkken yayınlanır.
+API_DOCS_ENABLED = env.bool('API_DOCS_ENABLED', default=DEBUG)
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Yanımda API',
     'DESCRIPTION': 'Yaşlı yakınları adına hizmet başvurusu ve yönetimi API servisi.',
     'VERSION': '0.1.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+        'displayOperationId': True,
+        'filter': True,
+    },
 }
