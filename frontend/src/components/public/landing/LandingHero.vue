@@ -19,12 +19,12 @@ const PROMISES = [
           Yakınınızın neye ihtiyacı olduğunu birkaç adımda anlatın; ekibimiz sizi arayıp birlikte planlasın.
         </p>
         <div class="hero__actions">
-          <RouterLink class="landing__cta" :to="{ name: 'request-new' }">Başvuruya başla</RouterLink>
+          <RouterLink class="landing__cta" :to="{ name: 'landing', hash: '#talep-formu' }">Talep bırakın</RouterLink>
           <RouterLink v-if="authenticated" class="landing__secondary" :to="{ name: 'request-list' }">
             Başvurularımı gör
           </RouterLink>
-          <RouterLink v-else class="hero__secondary" :to="{ name: 'landing', hash: '#nasil-isler' }">
-            Nasıl işler?
+          <RouterLink v-else class="landing__secondary" :to="{ name: 'request-new' }">
+            Hesapla detaylı başvuru
           </RouterLink>
         </div>
         <ul class="hero__promises">

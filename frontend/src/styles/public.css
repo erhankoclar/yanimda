@@ -108,6 +108,11 @@
   border-radius: var(--radius-control);
 }
 
+/* Odaklanan veya bağlantıyla kaydırılan öğeler yapışkan üst barın altında kalmasın. */
+.public-layout :is(input, select, textarea, [tabindex='-1'], section[id]) {
+  scroll-margin-top: 6rem;
+}
+
 /* İç sayfalarda form ve içerik blokları için beyaz kart. */
 .public-layout .surface-card {
   padding: var(--space-5);
