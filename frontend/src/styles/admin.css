@@ -26,6 +26,22 @@
   line-height: 1.5;
 }
 
+/* Koyu tema: PrimeVue bileşenleri aynı [data-theme='dark'] seçicisiyle koyulaşır. */
+:root[data-theme='dark'] .admin-shell,
+:root[data-theme='dark'] .admin-auth {
+  --admin-bg: #101a18;
+  --admin-surface: #182522;
+  --admin-ink: #e6eeeb;
+  --admin-ink-soft: #a3b2ac;
+  --admin-line: #2a3b37;
+  --admin-primary: #6cc3b0;
+  --admin-primary-tint: #1e3a33;
+  --admin-accent: #f2a65c;
+  --admin-success: #6fcf97;
+  --admin-danger: #f29186;
+  --admin-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+}
+
 .admin-shell *,
 .admin-auth * {
   box-sizing: border-box;
