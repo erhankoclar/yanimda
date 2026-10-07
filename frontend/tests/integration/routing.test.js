@@ -1,10 +1,17 @@
 import { afterEach, describe, expect, it } from 'vitest'
 
+import { tokenStorage } from '@/api/tokenStorage'
+
+import { ADMIN, restoreApi, routeHandler, useFakeApi } from '../helpers/fakeApi'
 import { mountApp } from '../helpers/mountApp'
 
 let wrapper
 
-afterEach(() => wrapper?.unmount())
+afterEach(() => {
+  wrapper?.unmount()
+  restoreApi()
+  window.localStorage.clear()
+})
 
 describe('yönlendirme', () => {
   it('ana sayfayı son kullanıcı layout’u içinde açar', async () => {
@@ -15,7 +22,10 @@ describe('yönlendirme', () => {
     expect(wrapper.get('h1').text()).toContain('yanınızdayız')
   })
 
-  it('/admin adresini gösterge paneline yönlendirir ve admin layout’unu kullanır', async () => {
+  it('admin için /admin adresini gösterge paneline yönlendirir ve admin layout’unu kullanır', async () => {
+    tokenStorage.set({ access: 'a1', refresh: 'r1' })
+    useFakeApi(routeHandler({ 'GET /auth/me/': () => [200, ADMIN] }))
+
     const mounted = await mountApp('/admin')
     wrapper = mounted.wrapper
 
