@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairVi
 
 from apps.accounts import api_descriptions
 from apps.accounts.serializers import RegisterSerializer, UserSerializer
+from apps.accounts.services import user_service
 from apps.accounts.throttles import LoginRateThrottle, RegisterRateThrottle
 
 
@@ -19,6 +20,15 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
     authentication_classes = []
     throttle_classes = [RegisterRateThrottle]
+
+    def perform_create(self, serializer):
+        """
+        Doğrulanmış kayıt verisiyle hesabı servis üzerinden açar.
+
+        Args:
+            serializer (RegisterSerializer): Doğrulanmış serializer; yanıt için oluşturulan kullanıcı atanır.
+        """
+        serializer.instance = user_service.register_applicant(**serializer.validated_data)
 
 
 @extend_schema(
@@ -72,3 +82,12 @@ class MeView(generics.RetrieveUpdateAPIView):
             User: İsteği yapan kullanıcı.
         """
         return self.request.user
+
+    def perform_update(self, serializer):
+        """
+        Doğrulanmış profil değişikliklerini servis üzerinden kaydeder.
+
+        Args:
+            serializer (UserSerializer): Doğrulanmış serializer.
+        """
+        serializer.instance = user_service.update_profile(self.request.user, **serializer.validated_data)

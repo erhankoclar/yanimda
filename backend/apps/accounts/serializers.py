@@ -5,6 +5,8 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
+from apps.accounts.services import user_service
+
 User = get_user_model()
 
 
@@ -67,7 +69,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             serializers.ValidationError: E-posta adresi zaten kayıtlıysa.
         """
         email = value.strip().lower()
-        if User.objects.filter(email__iexact=email).exists():
+        if user_service.email_is_registered(email):
             raise serializers.ValidationError(gettext('A user with this email address already exists.'))
         return email
 
@@ -90,15 +92,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         except DjangoValidationError as error:
             raise serializers.ValidationError({'password': list(error.messages)}) from error
         return attrs
-
-    def create(self, validated_data):
-        """
-        Doğrulanmış verilerle admin yetkisi olmayan kullanıcıyı oluşturur.
-
-        Args:
-            validated_data (dict[str, Any]): Doğrulanmış kayıt verileri.
-
-        Returns:
-            User: Oluşturulan kullanıcı.
-        """
-        return User.objects.create_user(**validated_data)
