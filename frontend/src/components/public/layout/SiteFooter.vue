@@ -81,6 +81,7 @@ const year = new Date().getFullYear()
 
 .site-footer__phone a {
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .site-footer__bottom {

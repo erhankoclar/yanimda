@@ -73,3 +73,27 @@ describe('ana sayfa', () => {
     expect(mounted.router.currentRoute.value.query.redirect).toBe('/requests/new')
   })
 })
+
+describe('ana sayfa bölümleri', () => {
+  it('menüdeki bölüm bağlantılarının hedeflerini içerir', async () => {
+    ;({ wrapper } = await mountApp('/'))
+
+    ;['hizmetler', 'nasil-isler', 'sss'].forEach((id) => expect(wrapper.find(`#${id}`).exists(), id).toBe(true))
+  })
+
+  it('sık sorulanları açılır kapanır biçimde listeler', async () => {
+    ;({ wrapper } = await mountApp('/'))
+
+    const items = wrapper.findAll('#sss details')
+    expect(items.length).toBeGreaterThanOrEqual(5)
+    expect(items.every((item) => item.find('summary').text().endsWith('?'))).toBe(true)
+  })
+
+  it('tüm fotoğraflar açıklayıcı alternatif metin taşır', async () => {
+    ;({ wrapper } = await mountApp('/'))
+
+    const images = wrapper.findAll('img')
+    expect(images.length).toBe(3)
+    images.forEach((image) => expect(image.attributes('alt').length).toBeGreaterThan(20))
+  })
+})
