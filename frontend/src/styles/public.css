@@ -108,6 +108,20 @@
   border-radius: var(--radius-control);
 }
 
+/* İç sayfalarda form ve içerik blokları için beyaz kart. */
+.public-layout .surface-card {
+  padding: var(--space-5);
+  border-radius: 1.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+@media (min-width: 40rem) {
+  .public-layout .surface-card {
+    padding: var(--space-6);
+  }
+}
+
 /* Görsel olarak gizli ama ekran okuyucuların okuduğu metin. */
 .public-layout .visually-hidden {
   position: absolute;

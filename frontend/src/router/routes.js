@@ -6,8 +6,8 @@ export const routes = [
     component: () => import('@/layouts/PublicLayout.vue'),
     children: [
       { path: '', name: 'landing', component: () => import('@/views/public/LandingView.vue'), meta: { fullWidth: true } },
-      { path: 'login', name: 'login', component: () => import('@/views/public/LoginView.vue'), meta: { guestOnly: true } },
-      { path: 'register', name: 'register', component: () => import('@/views/public/RegisterView.vue'), meta: { guestOnly: true } },
+      { path: 'login', name: 'login', component: () => import('@/views/public/LoginView.vue'), meta: { guestOnly: true, fullWidth: true } },
+      { path: 'register', name: 'register', component: () => import('@/views/public/RegisterView.vue'), meta: { guestOnly: true, fullWidth: true } },
       { path: 'requests/new', name: 'request-new', component: () => import('@/views/public/NewRequestView.vue'), meta: { requiresAuth: true } },
       { path: 'requests', name: 'request-list', component: () => import('@/views/public/RequestListView.vue'), meta: { requiresAuth: true } },
       { path: 'requests/:id(\\d+)', name: 'request-detail', component: () => import('@/views/public/RequestDetailView.vue'), meta: { requiresAuth: true }, props: true },

@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import AuthShell from '@/components/public/AuthShell.vue'
 import BaseInput from '@/components/public/BaseInput.vue'
 import FormAlert from '@/components/public/FormAlert.vue'
 import PrimaryButton from '@/components/public/PrimaryButton.vue'
@@ -48,7 +49,7 @@ async function submit() {
 </script>
 
 <template>
-  <section class="auth-page" aria-labelledby="login-title">
+  <AuthShell title-id="login-title">
     <h1 id="login-title">Giriş yap</h1>
     <p>Başvurunuzu sürdürmek ve durumunu görmek için hesabınıza girin.</p>
 
@@ -78,11 +79,11 @@ async function submit() {
       Hesabınız yok mu?
       <RouterLink :to="{ name: 'register', query: route.query }">Kayıt olun</RouterLink>
     </p>
-  </section>
+  </AuthShell>
 </template>
 
 <style scoped>
-.auth-page form {
+form {
   margin-top: var(--space-5);
 }
 

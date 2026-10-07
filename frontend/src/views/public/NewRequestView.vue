@@ -71,7 +71,7 @@ async function focusFirstError() {
     <WizardProgress :steps="WIZARD_STEPS" :current="step" />
     <h1 id="wizard-step-title" ref="heading" tabindex="-1">{{ STEP_TITLES[step] }}</h1>
 
-    <form novalidate @submit.prevent="isLastStep ? send() : goNext()">
+    <form class="surface-card" novalidate @submit.prevent="isLastStep ? send() : goNext()">
       <FormAlert :message="generalError" />
 
       <StepService

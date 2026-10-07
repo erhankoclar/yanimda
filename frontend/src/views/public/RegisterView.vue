@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import AuthShell from '@/components/public/AuthShell.vue'
 import BaseCheckbox from '@/components/public/BaseCheckbox.vue'
 import BaseInput from '@/components/public/BaseInput.vue'
 import FormAlert from '@/components/public/FormAlert.vue'
@@ -55,7 +56,7 @@ async function submit() {
 </script>
 
 <template>
-  <section class="auth-page" aria-labelledby="register-title">
+  <AuthShell title-id="register-title">
     <h1 id="register-title">Kayıt olun</h1>
     <p>Başvurularınızı takip edebilmeniz için kısa bir hesap oluşturalım.</p>
 
@@ -99,11 +100,11 @@ async function submit() {
       Zaten hesabınız var mı?
       <RouterLink :to="{ name: 'login', query: route.query }">Giriş yapın</RouterLink>
     </p>
-  </section>
+  </AuthShell>
 </template>
 
 <style scoped>
-.auth-page form {
+form {
   margin-top: var(--space-5);
 }
 

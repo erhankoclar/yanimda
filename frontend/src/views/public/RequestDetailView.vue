@@ -77,16 +77,20 @@ onMounted(load)
       </div>
       <p class="request-detail__meta">Başvuru no: {{ request.id }}</p>
 
-      <h2>Başvurunuz nerede?</h2>
-      <StatusTimeline :status="request.status" />
+      <div class="surface-card request-detail__card">
+        <h2>Başvurunuz nerede?</h2>
+        <StatusTimeline :status="request.status" />
+      </div>
 
-      <h2>Başvuru bilgileri</h2>
-      <dl class="request-detail__list">
-        <div v-for="[label, value] in rows" :key="label" class="request-detail__row">
-          <dt>{{ label }}</dt>
-          <dd>{{ value }}</dd>
-        </div>
-      </dl>
+      <div class="surface-card request-detail__card">
+        <h2>Başvuru bilgileri</h2>
+        <dl class="request-detail__list">
+          <div v-for="[label, value] in rows" :key="label" class="request-detail__row">
+            <dt>{{ label }}</dt>
+            <dd>{{ value }}</dd>
+          </div>
+        </dl>
+      </div>
     </template>
   </section>
 </template>
@@ -131,6 +135,14 @@ onMounted(load)
   margin-top: var(--space-2);
   color: var(--color-ink-soft);
   font-size: var(--text-sm);
+}
+
+.request-detail__card {
+  margin-top: var(--space-5);
+}
+
+.request-detail__card h2 {
+  font-size: var(--text-xl);
 }
 
 .request-detail__list {
