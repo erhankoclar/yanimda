@@ -55,3 +55,25 @@ class AdminResponseContractTests(APITestCase):
             'alternate_contact_phone', 'consent_given_at', 'admin_note', 'next_statuses', 'updated_at',
         })
         self.assertIsInstance(data['next_statuses'], list)
+
+    def test_dashboard_stats_shape(self):
+        """
+        Dashboard istatistik yanıtının anahtarlarını ve alt öğe şekillerini doğrular.
+
+        Senaryo:
+        - Bir talep oluşturulur ve istatistik endpoint'i çağrılır.
+
+        Beklenti:
+        - Üst düzey anahtarlar ve dağılım öğelerinin alanları sabit kümelerle eşleşmelidir.
+        """
+        make_care_request()
+
+        data = self.client.get(reverse('care-admin:stats')).data
+
+        self.assertEqual(set(data), {
+            'total_requests', 'open_requests', 'requests_last_7_days', 'total_applicants',
+            'by_status', 'by_service', 'daily',
+        })
+        self.assertEqual(set(data['by_status'][0]), {'status', 'label', 'count'})
+        self.assertEqual(set(data['by_service'][0]), {'service_id', 'name', 'count'})
+        self.assertEqual(set(data['daily'][0]), {'date', 'count'})

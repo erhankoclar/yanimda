@@ -17,6 +17,7 @@ class AdminEndpointAccessTests(APITestCase):
         """
         care_request = make_care_request()
         return [
+            reverse('care-admin:stats'),
             reverse('care-admin:request-list'),
             reverse('care-admin:request-detail', args=[care_request.pk]),
         ]

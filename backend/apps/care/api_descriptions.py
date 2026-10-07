@@ -88,3 +88,15 @@ ADMIN_REQUEST_ID_PARAMETER_DESCRIPTION = _(
     'Identifier of the care request. Copy it from '
     '<a href="#operations-admin-admin_requests_list">Admin: list requests — <code>results[].id</code></a>.'
 )
+
+ADMIN_STATS_SUMMARY = _('Admin: dashboard statistics')
+ADMIN_STATS_VIEW_DESCRIPTION = _(
+    '<p>Returns the summary numbers of the admin dashboard. Only admin users can call it.</p>'
+    '<h3>Processing</h3>'
+    '<ol>'
+    '<li>Requests are counted in total, as open (not completed or cancelled) and for the last 7 days.</li>'
+    '<li>Applicants are the active users without admin rights.</li>'
+    '<li>Status and service breakdowns list every status and every service type, including zero counts.</li>'
+    '<li>The daily series covers the last 14 days including today in the server time zone.</li>'
+    '</ol>'
+)

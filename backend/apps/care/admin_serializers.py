@@ -93,3 +93,32 @@ class AdminCareRequestDetailSerializer(AdminCareRequestListSerializer):
                 },
             )
         return value
+
+
+class StatusCountSerializer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=CareRequest.Status.choices, help_text=_('Status value.'))
+    label = serializers.CharField(help_text=_('Translated label of the status.'))
+    count = serializers.IntegerField(help_text=_('Number of requests in this status.'))
+
+
+class ServiceCountSerializer(serializers.Serializer):
+    service_id = serializers.IntegerField(help_text=_('Identifier of the service type.'))
+    name = serializers.CharField(help_text=_('Name of the service type.'))
+    count = serializers.IntegerField(help_text=_('Number of requests for this service type.'))
+
+
+class DailyCountSerializer(serializers.Serializer):
+    date = serializers.DateField(help_text=_('Day in the server time zone.'))
+    count = serializers.IntegerField(help_text=_('Number of requests created on this day.'))
+
+
+class DashboardStatsSerializer(serializers.Serializer):
+    """Admin dashboard istatistiklerinin yanıt şekli."""
+
+    total_requests = serializers.IntegerField(help_text=_('Number of all requests.'))
+    open_requests = serializers.IntegerField(help_text=_('Requests that are not completed or cancelled.'))
+    requests_last_7_days = serializers.IntegerField(help_text=_('Requests created in the last 7 days.'))
+    total_applicants = serializers.IntegerField(help_text=_('Active users without admin rights.'))
+    by_status = StatusCountSerializer(many=True, help_text=_('Request count of every status, in flow order.'))
+    by_service = ServiceCountSerializer(many=True, help_text=_('Request count of every service type.'))
+    daily = DailyCountSerializer(many=True, help_text=_('Requests per day for the last 14 days, oldest first.'))

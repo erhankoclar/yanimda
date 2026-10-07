@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-07 18:04+0300\n"
+"POT-Creation-Date: 2026-10-07 18:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -174,7 +174,6 @@ msgstr ""
 "Yönetim ekibi için iç not. Başvuru sahibine asla gösterilmez. En fazla 2000 "
 "karakter."
 
-#| msgid "Translated label of the status."
 msgid "Translated label of the relationship."
 msgstr "Yakınlık derecesinin çevrilmiş etiketi."
 
@@ -187,6 +186,54 @@ msgstr ""
 #, python-format
 msgid "A request in \"%(current)s\" status cannot be moved to \"%(target)s\"."
 msgstr "\"%(current)s\" durumundaki bir talep \"%(target)s\" durumuna taşınamaz."
+
+msgid "Status value."
+msgstr "Durum değeri."
+
+#| msgid "Only requests in this status."
+msgid "Number of requests in this status."
+msgstr "Bu durumdaki talep sayısı."
+
+#| msgid "Selected service type."
+msgid "Identifier of the service type."
+msgstr "Hizmet türünün kimliği."
+
+#| msgid "Selected service type."
+msgid "Name of the service type."
+msgstr "Hizmet türünün adı."
+
+#| msgid "Requested service type."
+msgid "Number of requests for this service type."
+msgstr "Bu hizmet türü için talep sayısı."
+
+msgid "Day in the server time zone."
+msgstr "Sunucu saat dilimine göre gün."
+
+#| msgid "Only requests created on or after this date (YYYY-MM-DD)."
+msgid "Number of requests created on this day."
+msgstr "Bu gün oluşturulan talep sayısı."
+
+msgid "Number of all requests."
+msgstr "Tüm taleplerin sayısı."
+
+msgid "Requests that are not completed or cancelled."
+msgstr "Tamamlanmamış veya iptal edilmemiş talepler."
+
+msgid "Requests created in the last 7 days."
+msgstr "Son 7 günde oluşturulan talepler."
+
+msgid "Active users without admin rights."
+msgstr "Admin yetkisi olmayan aktif kullanıcılar."
+
+msgid "Request count of every status, in flow order."
+msgstr "Akış sırasıyla her durumun talep sayısı."
+
+#| msgid "Requested service type."
+msgid "Request count of every service type."
+msgstr "Her hizmet türünün talep sayısı."
+
+msgid "Requests per day for the last 14 days, oldest first."
+msgstr "Son 14 günün günlük talep sayıları, eskiden yeniye."
 
 msgid "List services"
 msgstr "Hizmetleri listele"
@@ -304,7 +351,6 @@ msgstr "Yalnızca bu tarihte veya sonrasında oluşturulan talepler (YYYY-AA-GG)
 msgid "Only requests created on or before this date (YYYY-MM-DD)."
 msgstr "Yalnızca bu tarihte veya öncesinde oluşturulan talepler (YYYY-AA-GG)."
 
-#| msgid "Request detail"
 msgid "Admin: request detail"
 msgstr "Yönetim: talep detayı"
 
@@ -316,7 +362,6 @@ msgstr ""
 "talebinin tüm ayrıntılarını döndürür. Yalnızca admin kullanıcılar "
 "çağırabilir.</p>"
 
-#| msgid "Admin: list requests"
 msgid "Admin: update request"
 msgstr "Yönetim: talebi güncelle"
 
@@ -340,10 +385,6 @@ msgstr ""
 "güncellenebilir.</li></ul><p>Başvuru verileri bu endpoint ile "
 "değiştirilemez.</p>"
 
-#| msgid ""
-#| "Identifier of the selected active service type. Copy it from <a "
-#| "href=\"#operations-services-services_list\">List services — "
-#| "<code>[].id</code></a>."
 msgid ""
 "Identifier of the care request. Copy it from <a href=\"#operations-admin-"
 "admin_requests_list\">Admin: list requests — <code>results[].id</code></a>."
@@ -351,6 +392,26 @@ msgstr ""
 "Hizmet talebinin kimliği. <a href=\"#operations-admin-"
 "admin_requests_list\">Yönetim: talepleri listele — "
 "<code>results[].id</code></a> yanıtından kopyalayın."
+
+msgid "Admin: dashboard statistics"
+msgstr "Yönetim: gösterge paneli istatistikleri"
+
+msgid ""
+"<p>Returns the summary numbers of the admin dashboard. Only admin users can "
+"call it.</p><h3>Processing</h3><ol><li>Requests are counted in total, as open"
+" (not completed or cancelled) and for the last 7 days.</li><li>Applicants are"
+" the active users without admin rights.</li><li>Status and service breakdowns"
+" list every status and every service type, including zero counts.</li><li>The"
+" daily series covers the last 14 days including today in the server time "
+"zone.</li></ol>"
+msgstr ""
+"<p>Admin gösterge panelinin özet sayılarını döndürür. Yalnızca admin "
+"kullanıcılar çağırabilir.</p><h3>İşleyiş</h3><ol><li>Talepler toplamda, açık "
+"(tamamlanmamış veya iptal edilmemiş) olarak ve son 7 gün için "
+"sayılır.</li><li>Başvuru sahipleri, admin yetkisi olmayan aktif "
+"kullanıcılardır.</li><li>Durum ve hizmet dağılımları sıfır sayılar dahil her "
+"durumu ve her hizmet türünü listeler.</li><li>Günlük seri, sunucu saat "
+"dilimine göre bugün dahil son 14 günü kapsar.</li></ol>"
 
 msgid "Care services"
 msgstr "Bakım hizmetleri"

@@ -2,11 +2,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import filters, generics, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from apps.care import api_descriptions
-from apps.care.admin_serializers import AdminCareRequestDetailSerializer, AdminCareRequestListSerializer
+from apps.care.admin_serializers import (
+    AdminCareRequestDetailSerializer,
+    AdminCareRequestListSerializer,
+    DashboardStatsSerializer,
+)
 from apps.care.filters import AdminCareRequestFilter
 from apps.care.models import CareRequest
+from apps.care.stats import build_dashboard_stats
 
 _ADMIN_REQUEST_ID_PARAMETER = OpenApiParameter(
     'id', OpenApiTypes.INT, OpenApiParameter.PATH,
@@ -66,3 +73,27 @@ class AdminCareRequestDetailView(AdminCareRequestQuerysetMixin, generics.Retriev
 
     serializer_class = AdminCareRequestDetailSerializer
     http_method_names = ['get', 'patch', 'head', 'options']
+
+
+@extend_schema(
+    tags=['admin'],
+    summary=api_descriptions.ADMIN_STATS_SUMMARY,
+    description=api_descriptions.ADMIN_STATS_VIEW_DESCRIPTION,
+    responses=DashboardStatsSerializer,
+)
+class AdminDashboardStatsView(APIView):
+    __doc__ = api_descriptions.ADMIN_STATS_VIEW_DESCRIPTION
+
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request):
+        """
+        Dashboard istatistiklerini hesaplayıp döndürür.
+
+        Args:
+            request (Request): Admin kullanıcının isteği.
+
+        Returns:
+            Response: DashboardStatsSerializer şeklinde istatistikler.
+        """
+        return Response(DashboardStatsSerializer(build_dashboard_stats()).data)
