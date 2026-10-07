@@ -124,6 +124,17 @@ yanimda/
 └── prd.md                 Product requirements (Turkish)
 ```
 
+### Backend layers
+
+| Layer | Responsibility |
+| --- | --- |
+| `services/*_service.py` | All workflows **and read operations** (e.g. `care_request_service.create_request`, `list_for_admin`, `dashboard_service.build_dashboard`). A Celery task, if added, lives in the related service file at module level, not inside a class. |
+| `managers.py` | Only methods that return querysets (`active()`, `open()`, `waiting_for_review()`, `with_request_count()`). Services reach models through these managers; managers never import services at module level. Django's required hooks (`create_user`, `create_superuser`, `get_by_natural_key`) delegate to the service. |
+| `serializers.py` | Validation and response shape only; no `create`/`update`. Business rule checks ask the service. |
+| `views.py` | Permissions, throttles, filters and pagination; reading and saving are delegated to services, and business rule errors from services become 400 responses. |
+
+The rules are guarded by `config/tests/regression/test_architecture.py`: the test fails if a serializer defines `create`/`update`, if a view or serializer builds ORM queries, or if a manager imports services.
+
 ### Services and start order
 
 | Service | Image | Port | Healthy when |
