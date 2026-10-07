@@ -8,6 +8,7 @@ urlpatterns = [
     path('api/auth/', include('apps.accounts.urls')),
     path('api/', include('apps.care.urls')),
     path('api/admin/', include('apps.care.admin_urls')),
+    path('api/admin/', include('apps.accounts.admin_urls')),
 ]
 
 if settings.API_DOCS_ENABLED:

@@ -31,3 +31,21 @@ ME_VIEW_DESCRIPTION = _(
     '<p>Returns or updates the profile of the authenticated user.</p>'
     '<p>Only name and phone fields can be changed; email and admin rights are read-only.</p>'
 )
+
+ADMIN_USER_LIST_SUMMARY = _('Admin: list users')
+ADMIN_USER_LIST_VIEW_DESCRIPTION = _(
+    '<p>Lists all user accounts with their request counts. Only admin users can call it.</p>'
+    '<p>Results are paginated and newest first by default. They can be filtered by admin right and '
+    'active state, searched by email, name and phone, and ordered by join date, email or request count.</p>'
+)
+
+ADMIN_USER_DETAIL_SUMMARY = _('Admin: user detail')
+ADMIN_USER_DETAIL_VIEW_DESCRIPTION = _(
+    '<p>Returns one user account with its request count and last login. Only admin users can call it.</p>'
+    '<p>The requests of the user can be listed with the admin request list filtered by applicant.</p>'
+)
+
+ADMIN_USER_ID_PARAMETER_DESCRIPTION = _(
+    'Identifier of the user. Copy it from '
+    '<a href="#operations-admin-admin_users_list">Admin: list users — <code>results[].id</code></a>.'
+)

@@ -60,7 +60,10 @@ ADMIN_FILTER_SERVICE_HELP_TEXT = _(
     'Only requests of this service type. Copy the value from '
     '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
 )
-ADMIN_FILTER_APPLICANT_HELP_TEXT = _('Only requests created by the user with this identifier.')
+ADMIN_FILTER_APPLICANT_HELP_TEXT = _(
+    'Only requests created by this user. Copy the value from '
+    '<a href="#operations-admin-admin_users_list">Admin: list users — <code>results[].id</code></a>.'
+)
 ADMIN_FILTER_STATUS_HELP_TEXT = _('Only requests in this status.')
 ADMIN_FILTER_CREATED_FROM_HELP_TEXT = _('Only requests created on or after this date (YYYY-MM-DD).')
 ADMIN_FILTER_CREATED_TO_HELP_TEXT = _('Only requests created on or before this date (YYYY-MM-DD).')
