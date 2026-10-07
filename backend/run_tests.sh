@@ -6,7 +6,7 @@
 #   ./run_tests.sh security        -> tüm uygulamalardaki yalnızca security testleri
 #   ./run_tests.sh unit contract   -> birden fazla tür
 #
-# Türler: unit, integration, security, regression, contract, performance
+# Türler: unit, integration, security, regression, contract, performance, scenario
 set -e
 cd "$(dirname "$0")"
 
