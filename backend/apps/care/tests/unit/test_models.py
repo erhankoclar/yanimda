@@ -112,3 +112,55 @@ class CareRequestModelTests(TestCase):
         care_request = make_care_request(service=make_service(name='Refakat'))
 
         self.assertEqual(str(care_request), f'#{care_request.pk} Refakat - Fatma Yılmaz')
+
+
+class CareRequestStatusTransitionTests(TestCase):
+    def test_allowed_forward_flow(self):
+        """
+        Durumun ileri akışta yalnızca bir sonraki adıma veya iptale geçebildiğini doğrular.
+
+        Senaryo:
+        - Her açık durum için izin verilen hedefler kontrol edilir.
+
+        Beklenti:
+        - new→reviewing, reviewing→assigned, assigned→completed ve her açık durumdan cancelled izinli olmalıdır.
+        """
+        Status = CareRequest.Status
+        expected = {
+            Status.NEW: {Status.REVIEWING, Status.CANCELLED},
+            Status.REVIEWING: {Status.ASSIGNED, Status.CANCELLED},
+            Status.ASSIGNED: {Status.COMPLETED, Status.CANCELLED},
+        }
+        for current, targets in expected.items():
+            with self.subTest(current=current):
+                care_request = CareRequest(status=current)
+                self.assertEqual(set(care_request.next_statuses()), targets)
+                for target in targets:
+                    self.assertTrue(care_request.can_change_status_to(target))
+
+    def test_skipping_or_going_back_is_not_allowed(self):
+        """
+        Adım atlamanın ve geri dönmenin engellendiğini doğrular (hata yolu).
+
+        Senaryo:
+        - new→completed atlaması ve assigned→new geri dönüşü denenir.
+
+        Beklenti:
+        - Her iki geçiş de reddedilmelidir.
+        """
+        self.assertFalse(CareRequest(status=CareRequest.Status.NEW).can_change_status_to(CareRequest.Status.COMPLETED))
+        self.assertFalse(CareRequest(status=CareRequest.Status.ASSIGNED).can_change_status_to(CareRequest.Status.NEW))
+
+    def test_final_statuses_cannot_change(self):
+        """Tamamlanan ve iptal edilen taleplerin başka duruma geçemediğini doğrular."""
+        for final in (CareRequest.Status.COMPLETED, CareRequest.Status.CANCELLED):
+            with self.subTest(final=final):
+                care_request = CareRequest(status=final)
+                self.assertEqual(care_request.next_statuses(), [])
+                self.assertFalse(care_request.can_change_status_to(CareRequest.Status.NEW))
+
+    def test_same_status_is_always_allowed(self):
+        """Mevcut durumun tekrar gönderilmesinin (yalnızca not güncelleme) her durumda serbest olduğunu doğrular."""
+        for current in CareRequest.Status.values:
+            with self.subTest(current=current):
+                self.assertTrue(CareRequest(status=current).can_change_status_to(current))

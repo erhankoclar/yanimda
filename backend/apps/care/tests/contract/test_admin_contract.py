@@ -35,3 +35,23 @@ class AdminResponseContractTests(APITestCase):
         self.assertEqual(set(row), ADMIN_ROW_FIELDS)
         self.assertEqual(set(row['applicant']), {'id', 'email', 'full_name', 'phone'})
         self.assertEqual(set(row['service']), {'id', 'name', 'slug', 'description', 'icon'})
+
+    def test_admin_request_detail_fields(self):
+        """
+        Admin talep detayının alan kümesini doğrular.
+
+        Senaryo:
+        - Bir talebin admin detayı çağrılır.
+
+        Beklenti:
+        - Satır alanlarına ek olarak detay alanları bulunmalı, `next_statuses` dizi olmalıdır.
+        """
+        care_request = make_care_request()
+
+        data = self.client.get(reverse('care-admin:request-detail', args=[care_request.pk])).data
+
+        self.assertEqual(set(data), ADMIN_ROW_FIELDS | {
+            'relationship', 'relationship_display', 'elder_notes', 'address', 'alternate_contact_name',
+            'alternate_contact_phone', 'consent_given_at', 'admin_note', 'next_statuses', 'updated_at',
+        })
+        self.assertIsInstance(data['next_statuses'], list)

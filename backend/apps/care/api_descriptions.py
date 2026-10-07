@@ -64,3 +64,27 @@ ADMIN_FILTER_APPLICANT_HELP_TEXT = _('Only requests created by the user with thi
 ADMIN_FILTER_STATUS_HELP_TEXT = _('Only requests in this status.')
 ADMIN_FILTER_CREATED_FROM_HELP_TEXT = _('Only requests created on or after this date (YYYY-MM-DD).')
 ADMIN_FILTER_CREATED_TO_HELP_TEXT = _('Only requests created on or before this date (YYYY-MM-DD).')
+
+ADMIN_REQUEST_DETAIL_SUMMARY = _('Admin: request detail')
+ADMIN_REQUEST_DETAIL_VIEW_DESCRIPTION = _(
+    '<p>Returns all details of one care request, including the internal admin note and the statuses '
+    'the request can move to. Only admin users can call it.</p>'
+)
+
+ADMIN_REQUEST_UPDATE_SUMMARY = _('Admin: update request')
+ADMIN_REQUEST_UPDATE_VIEW_DESCRIPTION = _(
+    '<p>Changes the status and/or the internal admin note of a care request. Only admin users can call it.</p>'
+    '<h3>Validation rules</h3>'
+    '<ul>'
+    '<li>Status follows the flow <code>new</code> → <code>reviewing</code> → <code>assigned</code> → '
+    '<code>completed</code>; any open request can be <code>cancelled</code>.</li>'
+    '<li><code>completed</code> and <code>cancelled</code> are final and cannot be changed.</li>'
+    '<li>Sending the current status again is allowed, so only the note can be updated.</li>'
+    '</ul>'
+    '<p>Applicant data cannot be changed from this endpoint.</p>'
+)
+
+ADMIN_REQUEST_ID_PARAMETER_DESCRIPTION = _(
+    'Identifier of the care request. Copy it from '
+    '<a href="#operations-admin-admin_requests_list">Admin: list requests — <code>results[].id</code></a>.'
+)

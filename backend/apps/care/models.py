@@ -92,6 +92,37 @@ class CareRequest(models.Model):
         verbose_name_plural = _('care requests')
         ordering = ['-created_at']
 
+    STATUS_TRANSITIONS = {
+        Status.NEW: [Status.REVIEWING, Status.CANCELLED],
+        Status.REVIEWING: [Status.ASSIGNED, Status.CANCELLED],
+        Status.ASSIGNED: [Status.COMPLETED, Status.CANCELLED],
+        Status.COMPLETED: [],
+        Status.CANCELLED: [],
+    }
+
+    def next_statuses(self):
+        """
+        Talebin mevcut durumundan geçilebilecek durumları döndürür.
+
+        Returns:
+            list[str]: Geçişe izin verilen durum değerleri; son durumlarda boş liste.
+        """
+        return list(self.STATUS_TRANSITIONS[self.status])
+
+    def can_change_status_to(self, new_status):
+        """
+        Mevcut durumdan verilen duruma geçilip geçilemeyeceğini söyler.
+
+        Aynı duruma "geçiş" her zaman serbesttir; böylece yalnızca not güncellenebilir.
+
+        Args:
+            new_status (str): Hedef durum değeri.
+
+        Returns:
+            bool: Geçişe izin veriliyorsa True.
+        """
+        return new_status == self.status or new_status in self.STATUS_TRANSITIONS[self.status]
+
     def __str__(self):
         """
         Talebin hizmet ve yaşlı adıyla okunabilir temsilini döndürür.

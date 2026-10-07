@@ -15,7 +15,11 @@ class AdminEndpointAccessTests(APITestCase):
         Returns:
             list[str]: Admin endpoint adresleri.
         """
-        return [reverse('care-admin:request-list')]
+        care_request = make_care_request()
+        return [
+            reverse('care-admin:request-list'),
+            reverse('care-admin:request-detail', args=[care_request.pk]),
+        ]
 
     def test_anonymous_gets_401(self):
         """Kimlik doğrulaması olmadan admin endpoint'lerine erişilemediğini doğrular."""

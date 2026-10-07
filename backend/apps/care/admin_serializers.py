@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
@@ -42,3 +43,53 @@ class AdminCareRequestListSerializer(serializers.ModelSerializer):
             'status', 'status_display', 'created_at',
         ]
         read_only_fields = fields
+
+
+class AdminCareRequestDetailSerializer(AdminCareRequestListSerializer):
+    """Admin talep detayı; yalnızca durum ve yönetici notu değiştirilebilir."""
+
+    status = serializers.ChoiceField(
+        choices=CareRequest.Status.choices, required=False,
+        help_text=_('New status. Must be one of <code>next_statuses</code> or the current status.'),
+    )
+    admin_note = serializers.CharField(
+        required=False, allow_blank=True, max_length=2000,
+        help_text=_('Internal note for the admin team. Never shown to the applicant. At most 2000 characters.'),
+    )
+    relationship_display = serializers.CharField(
+        source='get_relationship_display', read_only=True, help_text=_('Translated label of the relationship.'),
+    )
+    next_statuses = serializers.ListField(
+        child=serializers.CharField(), read_only=True,
+        help_text=_('Statuses the request can move to from its current status. Empty for final statuses.'),
+    )
+
+    class Meta(AdminCareRequestListSerializer.Meta):
+        fields = AdminCareRequestListSerializer.Meta.fields + [
+            'relationship', 'relationship_display', 'elder_notes', 'address',
+            'alternate_contact_name', 'alternate_contact_phone', 'consent_given_at',
+            'admin_note', 'next_statuses', 'updated_at',
+        ]
+        read_only_fields = [field for field in fields if field not in ('status', 'admin_note')]
+
+    def validate_status(self, value):
+        """
+        Durum değişikliğinin izin verilen geçişlerden biri olduğunu doğrular.
+
+        Args:
+            value (str): İstenen yeni durum.
+
+        Returns:
+            str: Değiştirilmemiş durum değeri.
+
+        Raises:
+            serializers.ValidationError: Geçişe izin verilmiyorsa.
+        """
+        if not self.instance.can_change_status_to(value):
+            raise serializers.ValidationError(
+                gettext('A request in "%(current)s" status cannot be moved to "%(target)s".') % {
+                    'current': self.instance.get_status_display(),
+                    'target': CareRequest.Status(value).label,
+                },
+            )
+        return value
