@@ -8,6 +8,7 @@ from django.db.models.functions import TruncDate
 from django.utils import timezone
 
 from apps.care.models import CareRequest, ServiceType
+from apps.care.services.service_type_service import localized
 
 DAILY_SERIES_DAYS = 14
 RECENT_DAYS = 7
@@ -52,7 +53,7 @@ def build_dashboard_stats():
             for value, label in CareRequest.Status.choices
         ],
         'by_service': [
-            {'service_id': service.id, 'name': service.name, 'count': service.request_count}
+            {'service_id': service.id, 'name': localized(service, 'name'), 'count': service.request_count}
             for service in services
         ],
         'daily': [

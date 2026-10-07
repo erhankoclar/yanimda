@@ -1,6 +1,7 @@
 """Hizmet türleri için iş akışları ve okuma servisleri."""
 
 from django.db import transaction
+from django.utils.translation import get_language
 
 from apps.care.defaults import DEFAULT_SERVICE_TYPES
 from apps.care.models import ServiceType
@@ -14,6 +15,24 @@ def list_active_services():
         QuerySet[ServiceType]: Gösterim sırasıyla aktif hizmetler.
     """
     return ServiceType.objects.active()
+
+
+def localized(service, field):
+    """
+    Hizmetin adını veya açıklamasını etkin dile göre döndürür.
+
+    Etkin dil İngilizceyse ve İngilizce karşılık doluysa o, aksi halde Türkçe metin verilir.
+
+    Args:
+        service (ServiceType): Hizmet türü.
+        field (str): `name` veya `description`.
+
+    Returns:
+        str: Etkin dildeki metin.
+    """
+    if (get_language() or '').startswith('en'):
+        return getattr(service, f'{field}_en') or getattr(service, field)
+    return getattr(service, field)
 
 
 @transaction.atomic

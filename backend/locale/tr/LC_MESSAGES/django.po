@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-08 02:09+0300\n"
+"POT-Creation-Date: 2026-10-08 02:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -728,6 +728,14 @@ msgstr "kısa ad"
 msgid "description"
 msgstr "açıklama"
 
+#| msgid "English"
+msgid "name (English)"
+msgstr "ad (İngilizce)"
+
+#| msgid "description"
+msgid "description (English)"
+msgstr "açıklama (İngilizce)"
+
 msgid "icon key"
 msgstr "ikon anahtarı"
 
@@ -857,14 +865,17 @@ msgstr "hizmet talebi"
 msgid "service inquiries"
 msgstr "hizmet talepleri"
 
-msgid "Service name shown on the card."
-msgstr "Kartta gösterilen hizmet adı."
+msgid ""
+"Service name shown on the card, in the request language (Accept-Language)."
+msgstr "Kartta gösterilen hizmet adı; istek dilinde (Accept-Language)."
+
+#| msgid "Short explanation shown under the service name."
+msgid ""
+"Short explanation shown under the service name, in the request language."
+msgstr "Hizmet adının altında gösterilen kısa açıklama; istek dilinde."
 
 msgid "Stable, URL safe service key."
 msgstr "Değişmeyen, URL'de kullanılabilir hizmet anahtarı."
-
-msgid "Short explanation shown under the service name."
-msgstr "Hizmet adının altında gösterilen kısa açıklama."
 
 msgid ""
 "Icon key mapped to an icon by the frontend, for example "
