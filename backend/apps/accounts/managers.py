@@ -7,6 +7,24 @@ class UserManager(BaseUserManager):
 
     use_in_migrations = True
 
+    def get_by_natural_key(self, username):
+        """
+        Kullanıcıyı e-posta adresine göre büyük/küçük harf duyarsız bulur.
+
+        E-postalar kayıtta küçük harfle saklandığından girişte farklı harf
+        büyüklüğüyle yazılan adreslerin de eşleşmesini sağlar.
+
+        Args:
+            username (str): Girişte yazılan e-posta adresi.
+
+        Returns:
+            User: Eşleşen kullanıcı.
+
+        Raises:
+            User.DoesNotExist: E-postaya ait kullanıcı yoksa.
+        """
+        return self.get(**{f'{self.model.USERNAME_FIELD}__iexact': username.strip()})
+
     def _create_user(self, email, password, **extra_fields):
         """
         Verilen e-posta ve parola ile kullanıcıyı oluşturup kaydeder.
