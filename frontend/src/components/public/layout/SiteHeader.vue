@@ -2,6 +2,8 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
+import PreferenceControls from '@/components/common/PreferenceControls.vue'
+
 import BrandMark from './BrandMark.vue'
 
 defineProps({
@@ -35,16 +37,19 @@ const SECTIONS = [
         <BrandMark />
       </RouterLink>
 
-      <button
-        type="button"
-        class="site-header__toggle"
-        :aria-expanded="menuOpen ? 'true' : 'false'"
-        aria-controls="site-menu"
-        @click="menuOpen = !menuOpen"
-      >
-        <span class="site-header__toggle-lines" aria-hidden="true" />
-        {{ menuOpen ? 'Kapat' : 'Menü' }}
-      </button>
+      <div class="site-header__tools">
+        <PreferenceControls />
+        <button
+          type="button"
+          class="site-header__toggle"
+          :aria-expanded="menuOpen ? 'true' : 'false'"
+          aria-controls="site-menu"
+          @click="menuOpen = !menuOpen"
+        >
+          <span class="site-header__toggle-lines" aria-hidden="true" />
+          {{ menuOpen ? 'Kapat' : 'Menü' }}
+        </button>
+      </div>
 
       <div id="site-menu" class="site-header__menu" :class="{ 'is-open': menuOpen }">
         <nav class="site-header__sections" aria-label="Sayfa bölümleri">
@@ -87,6 +92,12 @@ const SECTIONS = [
 .site-header__brand {
   color: var(--color-ink);
   text-decoration: none;
+}
+
+.site-header__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .site-header__toggle {
@@ -192,6 +203,10 @@ const SECTIONS = [
 @media (min-width: 60rem) {
   .site-header__toggle {
     display: none;
+  }
+
+  .site-header__tools {
+    order: 3;
   }
 
   .site-header__menu,

@@ -72,3 +72,9 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+.admin-auth__preferences {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
