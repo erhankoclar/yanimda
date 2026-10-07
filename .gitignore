@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 venv/
 *.sqlite3
+*.mo
 .env
 .pytest_cache/
 .coverage

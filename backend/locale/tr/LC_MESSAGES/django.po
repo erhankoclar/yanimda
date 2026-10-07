@@ -1,0 +1,57 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-07 17:12+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Personal info"
+msgstr "Kişisel bilgiler"
+
+msgid "Permissions"
+msgstr "Yetkiler"
+
+msgid "Important dates"
+msgstr "Önemli tarihler"
+
+msgid "Accounts"
+msgstr "Hesaplar"
+
+msgid "The email address is required."
+msgstr "E-posta adresi zorunludur."
+
+msgid "Superuser must have is_staff=True."
+msgstr "Süper kullanıcı için is_staff=True olmalıdır."
+
+msgid "Superuser must have is_superuser=True."
+msgstr "Süper kullanıcı için is_superuser=True olmalıdır."
+
+msgid "email address"
+msgstr "e-posta adresi"
+
+msgid "phone"
+msgstr "telefon"
+
+msgid "user"
+msgstr "kullanıcı"
+
+msgid "users"
+msgstr "kullanıcılar"
+
+msgid "Turkish"
+msgstr "Türkçe"
+
+msgid "English"
+msgstr "İngilizce"
