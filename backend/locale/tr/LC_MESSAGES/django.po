@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-07 17:12+0300\n"
+"POT-Creation-Date: 2026-10-07 17:18+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,61 @@ msgstr "Yetkiler"
 
 msgid "Important dates"
 msgstr "Önemli tarihler"
+
+msgid "Register"
+msgstr "Kayıt ol"
+
+msgid ""
+"<p>Creates a new applicant account. No authentication is "
+"required.</p><h3>Processing</h3><ol><li>The email is normalized to lower case"
+" and checked for uniqueness.</li><li>The password is checked against the "
+"password validators.</li><li>The account is created without admin "
+"rights.</li></ol><p>Requests are rate limited per IP address with the "
+"<code>accounts_register</code> scope.</p>"
+msgstr ""
+"<p>Yeni bir başvuru sahibi hesabı oluşturur. Kimlik doğrulama "
+"gerekmez.</p><h3>İşleyiş</h3><ol><li>E-posta küçük harfe çevrilir ve "
+"benzersizliği kontrol edilir.</li><li>Parola, parola kurallarına göre "
+"doğrulanır.</li><li>Hesap admin yetkisi olmadan "
+"oluşturulur.</li></ol><p>İstekler <code>accounts_register</code> kapsamıyla "
+"IP adresi başına hız sınırına tabidir.</p>"
+
+msgid "Log in"
+msgstr "Giriş yap"
+
+msgid ""
+"<p>Returns an access and refresh token pair for valid email and password "
+"credentials. No authentication is required.</p><p>Inactive accounts cannot "
+"log in. Requests are rate limited per IP address with the "
+"<code>accounts_login</code> scope.</p>"
+msgstr ""
+"<p>Geçerli e-posta ve parola için access ve refresh token çifti döndürür. "
+"Kimlik doğrulama gerekmez.</p><p>Pasif hesaplar giriş yapamaz. İstekler "
+"<code>accounts_login</code> kapsamıyla IP adresi başına hız sınırına "
+"tabidir.</p>"
+
+msgid "Refresh token"
+msgstr "Token yenile"
+
+msgid ""
+"<p>Returns a new access token for a valid refresh token. No authentication "
+"header is required.</p><p>Refresh tokens are rotated: a new refresh token is "
+"returned and the old one must not be reused.</p>"
+msgstr ""
+"<p>Geçerli bir refresh token için yeni access token döndürür. Kimlik "
+"doğrulama başlığı gerekmez.</p><p>Refresh token'lar döndürülür: yeni bir "
+"refresh token verilir ve eskisi tekrar kullanılmamalıdır.</p>"
+
+msgid "Current user"
+msgstr "Oturumdaki kullanıcı"
+
+msgid ""
+"<p>Returns or updates the profile of the authenticated user.</p><p>Only name "
+"and phone fields can be changed; email and admin rights are read-only.</p>"
+msgstr ""
+"<p>Oturum açmış kullanıcının profilini döndürür veya "
+"günceller.</p><p>Yalnızca ad ve telefon alanları değiştirilebilir; e-posta ve"
+" admin yetkisi salt okunurdur.</p>"
 
 msgid "Accounts"
 msgstr "Hesaplar"
@@ -49,6 +104,47 @@ msgstr "kullanıcı"
 
 msgid "users"
 msgstr "kullanıcılar"
+
+msgid "Login email address. Cannot be changed."
+msgstr "Giriş e-posta adresi. Değiştirilemez."
+
+msgid "First name of the user."
+msgstr "Kullanıcının adı."
+
+msgid "Last name of the user."
+msgstr "Kullanıcının soyadı."
+
+msgid ""
+"Contact phone number, for example 05xx xxx xx xx. Optional, at most 20 "
+"characters."
+msgstr ""
+"İletişim telefon numarası, örneğin 05xx xxx xx xx. İsteğe bağlı, en fazla 20 "
+"karakter."
+
+msgid "True when the user can access the admin panel. Read-only."
+msgstr "Kullanıcı admin paneline erişebiliyorsa True. Salt okunurdur."
+
+msgid "Email address used to log in. Must not be registered before."
+msgstr "Giriş için kullanılacak e-posta adresi. Daha önce kayıtlı olmamalıdır."
+
+msgid ""
+"Account password. Must satisfy the password rules (at least 8 characters, not"
+" too common, not entirely numeric). Never returned in responses."
+msgstr ""
+"Hesap parolası. Parola kurallarını sağlamalıdır (en az 8 karakter, çok yaygın"
+" olmayan, yalnızca rakamlardan oluşmayan). Yanıtlarda asla döndürülmez."
+
+msgid "First name of the applicant."
+msgstr "Başvuru sahibinin adı."
+
+msgid "Last name of the applicant."
+msgstr "Başvuru sahibinin soyadı."
+
+msgid "Contact phone number. Optional, at most 20 characters."
+msgstr "İletişim telefon numarası. İsteğe bağlı, en fazla 20 karakter."
+
+msgid "A user with this email address already exists."
+msgstr "Bu e-posta adresiyle kayıtlı bir kullanıcı zaten var."
 
 msgid "Turkish"
 msgstr "Türkçe"
