@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-07 17:22+0300\n"
+"POT-Creation-Date: 2026-10-07 17:26+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,6 +195,110 @@ msgstr "hizmet türü"
 
 msgid "service types"
 msgstr "hizmet türleri"
+
+msgid "New"
+msgstr "Yeni"
+
+msgid "Reviewing"
+msgstr "İnceleniyor"
+
+msgid "Assigned"
+msgstr "Atandı"
+
+msgid "Completed"
+msgstr "Tamamlandı"
+
+msgid "Cancelled"
+msgstr "İptal edildi"
+
+msgid "Mother / father"
+msgstr "Annem / babam"
+
+msgid "Grandparent"
+msgstr "Büyükannem / büyükbabam"
+
+msgid "Other relative"
+msgstr "Diğer akrabam"
+
+msgid "Neighbor / friend"
+msgstr "Komşum / dostum"
+
+msgid "Myself"
+msgstr "Kendim"
+
+msgid "Morning (08:00-12:00)"
+msgstr "Sabah (08:00-12:00)"
+
+msgid "Afternoon (12:00-17:00)"
+msgstr "Öğleden sonra (12:00-17:00)"
+
+msgid "Evening (17:00-21:00)"
+msgstr "Akşam (17:00-21:00)"
+
+msgid "applicant"
+msgstr "başvuru sahibi"
+
+#| msgid "service type"
+msgid "service"
+msgstr "hizmet"
+
+msgid "elder full name"
+msgstr "yaşlının adı soyadı"
+
+msgid "elder age"
+msgstr "yaşlının yaşı"
+
+msgid "relationship"
+msgstr "yakınlık derecesi"
+
+msgid "special notes"
+msgstr "özel notlar"
+
+msgid "preferred date"
+msgstr "tercih edilen tarih"
+
+msgid "time slot"
+msgstr "zaman aralığı"
+
+msgid "city"
+msgstr "il"
+
+msgid "district"
+msgstr "ilçe"
+
+#| msgid "email address"
+msgid "address"
+msgstr "adres"
+
+msgid "contact phone"
+msgstr "iletişim telefonu"
+
+msgid "alternate contact name"
+msgstr "alternatif kişi adı"
+
+msgid "alternate contact phone"
+msgstr "alternatif kişi telefonu"
+
+msgid "consent given at"
+msgstr "onay zamanı"
+
+msgid "status"
+msgstr "durum"
+
+msgid "admin note"
+msgstr "yönetici notu"
+
+msgid "created at"
+msgstr "oluşturulma zamanı"
+
+msgid "updated at"
+msgstr "güncellenme zamanı"
+
+msgid "care request"
+msgstr "hizmet talebi"
+
+msgid "care requests"
+msgstr "hizmet talepleri"
 
 msgid "Turkish"
 msgstr "Türkçe"

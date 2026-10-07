@@ -1,7 +1,13 @@
-from django.db import IntegrityError
-from django.test import TestCase
+from datetime import timedelta
 
-from apps.care.models import ServiceType
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+from django.db.models import ProtectedError
+from django.test import TestCase
+from django.utils import timezone
+
+from apps.care.models import CareRequest, ServiceType
+from apps.care.tests.factories import make_care_request, make_service, make_user
 
 
 class ServiceTypeModelTests(TestCase):
@@ -32,3 +38,77 @@ class ServiceTypeModelTests(TestCase):
         service = ServiceType(name='Refakat', slug='refakat', description='-', icon='companion')
 
         self.assertEqual(str(service), 'Refakat')
+
+
+class CareRequestModelTests(TestCase):
+    def test_new_request_starts_with_new_status(self):
+        """Yeni oluşturulan talebin varsayılan durumunun `new` olduğunu doğrular."""
+        care_request = make_care_request()
+
+        self.assertEqual(care_request.status, CareRequest.Status.NEW)
+        self.assertEqual(care_request.admin_note, '')
+
+    def test_requests_are_ordered_newest_first(self):
+        """
+        Taleplerin en yeniden eskiye sıralandığını doğrular.
+
+        Senaryo:
+        - İki talep oluşturulur, ilkinin oluşturulma zamanı geriye alınır.
+
+        Beklenti:
+        - Varsayılan sıralamada ikinci talep önce gelmelidir.
+        """
+        older = make_care_request()
+        newer = make_care_request()
+        CareRequest.objects.filter(pk=older.pk).update(created_at=timezone.now() - timedelta(days=1))
+
+        self.assertEqual(list(CareRequest.objects.all()), [newer, older])
+
+    def test_service_with_requests_cannot_be_deleted(self):
+        """
+        Talebi olan hizmet türünün silinemediğini doğrular (veri bütünlüğü).
+
+        Senaryo:
+        - Bir hizmete bağlı talep oluşturulur ve hizmet silinmeye çalışılır.
+
+        Beklenti:
+        - ProtectedError fırlatılmalı ve talep korunmalıdır.
+        """
+        service = make_service()
+        make_care_request(service=service)
+
+        with self.assertRaises(ProtectedError):
+            service.delete()
+        self.assertEqual(CareRequest.objects.count(), 1)
+
+    def test_deleting_applicant_removes_requests(self):
+        """Başvuru sahibi silindiğinde taleplerinin de silindiğini doğrular (kişisel veri temizliği)."""
+        applicant = make_user()
+        make_care_request(applicant=applicant)
+
+        applicant.delete()
+
+        self.assertFalse(CareRequest.objects.exists())
+
+    def test_elder_age_limits_are_validated(self):
+        """
+        Yaşlı yaşının 40-120 aralığı dışında reddedildiğini doğrular (hata yolu).
+
+        Senaryo:
+        - Yaşı 30 ve 130 olan talepler tam doğrulamadan geçirilir.
+
+        Beklenti:
+        - Her ikisi de `elder_age` alanında ValidationError vermelidir.
+        """
+        for age in (30, 130):
+            care_request = make_care_request()
+            care_request.elder_age = age
+            with self.assertRaises(ValidationError) as context:
+                care_request.full_clean()
+            self.assertIn('elder_age', context.exception.error_dict)
+
+    def test_str_contains_id_service_and_elder(self):
+        """Metin temsilinin talep numarası, hizmet ve yaşlı adını içerdiğini doğrular."""
+        care_request = make_care_request(service=make_service(name='Refakat'))
+
+        self.assertEqual(str(care_request), f'#{care_request.pk} Refakat - Fatma Yılmaz')
