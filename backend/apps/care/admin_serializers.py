@@ -6,6 +6,7 @@ from rest_framework import serializers
 from apps.care import api_descriptions
 from apps.care.models import CareRequest
 from apps.care.serializers import ServiceTypeSerializer
+from apps.care.services import care_request_service
 
 
 class ApplicantSummarySerializer(serializers.ModelSerializer):
@@ -60,8 +61,7 @@ class AdminCareRequestDetailSerializer(AdminCareRequestListSerializer):
     relationship_display = serializers.CharField(
         source='get_relationship_display', read_only=True, help_text=_('Translated label of the relationship.'),
     )
-    next_statuses = serializers.ListField(
-        child=serializers.CharField(), read_only=True,
+    next_statuses = serializers.SerializerMethodField(
         help_text=_('Statuses the request can move to from its current status. Empty for final statuses.'),
     )
 
@@ -86,14 +86,21 @@ class AdminCareRequestDetailSerializer(AdminCareRequestListSerializer):
         Raises:
             serializers.ValidationError: Geçişe izin verilmiyorsa.
         """
-        if not self.instance.can_change_status_to(value):
-            raise serializers.ValidationError(
-                gettext('A request in "%(current)s" status cannot be moved to "%(target)s".') % {
-                    'current': self.instance.get_status_display(),
-                    'target': CareRequest.Status(value).label,
-                },
-            )
+        if not care_request_service.can_change_status(self.instance, value):
+            raise serializers.ValidationError(care_request_service.transition_message(self.instance, value))
         return value
+
+    def get_next_statuses(self, obj) -> list[str]:
+        """
+        Başvurunun geçebileceği durumları servisten okur.
+
+        Args:
+            obj (CareRequest): Başvuru.
+
+        Returns:
+            list[str]: İzin verilen hedef durumlar.
+        """
+        return care_request_service.next_statuses(obj)
 
 
 class StatusCountSerializer(serializers.Serializer):

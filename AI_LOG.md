@@ -51,10 +51,14 @@ Geliştiricinin oturum boyunca verdiği yönlendirmeler sırasıyla:
 | 14 | "Bu nasıl web sitesi tasarımı" | AI'nın ilk tasarımı (dar tek sütun, görselsiz) reddedildi. Geliştirici üç seçenek arasından "sıcak ve fotoğraflı" yönü, stok fotoğrafı ve renklerin AI tarafından önerilmesini seçti; site yeniden tasarlandı. |
 | 15 | Değerlendirme kriterleri (hızlı form, canlı URL, açık kaynak, README, AI_LOG, teslim commit'i) | AI kriterleri tek tek karşılaştırıp eksikleri listeledi. Geliştirici Render + GitHub'ı ve iki formun birlikte kalmasını seçti. Hesapsız hızlı talep formu, kalıcı e2e test paketi, üretim imajı ve bu belge eklendi. |
 
+| 16 | "Admin panelini de yapalım; login sonrası dashboard; üstte kartlar, 3/4 hizmet bazlı çizgi grafik + 1/4 son kayıtlar; kart: ikon+başlık, büyük değer, kıyas bilgisi, sağda büyük filigran ikon" | Dashboard API'si yazıldı; geliştirici grafik verisini (hızlı talep + başvuru), 7/30/90 gün seçimini ve tüm panel kapsamını seçti. |
+| 17 | "Backend'de servis katmanı olacak, iş akışları ve okumalar burada; manager yalnızca queryset; serializer yalnızca doğrulama; Celery task servis dosyasında, sınıf dışında" | AI'nın o ana kadar yazdığı kod bu kurala uymuyordu (kayıt, başvuru ve hızlı talep oluşturma ile durum güncelleme serializer `create`/`validate` içinde, sorgular view'larda, durum kuralları modeldeydi). Tüm backend ayrı bir dalda servis katmanına taşındı; davranış testlerle bire bir korundu ve kuralı zorlayan mimari regresyon testi eklendi. Testin ihlali gerçekten yakaladığı, geçici olarak kuralı bozan bir serializer eklenerek doğrulandı. |
+
 ### AI önerisinin değiştirildiği / reddedildiği yerler
 
 - **İlk görsel tasarım reddedildi** (madde 14). AI'nın tasarım planında başta "krem zemin + terracotta" vardı. AI bunu yapay zekâ çıktılarında sık görülen kalıp bir seçim olduğu için kendisi değiştirip "ıhlamur" yeşiline geçti; ancak bu sade tasarım da geliştirici tarafından beğenilmedi.
 - **Sadece hesaplı başvuru akışı yetersiz bulundu** (madde 15). AI'nın kurduğu 5 adımlı, hesap gerektiren sihirbaz kriterlerdeki "isim, e-posta, hizmet, açıklama" formunu karşılamıyordu. Hesapsız hızlı form eklendi ve ana akış yapıldı.
+- **Katman kuralına uyulmamıştı** (madde 17): AI iş mantığını serializer, model ve view'lara dağıtmıştı; geliştiricinin mimari kuralına göre servis katmanına taşındı.
 - **Metin düzeltmesi:** AI'nın ana sayfaya kendisinin eklediği "Başvuru ücretsizdir" ifadesi, doğrulanmış bir bilgi olmadığı için yeniden tasarım sırasında kaldırıldı.
 
 ## 5. Bulunan ve düzeltilen gerçek hatalar

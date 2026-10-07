@@ -124,6 +124,17 @@ yanimda/
 └── prd.md                 Ürün gereksinimleri
 ```
 
+### Backend katmanları
+
+| Katman | Sorumluluk |
+| --- | --- |
+| `services/*_service.py` | Tüm iş akışları **ve okuma işlemleri** (ör. `care_request_service.create_request`, `list_for_admin`, `dashboard_service.build_dashboard`). Celery task'ı eklenirse ilgili servis dosyasında, sınıf dışında tanımlanır. |
+| `managers.py` | Yalnızca queryset döndüren metotlar (`active()`, `open()`, `waiting_for_review()`, `with_request_count()`). Servisler modellere bu manager'lar üzerinden erişir; manager servisleri modül düzeyinde içe aktarmaz. Django'nun zorunlu kancaları (`create_user`, `create_superuser`, `get_by_natural_key`) servise yönlendirir. |
+| `serializers.py` | Yalnızca doğrulama ve yanıt biçimi; `create`/`update` içermez. İş kuralı kontrolleri için servise sorar. |
+| `views.py` | İzin, throttle, filtre ve sayfalama; okumayı ve kaydetmeyi servise devreder, servisin iş kuralı hatalarını 400 yanıtına çevirir. |
+
+Kurallar `config/tests/regression/test_architecture.py` ile korunur: bir serializer `create`/`update` tanımlarsa, bir view veya serializer ORM sorgusu kurarsa ya da bir manager servisleri içe aktarırsa test başarısız olur.
+
 ### Servisler ve açılış sırası
 
 | Servis | İmaj | Port | Sağlıklı sayılma koşulu |

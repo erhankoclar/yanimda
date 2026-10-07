@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
@@ -21,7 +20,7 @@ class ServiceInquirySerializer(serializers.ModelSerializer):
     )
     email = serializers.EmailField(help_text=_('Email address to reply to. Stored in lower case.'))
     service = serializers.PrimaryKeyRelatedField(
-        queryset=ServiceType.objects.filter(is_active=True), write_only=True,
+        queryset=ServiceType.objects.active(), write_only=True,
         help_text=api_descriptions.INQUIRY_SERVICE_HELP_TEXT,
     )
     service_detail = ServiceTypeSerializer(source='service', read_only=True, help_text=_('Requested service type.'))
@@ -128,21 +127,6 @@ class ServiceInquirySerializer(serializers.ModelSerializer):
         if value:
             raise serializers.ValidationError(gettext('The form could not be sent. Please try again.'))
         return value
-
-    def create(self, validated_data):
-        """
-        Talebi onay zamanıyla birlikte kalıcı olarak kaydeder.
-
-        Args:
-            validated_data (dict[str, Any]): Doğrulanmış veriler.
-
-        Returns:
-            ServiceInquiry: Kaydedilen talep.
-        """
-        validated_data.pop('consent')
-        validated_data.pop('website', None)
-        validated_data['consent_given_at'] = timezone.now()
-        return super().create(validated_data)
 
 
 class AdminServiceInquirySerializer(serializers.ModelSerializer):

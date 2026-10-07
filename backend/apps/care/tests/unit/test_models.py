@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 from apps.care.models import CareRequest, ServiceType
+from apps.care.services import care_request_service
 from apps.care.tests.factories import make_care_request, make_service, make_user
 
 
@@ -134,9 +135,9 @@ class CareRequestStatusTransitionTests(TestCase):
         for current, targets in expected.items():
             with self.subTest(current=current):
                 care_request = CareRequest(status=current)
-                self.assertEqual(set(care_request.next_statuses()), targets)
+                self.assertEqual(set(care_request_service.next_statuses(care_request)), targets)
                 for target in targets:
-                    self.assertTrue(care_request.can_change_status_to(target))
+                    self.assertTrue(care_request_service.can_change_status(care_request, target))
 
     def test_skipping_or_going_back_is_not_allowed(self):
         """
@@ -148,22 +149,22 @@ class CareRequestStatusTransitionTests(TestCase):
         Beklenti:
         - Her iki geçiş de reddedilmelidir.
         """
-        self.assertFalse(CareRequest(status=CareRequest.Status.NEW).can_change_status_to(CareRequest.Status.COMPLETED))
-        self.assertFalse(CareRequest(status=CareRequest.Status.ASSIGNED).can_change_status_to(CareRequest.Status.NEW))
+        self.assertFalse(care_request_service.can_change_status(CareRequest(status=CareRequest.Status.NEW), CareRequest.Status.COMPLETED))
+        self.assertFalse(care_request_service.can_change_status(CareRequest(status=CareRequest.Status.ASSIGNED), CareRequest.Status.NEW))
 
     def test_final_statuses_cannot_change(self):
         """Tamamlanan ve iptal edilen taleplerin başka duruma geçemediğini doğrular."""
         for final in (CareRequest.Status.COMPLETED, CareRequest.Status.CANCELLED):
             with self.subTest(final=final):
                 care_request = CareRequest(status=final)
-                self.assertEqual(care_request.next_statuses(), [])
-                self.assertFalse(care_request.can_change_status_to(CareRequest.Status.NEW))
+                self.assertEqual(care_request_service.next_statuses(care_request), [])
+                self.assertFalse(care_request_service.can_change_status(care_request, CareRequest.Status.NEW))
 
     def test_same_status_is_always_allowed(self):
         """Mevcut durumun tekrar gönderilmesinin (yalnızca not güncelleme) her durumda serbest olduğunu doğrular."""
         for current in CareRequest.Status.values:
             with self.subTest(current=current):
-                self.assertTrue(CareRequest(status=current).can_change_status_to(current))
+                self.assertTrue(care_request_service.can_change_status(CareRequest(status=current), current))
 
 
 class CareRequestOpenConstraintTests(TestCase):
