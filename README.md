@@ -123,7 +123,7 @@ Frontend, `/api` isteklerini Vite proxy'si ile backend'e iletir; tarayıcı yaln
 
 ### İki ayrı arayüz
 
-- **Son kullanıcı** (`PublicLayout`): PrimeVue ve tablo/dashboard bileşenleri kullanılmaz. "Ihlamur" görsel dili: açık zemin, koyu mürekkep rengi, ıhlamur yeşili ana aksiyon, seçili durumlar için bal sarısı. Yazı tipi, az görenler için tasarlanmış **Atkinson Hyperlegible Next**; temel yazı boyutu 19 px, dokunma alanları geniş tutulur (en az 44 px). Klavye odağı her zaman görünür, "İçeriğe geç" bağlantısı vardır, azaltılmış hareket tercihi desteklenir.
+- **Son kullanıcı** (`PublicLayout`): PrimeVue ve tablo/dashboard bileşenleri kullanılmaz. Sıcak, fotoğraflı, tam genişlik bir hizmet sitesi: beyaz zemin, açık adaçayı ve şeftali tonlu bölümler, koyu çam yeşili ana renk (`#1F5F55`), kayısı vurgu rengi (`#F29E4C`), koyu yeşil alt bilgi. Başlıklarda **Bricolage Grotesque**, gövdede az görenler için tasarlanmış **Atkinson Hyperlegible Next**; temel yazı boyutu 19 px, dokunma alanları geniş tutulur (en az 44 px). Yapışkan üst bar mobilde açılır menüye dönüşür. Klavye odağı her zaman görünür, "İçeriğe geç" bağlantısı vardır, azaltılmış hareket tercihi desteklenir. Fotoğraflar Pexels lisanslıdır; kaynakları `frontend/public/images/CREDITS.md` dosyasındadır ve aynı adlarla kendi fotoğraflarınızla değiştirilebilir.
 - **Admin** (`AdminLayout`): kenar çubuğu, üst bar, tablo, filtre, dialog. Tüm admin sayfaları ayrı (lazy) paketlerde yüklenir.
 
 ## İş kuralları
@@ -259,7 +259,7 @@ docker compose exec backend sh run_tests.sh security     # tek tür
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (142 test)
+### Frontend (147 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |

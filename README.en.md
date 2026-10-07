@@ -123,7 +123,7 @@ The frontend forwards `/api` requests to the backend through the Vite proxy; the
 
 ### Two separate interfaces
 
-- **Public** (`PublicLayout`): no PrimeVue, tables or dashboard components. "Linden" visual language: light background, dark ink, linden green primary action, honey yellow for selected states. The typeface is **Atkinson Hyperlegible Next**, designed for low-vision readers; base text size is 19 px and tap targets are kept large (at least 44 px). Keyboard focus is always visible, a "Skip to content" link exists and reduced motion is respected.
+- **Public** (`PublicLayout`): no PrimeVue, tables or dashboard components. A warm, photo based, full width service site: white base, light sage and peach sections, deep pine green primary (`#1F5F55`), apricot accent (`#F29E4C`) and a dark green footer. Headings use **Bricolage Grotesque** and body text uses **Atkinson Hyperlegible Next**, designed for low-vision readers; base text size is 19 px and tap targets are kept large (at least 44 px). The sticky header turns into a menu on phones. Keyboard focus is always visible, a "Skip to content" link exists and reduced motion is respected. Photos use the Pexels license; their sources are listed in `frontend/public/images/CREDITS.md` and they can be replaced with your own photos under the same names.
 - **Admin** (`AdminLayout`): sidebar, top bar, tables, filters, dialogs. All admin pages are loaded in separate (lazy) bundles.
 
 ## Business rules
@@ -259,7 +259,7 @@ docker compose exec backend sh run_tests.sh security     # one type
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (142 tests)
+### Frontend (147 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
