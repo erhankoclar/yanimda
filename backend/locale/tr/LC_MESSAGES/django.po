@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-07 17:18+0300\n"
+"POT-Creation-Date: 2026-10-07 17:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,6 +145,65 @@ msgstr "İletişim telefon numarası. İsteğe bağlı, en fazla 20 karakter."
 
 msgid "A user with this email address already exists."
 msgstr "Bu e-posta adresiyle kayıtlı bir kullanıcı zaten var."
+
+msgid "Care services"
+msgstr "Bakım hizmetleri"
+
+msgid "Creates or updates the default data of the care module."
+msgstr "Bakım modülünün varsayılan verilerini oluşturur veya günceller."
+
+msgid "Service types"
+msgstr "Hizmet türleri"
+
+msgid "CARE DEFAULT DATA SETUP STARTED"
+msgstr "BAKIM MODÜLÜ VARSAYILAN VERİ KURULUMU BAŞLATILDI"
+
+#, python-format
+msgid "%(prefix)s %(label)s started."
+msgstr "%(prefix)s %(label)s işlemi başlatıldı."
+
+#, python-format
+msgid ""
+"%(prefix)s %(label)s completed. Created: %(created)d, Updated: %(updated)d."
+msgstr ""
+"%(prefix)s %(label)s tamamlandı. Oluşturulan: %(created)d, Güncellenen: "
+"%(updated)d."
+
+#, python-format
+msgid "Care default data setup failed: %(error)s"
+msgstr "Bakım modülü varsayılan veri kurulumu başarısız oldu: %(error)s"
+
+#, python-format
+msgid ""
+"All care default data operations completed. Created: %(created)d, Updated: "
+"%(updated)d."
+msgstr ""
+"Tüm bakım modülü varsayılan veri işlemleri tamamlandı. Oluşturulan: "
+"%(created)d, Güncellenen: %(updated)d."
+
+msgid "name"
+msgstr "ad"
+
+msgid "slug"
+msgstr "kısa ad"
+
+msgid "description"
+msgstr "açıklama"
+
+msgid "icon key"
+msgstr "ikon anahtarı"
+
+msgid "sort order"
+msgstr "sıra"
+
+msgid "active"
+msgstr "aktif"
+
+msgid "service type"
+msgstr "hizmet türü"
+
+msgid "service types"
+msgstr "hizmet türleri"
 
 msgid "Turkish"
 msgstr "Türkçe"
