@@ -4,14 +4,36 @@
 
 Yanımda, yaşlı yakını için evde bakım, refakat, hastane eşliği gibi hizmetlere başvuru yapan aileler ile bu başvuruları yöneten ekip için geliştirilen bir web uygulamasıdır.
 
-- **Son kullanıcı arayüzü:** sade, sıcak, mobil öncelikli; başvuru adım adım (sihirbaz) ilerler.
+- **Son kullanıcı arayüzü:** sıcak, fotoğraflı, mobil öncelikli hizmet sitesi. Hesap açmadan doldurulan **hızlı talep formu** (ad, e-posta, hizmet, açıklama) ve hesapla yapılan, takip edilebilen **5 adımlı başvuru** içerir.
 - **Admin paneli:** talepleri, kullanıcıları ve istatistikleri yöneten yoğun bilgi ekranları (PrimeVue).
 - **API:** Django REST Framework, PostgreSQL, JWT kimlik doğrulama.
 
-> **Durum:** Backend API'nin tamamı, son kullanıcı arayüzü (ana sayfa, giriş, kayıt, 5 adımlı başvuru sihirbazı, başvurularım ve başvuru detayı) ve tek tıkla çalıştırma hazırdır. Admin panel ekranları yapım aşamasındadır.
+> **Durum:** Backend API'nin tamamı, son kullanıcı arayüzü, tek tıkla çalıştırma ve Render yayın yapılandırması hazırdır. Admin panel **ekranları** yapılmadı (API'leri hazır); bkz. [Bilinen eksikler](#bilinen-eksikler).
+
+## Teslim
+
+| | |
+| --- | --- |
+| Canlı adres | _Render yayınından sonra eklenecek_ |
+| Kaynak kod | https://github.com/erhankoclar/yanimda |
+| Teslim commit'i | _Sürüm etiketinden sonra eklenecek_ |
+| Yapay zekâ kullanım kaydı | [AI_LOG.md](AI_LOG.md) |
+
+Değerlendirme kriterlerinin karşılandığı yerler:
+
+| Kriter | Nerede |
+| --- | --- |
+| Mobil ve masaüstü uyumlu landing page | Ana sayfa (`frontend/src/views/public/LandingView.vue`); e2e testleri telefon ve masaüstünde koşar |
+| İsim, e-posta, hizmet seçimi ve açıklama içeren form | Ana sayfadaki "Talebinizi bırakın" formu (`InquiryForm.vue`) |
+| İstemci ve sunucu tarafında alan doğrulaması | `frontend/src/utils/inquiryValidation.js` ve `backend/apps/care/inquiry_serializers.py` |
+| Gönderiliyor, başarı ve hata durumları | Düğmede "Gönderiliyor…" yazar ve form kilitlenir; kayıt numaralı başarı mesajı; alan ve genel hata mesajları |
+| Kaydın sunucuda kalıcı saklanması | PostgreSQL `care_serviceinquiry` tablosu; `GET /api/admin/inquiries/` ile görülebilir |
+| Başarı mesajı yalnızca kayıt başarılıysa | Mesaj yalnızca sunucu kaydı (kimliğiyle) döndürünce gösterilir; 4xx, 5xx, ağ hatası ve kimliksiz yanıtlar için testler var |
+| README, AI_LOG.md, teslim commit'i | Bu dosya, [AI_LOG.md](AI_LOG.md), yukarıdaki tablo |
 
 ## İçindekiler
 
+- [Teslim](#teslim)
 - [Hızlı başlangıç](#hızlı-başlangıç)
 - [Adresler ve giriş bilgileri](#adresler-ve-giriş-bilgileri)
 - [Durdurma ve sıfırlama](#durdurma-ve-sıfırlama)
@@ -22,7 +44,10 @@ Yanımda, yaşlı yakını için evde bakım, refakat, hastane eşliği gibi hiz
 - [Testler](#testler)
 - [Betikler olmadan geliştirme](#betikler-olmadan-geliştirme)
 - [Güvenlik notları](#güvenlik-notları)
+- [Canlı yayın (Render)](#canlı-yayın-render)
 - [Git akışı](#git-akışı)
+- [Bilinen eksikler](#bilinen-eksikler)
+- [Kaynaklar ve şablonlar](#kaynaklar-ve-şablonlar)
 - [Sorun giderme](#sorun-giderme)
 
 ## Hızlı başlangıç
@@ -128,6 +153,14 @@ Frontend, `/api` isteklerini Vite proxy'si ile backend'e iletir; tarayıcı yaln
 
 ## İş kuralları
 
+### Hızlı talep formu (hesapsız)
+
+- Ad soyad (en az 2 karakter), geçerli e-posta, aktif bir hizmet, 10–2000 karakter açıklama ve kişisel veri onayı zorunludur. Kurallar istemci ve sunucuda aynıdır; sunucu her zaman yeniden doğrular.
+- Gönderim sırasında düğme "Gönderiliyor…" olur ve alanlar kilitlenir. Başarı mesajı **yalnızca** sunucu kaydı saklayıp kayıt numarasını döndürdüğünde gösterilir. Hata olursa yazılanlar korunur; alan hataları alanın altında, diğer hatalar formun üstünde görünür.
+- E-posta küçük harfle, ad fazla boşluklar temizlenerek saklanır; onay zamanı kaydedilir.
+- Spam botlarına karşı görünmez bir tuzak alanı vardır ve istekler IP başına saatte 5 ile sınırlıdır.
+- Ana sayfadaki hizmet kartları formu ilgili hizmet seçili olarak açar.
+
 ### Hesaplar
 
 - Giriş **yalnızca e-posta ve parola** ile yapılır; kullanıcı adı kavramı yoktur.
@@ -189,9 +222,11 @@ Tüm uç noktalar `/api/` altındadır. Ayrıntılı alan açıklamaları ve den
 | POST | `/api/auth/logout/` | Herkes | Çıkış (refresh token'ı kara listeye alır) |
 | GET, PATCH | `/api/auth/me/` | Giriş yapmış | Profil |
 | GET | `/api/services/` | Herkes | Aktif hizmetler (sayfalanmaz) |
+| POST | `/api/inquiries/` | Herkes | Hızlı talep formu (hesapsız) |
 | GET, POST | `/api/requests/` | Giriş yapmış | Kendi başvurularım / yeni başvuru |
 | GET | `/api/requests/{id}/` | Giriş yapmış | Kendi başvurumun detayı |
 | GET | `/api/admin/stats/` | Admin | Gösterge paneli istatistikleri |
+| GET | `/api/admin/inquiries/` | Admin | Hızlı talepler; `service`, `search` |
 | GET | `/api/admin/requests/` | Admin | Tüm başvurular; `status`, `service`, `applicant`, `created_from`, `created_to`, `search`, `ordering` |
 | GET, PATCH | `/api/admin/requests/{id}/` | Admin | Detay; durum ve yönetici notu güncelleme |
 | GET | `/api/admin/users/` | Admin | Kullanıcılar ve başvuru sayıları; `is_staff`, `is_active`, `search`, `ordering` |
@@ -224,6 +259,7 @@ Backend ayarları ortam değişkenlerinden okunur. Örnek dosya: `backend/.env.e
 | Kayıt (IP başına) | `accounts_register` | `10/hour` | `THROTTLE_ACCOUNTS_REGISTER` |
 | Giriş (IP başına) | `accounts_login` | `10/minute` | `THROTTLE_ACCOUNTS_LOGIN` |
 | Başvuru oluşturma (kullanıcı başına) | `care_request_create` | `20/day` | `THROTTLE_CARE_REQUEST_CREATE` |
+| Hızlı talep formu (IP başına) | `care_inquiry_create` | `5/hour` | `THROTTLE_CARE_INQUIRY_CREATE` |
 
 Proje ayarlarından ezmek için:
 
@@ -232,8 +268,11 @@ REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
     'accounts_register': '10/hour',
     'accounts_login': '10/minute',
     'care_request_create': '20/day',
+    'care_inquiry_create': '5/hour',
 }
 ```
+
+Yerel `docker-compose.yml` ortamında e2e testleri tek IP'den çok istek attığı için bu sınırlar gevşetilmiştir; üretimde (Render) yukarıdaki varsayılanlar geçerlidir.
 
 Frontend için `VITE_API_PROXY_TARGET` (varsayılan `http://localhost:8000`) ve Windows'taki bağlı klasörlerde dosya izleme için `VITE_USE_POLLING=true` kullanılır.
 
@@ -241,7 +280,7 @@ Frontend için `VITE_API_PROXY_TARGET` (varsayılan `http://localhost:8000`) ve 
 
 Testler türlerine göre klasörlenmiştir ve her değişiklikten önce tamamı regresyon olarak çalıştırılır. Testler **Docker konteynerlerinde, PostgreSQL üzerinde** çalışır.
 
-### Backend (150 test)
+### Backend (169 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |
@@ -259,7 +298,7 @@ docker compose exec backend sh run_tests.sh security     # tek tür
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (147 test)
+### Frontend (170 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |
@@ -272,6 +311,17 @@ docker compose exec backend sh run_tests.sh unit scenario
 ```bash
 docker compose exec frontend npx vitest run
 docker compose exec frontend npx vitest run tests/security
+```
+
+### Uçtan uca (Playwright, 18 test)
+
+`e2e/` klasöründeki testler çalışan yığına (gerçek frontend, backend ve PostgreSQL) karşı telefon ve masaüstü görünümlerinde koşar: hızlı formun gönderiliyor/başarı/hata durumları ve kaydın veritabanında bulunması, istemci atlatıldığında sunucu doğrulaması, kayıt + 5 adımlı başvuru + mükerrer başvurunun reddi, yatay taşma ve konsol hatası kontrolü.
+
+```bash
+docker compose up -d --wait
+docker compose --profile e2e run --rm e2e
+# Başka bir adrese karşı (ör. üretim imajı):
+docker compose --profile e2e run --rm -e E2E_BASE_URL=https://ornek.onrender.com e2e
 ```
 
 ### Başlatma betikleri
@@ -317,11 +367,42 @@ python manage.py compilemessages -l tr
 - Üretimde `DEBUG=False`, güçlü `SECRET_KEY`, gerçek `ALLOWED_HOSTS` kullanın ve `DJANGO_SUPERUSER_*` değişkenlerini kaldırın. `API_DOCS_ENABLED` varsayılan olarak `DEBUG`'u izler; üretimde belgeler kapalıdır.
 - Tarayıcı token'ları `localStorage`'da tutar; access token kısa ömürlüdür ve refresh token'lar döndürülüp kara listeye alınır.
 
+## Canlı yayın (Render)
+
+Kök dizindeki `Dockerfile` Vue sitesini derler ve Django API ile birlikte tek bir gunicorn servisinden sunar (WhiteNoise). Sayfa adresleri (`/requests/5` gibi) Vue'ya, `/api/` adresleri Django'ya gider.
+
+1. Render'da **New → Blueprint** seçin ve bu GitHub deposunu bağlayın; `render.yaml` okunur.
+2. Render ücretsiz PostgreSQL veritabanını ve web servisini oluşturur; `SECRET_KEY` otomatik üretilir.
+3. İstendiğinde `DJANGO_SUPERUSER_PASSWORD` için güçlü bir parola girin (admin e-postası: `admin@yanimda.example`).
+4. Yayın bitince adres `https://<servis-adı>.onrender.com` olur. Açılışta migration, varsayılan hizmetler ve admin hesabı otomatik hazırlanır.
+
+Üretim notları:
+- `DEBUG=False`, HSTS açık, çerezler yalnızca HTTPS'te gönderilir. HTTP'den HTTPS'e yönlendirmeyi Render yapar; uygulamadaki `SECURE_SSL_REDIRECT` kapalı tutulur, çünkü açık olursa Render'ın iç HTTP sağlık kontrolü 301 alıp başarısız olur.
+- Swagger değerlendirme için açıktır (`API_DOCS_ENABLED=True`); kapatmak için bu değişkeni `False` yapın.
+- Üretim imajını yerelde denemek için: `docker build -t yanimda-prod .` ve `DATABASE_URL`, `SECRET_KEY`, `ALLOWED_HOSTS` vererek çalıştırın.
+
 ## Git akışı
 
 - Git Flow kullanılır: yeni özellikler `feature/*`, hata düzeltmeleri `hotfix/*` dallarında geliştirilir; `develop` ve `master` dallarına doğrudan yazılmaz.
 - Commit'ler küçük, anlamlı ve her biri kendi başına çalışır durumdadır; her commit'ten önce tüm testler çalıştırılır.
 - Commit mesajları önce İngilizce, sonra Türkçe özet ve maddelerden oluşur.
+
+## Bilinen eksikler
+
+- **Admin panel ekranları yapılmadı.** Admin API'leri (talepler, durum güncelleme, istatistikler, kullanıcılar, hızlı talepler) hazır ve test edildi; Vue tarafındaki admin sayfaları şimdilik yalnızca başlık içerir.
+- Hızlı talep gelince e-posta bildirimi gönderilmez; talepler kaydedilir ve admin API'sinden görülür.
+- Başvurular internetten düzenlenemez veya iptal edilemez.
+- İletişim telefonu ve çalışma saatleri yer tutucudur.
+- Render ücretsiz katmanında servis boşta uyur (ilk istek yaklaşık 30 sn sürer) ve ücretsiz PostgreSQL 30 gün sonra silinir.
+- macOS ve Linux başlatma betikleri sahte komutlarla test edildi, gerçek bir macOS/Linux makinesinde denenmedi.
+
+## Kaynaklar ve şablonlar
+
+- Hazır proje şablonu (boilerplate) kullanılmadı. Django iskeleti `django-admin startproject/startapp` ile oluşturuldu; Vite yapılandırması elle yazıldı. Geri kalan kod bu proje için yazıldı.
+- Kod yapay zekâ (Claude Code) ile, geliştiricinin kararları ve yönlendirmeleriyle üretildi; ayrıntılar [AI_LOG.md](AI_LOG.md) dosyasında.
+- Fotoğraflar: Pexels lisanslı stok fotoğraflar; kaynakları `frontend/public/images/CREDITS.md` dosyasında.
+- Yazı tipleri: Google Fonts üzerinden Atkinson Hyperlegible Next ve Bricolage Grotesque (SIL Open Font License).
+- Kullanılan açık kaynak kütüphaneler: `backend/requirements.txt`, `frontend/package.json` ve `e2e/package.json`.
 
 ## Sorun giderme
 

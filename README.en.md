@@ -4,14 +4,36 @@
 
 Yanımda ("by my side") is a web application for families who apply for services such as home care, companionship and hospital escort for an elderly relative, and for the team that manages those applications.
 
-- **Public interface:** simple, warm, mobile first; the application moves forward step by step (wizard).
+- **Public interface:** a warm, photo based, mobile first service site. It offers a **quick inquiry form** that needs no account (name, email, service, description) and a trackable **five step application** with an account.
 - **Admin panel:** information-dense screens for requests, users and statistics (PrimeVue).
 - **API:** Django REST Framework, PostgreSQL, JWT authentication.
 
-> **Status:** The complete backend API, the public interface (landing page, login, registration, five step application wizard, my requests and request detail) and one-click start are ready. The admin panel screens are under construction.
+> **Status:** The complete backend API, the public interface, one-click start and the Render deployment configuration are ready. The admin panel **screens** were not built (their APIs are ready); see [Known gaps](#known-gaps).
+
+## Delivery
+
+| | |
+| --- | --- |
+| Live URL | _Added after the Render deployment_ |
+| Source code | https://github.com/erhankoclar/yanimda |
+| Delivery commit | _Added after the release tag_ |
+| AI usage log | [AI_LOG.md](AI_LOG.md) (Turkish) |
+
+Where the evaluation criteria are met:
+
+| Criterion | Where |
+| --- | --- |
+| Mobile and desktop friendly landing page | Landing page (`frontend/src/views/public/LandingView.vue`); e2e tests run on phone and desktop |
+| Form with name, email, service selection and description | The "Talebinizi bırakın" (leave your inquiry) form on the landing page (`InquiryForm.vue`) |
+| Client and server side field validation | `frontend/src/utils/inquiryValidation.js` and `backend/apps/care/inquiry_serializers.py` |
+| Sending, success and error states | The button reads "Gönderiliyor…" (sending) and the form locks; a success message with the record number; field and general error messages |
+| The record is stored permanently on the server | PostgreSQL table `care_serviceinquiry`; visible through `GET /api/admin/inquiries/` |
+| Success is shown only when the record is saved | The message appears only after the server returns the saved record with its id; tests cover 4xx, 5xx, network errors and responses without an id |
+| README, AI_LOG.md, delivery commit | This file, [AI_LOG.md](AI_LOG.md), the table above |
 
 ## Contents
 
+- [Delivery](#delivery)
 - [Quick start](#quick-start)
 - [Addresses and credentials](#addresses-and-credentials)
 - [Stopping and resetting](#stopping-and-resetting)
@@ -22,7 +44,10 @@ Yanımda ("by my side") is a web application for families who apply for services
 - [Tests](#tests)
 - [Development without the scripts](#development-without-the-scripts)
 - [Security notes](#security-notes)
+- [Live deployment (Render)](#live-deployment-render)
 - [Git workflow](#git-workflow)
+- [Known gaps](#known-gaps)
+- [Sources and templates](#sources-and-templates)
 - [Troubleshooting](#troubleshooting)
 
 ## Quick start
@@ -128,6 +153,14 @@ The frontend forwards `/api` requests to the backend through the Vite proxy; the
 
 ## Business rules
 
+### Quick inquiry form (no account)
+
+- Name (at least 2 characters), a valid email, an active service, a 10–2000 character description and consent are required. The rules are the same on the client and the server; the server always validates again.
+- While sending, the button reads "Gönderiliyor…" and the fields lock. The success message appears **only** after the server stores the record and returns its number. On errors the typed data is kept; field errors appear under the fields and other errors above the form.
+- The email is stored in lower case, the name with extra spaces removed, and the consent time is recorded.
+- A hidden honeypot field stops spam bots and requests are limited to 5 per hour per IP.
+- The service cards on the landing page open the form with that service selected.
+
 ### Accounts
 
 - Login is **by email and password only**; there are no usernames.
@@ -189,9 +222,11 @@ All endpoints live under `/api/`. Use Swagger for detailed field descriptions an
 | POST | `/api/auth/logout/` | Anyone | Log out (blacklists the refresh token) |
 | GET, PATCH | `/api/auth/me/` | Logged in | Profile |
 | GET | `/api/services/` | Anyone | Active services (not paginated) |
+| POST | `/api/inquiries/` | Anyone | Quick inquiry form (no account) |
 | GET, POST | `/api/requests/` | Logged in | My applications / new application |
 | GET | `/api/requests/{id}/` | Logged in | Detail of my application |
 | GET | `/api/admin/stats/` | Admin | Dashboard statistics |
+| GET | `/api/admin/inquiries/` | Admin | Quick inquiries; `service`, `search` |
 | GET | `/api/admin/requests/` | Admin | All applications; `status`, `service`, `applicant`, `created_from`, `created_to`, `search`, `ordering` |
 | GET, PATCH | `/api/admin/requests/{id}/` | Admin | Detail; update status and admin note |
 | GET | `/api/admin/users/` | Admin | Users with application counts; `is_staff`, `is_active`, `search`, `ordering` |
@@ -224,6 +259,7 @@ Backend settings are read from environment variables. Example file: `backend/.en
 | Registration (per IP) | `accounts_register` | `10/hour` | `THROTTLE_ACCOUNTS_REGISTER` |
 | Login (per IP) | `accounts_login` | `10/minute` | `THROTTLE_ACCOUNTS_LOGIN` |
 | Creating applications (per user) | `care_request_create` | `20/day` | `THROTTLE_CARE_REQUEST_CREATE` |
+| Quick inquiry form (per IP) | `care_inquiry_create` | `5/hour` | `THROTTLE_CARE_INQUIRY_CREATE` |
 
 To override them in project settings:
 
@@ -232,8 +268,11 @@ REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
     'accounts_register': '10/hour',
     'accounts_login': '10/minute',
     'care_request_create': '20/day',
+    'care_inquiry_create': '5/hour',
 }
 ```
+
+In the local `docker-compose.yml` environment these limits are relaxed because the e2e tests send many requests from one IP; in production (Render) the defaults above apply.
 
 The frontend uses `VITE_API_PROXY_TARGET` (default `http://localhost:8000`) and `VITE_USE_POLLING=true` for file watching on mounted folders on Windows.
 
@@ -241,7 +280,7 @@ The frontend uses `VITE_API_PROXY_TARGET` (default `http://localhost:8000`) and 
 
 Tests are grouped by type and the full set runs as a regression check before every change. Tests run **inside the Docker containers, on PostgreSQL**.
 
-### Backend (150 tests)
+### Backend (169 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
@@ -259,7 +298,7 @@ docker compose exec backend sh run_tests.sh security     # one type
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (147 tests)
+### Frontend (170 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
@@ -272,6 +311,17 @@ docker compose exec backend sh run_tests.sh unit scenario
 ```bash
 docker compose exec frontend npx vitest run
 docker compose exec frontend npx vitest run tests/security
+```
+
+### End to end (Playwright, 18 tests)
+
+The tests in `e2e/` run against the running stack (real frontend, backend and PostgreSQL) on phone and desktop viewports: sending, success and error states of the quick form and the stored record found in the database, server validation when the client is bypassed, registration + five step application + duplicate rejection, and checks for horizontal overflow and console errors.
+
+```bash
+docker compose up -d --wait
+docker compose --profile e2e run --rm e2e
+# Against another address (e.g. the production image):
+docker compose --profile e2e run --rm -e E2E_BASE_URL=https://example.onrender.com e2e
 ```
 
 ### Start scripts
@@ -317,11 +367,42 @@ python manage.py compilemessages -l tr
 - In production use `DEBUG=False`, a strong `SECRET_KEY` and real `ALLOWED_HOSTS`, and remove the `DJANGO_SUPERUSER_*` variables. `API_DOCS_ENABLED` follows `DEBUG` by default, so the docs are off in production.
 - The browser keeps tokens in `localStorage`; access tokens are short-lived and refresh tokens are rotated and blacklisted.
 
+## Live deployment (Render)
+
+The root `Dockerfile` builds the Vue site and serves it together with the Django API from a single gunicorn service (WhiteNoise). Page addresses (such as `/requests/5`) go to Vue and `/api/` addresses go to Django.
+
+1. In Render choose **New → Blueprint** and connect this GitHub repository; `render.yaml` is read.
+2. Render creates the free PostgreSQL database and the web service; `SECRET_KEY` is generated automatically.
+3. When asked, enter a strong password for `DJANGO_SUPERUSER_PASSWORD` (admin email: `admin@yanimda.example`).
+4. After the deployment the address is `https://<service-name>.onrender.com`. Migrations, default services and the admin account are prepared automatically on start.
+
+Production notes:
+- `DEBUG=False`, HSTS is on and cookies are sent only over HTTPS. Render redirects HTTP to HTTPS; `SECURE_SSL_REDIRECT` stays off in the app, because otherwise Render's internal HTTP health check would get a 301 and fail.
+- Swagger is enabled for the evaluation (`API_DOCS_ENABLED=True`); set it to `False` to hide it.
+- To try the production image locally: `docker build -t yanimda-prod .` and run it with `DATABASE_URL`, `SECRET_KEY` and `ALLOWED_HOSTS`.
+
 ## Git workflow
 
 - Git Flow is used: new features are developed on `feature/*` branches and bug fixes on `hotfix/*` branches; `develop` and `master` are never written to directly.
 - Commits are small, meaningful and each one works on its own; all tests run before every commit.
 - Commit messages contain an English summary and bullets followed by a Turkish summary and bullets.
+
+## Known gaps
+
+- **The admin panel screens were not built.** The admin APIs (requests, status updates, statistics, users, quick inquiries) are ready and tested; the Vue admin pages only contain a heading for now.
+- No email notification is sent for quick inquiries; they are stored and visible through the admin API.
+- Applications cannot be edited or cancelled online.
+- The contact phone and opening hours are placeholders.
+- On Render's free tier the service sleeps when idle (the first request takes about 30 s) and the free PostgreSQL database is deleted after 30 days.
+- The macOS and Linux start scripts were tested with stub commands, not on a real macOS or Linux machine.
+
+## Sources and templates
+
+- No project template (boilerplate) was used. The Django skeleton was created with `django-admin startproject/startapp` and the Vite configuration was written by hand. The rest of the code was written for this project.
+- The code was produced with AI (Claude Code), guided by the developer's decisions; see [AI_LOG.md](AI_LOG.md) for details.
+- Photos: stock photos under the Pexels license; sources are listed in `frontend/public/images/CREDITS.md`.
+- Fonts: Atkinson Hyperlegible Next and Bricolage Grotesque via Google Fonts (SIL Open Font License).
+- Open source libraries used: `backend/requirements.txt`, `frontend/package.json` and `e2e/package.json`.
 
 ## Troubleshooting
 
