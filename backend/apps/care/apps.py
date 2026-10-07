@@ -7,3 +7,14 @@ class CareConfig(AppConfig):
     name = 'apps.care'
     label = 'care'
     verbose_name = _('Care services')
+
+    def ready(self):
+        """
+        Uygulama açılışında modül throttle oranlarını kaydeder.
+
+        Throttle sınıfları istek sırasında oranları okuduğundan kayıt,
+        endpoint import sırasından bağımsız olarak açılışta yapılır.
+        """
+        from apps.care.conf import register_throttle_rates
+
+        register_throttle_rates()

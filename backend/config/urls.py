@@ -6,6 +6,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path('api/auth/', include('apps.accounts.urls')),
+    path('api/', include('apps.care.urls')),
 ]
 
 if settings.API_DOCS_ENABLED:
