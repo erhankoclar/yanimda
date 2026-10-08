@@ -1,11 +1,35 @@
 export default {
   admin: {
     brand: 'Yanımda Admin',
+    layout: {
+      closeMenu: 'Close menu',
+      logout: 'Sign out',
+      openMenu: 'Open menu',
+      openSite: 'Open the site',
+      signedInAs: 'Signed in as {name}',
+    },
+    login: {
+      backToSite: 'Back to the site',
+      email: 'Email address',
+      intro: 'Manage inquiries, applications and users from here.',
+      invalid: 'The email address or password is incorrect.',
+      notStaff: 'This account has no access to the admin panel. You can follow your applications on the site.',
+      password: 'Password',
+      submit: 'Sign in',
+      title: 'Admin sign-in',
+    },
+    nav: {
+      dashboard: 'Dashboard',
+      inquiries: 'Quick inquiries',
+      label: 'Admin menu',
+      requests: 'Applications',
+      users: 'Users',
+    },
     titles: {
       dashboard: 'Dashboard',
-      login: 'Admin sign-in',
-      requestDetail: 'Request details',
-      requests: 'Requests',
+      inquiries: 'Quick inquiries',
+      requestDetail: 'Application details',
+      requests: 'Applications',
       userDetail: 'User details',
       users: 'Users',
     },

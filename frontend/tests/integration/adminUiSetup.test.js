@@ -1,3 +1,4 @@
+import { flushPromises } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { mountApp } from '../helpers/mountApp'
@@ -19,5 +20,14 @@ describe('admin arayüzü kurulumu', () => {
     expect(wrapper.vm.$primevue).toBeDefined()
     expect(wrapper.vm.$primevue.config.locale.monthNames[0]).toBe('Ocak')
     expect(wrapper.vm.$toast).toBeDefined()
+  })
+
+  it('dil bayrağı İngilizceye geçince PrimeVue metinleri de İngilizce olur', async () => {
+    ;({ wrapper } = await mountApp('/admin/login'))
+
+    await wrapper.findAll('.preference-controls__flag')[1].trigger('click')
+    await flushPromises()
+
+    expect(wrapper.vm.$primevue.config.locale.monthNames[0]).toBe('January')
   })
 })

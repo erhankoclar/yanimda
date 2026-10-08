@@ -1,10 +1,11 @@
-import { mount } from '@vue/test-utils'
-import { createPinia } from 'pinia'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
-import AdminLayout from '@/layouts/AdminLayout.vue'
+import { tokenStorage } from '@/api/tokenStorage'
 
+import { ADMIN, restoreApi, routeHandler, useFakeApi } from '../helpers/fakeApi'
 import { mountApp } from '../helpers/mountApp'
+
+afterEach(() => restoreApi())
 
 describe('dil ve tema seçimi her yerden erişilebilir', () => {
   it.each(['/', '/login', '/register', '/admin/login'])('%s sayfasında bayraklar ve tema düğmesi görünür', async (path) => {
@@ -15,12 +16,13 @@ describe('dil ve tema seçimi her yerden erişilebilir', () => {
     wrapper.unmount()
   })
 
-  it('admin panelinin üst çubuğunda bayraklar ve tema düğmesi görünür', () => {
-    const wrapper = mount(AdminLayout, {
-      global: { plugins: [createPinia()], stubs: { RouterView: true } },
-    })
+  it('admin panelinin üst çubuğunda bayraklar ve tema düğmesi görünür', async () => {
+    tokenStorage.set({ access: 'a1', refresh: 'r1' })
+    useFakeApi(routeHandler({ 'GET /auth/me/': () => [200, ADMIN] }))
+    const { wrapper } = await mountApp('/admin/dashboard')
 
     expect(wrapper.find('.admin-layout__topbar .preference-controls').exists()).toBe(true)
+    wrapper.unmount()
   })
 
   it('dil seçimi sayfa değişince korunur', async () => {

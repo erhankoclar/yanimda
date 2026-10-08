@@ -1,11 +1,35 @@
 export default {
   admin: {
     brand: 'Yanımda Yönetim',
+    layout: {
+      closeMenu: 'Menüyü kapat',
+      logout: 'Çıkış yap',
+      openMenu: 'Menüyü aç',
+      openSite: 'Siteyi aç',
+      signedInAs: '{name} olarak oturum açık',
+    },
+    login: {
+      backToSite: 'Siteye dön',
+      email: 'E-posta adresi',
+      intro: 'Talepleri, başvuruları ve kullanıcıları buradan yönetirsiniz.',
+      invalid: 'E-posta adresi veya parola hatalı.',
+      notStaff: 'Bu hesabın yönetim paneline erişim yetkisi yok. Başvurularınızı siteden takip edebilirsiniz.',
+      password: 'Parola',
+      submit: 'Giriş yap',
+      title: 'Yönetici girişi',
+    },
+    nav: {
+      dashboard: 'Gösterge paneli',
+      inquiries: 'Hızlı talepler',
+      label: 'Yönetim menüsü',
+      requests: 'Başvurular',
+      users: 'Kullanıcılar',
+    },
     titles: {
       dashboard: 'Gösterge paneli',
-      login: 'Yönetici girişi',
-      requestDetail: 'Talep detayı',
-      requests: 'Talepler',
+      inquiries: 'Hızlı talepler',
+      requestDetail: 'Başvuru detayı',
+      requests: 'Başvurular',
       userDetail: 'Kullanıcı detayı',
       users: 'Kullanıcılar',
     },

@@ -1,5 +1,4 @@
 <template>
-  <section>
-    <h1>{{ $t('admin.titles.requestDetail') }}</h1>
-  </section>
+  <!-- Sayfa başlığı AdminLayout üst barındadır; içerik sonraki adımlarda eklenir. -->
+  <section class="admin-page" />
 </template>
