@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 from io import StringIO
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db.models import Count, Max, Min
@@ -186,6 +186,23 @@ class CareCreateDemoDataTests(TestCase):
 
         second = list(ServiceInquiry.objects.values('service').annotate(count=Count('id')).order_by('service'))
         self.assertEqual(first, second)
+
+
+    def test_demo_accounts_use_the_password_from_settings(self):
+        """
+        Demo hesaplarının parolasının `DEMO_USER_PASSWORD` ayarından geldiğini doğrular.
+
+        Senaryo:
+        - Ayar dışarıdan değiştirilerek komut çalıştırılır.
+
+        Beklenti:
+        - Demo hesabı yeni ayardaki parolayla doğrulanabilmelidir.
+        """
+        with override_settings(DEMO_USER_PASSWORD='Demo-Disaridan-3'):
+            run_command('--days', '7')
+
+        email = f'aile1{DEMO_SUFFIX}'
+        self.assertIsNotNone(authenticate(email=email, password='Demo-Disaridan-3'))
 
 
 class CareCreateDemoDataGuardTests(TestCase):

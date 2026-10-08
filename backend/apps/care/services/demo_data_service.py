@@ -3,28 +3,21 @@
 import random
 from datetime import datetime, time, timedelta
 
+import factory.random
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.utils import timezone
 
-from apps.accounts.services import user_service
+from apps.accounts.factories import UserFactory
+from apps.care.factories import CareRequestFactory, ServiceInquiryFactory
 from apps.care.models import CareRequest, ServiceInquiry, ServiceType
 
 # Demo kayıtları bu ayrılmış (gerçek olmayan) alan adındaki e-postalarla işaretlenir.
 DEMO_EMAIL_DOMAIN = 'demo.yanimda.example'
-DEMO_PASSWORD = 'Kurgusal-Demo-2026'
 APPLICANT_COUNT = 12
-
-FIRST_NAMES = ['Ayşe', 'Mehmet', 'Elif', 'Can', 'Zeynep', 'Murat', 'Selin', 'Emre', 'Deniz', 'Burak', 'Ece', 'Okan']
-LAST_NAMES = ['Kurgu', 'Örnekoğlu', 'Deneme', 'Yalancı', 'Taslak', 'Hayali']
-ELDER_FIRST_NAMES = ['Fatma', 'Hasan', 'Emine', 'Hüseyin', 'Hatice', 'Ali', 'Zehra', 'Osman', 'Saadet', 'İsmail']
-DISTRICTS = [('İstanbul', 'Kadıköy'), ('İstanbul', 'Üsküdar'), ('Ankara', 'Çankaya'), ('İzmir', 'Karşıyaka'), ('Bursa', 'Nilüfer')]
-MESSAGES = [
-    'Haftada iki gün birkaç saatlik destek arıyoruz.',
-    'Annem için kısa süreli yardım gerekiyor, ayrıntıları konuşmak isteriz.',
-    'Babamın hastane randevularına eşlik edecek biri lazım.',
-    'Pazar alışverişi ve eczane işleri için yardım istiyoruz.',
-]
+# Faker'ın ürettiği yaşlı adı nadiren aynı kişinin açık başvurusuyla çakışırsa yeni ad denenir.
+MAX_NAME_ATTEMPTS = 5
 
 
 def demo_data_exists():
@@ -56,7 +49,7 @@ def remove_demo_data():
 
 def _moment(day, rng):
     """
-    Verilen gün içinde mesai saatlerine düşen rastgele bir zaman üretir.
+    Verilen gün içinde gündüz saatlerine düşen rastgele bir zaman üretir.
 
     Args:
         day (date): Gün.
@@ -65,8 +58,7 @@ def _moment(day, rng):
     Returns:
         datetime: Etkin saat dilimindeki zaman.
     """
-    moment = datetime.combine(day, time(hour=rng.randint(8, 21), minute=rng.randint(0, 59)))
-    return timezone.make_aware(moment)
+    return timezone.make_aware(datetime.combine(day, time(hour=rng.randint(8, 21), minute=rng.randint(0, 59))))
 
 
 def _status_for_age(age_days, rng):
@@ -89,17 +81,19 @@ def _status_for_age(age_days, rng):
 
 def _create_applicants():
     """
-    Kurgusal başvuru sahibi hesaplarını oluşturur.
+    Kurgusal başvuru sahibi hesaplarını üretir; ad ve soyadı fabrikadaki Faker verir,
+    parola `DEMO_USER_PASSWORD` ayarından okunur.
 
     Returns:
         list[User]: Oluşturulan kullanıcılar.
     """
     return [
-        user_service.create_user(
-            f'aile{index + 1}@{DEMO_EMAIL_DOMAIN}', DEMO_PASSWORD,
-            first_name=FIRST_NAMES[index % len(FIRST_NAMES)], last_name=LAST_NAMES[index % len(LAST_NAMES)],
+        UserFactory(
+            email=f'aile{number}@{DEMO_EMAIL_DOMAIN}',
+            # Ham parola verilir; fabrikadaki Password dönüştürücüsü özetler.
+            password=settings.DEMO_USER_PASSWORD,
         )
-        for index in range(APPLICANT_COUNT)
+        for number in range(1, APPLICANT_COUNT + 1)
     ]
 
 
@@ -117,34 +111,50 @@ def _create_inquiries(days, today, services, weights, rng):
     Returns:
         int: Oluşturulan hızlı talep sayısı.
     """
-    rows = []
+    count = 0
     for offset in range(days):
         day = today - timedelta(days=offset)
         # Son haftalara doğru hafif artan, hafta sonu azalan talep.
         base = 3 if day.weekday() < 5 else 1
         for _index in range(rng.randint(0, base + (days - offset) // 30)):
-            rows.append((
-                ServiceInquiry(
-                    full_name=f'{rng.choice(FIRST_NAMES)} {rng.choice(LAST_NAMES)}',
-                    email=f'talep{len(rows) + 1}@{DEMO_EMAIL_DOMAIN}',
-                    service=rng.choices(services, weights=weights)[0],
-                    message=rng.choice(MESSAGES),
-                    consent_given_at=timezone.now(),
-                ),
-                _moment(day, rng),
-            ))
-    created = ServiceInquiry.objects.bulk_create([row for row, _moment_value in rows])
-    for inquiry, (_row, moment) in zip(created, rows):
-        inquiry.created_at = moment
-    ServiceInquiry.objects.bulk_update(created, ['created_at'])
-    return len(created)
+            count += 1
+            ServiceInquiryFactory(
+                email=f'talep{count}@{DEMO_EMAIL_DOMAIN}',
+                service=rng.choices(services, weights=weights)[0],
+                created_at=_moment(day, rng),
+            )
+    return count
+
+
+def _create_request(**fields):
+    """
+    Başvuruyu fabrikayla üretir; Faker'ın verdiği yaşlı adı aynı başvuru sahibinin
+    aynı hizmetteki açık başvurusuyla çakışırsa yeni adla yeniden dener.
+
+    Args:
+        **fields (Any): CareRequestFactory alanları.
+
+    Returns:
+        CareRequest: Oluşturulan başvuru.
+
+    Raises:
+        IntegrityError: Tüm denemelerde çakışma sürerse.
+    """
+    for attempt in range(MAX_NAME_ATTEMPTS):
+        try:
+            with transaction.atomic():
+                return CareRequestFactory(**fields)
+        except IntegrityError:
+            if attempt == MAX_NAME_ATTEMPTS - 1:
+                raise
+    return None
 
 
 def _create_requests(days, today, services, weights, applicants, rng):
     """
     Başvuru sahiplerine dağıtılmış, yaşına göre durumu değişen başvurular üretir.
 
-    Her başvurunun yaşlısı farklıdır; böylece aynı kişi ve hizmet için açık başvuru kuralı bozulmaz.
+    Yaşlı adı, yaş, yakınlık, zaman dilimi ve şehir fabrikadaki Faker tanımlarından gelir.
 
     Args:
         days (int): Geriye doğru gün sayısı.
@@ -162,23 +172,13 @@ def _create_requests(days, today, services, weights, applicants, rng):
         day = today - timedelta(days=offset)
         for _index in range(rng.choices([0, 1, 2], weights=[3, 4, 2])[0]):
             count += 1
-            city, district = rng.choice(DISTRICTS)
-            care_request = CareRequest.objects.create(
+            _create_request(
                 applicant=rng.choice(applicants),
                 service=rng.choices(services, weights=weights)[0],
-                elder_full_name=f'{rng.choice(ELDER_FIRST_NAMES)} Demo{count}',
-                elder_age=rng.randint(62, 94),
-                relationship=rng.choice(CareRequest.Relationship.values),
                 preferred_date=day + timedelta(days=rng.randint(2, 14)),
-                time_slot=rng.choice(CareRequest.TimeSlot.values),
-                city=city,
-                district=district,
-                address=f'Kurgu Sokak No: {count}',
-                contact_phone='05550000000',
-                consent_given_at=timezone.now(),
                 status=_status_for_age(offset, rng),
+                created_at=_moment(day, rng),
             )
-            CareRequest.objects.filter(pk=care_request.pk).update(created_at=_moment(day, rng))
     return count
 
 
@@ -186,8 +186,10 @@ def create_demo_data(days=90, seed=2026, today=None):
     """
     Son `days` güne yayılmış kurgusal başvuru sahipleri, hızlı talepler ve başvurular üretir.
 
-    Aynı tohumla her çalıştırma aynı veriyi üretir. Demo verisi zaten varsa hiçbir şey yapılmaz;
-    yeniden üretmek için önce `remove_demo_data` çağrılmalıdır.
+    Kayıtları factory-boy fabrikaları, adları ve diğer kurgusal alanları fabrikaların Faker
+    tanımları üretir. Aynı tohum hem bu modülün hem factory-boy/Faker'ın üretecine verildiği için her
+    çalıştırma aynı veriyi verir. Demo verisi zaten varsa hiçbir şey yapılmaz; yeniden
+    üretmek için önce `remove_demo_data` çağrılmalıdır.
 
     Args:
         days (int): Geriye doğru gün sayısı.
@@ -199,11 +201,12 @@ def create_demo_data(days=90, seed=2026, today=None):
     """
     if demo_data_exists():
         return {'created': 0, 'updated': 0}
-    today = today or timezone.localdate()
-    rng = random.Random(seed)
     services = list(ServiceType.objects.active())
     if not services:
         return {'created': 0, 'updated': 0}
+    today = today or timezone.localdate()
+    rng = random.Random(seed)
+    factory.random.reseed_random(seed)
     # İlk hizmetler daha çok talep görür; grafikte çizgiler birbirinden ayrışır.
     weights = [len(services) - index + 1 for index in range(len(services))]
     with transaction.atomic():

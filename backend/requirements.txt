@@ -8,3 +8,4 @@ drf-spectacular>=0.28
 django-filter>=24.0
 gunicorn>=23.0
 whitenoise>=6.7
+factory-boy>=3.3

@@ -262,6 +262,8 @@ Backend ayarları ortam değişkenlerinden okunur. Örnek dosya: `backend/.env.e
 | `JWT_REFRESH_DAYS` | `7` | Refresh token ömrü (gün) |
 | `CARE_MAX_PREFERRED_DAYS_AHEAD` | `90` | Tercih edilen tarihin en ileri gün sayısı |
 | `DJANGO_SUPERUSER_EMAIL`, `DJANGO_SUPERUSER_PASSWORD` | — | Verilirse açılışta (yoksa) admin hesabı oluşturulur |
+| `TEST_USER_PASSWORD` | `Yanimda-Guclu-2026` | Testlerdeki fabrikaların kurgusal hesaplara yazdığı parola |
+| `DEMO_USER_PASSWORD` | `Kurgusal-Demo-2026` | `care_create_demo_data` komutunun demo hesaplarına yazdığı parola |
 
 ### Hız sınırları (throttle)
 
@@ -370,7 +372,10 @@ docker compose exec backend python manage.py makemigrations
 docker compose exec backend python manage.py migrate
 docker compose exec backend python manage.py care_create_defaults
 docker compose exec backend python manage.py createsuperuser
+docker compose exec backend python manage.py care_create_demo_data   # yalnızca DEBUG; --days 90, --reset
 ```
+
+`care_create_demo_data`, gösterge panelini anlamlı görmek için son günlere yayılmış kurgusal başvuru sahipleri, hızlı talepler ve başvurular üretir. Kayıtları factory-boy fabrikaları (`apps/*/factories.py`), adları Faker üretir; tüm demo e-postaları ayrılmış `demo.yanimda.example` alan adındadır ve `--reset` yalnızca bunları silip yeniden üretir. `DEBUG` kapalıyken çalışmaz.
 
 Yeni paket ekledikten sonra imajı yenileyin: `docker compose up -d --build -V frontend` (`-V`, eski `node_modules` birimini yeniler).
 
