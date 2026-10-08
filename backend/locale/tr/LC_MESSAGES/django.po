@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-08 02:23+0300\n"
+"POT-Creation-Date: 2026-10-08 07:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -719,6 +719,53 @@ msgstr ""
 "Tüm bakım modülü varsayılan veri işlemleri tamamlandı. Oluşturulan: "
 "%(created)d, Güncellenen: %(updated)d."
 
+msgid ""
+"Creates fictional demo inquiries and applications for the last days. Runs "
+"only with DEBUG enabled."
+msgstr ""
+"Son günler için kurgusal demo hızlı talepleri ve başvuruları oluşturur. "
+"Yalnızca DEBUG açıkken çalışır."
+
+msgid "Number of past days to fill."
+msgstr "Doldurulacak geçmiş gün sayısı."
+
+msgid "Delete the existing demo data and create it again."
+msgstr "Mevcut demo verisini silip yeniden oluştur."
+
+msgid "Demo data can only be created when DEBUG is enabled."
+msgstr "Demo verisi yalnızca DEBUG açıkken oluşturulabilir."
+
+msgid "Existing demo data removal"
+msgstr "Mevcut demo verisinin silinmesi"
+
+#| msgid "Latest quick inquiries and applications."
+msgid "Demo inquiries and applications"
+msgstr "Demo hızlı talepleri ve başvuruları"
+
+#| msgid "CARE DEFAULT DATA SETUP STARTED"
+msgid "CARE DEMO DATA SETUP STARTED"
+msgstr "BAKIM DEMO VERİSİ KURULUMU BAŞLATILDI"
+
+#, python-format
+#| msgid "Care default data setup failed: %(error)s"
+msgid "Care demo data setup failed: %(error)s"
+msgstr "Bakım demo verisi kurulumu başarısız oldu: %(error)s"
+
+#, python-format
+#| msgid ""
+#| "All care default data operations completed. Created: %(created)d, Updated: "
+#| "%(updated)d."
+msgid ""
+"All care demo data operations completed. Created: %(created)d, Updated: "
+"%(updated)d."
+msgstr ""
+"Tüm bakım demo verisi işlemleri tamamlandı. Oluşturulan: %(created)d, "
+"Güncellenen: %(updated)d."
+
+#, python-format
+msgid "Removed rows: %(count)d."
+msgstr "Silinen satır: %(count)d."
+
 msgid "name"
 msgstr "ad"
 
@@ -728,11 +775,9 @@ msgstr "kısa ad"
 msgid "description"
 msgstr "açıklama"
 
-#| msgid "English"
 msgid "name (English)"
 msgstr "ad (İngilizce)"
 
-#| msgid "description"
 msgid "description (English)"
 msgstr "açıklama (İngilizce)"
 
@@ -869,7 +914,6 @@ msgid ""
 "Service name shown on the card, in the request language (Accept-Language)."
 msgstr "Kartta gösterilen hizmet adı; istek dilinde (Accept-Language)."
 
-#| msgid "Short explanation shown under the service name."
 msgid ""
 "Short explanation shown under the service name, in the request language."
 msgstr "Hizmet adının altında gösterilen kısa açıklama; istek dilinde."
