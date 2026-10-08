@@ -8,17 +8,18 @@ modellere bu manager'lar üzerinden erişir.
 
 from django.db import models
 from django.db.models import Count
+from parler.managers import TranslatableManager, TranslatableQuerySet
 
 
-class ServiceTypeQuerySet(models.QuerySet):
+class ServiceTypeQuerySet(TranslatableQuerySet):
     def active(self):
         """
-        Yayında olan hizmet türlerini gösterim sırasıyla döndürür.
+        Yayında olan hizmet türlerini gösterim sırasıyla, çevirileri önceden yüklenmiş döndürür.
 
         Returns:
             ServiceTypeQuerySet: Aktif hizmet türleri.
         """
-        return self.filter(is_active=True).order_by('sort_order', 'name')
+        return self.filter(is_active=True).prefetch_related('translations').order_by('sort_order', 'slug')
 
     def with_demand(self):
         """
@@ -52,7 +53,7 @@ class CreatedAtQuerySet(models.QuerySet):
         Returns:
             QuerySet: Sıralı kayıtlar.
         """
-        return self.select_related('service').order_by('-created_at')
+        return self.select_related('service').prefetch_related('service__translations').order_by('-created_at')
 
 
 class CareRequestQuerySet(CreatedAtQuerySet):
@@ -73,13 +74,13 @@ class CareRequestQuerySet(CreatedAtQuerySet):
             CareRequestQuerySet: Bekleyen başvurular.
         """
         statuses = [self.model.Status.NEW, self.model.Status.REVIEWING]
-        return self.filter(status__in=statuses).select_related('service').order_by('created_at')
+        return self.filter(status__in=statuses).select_related('service').prefetch_related('service__translations').order_by('created_at')
 
 
 class ServiceInquiryQuerySet(CreatedAtQuerySet):
     pass
 
 
-ServiceTypeManager = models.Manager.from_queryset(ServiceTypeQuerySet)
+ServiceTypeManager = TranslatableManager.from_queryset(ServiceTypeQuerySet)
 CareRequestManager = models.Manager.from_queryset(CareRequestQuerySet)
 ServiceInquiryManager = models.Manager.from_queryset(ServiceInquiryQuerySet)

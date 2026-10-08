@@ -244,7 +244,7 @@ Tüm uç noktalar `/api/` altındadır. Ayrıntılı alan açıklamaları ve den
 | GET | `/api/admin/users/{id}/` | Admin | Kullanıcı detayı |
 | GET | `/api/schema/`, `/api/docs/`, `/api/redoc/` | Herkes (yalnızca `API_DOCS_ENABLED`) | OpenAPI şeması ve belgeler |
 
-Listeler 20'şerli sayfalanır: `{count, next, previous, results}`. Hata mesajları istek diline göre Türkçe veya İngilizce döner (`Accept-Language`).
+Listeler 20'şerli sayfalanır: `{count, next, previous, results}`. Hata mesajları istek diline göre Türkçe veya İngilizce döner (`Accept-Language`). Sistemin sunduğu içerik olan hizmet türlerinin ad ve açıklamaları [django-parler](https://github.com/django-parler/django-parler) ile dil başına bir satırda tutulur ve aynı başlığa göre döner; çevirisi olmayan dilde Türkçeye düşülür. Vatandaşın girdiği başvuru ve hızlı talepler çevrilmez, girildiği dilde saklanır.
 
 ## Ayarlar
 
