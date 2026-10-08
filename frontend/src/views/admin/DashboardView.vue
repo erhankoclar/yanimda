@@ -5,8 +5,10 @@ import { useI18n } from 'vue-i18n'
 
 import { useDashboard } from '@/admin/useDashboard'
 import DashboardStats from '@/components/admin/dashboard/DashboardStats.vue'
+import PendingRequests from '@/components/admin/dashboard/PendingRequests.vue'
 import RecentList from '@/components/admin/dashboard/RecentList.vue'
 import ServiceTrendChart from '@/components/admin/dashboard/ServiceTrendChart.vue'
+import StatusBreakdown from '@/components/admin/dashboard/StatusBreakdown.vue'
 
 const { t } = useI18n()
 const { days, source, data, loading, error, load } = useDashboard()
@@ -24,6 +26,11 @@ const { days, source, data, loading, error, load } = useDashboard()
     <div class="dashboard__row dashboard__row--trend">
       <ServiceTrendChart v-model:days="days" v-model:source="source" :series="data?.series ?? null" :loading="loading" />
       <RecentList :items="data?.recent ?? null" />
+    </div>
+
+    <div class="dashboard__row dashboard__row--work">
+      <PendingRequests :items="data?.pending ?? null" />
+      <StatusBreakdown :items="data?.status_breakdown ?? null" />
     </div>
   </div>
 </template>
@@ -47,10 +54,14 @@ const { days, source, data, loading, error, load } = useDashboard()
   gap: 1.25rem;
 }
 
-/* Geniş ekranda grafik 3/4, son gelenler 1/4 genişlik alır. */
+/* Geniş ekranda grafik 3/4 + son gelenler 1/4, bekleyenler 2/3 + durumlar 1/3 genişlik alır. */
 @media (min-width: 75rem) {
   .dashboard__row--trend {
     grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+
+  .dashboard__row--work {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   }
 }
 </style>

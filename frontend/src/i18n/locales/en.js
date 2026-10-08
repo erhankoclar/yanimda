@@ -21,6 +21,18 @@ export default {
         topService: 'Most requested: {name}',
         unreviewed: 'All reviewed | {count} not reviewed yet | {count} not reviewed yet',
       },
+      pending: {
+        columns: {
+          elder: 'Elder',
+          preferredDate: 'Preferred day',
+          service: 'Service',
+          status: 'Status',
+          waiting: 'Received',
+        },
+        empty: 'No applications are waiting for review.',
+        title: 'Applications waiting for action',
+        viewAll: 'All applications',
+      },
       recent: {
         empty: 'No records yet.',
         title: 'Latest arrivals',
@@ -30,6 +42,11 @@ export default {
         },
       },
       retry: 'Try again',
+      status: {
+        empty: 'No applications yet.',
+        title: 'Application statuses',
+        total: 'applications',
+      },
       trend: {
         dateColumn: 'Date',
         days: '{count} days',

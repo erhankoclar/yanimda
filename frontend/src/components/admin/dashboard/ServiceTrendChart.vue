@@ -141,12 +141,16 @@ const chartOptions = computed(() => ({
 
 .trend__body {
   position: relative;
+  /* Grafik genişliğini kapsayıcı belirler; canvas kapsayıcıyı büyütüp yeniden boyutlanma döngüsü kurmasın. */
+  overflow: hidden;
   flex: 1;
   height: 18rem;
   min-height: 18rem;
 }
 
 .trend__chart {
+  position: relative;
+  width: 100%;
   height: 100%;
 }
 

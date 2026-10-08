@@ -7,8 +7,8 @@ import { dashboardResponse } from '../helpers/dashboard'
 import { ADMIN, restoreApi, routeHandler, useFakeApi } from '../helpers/fakeApi'
 import { mountApp } from '../helpers/mountApp'
 
-// Chart.js jsdom'da canvas çizemez; Chart bileşeni aldığı veriyi kaydeden bir taklitle değiştirilir.
-const chart = vi.hoisted(() => ({ props: null }))
+// Chart.js jsdom'da canvas çizemez; Chart bileşeni aldığı veriyi grafik türüne göre kaydeden bir taklitle değiştirilir.
+const charts = vi.hoisted(() => ({}))
 vi.mock('primevue/chart', async () => {
   const { h } = await import('vue')
   return {
@@ -17,7 +17,7 @@ vi.mock('primevue/chart', async () => {
       props: ['type', 'data', 'options'],
       setup(props) {
         return () => {
-          chart.props = props
+          charts[props.type] = props
           return h('canvas', { 'data-chart': props.type })
         }
       },
@@ -124,7 +124,7 @@ describe('hizmet trend grafiği', () => {
     await openDashboard(() => [200, dashboardResponse()])
 
     expect(wrapper.find('.trend [data-chart="line"]').exists()).toBe(true)
-    expect(chart.props.data.datasets.map((dataset) => dataset.label)).toEqual(['Evde bakım', 'Alışveriş desteği'])
+    expect(charts.line.data.datasets.map((dataset) => dataset.label)).toEqual(['Evde bakım', 'Alışveriş desteği'])
   })
 
   it('aralık ve kaynak seçimi paneli yeni parametrelerle yeniden ister', async () => {
@@ -143,7 +143,7 @@ describe('hizmet trend grafiği', () => {
     response.series.bucket = 'week'
     await openDashboard(() => [200, response])
 
-    expect(chart.props.options.plugins.tooltip.callbacks.title([{ label: '6 Eki' }])).toBe('6 Eki haftası')
+    expect(charts.line.options.plugins.tooltip.callbacks.title([{ label: '6 Eki' }])).toBe('6 Eki haftası')
     expect(wrapper.get('.trend table thead th').text()).toBe('Hafta başlangıcı')
   })
 
@@ -184,5 +184,63 @@ describe('son gelenler', () => {
     await openDashboard(() => [200, dashboardResponse({ recent: [] })])
 
     expect(wrapper.get('.recent__empty').text()).toBe('Henüz kayıt yok.')
+  })
+})
+
+describe('işlem bekleyen başvurular', () => {
+  it('en eski açık başvuruları hizmet, tarih ve durum etiketiyle listeler', async () => {
+    await openDashboard(() => [200, dashboardResponse()])
+
+    const row = wrapper.get('.pending tbody tr')
+    expect(row.text()).toContain('Fatma Demir')
+    expect(row.text()).toContain('Evde bakım')
+    expect(row.text()).toContain('12 Eki')
+    expect(row.get('.p-tag').text()).toBe('Alındı')
+    expect(row.get('a').attributes('href')).toBe('/admin/requests/21')
+  })
+
+  it('satıra tıklanınca başvurunun detayına gider', async () => {
+    tokenStorage.set({ access: 'a1', refresh: 'r1' })
+    useFakeApi(routeHandler({
+      'GET /auth/me/': () => [200, ADMIN],
+      'GET /admin/dashboard/': () => [200, dashboardResponse()],
+    }))
+    const mounted = await mountApp('/admin/dashboard')
+    wrapper = mounted.wrapper
+    await vi.waitFor(() => expect(wrapper.find('.pending tbody tr').exists()).toBe(true), { timeout: 5000 })
+
+    await wrapper.get('.pending tbody tr td:nth-child(3)').trigger('click')
+    await flushPromises()
+
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-request-detail'), { timeout: 5000 })
+    expect(mounted.router.currentRoute.value.params.id).toBe('21')
+  })
+
+  it('bekleyen başvuru yoksa boş durum gösterir', async () => {
+    await openDashboard(() => [200, dashboardResponse({ pending: [] })])
+
+    expect(wrapper.get('.pending__empty').text()).toBe('İncelenmeyi bekleyen başvuru yok.')
+  })
+})
+
+describe('başvuru durumları', () => {
+  it('halka grafiği ve sayılı lejantı durum sırasıyla gösterir', async () => {
+    await openDashboard(() => [200, dashboardResponse()])
+
+    expect(wrapper.find('.breakdown [data-chart="doughnut"]').exists()).toBe(true)
+    expect(charts.doughnut.data.datasets[0].data).toEqual([3, 2, 2, 5, 1])
+    expect(wrapper.get('.breakdown__total strong').text()).toBe('13')
+    const completed = wrapper.get('.breakdown__legend [data-status="completed"]')
+    expect(completed.text()).toContain('Tamamlandı')
+    expect(completed.text()).toContain('5')
+  })
+
+  it('hiç başvuru yoksa grafik yerine bilgi gösterir', async () => {
+    const response = dashboardResponse()
+    response.status_breakdown.forEach((item) => { item.count = 0 })
+    await openDashboard(() => [200, response])
+
+    expect(wrapper.find('.breakdown [data-chart]').exists()).toBe(false)
+    expect(wrapper.get('.breakdown__empty').text()).toBe('Henüz başvuru yok.')
   })
 })

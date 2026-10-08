@@ -21,6 +21,18 @@ export default {
         topService: 'En çok talep: {name}',
         unreviewed: 'Hepsi incelendi | {count} tanesi henüz incelenmedi | {count} tanesi henüz incelenmedi',
       },
+      pending: {
+        columns: {
+          elder: 'Yaşlı',
+          preferredDate: 'Tercih edilen gün',
+          service: 'Hizmet',
+          status: 'Durum',
+          waiting: 'Geldiği zaman',
+        },
+        empty: 'İncelenmeyi bekleyen başvuru yok.',
+        title: 'İşlem bekleyen başvurular',
+        viewAll: 'Tüm başvurular',
+      },
       recent: {
         empty: 'Henüz kayıt yok.',
         title: 'Son gelenler',
@@ -30,6 +42,11 @@ export default {
         },
       },
       retry: 'Tekrar dene',
+      status: {
+        empty: 'Henüz başvuru yok.',
+        title: 'Başvuru durumları',
+        total: 'başvuru',
+      },
       trend: {
         dateColumn: 'Tarih',
         days: '{count} gün',

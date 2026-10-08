@@ -32,7 +32,9 @@ async function tokens() {
 }
 
 const pair = await tokens()
-const context = await browser.newContext({ baseURL: BASE, colorScheme: THEME })
+// Tam sayfa çekim görüntü alanını geçici büyütür; grafikler yeniden çizilirken animasyona yakalanmasın diye
+// hareket azaltma tercihi açılır (uygulama bu tercihte grafikleri animasyonsuz çizer).
+const context = await browser.newContext({ baseURL: BASE, colorScheme: THEME, reducedMotion: 'reduce' })
 await context.addInitScript(([access, refresh, locale]) => {
   if (access) {
     localStorage.setItem('yanimda.access', access)
