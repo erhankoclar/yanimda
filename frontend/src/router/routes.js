@@ -25,11 +25,12 @@ export const routes = [
     meta: { requiresAdmin: true, area: 'admin' },
     children: [
       { path: '', redirect: { name: 'admin-dashboard' } },
-      { path: 'dashboard', name: 'admin-dashboard', component: () => import('@/views/admin/DashboardView.vue') },
-      { path: 'users', name: 'admin-users', component: () => import('@/views/admin/UsersView.vue') },
-      { path: 'users/:id(\\d+)', name: 'admin-user-detail', component: () => import('@/views/admin/UserDetailView.vue'), props: true },
-      { path: 'requests', name: 'admin-requests', component: () => import('@/views/admin/RequestsView.vue') },
-      { path: 'requests/:id(\\d+)', name: 'admin-request-detail', component: () => import('@/views/admin/RequestDetailView.vue'), props: true },
+      { path: 'dashboard', name: 'admin-dashboard', component: () => import('@/views/admin/DashboardView.vue'), meta: { titleKey: 'admin.titles.dashboard' } },
+      { path: 'inquiries', name: 'admin-inquiries', component: () => import('@/views/admin/InquiriesView.vue'), meta: { titleKey: 'admin.titles.inquiries' } },
+      { path: 'users', name: 'admin-users', component: () => import('@/views/admin/UsersView.vue'), meta: { titleKey: 'admin.titles.users' } },
+      { path: 'users/:id(\\d+)', name: 'admin-user-detail', component: () => import('@/views/admin/UserDetailView.vue'), props: true, meta: { titleKey: 'admin.titles.userDetail' } },
+      { path: 'requests', name: 'admin-requests', component: () => import('@/views/admin/RequestsView.vue'), meta: { titleKey: 'admin.titles.requests' } },
+      { path: 'requests/:id(\\d+)', name: 'admin-request-detail', component: () => import('@/views/admin/RequestDetailView.vue'), props: true, meta: { titleKey: 'admin.titles.requestDetail' } },
     ],
   },
   {

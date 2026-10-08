@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
+import en from '@/i18n/locales/en'
+import tr from '@/i18n/locales/tr'
 import { routes } from '@/router/routes'
 
 /**
@@ -21,7 +23,7 @@ const byName = (name) => flat.find((route) => route.name === name)
 
 describe('route tablosu', () => {
   it('PRD’deki tüm admin adreslerini tanımlar', () => {
-    const adminNames = ['admin-login', 'admin-dashboard', 'admin-users', 'admin-user-detail', 'admin-requests', 'admin-request-detail']
+    const adminNames = ['admin-login', 'admin-dashboard', 'admin-inquiries', 'admin-users', 'admin-user-detail', 'admin-requests', 'admin-request-detail']
 
     adminNames.forEach((name) => expect(byName(name), name).toBeDefined())
   })
@@ -47,6 +49,17 @@ describe('route tablosu', () => {
   it('tüm sayfa bileşenlerini tembel (lazy) yükler', () => {
     flat.filter((route) => route.component).forEach((route) => {
       expect(typeof route.component, route.name ?? route.path).toBe('function')
+    })
+  })
+
+  it('her admin sayfasının iki dilde de karşılığı olan bir başlık anahtarı vardır', () => {
+    const lookup = (catalog, key) => key.split('.').reduce((node, part) => node?.[part], catalog)
+    const adminPages = flat.filter((route) => route.name?.startsWith('admin-') && route.name !== 'admin-login' && route.component)
+
+    adminPages.forEach((route) => {
+      expect(route.meta?.titleKey, route.name).toBeTruthy()
+      expect(lookup(tr, route.meta.titleKey), route.name).toEqual(expect.any(String))
+      expect(lookup(en, route.meta.titleKey), route.name).toEqual(expect.any(String))
     })
   })
 })
