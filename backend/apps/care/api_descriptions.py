@@ -50,12 +50,19 @@ CARE_REQUEST_SERVICE_HELP_TEXT = _(
     '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
 )
 
+NEIGHBORHOOD_HELP_TEXT = _(
+    'Identifier of the neighbourhood of the address in Istanbul. First choose a district from '
+    '<a href="#operations-locations-geo_districts_list">List districts — <code>[].id</code></a>, then copy the '
+    'value from <a href="#operations-locations-geo_districts_neighborhoods_list">List neighbourhoods of a district '
+    '— <code>[].id</code></a>.'
+)
+
 ADMIN_REQUEST_LIST_SUMMARY = _('Admin: list requests')
 ADMIN_REQUEST_LIST_VIEW_DESCRIPTION = _(
     '<p>Lists the care requests of all applicants for the admin panel. Only admin users can call it.</p>'
     '<p>Results are paginated and newest first by default. They can be filtered by status, service, '
-    'applicant and creation date range, searched by elder name, applicant email, city, district and phone, '
-    'and ordered by creation time, preferred date or status.</p>'
+    'applicant, district, neighbourhood and creation date range, searched by elder name, applicant email, '
+    'neighbourhood, district and phone, and ordered by creation time, preferred date or status.</p>'
 )
 
 ADMIN_FILTER_SERVICE_HELP_TEXT = _(
@@ -67,6 +74,19 @@ ADMIN_FILTER_APPLICANT_HELP_TEXT = _(
     '<a href="#operations-admin-admin_users_list">Admin: list users — <code>results[].id</code></a>.'
 )
 ADMIN_FILTER_STATUS_HELP_TEXT = _('Only requests in this status.')
+ADMIN_FILTER_DISTRICT_HELP_TEXT = _(
+    'Only records whose neighbourhood is in this district. Copy the value from '
+    '<a href="#operations-locations-geo_districts_list">List districts — <code>[].id</code></a>.'
+)
+ADMIN_FILTER_NEIGHBORHOOD_HELP_TEXT = _(
+    'Only records in this neighbourhood. Copy the value from '
+    '<a href="#operations-locations-geo_districts_neighborhoods_list">List neighbourhoods of a district — '
+    '<code>[].id</code></a>.'
+)
+ADMIN_INQUIRY_FILTER_SERVICE_HELP_TEXT = _(
+    'Only inquiries of this service type. Copy the value from '
+    '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
+)
 ADMIN_FILTER_CREATED_FROM_HELP_TEXT = _('Only requests created on or after this date (YYYY-MM-DD).')
 ADMIN_FILTER_CREATED_TO_HELP_TEXT = _('Only requests created on or before this date (YYYY-MM-DD).')
 
@@ -128,8 +148,63 @@ INQUIRY_SERVICE_HELP_TEXT = _(
     '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
 )
 
+ADMIN_INQUIRY_DETAIL_SUMMARY = _('Admin: quick inquiry details')
+ADMIN_INQUIRY_DETAIL_VIEW_DESCRIPTION = _(
+    '<p>Returns one quick inquiry with its full description and location. Only admin users can call it. '
+    'The identifier comes from <a href="#operations-admin-admin_inquiries_list">Admin: list quick inquiries</a> '
+    '— <code>results[].id</code>.</p>'
+)
+
 ADMIN_INQUIRY_LIST_SUMMARY = _('Admin: list quick inquiries')
 ADMIN_INQUIRY_LIST_VIEW_DESCRIPTION = _(
     '<p>Lists the inquiries sent from the quick form, newest first. Only admin users can call it.</p>'
-    '<p>Results are paginated, can be filtered by service and searched by name, email and description.</p>'
+    '<p>Results are paginated, can be filtered by service, district and neighbourhood and searched by name, '
+    'email and description.</p>'
 )
+
+ADMIN_DASHBOARD_SUMMARY = _('Admin: dashboard')
+ADMIN_DASHBOARD_VIEW_DESCRIPTION = _(
+    '<p>Returns everything the admin dashboard shows in one call. Only admin users can call it.</p>'
+    '<h3>Processing</h3>'
+    '<ol>'
+    '<li>Cards compare this month until today with the same days of the previous month. '
+    'The change is <code>null</code> when the previous period is zero.</li>'
+    '<li>The series has one line per active service. It counts quick inquiries, applications or both '
+    'and fills empty periods with zero; 90 days are grouped by week starting on Monday.</li>'
+    '<li>Recent items merge the latest quick inquiries and applications by creation time.</li>'
+    '<li>Pending items are the oldest new or reviewing applications.</li>'
+    '</ol>'
+)
+ADMIN_DASHBOARD_DAYS_HELP_TEXT = _('Number of days shown in the service chart: 7, 30 or 90. Defaults to 30.')
+ADMIN_DASHBOARD_SOURCE_HELP_TEXT = _(
+    'What the service chart counts: <code>all</code> (quick inquiries and applications), '
+    '<code>inquiries</code> or <code>requests</code>. Defaults to <code>all</code>.'
+)
+
+ADMIN_MAP_SUMMARY = _('Admin: thematic map counts')
+ADMIN_MAP_VIEW_DESCRIPTION = _(
+    '<p>Returns how many quick inquiries and applications came from each district and neighbourhood of '
+    'Istanbul, for the admin thematic map. Only admin users can call it.</p>'
+    '<h3>Processing</h3>'
+    '<ol>'
+    '<li>Records are counted in the database by neighbourhood and service; records without a location '
+    '(created before locations were collected) are left out.</li>'
+    '<li>Every district is returned, also with zero; only neighbourhoods with at least one record are returned, '
+    'most first.</li>'
+    '<li>Each area also carries <code>by_service</code>, so the map can switch between the total and a single '
+    'service without another request.</li>'
+    '</ol>'
+    '<p>The records behind a number can be listed with '
+    '<a href="#operations-admin-admin_requests_list">Admin: list requests</a> and '
+    '<a href="#operations-admin-admin_inquiries_list">Admin: list quick inquiries</a> using the '
+    '<code>district</code> or <code>neighborhood</code> filter.</p>'
+)
+ADMIN_MAP_SOURCE_HELP_TEXT = _(
+    'What is counted: <code>all</code> (quick inquiries and applications), <code>inquiries</code> or '
+    '<code>requests</code>. Defaults to <code>all</code>.'
+)
+ADMIN_MAP_DAYS_HELP_TEXT = _(
+    'Only records of the last 30, 90 or 365 days, including today. Leave empty for all records.'
+)
+ADMIN_FILTER_CREATED_FROM_INQUIRY_HELP_TEXT = _('Only inquiries created on or after this date (YYYY-MM-DD).')
+ADMIN_FILTER_CREATED_TO_INQUIRY_HELP_TEXT = _('Only inquiries created on or before this date (YYYY-MM-DD).')

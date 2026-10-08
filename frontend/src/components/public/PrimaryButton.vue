@@ -46,7 +46,7 @@ defineProps({
 
 .primary-button--primary {
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 .primary-button--primary:hover:not(:disabled) {

@@ -55,6 +55,7 @@ class CareRequestApiTestCase(APITestCase):
         """
         data = care_request_data()
         data['preferred_date'] = data['preferred_date'].isoformat()
+        data['neighborhood'] = data['neighborhood'].pk
         return {**data, 'service': self.service.id, 'consent': True, **overrides}
 
     def create(self, **overrides):
@@ -308,9 +309,8 @@ class DuplicateOpenRequestApiTests(CareRequestApiTestCase):
         """
         from unittest.mock import patch
 
-        from apps.care.serializers import CareRequestSerializer
 
-        with patch.object(CareRequestSerializer, '_has_open_duplicate', return_value=False):
+        with patch('apps.care.services.care_request_service.has_open_duplicate', return_value=False):
             self.create()
             response = self.create()
 

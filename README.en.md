@@ -124,6 +124,17 @@ yanimda/
 └── prd.md                 Product requirements (Turkish)
 ```
 
+### Backend layers
+
+| Layer | Responsibility |
+| --- | --- |
+| `services/*_service.py` | All workflows **and read operations** (e.g. `care_request_service.create_request`, `list_for_admin`, `dashboard_service.build_dashboard`). A Celery task, if added, lives in the related service file at module level, not inside a class. |
+| `managers.py` | Only methods that return querysets (`active()`, `open()`, `waiting_for_review()`, `with_request_count()`). Services reach models through these managers; managers never import services at module level. Django's required hooks (`create_user`, `create_superuser`, `get_by_natural_key`) delegate to the service. |
+| `serializers.py` | Validation and response shape only; no `create`/`update`. Business rule checks ask the service. |
+| `views.py` | Permissions, throttles, filters and pagination; reading and saving are delegated to services, and business rule errors from services become 400 responses. |
+
+The rules are guarded by `config/tests/regression/test_architecture.py`: the test fails if a serializer defines `create`/`update`, if a view or serializer builds ORM queries, or if a manager imports services.
+
 ### Services and start order
 
 | Service | Image | Port | Healthy when |
@@ -143,7 +154,10 @@ The frontend forwards `/api` requests to the backend through the Vite proxy; the
 | Backend | Python 3.12, Django 5.2, Django REST Framework, Simple JWT (with token blacklist), drf-spectacular, django-filter, django-environ |
 | Database | PostgreSQL 17 (SQLite is not used) |
 | Frontend | Vue 3 (`<script setup>`), Vue Router, Pinia, axios, Vite |
-| Admin UI | PrimeVue (admin side only, in separately loaded bundles) |
+| Admin UI | PrimeVue (admin side only, in separately loaded bundles), Chart.js |
+| Map | MapLibre GL JS, OpenFreeMap basemap, OpenStreetMap district/neighbourhood boundaries |
+| Content translation | django-parler (only the service types the system provides) |
+| Test and demo data | factory-boy + Faker |
 | Tests | Django test runner, Vitest + Vue Test Utils + axe-core, screenshot checks with the Playwright image |
 
 ### Two separate interfaces
@@ -186,6 +200,7 @@ The frontend forwards `/api` requests to the backend through the Vite proxy; the
 - The elder's age must be between 40 and 120.
 - Phone numbers must have 10–15 digits; spaces, parentheses and dashes are removed before saving.
 - An alternate contact name and phone must be given together.
+- **Location:** The service is offered only in Istanbul. The district and neighbourhood are chosen from lists (OpenStreetMap boundaries, 39 districts, 964 neighbourhoods); the address field holds the street, building and flat. The quick inquiry form asks for the district and neighbourhood too. Records created before locations were collected have their old city/district text appended to the address and are not on the map.
 - Only active services can be requested. Old applications of a retired service remain visible.
 - **Duplicate application rule:** The same user cannot open a new application for **the same service and the same elder** while one is open (new / reviewing / assigned). They can apply again after it is completed or cancelled. The same person may apply for their mother and father separately, or for different services for the same elder. Elder names are compared ignoring case, extra spaces and the Turkish **I/İ/ı/i** variants ("FATMA YILMAZ" = "fatma yilmaz"). The rule is also enforced by a partial unique database constraint, so two simultaneous requests are blocked as well.
 - Users see **only their own** applications; another user's application responds with not found (404).
@@ -208,6 +223,10 @@ new ──► reviewing ──► assigned ──► completed
 
 - Admin APIs and pages are open only to `is_staff` users. Django's own admin site is not used and not exposed.
 - Dashboard: total, open and last 7 days application counts; active applicant count; counts for every status and every service (including zeros); a daily series for the last 14 days.
+- **Demand map** (`/admin/map`): a thematic map of Istanbul. From far away the city total is a single bubble; zooming in opens district and then neighbourhood counts (neighbourhood is the most detailed level). Areas are shaded with a single-hue intensity scale whose legend classes come from the data distribution. The total or a single service, the source (quick inquiry / application) and the period can be chosen. The ranking beside it shows the places with the most and with no demand; clicking a number, an area or a row lists that place's records in a side panel.
+- **Admin sign-in:** `/admin/login` or the site's public login page. Signing in with an admin account on the public page opens the admin panel directly, and while signed in the site header shows an "Admin panel" link. A non-admin account signing in on the admin page is warned and signed out.
+- **Lists:** quick inquiries (search, service and district filters; details panel and "reply by email"), applications (search, status, service, district, date range; sorting) and users (search, role, account status; sorting). Filters, page and sorting live in the address bar, so the back button and shared links open the same list.
+- **Application details:** the status changes only to the allowed next statuses, after a confirmation; the admin note is written here.
 - User management is read-only for now.
 
 ## API
@@ -233,7 +252,7 @@ All endpoints live under `/api/`. Use Swagger for detailed field descriptions an
 | GET | `/api/admin/users/{id}/` | Admin | User detail |
 | GET | `/api/schema/`, `/api/docs/`, `/api/redoc/` | Anyone (only with `API_DOCS_ENABLED`) | OpenAPI schema and docs |
 
-Lists are paginated by 20: `{count, next, previous, results}`. Error messages are returned in Turkish or English depending on the request language (`Accept-Language`).
+Lists are paginated by 20: `{count, next, previous, results}`. Error messages are returned in Turkish or English depending on the request language (`Accept-Language`). Service type names and descriptions, which the system provides, are stored with [django-parler](https://github.com/django-parler/django-parler) as one row per language and follow the same header; a language without a translation falls back to Turkish. Applications and quick inquiries entered by citizens are not translated and are stored as entered.
 
 ## Configuration
 
@@ -251,6 +270,8 @@ Backend settings are read from environment variables. Example file: `backend/.en
 | `JWT_REFRESH_DAYS` | `7` | Refresh token lifetime (days) |
 | `CARE_MAX_PREFERRED_DAYS_AHEAD` | `90` | Maximum days ahead for the preferred date |
 | `DJANGO_SUPERUSER_EMAIL`, `DJANGO_SUPERUSER_PASSWORD` | — | When set, an admin account is created on start if missing |
+| `TEST_USER_PASSWORD` | `Yanimda-Guclu-2026` | Password the test factories set on fictional accounts |
+| `DEMO_USER_PASSWORD` | `Kurgusal-Demo-2026` | Password the `care_create_demo_data` command sets on demo accounts |
 
 ### Rate limits (throttles)
 
@@ -280,7 +301,7 @@ The frontend uses `VITE_API_PROXY_TARGET` (default `http://localhost:8000`) and 
 
 Tests are grouped by type and the full set runs as a regression check before every change. Tests run **inside the Docker containers, on PostgreSQL**.
 
-### Backend (169 tests)
+### Backend (301 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
@@ -298,7 +319,7 @@ docker compose exec backend sh run_tests.sh security     # one type
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (170 tests)
+### Frontend (444 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
@@ -306,6 +327,7 @@ docker compose exec backend sh run_tests.sh unit scenario
 | `component` | `tests/component` | Component behaviour (e.g. session aware menu) |
 | `integration` | `tests/integration` | HTTP client and token refresh, auth store, routing |
 | `security` | `tests/security` | Route guards, tokens never sent to other origins, open redirects |
+| `regression` | `tests/regression` | Found bugs not coming back (e.g. staff reaching the admin panel from the public login, detail route patterns) |
 | `accessibility` | `tests/accessibility` | axe-core audit, skip link, landmarks |
 
 ```bash
@@ -313,9 +335,9 @@ docker compose exec frontend npx vitest run
 docker compose exec frontend npx vitest run tests/security
 ```
 
-### End to end (Playwright, 18 tests)
+### End to end (Playwright, 40 tests)
 
-The tests in `e2e/` run against the running stack (real frontend, backend and PostgreSQL) on phone and desktop viewports: sending, success and error states of the quick form and the stored record found in the database, server validation when the client is bypassed, registration + five step application + duplicate rejection, and checks for horizontal overflow and console errors.
+The tests in `e2e/` run against the running stack (real frontend, backend and PostgreSQL) on phone and desktop viewports: sending, success and error states of the quick form and the stored record found in the database, server validation when the client is bypassed, registration + five step application (with district and neighbourhood choice) + duplicate rejection, admin sign-in (from the admin and the public login page), a quick inquiry showing up on the dashboard and in the list, an admin status change reaching the applicant (without the admin note), the demand map, and checks for horizontal overflow and console errors.
 
 ```bash
 docker compose up -d --wait
@@ -338,6 +360,19 @@ docker run --rm -v "$PWD:/src:ro" ubuntu:24.04 bash /src/scripts/tests/start-uni
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\tests\start-windows.tests.ps1
 ```
 
+### Development scripts
+
+Repeated tasks run through the scripts in `scripts/dev/`; long output goes to `.dev-logs/` and only a summary is printed.
+
+| Script | Task |
+| --- | --- |
+| `scripts/dev/check-all.sh [--no-e2e]` | All backend, frontend and e2e tests (regression before a commit) |
+| `scripts/dev/test-backend.sh [type...]` | Backend tests (e.g. `unit security`) |
+| `scripts/dev/test-frontend.sh [path...]` | Vitest tests |
+| `scripts/dev/test-e2e.sh [url]` | Playwright tests; against the given URL if any |
+| `scripts/dev/screenshots.sh <name> <none/applicant/admin> <path...>` | 390/820/1366 px screenshots in `.shots/<name>/` with horizontal overflow and console error reports |
+| `scripts/dev/translations.sh [translations.json]` | Refreshes the translation catalog, fills it from JSON and lists gaps (`pip install -r backend/requirements-dev.txt`) |
+
 ## Development without the scripts
 
 ```bash
@@ -346,7 +381,10 @@ docker compose exec backend python manage.py makemigrations
 docker compose exec backend python manage.py migrate
 docker compose exec backend python manage.py care_create_defaults
 docker compose exec backend python manage.py createsuperuser
+docker compose exec backend python manage.py care_create_demo_data   # DEBUG only; --days 90, --reset
 ```
+
+`care_create_demo_data` creates fictional applicants, quick inquiries and applications spread over the last days so the dashboard has something to show. The records come from the factory-boy factories (`apps/*/factories.py`) and the names from Faker; every demo e-mail uses the reserved `demo.yanimda.example` domain and `--reset` deletes and recreates only those. It refuses to run when `DEBUG` is off.
 
 After adding a package, rebuild the image: `docker compose up -d --build -V frontend` (`-V` renews the old `node_modules` volume).
 
@@ -389,7 +427,7 @@ Production notes:
 
 ## Known gaps
 
-- **The admin panel screens were not built.** The admin APIs (requests, status updates, statistics, users, quick inquiries) are ready and tested; the Vue admin pages only contain a heading for now.
+- The map basemap comes from OpenFreeMap's free service; if it cannot be reached the map does not open; the ranking and record lists keep working independently of it.
 - No email notification is sent for quick inquiries; they are stored and visible through the admin API.
 - Applications cannot be edited or cancelled online.
 - The contact phone and opening hours are placeholders.
@@ -403,6 +441,22 @@ Production notes:
 - Photos: stock photos under the Pexels license; sources are listed in `frontend/public/images/CREDITS.md`.
 - Fonts: Atkinson Hyperlegible Next and Bricolage Grotesque via Google Fonts (SIL Open Font License).
 - Open source libraries used: `backend/requirements.txt`, `frontend/package.json` and `e2e/package.json`.
+
+### External sources
+
+| Source | Used for | Licence | Link |
+| --- | --- | --- | --- |
+| OpenStreetMap district and neighbourhood boundaries | Location choices and map polygons (`frontend/public/geo`, `backend/apps/geo/data`) | ODbL 1.0, attribution: © OpenStreetMap contributors | https://www.openstreetmap.org/copyright |
+| Overpass API | Downloading the boundaries (only `scripts/geo/build_istanbul_boundaries.py`) | Service; data ODbL | https://overpass-api.de |
+| OpenFreeMap | Admin map basemap (`positron` and `dark` styles, no key); no availability guarantee | Service; data OpenMapTiles + OpenStreetMap | https://openfreemap.org |
+| MapLibre GL JS 6.13.0 | Admin thematic map | BSD-3-Clause | https://maplibre.org |
+| osmtogeojson 3.0.0-beta.5 | Converting OSM data to GeoJSON (boundary script only, via `npx`) | MIT | https://github.com/tyrasd/osmtogeojson |
+| mapshaper 0.6.102 | Simplifying boundaries and label points (boundary script only, via `npx`) | MPL-2.0 | https://github.com/mbloch/mapshaper |
+| django-parler 2.4 | Per-language translations of service type names and descriptions | Apache-2.0 | https://github.com/django-parler/django-parler |
+| factory-boy 3.3.3 + Faker 40.41.0 | Test data and the fictional data of `care_create_demo_data` | MIT | https://factoryboy.readthedocs.io |
+| PrimeVue 4.5.5, PrimeIcons 7.0.0 | Admin UI | MIT | https://primevue.org |
+| Chart.js 4.5.1 | Dashboard charts | MIT | https://www.chartjs.org |
+| vue-i18n 11 | Turkish/English UI | MIT | https://vue-i18n.intlify.dev |
 
 ## Troubleshooting
 

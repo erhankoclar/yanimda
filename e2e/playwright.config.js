@@ -3,7 +3,9 @@ import { defineConfig, devices } from '@playwright/test'
 // Testler çalışan yığına (docker compose) karşı koşar; gerçek backend ve PostgreSQL kullanılır.
 export default defineConfig({
   testDir: './tests',
-  timeout: 60_000,
+  timeout: 90_000,
+  // Vite geliştirme sunucusu tembel yüklenen sayfaları ilk istekte derler; soğuk başlangıç için pay bırakılır.
+  expect: { timeout: 20_000 },
   retries: 0,
   reporter: [['list']],
   use: {

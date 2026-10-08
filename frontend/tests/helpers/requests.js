@@ -14,8 +14,10 @@ export function makeRequest(overrides = {}) {
     elder_notes: '',
     preferred_date: '2026-10-10',
     time_slot: 'morning',
-    city: 'Samsun',
-    district: 'İlkadım',
+    location: {
+      district: { id: 5, name: 'Kadıköy', osm_id: 1005 },
+      neighborhood: { id: 11, name: 'Caferağa Mahallesi', osm_id: 2011 },
+    },
     address: 'Örnek Mah. No: 1',
     contact_phone: '05551112233',
     alternate_contact_name: '',

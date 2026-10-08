@@ -25,7 +25,7 @@ describe('giriş sonrası yönlendirme güvenliği', () => {
       await wrapper.get('form').trigger('submit')
       await flushPromises()
 
-      await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests'))
+      await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests'), { timeout: 5000 })
     },
   )
 

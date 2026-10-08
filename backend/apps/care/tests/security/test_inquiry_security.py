@@ -9,6 +9,7 @@ from rest_framework.throttling import SimpleRateThrottle
 from apps.care.models import ServiceInquiry
 from apps.care.tests.factories import make_service, make_user
 from apps.care.throttles import InquiryCreateRateThrottle
+from apps.geo.factories import NeighborhoodFactory
 
 
 class InquirySecurityTests(APITestCase):
@@ -18,6 +19,7 @@ class InquirySecurityTests(APITestCase):
         self.url = reverse('care:inquiry-create')
         self.payload = {
             'full_name': 'Deneme Kişi', 'email': 'deneme@example.com', 'service': make_service().id,
+            'neighborhood': NeighborhoodFactory().id,
             'message': 'Annem için refakat desteği istiyoruz.', 'consent': True,
         }
 

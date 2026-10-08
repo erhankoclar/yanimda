@@ -15,9 +15,17 @@
   --color-primary-tint: #e3efeb;
   --color-accent: #f29e4c;
   --color-accent-tint: #fdeedd;
+  --color-accent-ink: #6b4a06;
   --color-deep: #143c36;
   --color-danger: #a3302a;
   --color-danger-tint: #fbe9e7;
+  --color-on-primary: #ffffff;
+  --color-header-bg: rgb(255 255 255 / 0.96);
+  /* Koyu zeminli vurgu bantları (kapanış çağrısı) ve turuncu düğmenin yazısı. */
+  --color-band-bg: #1f5f55;
+  --color-band-ink: #ffffff;
+  --color-band-soft: #dcebe7;
+  --color-on-accent: #1b1206;
 
   --font-body: 'Atkinson Hyperlegible Next', 'Segoe UI', system-ui, sans-serif;
   --font-display: 'Bricolage Grotesque', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
@@ -50,6 +58,40 @@
   font-size: var(--text-base);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Koyu tema: aynı ıhlamur paleti gece tonlarında. Zemin saf siyah değil, koyu
+ * yaprak yeşili; vurgu rengi açık tondadır, bu yüzden üzerindeki metin koyu yazılır.
+ */
+:root[data-theme='dark'] .public-layout {
+  --color-paper: #12201c;
+  --color-mist: #182925;
+  --color-peach: #2a221a;
+  --color-surface: #1b2c28;
+  --color-ink: #e6eeeb;
+  --color-ink-soft: #a7b7b1;
+  --color-line: #2f443e;
+  --color-primary: #6cc3b0;
+  --color-primary-dark: #94d6c7;
+  --color-primary-tint: #1e3a33;
+  --color-accent: #f2a65c;
+  --color-accent-tint: #3a2b1b;
+  --color-accent-ink: #f5c896;
+  --color-deep: #0b1714;
+  --color-danger: #f29186;
+  --color-danger-tint: #3b1d1a;
+  --color-on-primary: #0c1f1b;
+  --color-header-bg: rgb(18 32 28 / 0.94);
+  --color-band-bg: #1e3a33;
+  --color-band-ink: #e6eeeb;
+  --color-band-soft: #b7cfc8;
+  --color-on-accent: #1b1206;
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
+}
+
+:root[data-theme='dark'] {
+  background: #12201c;
 }
 
 .public-layout *,
@@ -208,6 +250,14 @@
 .public-layout .field__control[aria-invalid='true'] {
   border-color: var(--color-danger);
   background: var(--color-danger-tint);
+}
+
+/* Önce başka bir seçim gereken alanlar (ör. ilçe seçilmeden mahalle) soluk ve tıklanamaz görünür. */
+.public-layout .field__control:disabled {
+  border-color: var(--color-line);
+  background: var(--color-mist);
+  color: var(--color-ink-soft);
+  cursor: not-allowed;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,5 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 import SiteFooter from '@/components/public/layout/SiteFooter.vue'
@@ -8,6 +9,7 @@ import { useRequestWizardStore } from '@/stores/requestWizard'
 
 import '@/styles/public.css'
 
+const { t } = useI18n()
 const auth = useAuthStore()
 const route = useRoute()
 const router = useRouter()
@@ -23,8 +25,8 @@ async function logout() {
 
 <template>
   <div class="public-layout" data-layout="public">
-    <a class="skip-link" href="#main-content">İçeriğe geç</a>
-    <SiteHeader :authenticated="auth.isAuthenticated" @logout="logout" />
+    <a class="skip-link" href="#main-content">{{ t('common.skipToContent') }}</a>
+    <SiteHeader :authenticated="auth.isAuthenticated" :is-admin="auth.isAdmin" @logout="logout" />
     <main
       id="main-content"
       class="site-main"

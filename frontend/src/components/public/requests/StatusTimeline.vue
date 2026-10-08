@@ -1,30 +1,35 @@
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   status: { type: String, required: true },
 })
 
-const FLOW = [
-  { value: 'new', title: 'Başvurunuz alındı', text: 'Bilgileriniz ekibimize ulaştı.' },
-  { value: 'reviewing', title: 'İnceleniyor', text: 'Ekibimiz başvurunuzu inceliyor ve sizi arayacak.' },
-  { value: 'assigned', title: 'Kişi atandı', text: 'Yakınınıza destek olacak kişi belirlendi.' },
-  { value: 'completed', title: 'Tamamlandı', text: 'Hizmet verildi.' },
-]
+const { t } = useI18n()
+
+const FLOW_VALUES = ['new', 'reviewing', 'assigned', 'completed']
+
+// Etkin dildeki akış adımları; dil değişince yeniden hesaplanır.
+const flow = computed(() => FLOW_VALUES.map((value) => ({
+  value,
+  title: t(`requests.timeline.${value}.title`),
+  text: t(`requests.timeline.${value}.text`),
+})))
 
 // İptal edilen başvurularda akış yerine tek bir açıklama gösterilir.
 const isCancelled = computed(() => props.status === 'cancelled')
 // Akıştaki geçerli adımın sırası.
-const currentIndex = computed(() => FLOW.findIndex((step) => step.value === props.status))
+const currentIndex = computed(() => FLOW_VALUES.indexOf(props.status))
 </script>
 
 <template>
   <p v-if="isCancelled" class="status-timeline__cancelled">
-    Bu başvuru iptal edildi. İhtiyacınız sürüyorsa aynı hizmete yeniden başvurabilirsiniz.
+    {{ t('requests.timeline.cancelled') }}
   </p>
   <ol v-else class="status-timeline">
     <li
-      v-for="(step, index) in FLOW"
+      v-for="(step, index) in flow"
       :key="step.value"
       class="status-timeline__step"
       :class="{ 'is-done': index < currentIndex, 'is-current': index === currentIndex }"

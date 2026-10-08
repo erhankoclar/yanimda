@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 import AuthShell from '@/components/public/AuthShell.vue'
@@ -10,6 +11,7 @@ import { useAuthStore } from '@/stores/auth'
 import { parseApiError } from '@/utils/apiErrors'
 import { safeRedirect } from '@/utils/safeRedirect'
 
+const { t } = useI18n()
 const auth = useAuthStore()
 const route = useRoute()
 const router = useRouter()
@@ -25,22 +27,25 @@ const submitting = ref(false)
  * @returns {boolean} Form gönderilebilir durumdaysa true.
  */
 function validate() {
-  errors.email = form.email.trim() ? '' : 'E-posta adresinizi yazın.'
-  errors.password = form.password ? '' : 'Parolanızı yazın.'
+  errors.email = form.email.trim() ? '' : t('validation.emailRequired')
+  errors.password = form.password ? '' : t('validation.passwordRequired')
   return !errors.email && !errors.password
 }
 
-/** Giriş yapar ve kullanıcıyı geldiği sayfaya (yoksa başvurularına) gönderir. */
+/**
+ * Giriş yapar; kullanıcıyı geldiği sayfaya, yoksa yöneticiyi yönetim paneline, başvuru sahibini
+ * başvurularına gönderir.
+ */
 async function submit() {
   generalError.value = ''
   if (!validate()) return
   submitting.value = true
   try {
     await auth.login(form.email, form.password)
-    await router.replace(safeRedirect(route.query.redirect, '/requests'))
+    await router.replace(safeRedirect(route.query.redirect, auth.isAdmin ? '/admin/dashboard' : '/requests'))
   } catch (error) {
     generalError.value = error?.response?.status === 401
-      ? 'E-posta adresi veya parola hatalı. Lütfen kontrol edip tekrar deneyin.'
+      ? t('auth.login.invalid')
       : parseApiError(error).general
   } finally {
     submitting.value = false
@@ -50,14 +55,14 @@ async function submit() {
 
 <template>
   <AuthShell title-id="login-title">
-    <h1 id="login-title">Giriş yap</h1>
-    <p>Başvurunuzu sürdürmek ve durumunu görmek için hesabınıza girin.</p>
+    <h1 id="login-title">{{ t('auth.login.title') }}</h1>
+    <p>{{ t('auth.login.intro') }}</p>
 
     <form novalidate @submit.prevent="submit">
       <FormAlert :message="generalError" />
       <BaseInput
         v-model="form.email"
-        label="E-posta adresi"
+        :label="t('auth.login.email')"
         type="email"
         autocomplete="email"
         inputmode="email"
@@ -66,18 +71,18 @@ async function submit() {
       />
       <BaseInput
         v-model="form.password"
-        label="Parola"
+        :label="t('auth.login.password')"
         type="password"
         autocomplete="current-password"
         required
         :error="errors.password"
       />
-      <PrimaryButton type="submit" block :loading="submitting">Giriş yap</PrimaryButton>
+      <PrimaryButton type="submit" block :loading="submitting">{{ t('auth.login.submit') }}</PrimaryButton>
     </form>
 
     <p class="auth-page__switch">
-      Hesabınız yok mu?
-      <RouterLink :to="{ name: 'register', query: route.query }">Kayıt olun</RouterLink>
+      {{ t('auth.login.noAccount') }}
+      <RouterLink :to="{ name: 'register', query: route.query }">{{ t('auth.login.register') }}</RouterLink>
     </p>
   </AuthShell>
 </template>

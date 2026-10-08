@@ -75,12 +75,40 @@ class CareCreateDefaultsTests(TestCase):
         - Açıklama varsayılana dönmeli ve güncellenen sayısı 1 olmalıdır.
         """
         run_command()
-        ServiceType.objects.filter(slug='refakat').update(description='eski')
+        Translation = ServiceType._parler_meta.root_model
+        Translation.objects.filter(master__slug='refakat', language_code='tr').update(description='eski')
 
         lines = run_command()
 
         default = next(item for item in DEFAULT_SERVICE_TYPES if item['slug'] == 'refakat')
-        self.assertEqual(ServiceType.objects.get(slug='refakat').description, default['description'])
+        service = ServiceType.objects.get(slug='refakat')
+        self.assertEqual(service.safe_translation_getter('description', language_code='tr'), default['translations']['tr']['description'])
+        expected = gettext(
+            'All care default data operations completed. Created: %(created)d, Updated: %(updated)d.'
+        ) % {'created': 0, 'updated': 1}
+        self.assertIn(expected, lines)
+
+    def test_missing_translation_is_recreated(self):
+        """
+        Silinmiş bir dil çevirisinin komutla yeniden oluşturulduğunu doğrular.
+
+        Senaryo:
+        - Komut çalıştırılır, bir hizmetin İngilizce çevirisi silinir.
+        - Komut tekrar çalıştırılır.
+
+        Beklenti:
+        - İngilizce çeviri varsayılan metinle geri gelmeli ve güncellenen sayısı 1 olmalıdır.
+        """
+        run_command()
+        Translation = ServiceType._parler_meta.root_model
+        Translation.objects.filter(master__slug='refakat', language_code='en').delete()
+
+        lines = run_command()
+
+        default = next(item for item in DEFAULT_SERVICE_TYPES if item['slug'] == 'refakat')
+        self.assertTrue(Translation.objects.filter(
+            master__slug='refakat', language_code='en', name=default['translations']['en']['name'],
+        ).exists())
         expected = gettext(
             'All care default data operations completed. Created: %(created)d, Updated: %(updated)d.'
         ) % {'created': 0, 'updated': 1}

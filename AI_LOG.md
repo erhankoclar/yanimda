@@ -4,8 +4,9 @@ Bu belge, projenin yapay zekâ ile nasıl üretildiğini, hangi kararların kime
 
 ## 1. Süre
 
-- İlk commit: 2026-10-07 17:09 — teslim belgeleri yazılırken son commit: 2026-10-07 20:32.
-- Toplam çalışma: **yaklaşık 3,5 saat**, tek oturumda. Süre commit zaman damgalarından hesaplanmıştır; PRD'nin yazılması bu sürenin dışındadır.
+- **1. dönem (1.0.0 teslimi):** 2026-10-07 17:09 – 20:32, yaklaşık 3,5 saat. Son kullanıcı sitesi, API, testler, başlatma betikleri, üretim imajı.
+- **2. dönem (1.1.0):** 2026-10-08 01:58 – 14:34 arası commit'ler. Bu aralıkta molalar ve worker'ların çalışmasını bekleme süreleri vardır; etkin çalışma süresi ayrıca ölçülmedi. Admin paneli, koyu/açık tema, Türkçe/İngilizce arayüz, konum ve tematik harita.
+- Süreler commit zaman damgalarından alınmıştır; PRD'nin yazılması bu sürelerin dışındadır.
 
 ## 2. Araçlar
 
@@ -19,6 +20,9 @@ Bu belge, projenin yapay zekâ ile nasıl üretildiğini, hangi kararların kime
 | shellcheck (Docker imajı) | macOS/Linux başlatma betiklerinin statik denetimi |
 | Pexels | Lisansı ticari kullanıma izin veren stok fotoğraflar (`frontend/public/images/CREDITS.md`) |
 | GitHub CLI (`gh`) | Uzak deponun durumunu kontrol etmek |
+| Claude Code alt ajanları (worker), modeller **Claude Sonnet 5.5** ve **Claude Haiku 4.5** | 2. dönemde test yazma ve çalıştırma, ekran görüntüsü taraması ve tasarım denetimi; ana model yalnızca geliştirme ve sonuçların değerlendirilmesini yaptı |
+| PrimeVue MCP sunucusu | PrimeVue bileşen kullanımını yazmadan önce API'ye göre doğrulamak |
+| OpenStreetMap + Overpass API, osmtogeojson, mapshaper | İstanbul ilçe ve mahalle sınırlarının üretilmesi (`scripts/geo/build_istanbul_boundaries.py`) |
 
 Hazır bir proje şablonu (boilerplate) kullanılmadı. Django iskeleti `django-admin startproject/startapp` komutlarıyla oluşturuldu, Vite projesi elle kuruldu. Kodun geri kalanı bu oturumda yazıldı.
 
@@ -27,7 +31,8 @@ Hazır bir proje şablonu (boilerplate) kullanılmadı. Django iskeleti `django-
 | Kim | Sorumluluk |
 | --- | --- |
 | **Geliştirici (ürün sahibi)** | PRD'yi yazdı; teknoloji ve kapsam kararlarını verdi; ara sonuçları inceleyip yönlendirdi (aşağıdaki liste); tasarım yönünü, görsel kaynağını ve yayın platformunu seçti; GitHub deposunu oluşturdu. |
-| **AI (Claude Code)** | Planı çıkardı, tüm kodu ve testleri yazdı, testleri ve tarayıcı kontrollerini çalıştırdı, hataları buldu ve düzeltti, commit'leri attı, belgeleri yazdı. Belirsiz noktalarda seçenek sunup kararı geliştiriciye bıraktı. |
+| **AI (Claude Code, ana model)** | Planı çıkardı, uygulama kodunu yazdı, worker raporlarını okuyup hataları düzeltti, commit'leri attı, belgeleri yazdı. Belirsiz noktalarda seçenek sunup kararı geliştiriciye bıraktı. 1. dönemde testleri de kendisi yazıp çalıştırdı. |
+| **Worker ajanlar (2. dönem)** | Geliştiricinin isteğiyle testleri yazdı ve çalıştırdı, ekran görüntüsü ve tasarım denetimi yaptı. Uygulama kodunu değiştirmediler; buldukları hataları dosya ve satırıyla raporladılar. |
 
 ## 4. Önemli yönlendirmeler ve etkileri
 
@@ -50,11 +55,28 @@ Geliştiricinin oturum boyunca verdiği yönlendirmeler sırasıyla:
 | 13 | "Web sitesi tarafında hiçbir şey yok" | Doğru tespit: AI altyapıya odaklanmış, son kullanıcı sayfaları boş kalmıştı. Ana sayfa, giriş, kayıt, sihirbaz ve başvuru sayfaları yapıldı. |
 | 14 | "Bu nasıl web sitesi tasarımı" | AI'nın ilk tasarımı (dar tek sütun, görselsiz) reddedildi. Geliştirici üç seçenek arasından "sıcak ve fotoğraflı" yönü, stok fotoğrafı ve renklerin AI tarafından önerilmesini seçti; site yeniden tasarlandı. |
 | 15 | Değerlendirme kriterleri (hızlı form, canlı URL, açık kaynak, README, AI_LOG, teslim commit'i) | AI kriterleri tek tek karşılaştırıp eksikleri listeledi. Geliştirici Render + GitHub'ı ve iki formun birlikte kalmasını seçti. Hesapsız hızlı talep formu, kalıcı e2e test paketi, üretim imajı ve bu belge eklendi. |
+| 16 | "Admin panelini de yapalım; login sonrası dashboard; üstte kartlar, 3/4 hizmet bazlı çizgi grafik + 1/4 son kayıtlar; kart: ikon+başlık, büyük değer, kıyas bilgisi, sağda büyük filigran ikon" | Dashboard API'si yazıldı; geliştirici grafik verisini (hızlı talep + başvuru), 7/30/90 gün seçimini ve tüm panel kapsamını seçti. |
+| 17 | "Backend'de servis katmanı olacak, iş akışları ve okumalar burada; manager yalnızca queryset; serializer yalnızca doğrulama; Celery task servis dosyasında, sınıf dışında" | AI'nın o ana kadar yazdığı kod bu kurala uymuyordu (kayıt, başvuru ve hızlı talep oluşturma ile durum güncelleme serializer `create`/`validate` içinde, sorgular view'larda, durum kuralları modeldeydi). Tüm backend ayrı bir dalda servis katmanına taşındı; davranış testlerle bire bir korundu ve kuralı zorlayan mimari regresyon testi eklendi. Testin ihlali gerçekten yakaladığı, geçici olarak kuralı bozan bir serializer eklenerek doğrulandı. |
+
+| 18 | "Tema koyu ve açık olsun, dil Türkçe ve İngilizce; seçim ülke bayraklarıyla, giriş sayfaları dahil her yerden" | Tercihler deposu, bayraklı seçici, iki dil dosyası ve koyu tema eklendi; hizmet adları backend'den istek diline göre dönüyor. |
+| 19 | "Alt işleri daha düşük modelli worker'lara ver, raporlarını oku; tekrarlayan işleri betikle yap" → sonra "testleri her zaman worker'a bırak, sen geliştirmeye ve sonuçlara odaklan" | Test, ekran görüntüsü ve denetim işleri Sonnet/Haiku worker'larına verildi; ekran görüntüsü, test ve çeviri betikleri genişletildi. |
+| 20 | "Dummy data için factory-boy kullan"; "factory'de servis değil doğrudan model kullan"; "Faker arayüzlerini kullan" | factory-boy fabrikaları yazıldı; kullanıcı fabrikası servis yerine `factory.django.Password` ile doğrudan modeli kullanacak şekilde düzeltildi; demo servisindeki elle yazılmış ad listeleri kaldırılıp Faker tanımlarına geçildi. |
+| 21 | "Varsayılan şifreyi koda gömme, ayarlardan oku; testler dışarıdan değiştirebilsin" | `TEST_USER_PASSWORD` ve `DEMO_USER_PASSWORD` ayarları eklendi; sabit parola kullanan tüm testler bu ayara bağlandı. |
+| 22 | "Çeviri için parler kullanıyorum; kullanıcı içerikleri için daha iyisi varsa kullan" ve "yalnızca sistemin sunduğu modeller çevrilsin, vatandaş tek dilde kayıt doldurur" | Hizmet türü ad/açıklaması django-parler'a taşındı; başvuru ve talepler çevrilmedi. |
+| 23 | "Django ORM'den kaynaklı N+1'leri ayrı bir worker test etsin" | Tüm uç noktalar için kayıt sayısı artarken sorgu sayısını karşılaştıran testler yazıldı; N+1 bulunmadı. |
+| 24 | "İstanbul geneli tematik harita: uzaktan tek sayı, yakınlaştıkça ilçe ve mahalle; sayıya basınca liste; toplam/hizmet seçimi; tek tonlu yoğunluk boyaması" | Geliştirici İstanbul'a özel ilçe/mahalle seçimini, hızlı forma da konum eklenmesini, MapLibre + OpenFreeMap'i ve önce parler'i seçti. Sınır verisi OpenStreetMap'ten üretildi; formlar ve harita buna göre yapıldı. |
+| 25 | "Kullanılan her dış kaynağı iş sonunda belirt" | README'ye lisanslarıyla dış kaynaklar tablosu eklendi. |
+| 26 | "Admin girişinde kullanıcı gibi davrandı, admin ekranları çıkmadı" | Doğru tespit: genel giriş sayfası yöneticiyi de başvuru sahibi sayfasına gönderiyordu ve sitede panele bağlantı yoktu. Yönlendirme ve üst bar bağlantısı eklendi. |
+| 27 | "Bir worker tasarımdaki kaymalara, yapışık kenar ve kutulara, hatalı boşluklara baksın" | Tasarım denetimi 14 bulgu raporladı; düzeltildi ve ikinci bir worker ile doğrulandı. |
 
 ### AI önerisinin değiştirildiği / reddedildiği yerler
 
 - **İlk görsel tasarım reddedildi** (madde 14). AI'nın tasarım planında başta "krem zemin + terracotta" vardı. AI bunu yapay zekâ çıktılarında sık görülen kalıp bir seçim olduğu için kendisi değiştirip "ıhlamur" yeşiline geçti; ancak bu sade tasarım da geliştirici tarafından beğenilmedi.
 - **Sadece hesaplı başvuru akışı yetersiz bulundu** (madde 15). AI'nın kurduğu 5 adımlı, hesap gerektiren sihirbaz kriterlerdeki "isim, e-posta, hizmet, açıklama" formunu karşılamıyordu. Hesapsız hızlı form eklendi ve ana akış yapıldı.
+- **Katman kuralına uyulmamıştı** (madde 17): AI iş mantığını serializer, model ve view'lara dağıtmıştı; geliştiricinin mimari kuralına göre servis katmanına taşındı.
+- **Fabrikada servis katmanı kullanımı düzeltildi** (madde 20): AI kullanıcı fabrikasını servis katmanı üzerinden yazmıştı; geliştirici factory-boy'un doğrudan model oluşturduğunu söyledi, AI dokümantasyondan doğrulayıp değiştirdi. Demo verisinde Faker yerine elle yazılmış ad listeleri kullanılmıştı; Faker'a geçildi.
+- **parler hakkında eksik ifade düzeltildi** (madde 22): AI "yeni dil migration gerektirmez" demişti; geliştirici parler'in kurulumda migration gerektirdiğini ve her dilin bir satır olduğunu hatırlattı. AI dokümantasyondan doğruladı.
+- **README'deki yanlış iddia AI tarafından düzeltildi:** Harita altlığı kesilirse katmanların altlıksız çalışacağı yazılmıştı; kodla karşılaştırılınca doğru olmadığı görüldü ve metin düzeltildi.
 - **Metin düzeltmesi:** AI'nın ana sayfaya kendisinin eklediği "Başvuru ücretsizdir" ifadesi, doğrulanmış bir bilgi olmadığı için yeniden tasarım sırasında kaldırıldı.
 
 ## 5. Bulunan ve düzeltilen gerçek hatalar
@@ -78,13 +100,28 @@ Aşağıdakiler oturumda testler veya kontroller sırasında **gerçekten** orta
 | Windows test betiğinde sahte fonksiyon kaldırma komutu PowerShell'de çalışmıyordu | Windows betik testleri başarısız oldu | Doğru kaldırma sözdizimi kullanıldı; testler hem PowerShell 5.1 hem 7'de geçti |
 | Üretim imajı yerelde HTTP üzerinden denenirken tarayıcı COOP uyarısı verdi | Üretim imajına karşı e2e | Uygulama hatası değil, HTTPS'te oluşmayan bir uyarı. Yalnızca bu uyarı, nedeni açıklanarak testte yok sayıldı |
 
+**2. dönemde bulunanlar:**
+
+| Sorun | Nasıl bulundu | Düzeltme |
+| --- | --- | --- |
+| Genel giriş sayfası yöneticiyi başvuru sahibi sayfasına gönderiyordu; sitede panele bağlantı yoktu | Geliştirici fark etti | Yönetici panele yönlendirildi, üst bara "Yönetim paneli" bağlantısı eklendi; regresyon testi yazıldı |
+| parler önbelleği ve Django dil ara katmanı testler arasında eski dili taşıyordu (Türkçe istek İngilizce ad döndürdü) | Backend testleri | Önbellek kapatıldı (çeviriler zaten önceden yükleniyor); fabrikalar varsayılan dile sabitlendi |
+| parler'e geçişte migration'lar çalışmadı; geri alma `NOT NULL` hatası verdi | Migration'lar uygulanırken ve geri alınırken | İlk migration'a parler katmanı eklendi; kaldırma adımına boş varsayılan eklendi; geri alma ve ileri alma ayrıca denendi |
+| Admin detay adreslerinde `\d+` düzeni tekleşmişti; detay sayfaları "bulunamadı"ya düşüyordu | Testler | Düzen düzeltildi; regresyon testi eklendi |
+| Hızlı talep servisi mahalleyi almıyordu; serializer'da proje kuralına aykırı sorgu vardı; taslaktan açılan özet mahalle adını göstermiyordu | Test worker'ı | Üçü de düzeltildi |
+| Harita çekmecesi her açılışta aynı isteği iki kez gönderiyordu | Test worker'ı | Tek izleyiciye indirildi |
+| Bildirim bileşenine verilen sınıf sayfanın sağ yarısını örtüyordu; halka grafik sıfır yükseklikte çizilmiyordu; mobilde çekmeceler ekranı doldurmuyordu | Ekran görüntüsü incelemesi | Sınıf kaldırıldı, grafik kapsayıcısına boyut verildi, çekmece genişliği düzeltildi |
+| MapLibre 6'nın varsayılan dışa aktarımı yok; worker dosyası Vite'ta yüklenmiyordu | Tarayıcı konsolu | Adlandırılmış içe aktarım ve `?worker&url` ile ayrı derlenen worker kullanıldı; üretim derlemesi ayrıca doğrulandı |
+| Koyu temada kapanış bandı ve turuncu düğmeler okunmuyordu; oturum açıkken üst bar iki satıra bölünüyordu | Tasarım denetimi worker'ı | Tema değişkenleri eklendi; üst bar her genişlikte tek satıra indirildi ve kenar payları ölçülerek eşitlendi |
+| Ön yüz test paketi büyüyünce tam paralel çalışmada ara sıra zaman aşımı oldu | Art arda test çalıştırmaları | Vitest paralelliği sınırlandı ve test süresi artırıldı |
+
 Ayrıca birkaç test yazım hatası (yanlış seçici, sahte komut düzeneği) testler çalıştırılınca ortaya çıktı ve düzeltildi. Bunlar uygulama hatası olmadığından tabloya alınmadı.
 
 ## 6. Doğrulama: neyi, nasıl sınadım
 
 1. **Her commit öncesi tüm testler** Docker konteynerlerinde, PostgreSQL üzerinde çalıştırıldı (regresyon).
-   - Backend: 169 test; `unit`, `integration`, `security`, `regression`, `contract`, `performance`, `scenario` türlerinde.
-   - Frontend: 170 test (Vitest); `unit`, `component`, `integration`, `security`, `accessibility` türlerinde.
+   - 1.0.0'da backend 169, frontend 170 testti. 1.1.0'da backend **301**, frontend **444** test; ön yüze `regression` türü eklendi.
+   - 2. dönemde testleri worker'lar yazdı ve çalıştırdı; ana model raporları okudu, "hepsi geçti" raporlarını dosyaları inceleyerek ya da kendi ekran görüntüsü kontrolüyle doğruladı. Haiku tabanlı bir görsel kontrol worker'ı bir kez gerçek bir sorunu (mobilde dar çekmece) kaçırdı; bu yüzden önemli görüntüler ana model tarafından da incelendi.
 2. **Uçtan uca (Playwright), 18 test:** 9 senaryo × telefon ve masaüstü, gerçek backend ve veritabanına karşı.
    - Hızlı formun "Gönderiliyor…" durumu.
    - Başarı mesajındaki kayıt numarasının admin API'sinde aynı kayıtla eşleşmesi (kalıcı saklama).
@@ -109,7 +146,9 @@ Ayrıca birkaç test yazım hatası (yanlış seçici, sahte komut düzeneği) t
 
 ## 7. Bilinen eksikler
 
-- **Admin panel ekranları yapılmadı.** Admin API'leri (talepler, durum güncelleme, istatistik, kullanıcılar, hızlı talepler) hazır ve test edildi; Vue tarafındaki admin sayfaları yalnızca başlık içeriyor. Değerlendirme kriterlerinde yer almadığı için öncelik son kullanıcı tarafına verildi.
+- Harita altlığı OpenFreeMap'in ücretsiz hizmetinden gelir; erişilemezse harita açılmaz (sıralama ve listeler çalışır).
+- Konum sorulmaya başlanmadan önceki kayıtlar haritada sayılmaz.
+- Kullanıcı yönetimi salt okunurdur.
 - Hızlı talep gelince ekibe veya kişiye **e-posta gönderilmiyor**; talepler kaydediliyor ve admin API'sinden görülüyor.
 - Başvurular internetten düzenlenemiyor veya iptal edilemiyor (SSS'de "bizi arayın" deniyor).
 - İletişim telefonu ve çalışma saatleri yer tutucudur.
@@ -118,4 +157,4 @@ Ayrıca birkaç test yazım hatası (yanlış seçici, sahte komut düzeneği) t
 
 ## 8. Veri
 
-Testlerde ve denemelerde yalnızca **kurgusal veriler** kullanıldı (`example.com` e-postaları, "Deneme Kişi", "Kurgusal Yaşlı" gibi adlar, `0555 000 00 00` gibi numaralar). Gerçek kişi verisi kullanılmadı.
+Testlerde, demo verisinde (`care_create_demo_data`, ayrılmış `demo.yanimda.example` alan adı, Faker ile üretilen adlar) ve denemelerde yalnızca **kurgusal veriler** kullanıldı (`example.com` e-postaları, "Deneme Kişi", "Kurgusal Yaşlı" gibi adlar, `0555 000 00 00` gibi numaralar). Gerçek kişi verisi kullanılmadı.

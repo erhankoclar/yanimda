@@ -1,5 +1,6 @@
 <script setup>
 import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { inquiriesApi } from '@/api/inquiries'
 import { parseApiError } from '@/utils/apiErrors'
@@ -10,9 +11,12 @@ import BaseInput from '../BaseInput.vue'
 import BaseSelect from '../BaseSelect.vue'
 import BaseTextarea from '../BaseTextarea.vue'
 import FormAlert from '../FormAlert.vue'
+import LocationFields from '../LocationFields.vue'
 import PrimaryButton from '../PrimaryButton.vue'
 
-const FIELDS = ['full_name', 'email', 'service', 'message', 'consent']
+const { t } = useI18n()
+
+const FIELDS = ['full_name', 'email', 'service', 'district', 'neighborhood', 'message', 'consent']
 
 const props = defineProps({
   services: { type: Array, required: true },
@@ -26,7 +30,10 @@ const props = defineProps({
  * @returns {Record<string, any>} Form alanları.
  */
 function emptyForm() {
-  return { full_name: '', email: '', service: props.initialService ?? '', message: '', consent: false, website: '' }
+  return {
+    full_name: '', email: '', service: props.initialService ?? '', district: '', neighborhood: '',
+    message: '', consent: false, website: '',
+  }
 }
 
 const form = reactive(emptyForm())
@@ -57,7 +64,10 @@ async function submit() {
   }
   status.value = 'submitting'
   try {
-    const result = await inquiriesApi.create({ ...form, service: Number(form.service) })
+    const payload = { ...form, service: Number(form.service), neighborhood: Number(form.neighborhood) }
+    // İlçe, mahalleden türetildiği için sunucuya gönderilmez.
+    delete payload.district
+    const result = await inquiriesApi.create(payload)
     if (!result?.id) throw new Error('Sunucu kayıt numarası döndürmedi.')
     saved.value = result
     status.value = 'success'
@@ -92,29 +102,32 @@ async function focusFirstError() {
   <section id="talep-formu" class="inquiry" aria-labelledby="inquiry-title">
     <div class="container inquiry__grid">
       <div class="inquiry__intro">
-        <h2 id="inquiry-title">Talebinizi bırakın, size dönelim</h2>
-        <p>Hesap açmanıza gerek yok. Kim için, hangi konuda desteğe ihtiyacınız olduğunu kısaca yazın; ekibimiz e-posta ile size ulaşsın.</p>
+        <h2 id="inquiry-title">{{ t('landing.inquiry.title') }}</h2>
+        <p>{{ t('landing.inquiry.intro') }}</p>
         <p class="inquiry__alt">
-          Başvurunuzun aşamalarını takip etmek isterseniz
-          <RouterLink :to="{ name: 'request-new' }">hesap oluşturup detaylı başvuru yapabilirsiniz</RouterLink>.
+          {{ t('landing.inquiry.altBefore') }}
+          <RouterLink :to="{ name: 'request-new' }">{{ t('landing.inquiry.altLink') }}</RouterLink>.
         </p>
       </div>
 
       <div class="inquiry__card surface-card">
         <div v-if="status === 'success'" ref="successPanel" class="inquiry__success" role="status" tabindex="-1">
-          <p class="inquiry__success-title">Talebiniz alındı</p>
-          <p>Kayıt numaranız <strong>#{{ saved.id }}</strong>. Ekibimiz {{ form.email }} adresinden size dönüş yapacak.</p>
-          <PrimaryButton variant="secondary" @click="startOver">Yeni talep gönder</PrimaryButton>
+          <p class="inquiry__success-title">{{ t('landing.inquiry.successTitle') }}</p>
+          <i18n-t keypath="landing.inquiry.successBody" tag="p">
+            <template #id><strong>#{{ saved.id }}</strong></template>
+            <template #email>{{ form.email }}</template>
+          </i18n-t>
+          <PrimaryButton variant="secondary" @click="startOver">{{ t('landing.inquiry.startOver') }}</PrimaryButton>
         </div>
 
         <form v-else novalidate :aria-busy="submitting ? 'true' : 'false'" @submit.prevent="submit">
           <FormAlert :message="generalError" />
           <fieldset class="wizard-fieldset" :disabled="submitting">
-            <legend class="visually-hidden">Hızlı talep formu</legend>
-            <BaseInput v-model="form.full_name" label="Adınız ve soyadınız" autocomplete="name" required :error="errors.full_name" />
+            <legend class="visually-hidden">{{ t('landing.inquiry.legend') }}</legend>
+            <BaseInput v-model="form.full_name" :label="t('landing.inquiry.fullName')" autocomplete="name" required :error="errors.full_name" />
             <BaseInput
               v-model="form.email"
-              label="E-posta adresiniz"
+              :label="t('landing.inquiry.email')"
               type="email"
               inputmode="email"
               autocomplete="email"
@@ -123,33 +136,34 @@ async function focusFirstError() {
             />
             <BaseSelect
               v-model="form.service"
-              label="Hangi hizmet?"
+              :label="t('landing.inquiry.service')"
               :options="serviceOptions"
-              placeholder="Bir hizmet seçin"
+              :placeholder="t('landing.inquiry.servicePlaceholder')"
               required
               :error="errors.service"
             />
+            <LocationFields v-model:district="form.district" v-model:neighborhood="form.neighborhood" :errors="errors" />
             <BaseTextarea
               v-model="form.message"
-              label="Kısaca anlatın"
-              hint="Örneğin: Annem için hafta içi her gün öğleden sonra refakat istiyoruz."
+              :label="t('landing.inquiry.message')"
+              :hint="t('landing.inquiry.messageHint')"
               :maxlength="INQUIRY_MESSAGE_MAX"
               required
               :error="errors.message"
             />
             <!-- Spam tuzağı: insanlara görünmez, yalnızca botlar doldurur. -->
             <div class="inquiry__trap" aria-hidden="true">
-              <label for="inquiry-website">Web siteniz</label>
+              <label for="inquiry-website">{{ t('landing.inquiry.website') }}</label>
               <input id="inquiry-website" v-model="form.website" type="text" name="website" tabindex="-1" autocomplete="off" />
             </div>
             <BaseCheckbox v-model="form.consent" required :error="errors.consent">
-              Yazdığım bilgilerin talebime yanıt vermek için kullanılmasını kabul ediyorum.
+              {{ t('landing.inquiry.consent') }}
             </BaseCheckbox>
           </fieldset>
           <PrimaryButton type="submit" block :loading="submitting">
-            {{ submitting ? 'Gönderiliyor…' : 'Talebimi gönder' }}
+            {{ submitting ? t('landing.inquiry.submitting') : t('landing.inquiry.submit') }}
           </PrimaryButton>
-          <p class="visually-hidden" role="status" aria-live="polite">{{ submitting ? 'Talebiniz gönderiliyor.' : '' }}</p>
+          <p class="visually-hidden" role="status" aria-live="polite">{{ submitting ? t('landing.inquiry.sending') : '' }}</p>
         </form>
       </div>
     </div>

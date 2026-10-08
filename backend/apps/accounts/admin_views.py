@@ -1,5 +1,3 @@
-from django.contrib.auth import get_user_model
-from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema
@@ -7,6 +5,7 @@ from rest_framework import filters, generics, permissions
 
 from apps.accounts import api_descriptions
 from apps.accounts.admin_serializers import AdminUserSerializer
+from apps.accounts.services import user_service
 
 
 class AdminUserQuerysetMixin:
@@ -22,7 +21,7 @@ class AdminUserQuerysetMixin:
         Returns:
             QuerySet[User]: `request_count` ile işaretlenmiş kullanıcılar.
         """
-        return get_user_model().objects.annotate(request_count=Count('care_requests'))
+        return user_service.list_users_for_admin()
 
 
 @extend_schema(

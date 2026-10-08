@@ -32,6 +32,9 @@ describe('hızlı talep formu güvenliği', () => {
     await inputs.find((input) => input.attributes('autocomplete') === 'name').setValue('Deneme Kişi')
     await inputs.find((input) => input.attributes('type') === 'email').setValue('deneme@example.com')
     await section.get('select').setValue(3)
+    await section.findAll('select')[1].setValue(5)
+    await flushPromises()
+    await section.findAll('select')[2].setValue(11)
     await section.get('textarea').setValue('Annem için refakat desteği istiyoruz.')
     await section.get('input[type="checkbox"]').setValue(true)
 

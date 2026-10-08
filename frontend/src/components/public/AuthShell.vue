@@ -1,4 +1,8 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 defineProps({
   /** Sayfa başlığının kimliği; bölüm aria-labelledby ile buna bağlanır. */
   titleId: { type: String, required: true },
@@ -15,8 +19,8 @@ defineProps({
     <aside class="auth-shell__visual" aria-hidden="true">
       <img src="/images/care-at-home.webp" alt="" width="1200" height="800" />
       <div class="auth-shell__quote">
-        <p class="auth-shell__quote-title">Yakınınız için doğru desteği birlikte planlayalım.</p>
-        <p>Başvurunuzu gönderin; ekibimiz sizi arayıp ayrıntıları konuşsun.</p>
+        <p class="auth-shell__quote-title">{{ t('auth.shell.title') }}</p>
+        <p>{{ t('auth.shell.text') }}</p>
       </div>
     </aside>
   </section>

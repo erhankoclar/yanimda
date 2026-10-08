@@ -9,12 +9,15 @@ import { routes } from './routes'
  * Testler bellek geçmişiyle bağımsız router örnekleri oluşturabilsin diye
  * fabrika fonksiyonu olarak sunulur.
  *
- * @param {{ pinia: import('pinia').Pinia, memory?: boolean }} options Pinia örneği ve geçmiş tercihi.
+ * @param {{ pinia: import('pinia').Pinia, memory?: boolean, initialPath?: string }} options Pinia örneği,
+ *   geçmiş tercihi ve (bellek geçmişinde) uygulama bağlanınca açılacak ilk adres.
  * @returns {import('vue-router').Router} Router örneği.
  */
-export function createAppRouter({ pinia, memory = false }) {
+export function createAppRouter({ pinia, memory = false, initialPath = '/' }) {
+  const history = memory ? createMemoryHistory() : createWebHistory(import.meta.env.BASE_URL)
+  if (memory) history.replace(initialPath)
   const router = createRouter({
-    history: memory ? createMemoryHistory() : createWebHistory(import.meta.env.BASE_URL),
+    history,
     routes,
     // Bölüm bağlantıları (#hizmetler gibi) yapışkan üst barın altında kalmayacak şekilde kaydırılır.
     scrollBehavior: (to, from, savedPosition) => {

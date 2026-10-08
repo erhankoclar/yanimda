@@ -1,6 +1,9 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
 import BrandMark from './BrandMark.vue'
 
+const { t } = useI18n()
 const year = new Date().getFullYear()
 </script>
 
@@ -9,25 +12,25 @@ const year = new Date().getFullYear()
     <div class="container site-footer__grid">
       <div class="site-footer__about">
         <BrandMark />
-        <p>Yaşlı yakınlarınız için evde bakım, refakat, hastane eşliği ve günlük işlerde destek başvurusu.</p>
+        <p>{{ t('footer.about') }}</p>
       </div>
-      <nav aria-label="Alt bilgi">
-        <h2 class="site-footer__title">Site</h2>
+      <nav :aria-label="t('footer.navLabel')">
+        <h2 class="site-footer__title">{{ t('footer.siteTitle') }}</h2>
         <ul>
-          <li><RouterLink :to="{ name: 'landing', hash: '#hizmetler' }">Hizmetler</RouterLink></li>
-          <li><RouterLink :to="{ name: 'landing', hash: '#nasil-isler' }">Nasıl işler?</RouterLink></li>
-          <li><RouterLink :to="{ name: 'landing', hash: '#sss' }">Sık sorulanlar</RouterLink></li>
-          <li><RouterLink :to="{ name: 'request-list' }">Başvurularım</RouterLink></li>
+          <li><RouterLink :to="{ name: 'landing', hash: '#hizmetler' }">{{ t('nav.sections.services') }}</RouterLink></li>
+          <li><RouterLink :to="{ name: 'landing', hash: '#nasil-isler' }">{{ t('nav.sections.how') }}</RouterLink></li>
+          <li><RouterLink :to="{ name: 'landing', hash: '#sss' }">{{ t('nav.sections.faq') }}</RouterLink></li>
+          <li><RouterLink :to="{ name: 'request-list' }">{{ t('common.myRequests') }}</RouterLink></li>
         </ul>
       </nav>
       <div>
-        <h2 class="site-footer__title">Bize ulaşın</h2>
+        <h2 class="site-footer__title">{{ t('footer.contactTitle') }}</h2>
         <p class="site-footer__phone"><a href="tel:+908500000000">0850 000 00 00</a></p>
-        <p>Hafta içi 09:00–18:00</p>
+        <p>{{ t('footer.hours') }}</p>
       </div>
     </div>
     <div class="container site-footer__bottom">
-      <p>© {{ year }} Yanımda</p>
+      <p>{{ t('footer.copyright', { year }) }}</p>
     </div>
   </footer>
 </template>
@@ -85,14 +88,15 @@ const year = new Date().getFullYear()
 }
 
 .site-footer__bottom {
-  padding-top: var(--space-4);
   padding-bottom: var(--space-5);
-  border-top: 1px solid rgb(255 255 255 / 0.15);
   font-size: var(--text-sm);
 }
 
+/* Ayırıcı çizgi kapsayıcının iç boşluğuna değil metnin genişliğine uyar. */
 .site-footer__bottom p {
   margin: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid rgb(255 255 255 / 0.15);
 }
 
 @media (min-width: 48rem) {

@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.urls import reverse
@@ -11,7 +12,7 @@ from apps.accounts.throttles import LoginRateThrottle, RegisterRateThrottle
 
 User = get_user_model()
 
-PASSWORD = 'Yanimda-Guclu-2026'
+PASSWORD = settings.TEST_USER_PASSWORD
 
 
 class AuthSecurityTests(APITestCase):

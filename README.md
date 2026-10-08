@@ -124,6 +124,17 @@ yanimda/
 └── prd.md                 Ürün gereksinimleri
 ```
 
+### Backend katmanları
+
+| Katman | Sorumluluk |
+| --- | --- |
+| `services/*_service.py` | Tüm iş akışları **ve okuma işlemleri** (ör. `care_request_service.create_request`, `list_for_admin`, `dashboard_service.build_dashboard`). Celery task'ı eklenirse ilgili servis dosyasında, sınıf dışında tanımlanır. |
+| `managers.py` | Yalnızca queryset döndüren metotlar (`active()`, `open()`, `waiting_for_review()`, `with_request_count()`). Servisler modellere bu manager'lar üzerinden erişir; manager servisleri modül düzeyinde içe aktarmaz. Django'nun zorunlu kancaları (`create_user`, `create_superuser`, `get_by_natural_key`) servise yönlendirir. |
+| `serializers.py` | Yalnızca doğrulama ve yanıt biçimi; `create`/`update` içermez. İş kuralı kontrolleri için servise sorar. |
+| `views.py` | İzin, throttle, filtre ve sayfalama; okumayı ve kaydetmeyi servise devreder, servisin iş kuralı hatalarını 400 yanıtına çevirir. |
+
+Kurallar `config/tests/regression/test_architecture.py` ile korunur: bir serializer `create`/`update` tanımlarsa, bir view veya serializer ORM sorgusu kurarsa ya da bir manager servisleri içe aktarırsa test başarısız olur.
+
 ### Servisler ve açılış sırası
 
 | Servis | İmaj | Port | Sağlıklı sayılma koşulu |
@@ -143,7 +154,10 @@ Frontend, `/api` isteklerini Vite proxy'si ile backend'e iletir; tarayıcı yaln
 | Backend | Python 3.12, Django 5.2, Django REST Framework, Simple JWT (token kara listesi ile), drf-spectacular, django-filter, django-environ |
 | Veritabanı | PostgreSQL 17 (SQLite kullanılmaz) |
 | Frontend | Vue 3 (`<script setup>`), Vue Router, Pinia, axios, Vite |
-| Admin arayüzü | PrimeVue (yalnızca admin tarafında, ayrı yüklenen paketlerde) |
+| Admin arayüzü | PrimeVue (yalnızca admin tarafında, ayrı yüklenen paketlerde), Chart.js |
+| Harita | MapLibre GL JS, OpenFreeMap altlığı, OpenStreetMap ilçe/mahalle sınırları |
+| İçerik çevirisi | django-parler (yalnızca sistemin sunduğu hizmet türleri) |
+| Test ve demo verisi | factory-boy + Faker |
 | Testler | Django test runner, Vitest + Vue Test Utils + axe-core, Playwright imajı ile ekran görüntüsü kontrolleri |
 
 ### İki ayrı arayüz
@@ -186,6 +200,7 @@ Frontend, `/api` isteklerini Vite proxy'si ile backend'e iletir; tarayıcı yaln
 - Yaşlının yaşı 40–120 arasında olmalıdır.
 - Telefonlar 10–15 rakam olmalıdır; boşluk, parantez ve tireler temizlenerek saklanır.
 - Alternatif kişi adı ve telefonu birlikte verilmelidir.
+- **Konum:** Hizmet yalnızca İstanbul'da verilir. İlçe ve mahalle listeden seçilir (OpenStreetMap sınırları, 39 ilçe, 964 mahalle); adres alanına sokak, bina ve daire yazılır. Hızlı talep formunda da ilçe ve mahalle sorulur. Konum alınmaya başlanmadan önceki kayıtlarda il/ilçe metni adresin sonuna taşınmıştır ve haritada yer almaz.
 - Yalnızca aktif hizmetlere başvurulabilir. Yayından kaldırılan hizmetin eski başvuruları görünmeye devam eder.
 - **Mükerrer başvuru engeli:** Aynı kullanıcı, **aynı yaşlı için aynı hizmete** açık (yeni / inceleniyor / atandı) bir başvurusu varken yenisini açamaz. Talep tamamlanınca veya iptal edilince tekrar başvurabilir. Aynı kişi annesi ve babası için ayrı ayrı veya aynı yaşlı için farklı hizmetlere başvurabilir. Yaşlı adı büyük/küçük harf, fazla boşluk ve Türkçe **I/İ/ı/i** farklarından bağımsız karşılaştırılır ("FATMA YILMAZ" = "fatma yilmaz"). Kural veritabanında kısmi benzersizlik kısıtıyla da korunur; aynı anda gelen iki istek de engellenir.
 - Kullanıcı yalnızca **kendi** başvurularını görür; başkasının başvurusu "bulunamadı" (404) döner.
@@ -208,6 +223,10 @@ yeni ──► inceleniyor ──► atandı ──► tamamlandı
 
 - Admin API'leri ve sayfaları yalnızca `is_staff` kullanıcılara açıktır. Django'nun kendi yönetim paneli kullanılmaz ve yayında değildir.
 - Gösterge paneli: toplam, açık ve son 7 günlük başvuru sayısı; aktif başvuru sahibi sayısı; her durumun ve her hizmetin sayısı (sıfırlar dahil); son 14 günün günlük serisi.
+- **Talep haritası** (`/admin/map`): İstanbul'un tematik haritası. Uzaktan bakınca il toplamı tek balon olarak görünür; yakınlaştıkça önce ilçe, sonra mahalle sayıları açılır (en ayrıntılı düzey mahalledir). Alanlar sayıya göre tek tonlu yoğunluk rengiyle boyanır; lejant sınıfları verinin dağılımından hesaplanır. Toplam ya da tek hizmet, kaynak (hızlı talep / başvuru) ve dönem seçilebilir. Yandaki sıralama en çok ve hiç talep gelmeyen yerleri gösterir; bir sayıya, alana ya da satıra tıklayınca o yerin kayıtları yan panelde listelenir.
+- **Admin girişi:** `/admin/login` ya da sitenin genel giriş sayfası. Yönetici hesabıyla genel girişten girilince doğrudan yönetim paneli açılır; oturum açıkken sitenin üst barında "Yönetim paneli" bağlantısı görünür. Yönetici olmayan hesap admin girişinden girerse uyarılır ve oturumu kapatılır.
+- **Listeler:** Hızlı talepler (arama, hizmet ve ilçe süzgeci; ayrıntı paneli ve "e-posta ile yanıtla"), başvurular (arama, durum, hizmet, ilçe, tarih aralığı; sıralama) ve kullanıcılar (arama, rol, hesap durumu; sıralama). Süzgeçler, sayfa ve sıralama adres çubuğunda tutulur; geri tuşu ve paylaşılan bağlantı aynı listeyi açar.
+- **Başvuru detayı:** Durum yalnızca izin verilen sonraki durumlara, onay penceresiyle değiştirilir; yönetici notu buradan yazılır.
 - Kullanıcı yönetimi şimdilik salt okunurdur.
 
 ## API
@@ -233,7 +252,7 @@ Tüm uç noktalar `/api/` altındadır. Ayrıntılı alan açıklamaları ve den
 | GET | `/api/admin/users/{id}/` | Admin | Kullanıcı detayı |
 | GET | `/api/schema/`, `/api/docs/`, `/api/redoc/` | Herkes (yalnızca `API_DOCS_ENABLED`) | OpenAPI şeması ve belgeler |
 
-Listeler 20'şerli sayfalanır: `{count, next, previous, results}`. Hata mesajları istek diline göre Türkçe veya İngilizce döner (`Accept-Language`).
+Listeler 20'şerli sayfalanır: `{count, next, previous, results}`. Hata mesajları istek diline göre Türkçe veya İngilizce döner (`Accept-Language`). Sistemin sunduğu içerik olan hizmet türlerinin ad ve açıklamaları [django-parler](https://github.com/django-parler/django-parler) ile dil başına bir satırda tutulur ve aynı başlığa göre döner; çevirisi olmayan dilde Türkçeye düşülür. Vatandaşın girdiği başvuru ve hızlı talepler çevrilmez, girildiği dilde saklanır.
 
 ## Ayarlar
 
@@ -251,6 +270,8 @@ Backend ayarları ortam değişkenlerinden okunur. Örnek dosya: `backend/.env.e
 | `JWT_REFRESH_DAYS` | `7` | Refresh token ömrü (gün) |
 | `CARE_MAX_PREFERRED_DAYS_AHEAD` | `90` | Tercih edilen tarihin en ileri gün sayısı |
 | `DJANGO_SUPERUSER_EMAIL`, `DJANGO_SUPERUSER_PASSWORD` | — | Verilirse açılışta (yoksa) admin hesabı oluşturulur |
+| `TEST_USER_PASSWORD` | `Yanimda-Guclu-2026` | Testlerdeki fabrikaların kurgusal hesaplara yazdığı parola |
+| `DEMO_USER_PASSWORD` | `Kurgusal-Demo-2026` | `care_create_demo_data` komutunun demo hesaplarına yazdığı parola |
 
 ### Hız sınırları (throttle)
 
@@ -280,7 +301,7 @@ Frontend için `VITE_API_PROXY_TARGET` (varsayılan `http://localhost:8000`) ve 
 
 Testler türlerine göre klasörlenmiştir ve her değişiklikten önce tamamı regresyon olarak çalıştırılır. Testler **Docker konteynerlerinde, PostgreSQL üzerinde** çalışır.
 
-### Backend (169 test)
+### Backend (301 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |
@@ -298,7 +319,7 @@ docker compose exec backend sh run_tests.sh security     # tek tür
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (170 test)
+### Frontend (444 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |
@@ -306,6 +327,7 @@ docker compose exec backend sh run_tests.sh unit scenario
 | `component` | `tests/component` | Bileşen davranışı (ör. oturuma göre menü) |
 | `integration` | `tests/integration` | HTTP istemcisi ve token yenileme, auth store, yönlendirme |
 | `security` | `tests/security` | Route guard'ları, token'ın dış adrese gitmemesi, açık yönlendirme |
+| `regression` | `tests/regression` | Bulunmuş hataların geri gelmemesi (ör. yöneticinin genel girişten panele gitmesi, detay adres düzenleri) |
 | `accessibility` | `tests/accessibility` | axe-core denetimi, içeriğe geç bağlantısı, sayfa bölgeleri |
 
 ```bash
@@ -313,9 +335,9 @@ docker compose exec frontend npx vitest run
 docker compose exec frontend npx vitest run tests/security
 ```
 
-### Uçtan uca (Playwright, 18 test)
+### Uçtan uca (Playwright, 40 test)
 
-`e2e/` klasöründeki testler çalışan yığına (gerçek frontend, backend ve PostgreSQL) karşı telefon ve masaüstü görünümlerinde koşar: hızlı formun gönderiliyor/başarı/hata durumları ve kaydın veritabanında bulunması, istemci atlatıldığında sunucu doğrulaması, kayıt + 5 adımlı başvuru + mükerrer başvurunun reddi, yatay taşma ve konsol hatası kontrolü.
+`e2e/` klasöründeki testler çalışan yığına (gerçek frontend, backend ve PostgreSQL) karşı telefon ve masaüstü görünümlerinde koşar: hızlı formun gönderiliyor/başarı/hata durumları ve kaydın veritabanında bulunması, istemci atlatıldığında sunucu doğrulaması, kayıt + 5 adımlı başvuru (ilçe ve mahalle seçimiyle) + mükerrer başvurunun reddi, admin girişi (admin ve genel giriş sayfasından), hızlı talebin gösterge paneli ve listede görünmesi, admin'in durum değiştirmesinin başvuru sahibine yansıması (yönetici notu gösterilmeden), talep haritası, yatay taşma ve konsol hatası kontrolü.
 
 ```bash
 docker compose up -d --wait
@@ -338,6 +360,19 @@ docker run --rm -v "$PWD:/src:ro" ubuntu:24.04 bash /src/scripts/tests/start-uni
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\tests\start-windows.tests.ps1
 ```
 
+### Geliştirme betikleri
+
+Tekrarlayan işler `scripts/dev/` altındaki betiklerle yapılır; uzun çıktılar `.dev-logs/` klasörüne yazılır, ekrana yalnızca özet gelir.
+
+| Betik | İş |
+| --- | --- |
+| `scripts/dev/check-all.sh [--no-e2e]` | Backend, frontend ve e2e testlerinin tamamı (commit öncesi regresyon) |
+| `scripts/dev/test-backend.sh [tür...]` | Backend testleri (ör. `unit security`) |
+| `scripts/dev/test-frontend.sh [yol...]` | Vitest testleri |
+| `scripts/dev/test-e2e.sh [adres]` | Playwright testleri; adres verilirse oraya karşı |
+| `scripts/dev/screenshots.sh <ad> <none/applicant/admin> <yol...>` | 390/820/1366 px ekran görüntüleri `.shots/<ad>/` altına; yatay taşma ve konsol hatası raporu |
+| `scripts/dev/translations.sh [ceviriler.json]` | Çeviri kataloğunu yeniler, JSON'dan doldurur, eksikleri listeler (`pip install -r backend/requirements-dev.txt`) |
+
 ## Betikler olmadan geliştirme
 
 ```bash
@@ -346,7 +381,10 @@ docker compose exec backend python manage.py makemigrations
 docker compose exec backend python manage.py migrate
 docker compose exec backend python manage.py care_create_defaults
 docker compose exec backend python manage.py createsuperuser
+docker compose exec backend python manage.py care_create_demo_data   # yalnızca DEBUG; --days 90, --reset
 ```
+
+`care_create_demo_data`, gösterge panelini anlamlı görmek için son günlere yayılmış kurgusal başvuru sahipleri, hızlı talepler ve başvurular üretir. Kayıtları factory-boy fabrikaları (`apps/*/factories.py`), adları Faker üretir; tüm demo e-postaları ayrılmış `demo.yanimda.example` alan adındadır ve `--reset` yalnızca bunları silip yeniden üretir. `DEBUG` kapalıyken çalışmaz.
 
 Yeni paket ekledikten sonra imajı yenileyin: `docker compose up -d --build -V frontend` (`-V`, eski `node_modules` birimini yeniler).
 
@@ -389,7 +427,7 @@ Kök dizindeki `Dockerfile` Vue sitesini derler ve Django API ile birlikte tek b
 
 ## Bilinen eksikler
 
-- **Admin panel ekranları yapılmadı.** Admin API'leri (talepler, durum güncelleme, istatistikler, kullanıcılar, hızlı talepler) hazır ve test edildi; Vue tarafındaki admin sayfaları şimdilik yalnızca başlık içerir.
+- Harita altlığı OpenFreeMap'in ücretsiz hizmetinden gelir; hizmete erişilemezse harita açılmaz; sıralama listesi ve kayıt listeleri haritadan bağımsız çalışmayı sürdürür.
 - Hızlı talep gelince e-posta bildirimi gönderilmez; talepler kaydedilir ve admin API'sinden görülür.
 - Başvurular internetten düzenlenemez veya iptal edilemez.
 - İletişim telefonu ve çalışma saatleri yer tutucudur.
@@ -403,6 +441,22 @@ Kök dizindeki `Dockerfile` Vue sitesini derler ve Django API ile birlikte tek b
 - Fotoğraflar: Pexels lisanslı stok fotoğraflar; kaynakları `frontend/public/images/CREDITS.md` dosyasında.
 - Yazı tipleri: Google Fonts üzerinden Atkinson Hyperlegible Next ve Bricolage Grotesque (SIL Open Font License).
 - Kullanılan açık kaynak kütüphaneler: `backend/requirements.txt`, `frontend/package.json` ve `e2e/package.json`.
+
+### Dış kaynaklar
+
+| Kaynak | Ne için | Lisans | Bağlantı |
+| --- | --- | --- | --- |
+| OpenStreetMap ilçe ve mahalle sınırları | Konum seçimi ve harita poligonları (`frontend/public/geo`, `backend/apps/geo/data`) | ODbL 1.0, atıf: © OpenStreetMap katkıcıları | https://www.openstreetmap.org/copyright |
+| Overpass API | Sınırların indirilmesi (yalnızca `scripts/geo/build_istanbul_boundaries.py`) | Hizmet; veri ODbL | https://overpass-api.de |
+| OpenFreeMap | Admin haritasının altlığı (`positron` ve `dark` stilleri, anahtarsız); kesintisiz çalışma garantisi yoktur | Hizmet; veri OpenMapTiles + OpenStreetMap | https://openfreemap.org |
+| MapLibre GL JS 6.13.0 | Admin tematik haritası | BSD-3-Clause | https://maplibre.org |
+| osmtogeojson 3.0.0-beta.5 | OSM verisini GeoJSON'a çevirme (yalnızca sınır betiği, `npx`) | MIT | https://github.com/tyrasd/osmtogeojson |
+| mapshaper 0.6.102 | Sınırları sadeleştirme ve etiket noktaları (yalnızca sınır betiği, `npx`) | MPL-2.0 | https://github.com/mbloch/mapshaper |
+| django-parler 2.4 | Hizmet türü ad ve açıklamalarının dil başına çevirisi | Apache-2.0 | https://github.com/django-parler/django-parler |
+| factory-boy 3.3.3 + Faker 40.41.0 | Test verisi ve `care_create_demo_data` kurgusal verisi | MIT | https://factoryboy.readthedocs.io |
+| PrimeVue 4.5.5, PrimeIcons 7.0.0 | Admin arayüzü | MIT | https://primevue.org |
+| Chart.js 4.5.1 | Gösterge paneli grafikleri | MIT | https://www.chartjs.org |
+| vue-i18n 11 | Türkçe/İngilizce arayüz | MIT | https://vue-i18n.intlify.dev |
 
 ## Sorun giderme
 

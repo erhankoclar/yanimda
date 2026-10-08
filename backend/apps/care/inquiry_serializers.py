@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
@@ -6,6 +5,8 @@ from rest_framework import serializers
 from apps.care import api_descriptions
 from apps.care.models import ServiceInquiry, ServiceType
 from apps.care.serializers import ServiceTypeSerializer
+from apps.geo.models import Neighborhood
+from apps.geo.serializers import LocationSerializer
 
 NAME_MIN_LENGTH = 2
 MESSAGE_MIN_LENGTH = 10
@@ -21,10 +22,19 @@ class ServiceInquirySerializer(serializers.ModelSerializer):
     )
     email = serializers.EmailField(help_text=_('Email address to reply to. Stored in lower case.'))
     service = serializers.PrimaryKeyRelatedField(
-        queryset=ServiceType.objects.filter(is_active=True), write_only=True,
+        queryset=ServiceType.objects.active(), write_only=True,
         help_text=api_descriptions.INQUIRY_SERVICE_HELP_TEXT,
     )
     service_detail = ServiceTypeSerializer(source='service', read_only=True, help_text=_('Requested service type.'))
+    neighborhood = serializers.PrimaryKeyRelatedField(
+        queryset=Neighborhood.objects.active(), write_only=True,
+        help_text=api_descriptions.NEIGHBORHOOD_HELP_TEXT,
+    )
+    location = LocationSerializer(
+        source='neighborhood', read_only=True, allow_null=True,
+        help_text=_('Neighbourhood and district of the person; null for inquiries left before locations were '
+                    'collected.'),
+    )
     message = serializers.CharField(
         max_length=MESSAGE_MAX_LENGTH, trim_whitespace=True,
         help_text=_('Short description of the need, for example who needs support and when. '
@@ -42,7 +52,10 @@ class ServiceInquirySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ServiceInquiry
-        fields = ['id', 'full_name', 'email', 'service', 'service_detail', 'message', 'consent', 'website', 'created_at']
+        fields = [
+            'id', 'full_name', 'email', 'service', 'service_detail', 'neighborhood', 'location',
+            'message', 'consent', 'website', 'created_at',
+        ]
         read_only_fields = ['id', 'created_at']
         extra_kwargs = {'created_at': {'help_text': _('Time the inquiry was stored.')}}
 
@@ -129,28 +142,17 @@ class ServiceInquirySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(gettext('The form could not be sent. Please try again.'))
         return value
 
-    def create(self, validated_data):
-        """
-        Talebi onay zamanıyla birlikte kalıcı olarak kaydeder.
-
-        Args:
-            validated_data (dict[str, Any]): Doğrulanmış veriler.
-
-        Returns:
-            ServiceInquiry: Kaydedilen talep.
-        """
-        validated_data.pop('consent')
-        validated_data.pop('website', None)
-        validated_data['consent_given_at'] = timezone.now()
-        return super().create(validated_data)
-
 
 class AdminServiceInquirySerializer(serializers.ModelSerializer):
     """Admin listesinde hızlı talebin tüm bilgileri."""
 
     service = ServiceTypeSerializer(read_only=True, help_text=_('Requested service type.'))
+    location = LocationSerializer(
+        source='neighborhood', read_only=True, allow_null=True,
+        help_text=_('Neighbourhood and district of the person; null for older inquiries.'),
+    )
 
     class Meta:
         model = ServiceInquiry
-        fields = ['id', 'full_name', 'email', 'service', 'message', 'consent_given_at', 'created_at']
+        fields = ['id', 'full_name', 'email', 'service', 'location', 'message', 'consent_given_at', 'created_at']
         read_only_fields = fields

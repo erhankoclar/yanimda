@@ -1,16 +1,28 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import BaseCheckbox from '../BaseCheckbox.vue'
 
+import { useLocations } from '@/composables/useLocations'
+
 import { RELATIONSHIP_OPTIONS, TIME_SLOT_OPTIONS, optionLabel } from '@/constants/care'
 import { formatLongDate } from '@/utils/dates'
+
+const { t } = useI18n()
+const { districtName, neighborhoodName, loadDistricts, loadNeighborhoods } = useLocations()
 
 const props = defineProps({
   form: { type: Object, required: true },
   errors: { type: Object, required: true },
   /** Seçilen hizmetin adı. */
   serviceName: { type: String, default: '' },
+})
+
+// Özet, sayfa yenilenip taslaktan doğrudan açıldığında da ilçe ve mahalle adlarını gösterebilsin.
+onMounted(() => {
+  loadDistricts().catch(() => {})
+  if (props.form.district) loadNeighborhoods(Number(props.form.district)).catch(() => {})
 })
 
 const emit = defineEmits({
@@ -20,34 +32,35 @@ const emit = defineEmits({
 
 // Özet bölümleri; her biri düzenlenecek adıma bağlıdır.
 const sections = computed(() => [
-  { step: 0, title: 'Hizmet', rows: [['Seçilen hizmet', props.serviceName]] },
+  { step: 0, title: t('wizard.summary.sections.service'), rows: [[t('wizard.summary.rows.selectedService'), props.serviceName]] },
   {
     step: 1,
-    title: 'Yakınınız',
+    title: t('wizard.summary.sections.elder'),
     rows: [
-      ['Adı ve soyadı', props.form.elder_full_name],
-      ['Yaşı', props.form.elder_age],
-      ['Yakınlığınız', optionLabel(RELATIONSHIP_OPTIONS, props.form.relationship)],
-      ['Notlar', props.form.elder_notes || 'Yok'],
+      [t('wizard.summary.rows.elderName'), props.form.elder_full_name],
+      [t('wizard.summary.rows.elderAge'), props.form.elder_age],
+      [t('wizard.summary.rows.relationship'), optionLabel(RELATIONSHIP_OPTIONS, props.form.relationship)],
+      [t('wizard.summary.rows.notes'), props.form.elder_notes || t('common.none')],
     ],
   },
   {
     step: 2,
-    title: 'Zaman ve adres',
+    title: t('wizard.summary.sections.schedule'),
     rows: [
-      ['Tarih', formatLongDate(props.form.preferred_date)],
-      ['Saat', optionLabel(TIME_SLOT_OPTIONS, props.form.time_slot)],
-      ['Adres', `${props.form.address}, ${props.form.district} / ${props.form.city}`],
+      [t('wizard.summary.rows.date'), formatLongDate(props.form.preferred_date)],
+      [t('wizard.summary.rows.time'), optionLabel(TIME_SLOT_OPTIONS, props.form.time_slot)],
+      [t('wizard.summary.rows.location'), `${neighborhoodName(props.form.district, props.form.neighborhood)}, ${districtName(props.form.district)}`],
+      [t('wizard.summary.rows.address'), props.form.address],
     ],
   },
   {
     step: 3,
-    title: 'İletişim',
+    title: t('wizard.summary.sections.contact'),
     rows: [
-      ['Telefonunuz', props.form.contact_phone],
-      ['İkinci kişi', props.form.alternate_contact_name
+      [t('wizard.summary.rows.phone'), props.form.contact_phone],
+      [t('wizard.summary.rows.alternate'), props.form.alternate_contact_name
         ? `${props.form.alternate_contact_name}, ${props.form.alternate_contact_phone}`
-        : 'Yok'],
+        : t('common.none')],
     ],
   },
 ])
@@ -55,12 +68,12 @@ const sections = computed(() => [
 
 <template>
   <div>
-    <p>Göndermeden önce bilgileri kontrol edin. Değiştirmek istediğiniz bölümde “Düzenle”ye basın.</p>
+    <p>{{ t('wizard.summary.intro') }}</p>
     <section v-for="section in sections" :key="section.step" class="summary-section">
       <div class="summary-section__head">
         <h2>{{ section.title }}</h2>
         <button type="button" class="link-button" @click="emit('edit', section.step)">
-          Düzenle<span class="visually-hidden">: {{ section.title }}</span>
+          {{ t('common.edit') }}<span class="visually-hidden">: {{ section.title }}</span>
         </button>
       </div>
       <dl>
@@ -71,7 +84,7 @@ const sections = computed(() => [
       </dl>
     </section>
     <BaseCheckbox v-model="form.consent" required :error="errors.consent">
-      Yazdığım bilgilerin hizmeti planlamak için işlenmesini ve ekibin beni aramasını kabul ediyorum.
+      {{ t('wizard.summary.consent') }}
     </BaseCheckbox>
   </div>
 </template>

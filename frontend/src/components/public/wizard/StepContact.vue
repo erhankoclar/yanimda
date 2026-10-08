@@ -1,5 +1,9 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
 import BaseInput from '../BaseInput.vue'
+
+const { t } = useI18n()
 
 defineProps({
   form: { type: Object, required: true },
@@ -11,25 +15,25 @@ defineProps({
   <div>
     <BaseInput
       v-model="form.contact_phone"
-      label="Size hangi numaradan ulaşalım?"
+      :label="t('wizard.contact.phone')"
       type="tel"
       inputmode="tel"
       autocomplete="tel"
-      hint="Örnek: 0555 123 45 67"
+      :hint="t('wizard.contact.phoneHint')"
       required
       :error="errors.contact_phone"
     />
-    <h2 class="step-contact__subtitle">Size ulaşamazsak kimi arayalım?</h2>
-    <p class="step-contact__note">Bu bölüm isteğe bağlıdır. Doldurursanız ad ve telefonu birlikte yazın.</p>
+    <h2 class="step-contact__subtitle">{{ t('wizard.contact.alternateTitle') }}</h2>
+    <p class="step-contact__note">{{ t('wizard.contact.alternateNote') }}</p>
     <BaseInput
       v-model="form.alternate_contact_name"
-      label="İkinci kişinin adı"
+      :label="t('wizard.contact.alternateName')"
       autocomplete="off"
       :error="errors.alternate_contact_name"
     />
     <BaseInput
       v-model="form.alternate_contact_phone"
-      label="İkinci kişinin telefonu"
+      :label="t('wizard.contact.alternatePhone')"
       type="tel"
       inputmode="tel"
       autocomplete="off"

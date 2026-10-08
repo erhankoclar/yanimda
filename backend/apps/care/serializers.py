@@ -1,6 +1,5 @@
 from datetime import timedelta
 
-from django.db import IntegrityError, transaction
 from django.utils import timezone
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
@@ -8,32 +7,72 @@ from rest_framework import serializers
 
 from apps.care import api_descriptions, conf
 from apps.care.models import CareRequest, ServiceType
-from apps.care.text import person_name_key
+from apps.care.services import care_request_service, service_type_service
 from apps.care.validators import normalize_phone
+from apps.geo.models import Neighborhood
+from apps.geo.serializers import LocationSerializer
 
 
 class ServiceTypeSerializer(serializers.ModelSerializer):
-    """Sihirbazda gösterilen hizmet kartının verileri."""
+    """Sihirbazda gösterilen hizmet kartının verileri; ad ve açıklama istek dilinde döner."""
+
+    name = serializers.SerializerMethodField(
+        help_text=_('Service name shown on the card, in the request language (Accept-Language).'),
+    )
+    description = serializers.SerializerMethodField(
+        help_text=_('Short explanation shown under the service name, in the request language.'),
+    )
 
     class Meta:
         model = ServiceType
         fields = ['id', 'name', 'slug', 'description', 'icon']
         extra_kwargs = {
-            'name': {'help_text': _('Service name shown on the card.')},
             'slug': {'help_text': _('Stable, URL safe service key.')},
-            'description': {'help_text': _('Short explanation shown under the service name.')},
             'icon': {'help_text': _('Icon key mapped to an icon by the frontend, for example <code>companion</code>.')},
         }
+
+    def get_name(self, obj) -> str:
+        """
+        Hizmet adını istek dilinde döndürür.
+
+        Args:
+            obj (ServiceType): Hizmet türü.
+
+        Returns:
+            str: Ad.
+        """
+        return service_type_service.localized(obj, 'name')
+
+    def get_description(self, obj) -> str:
+        """
+        Hizmet açıklamasını istek dilinde döndürür.
+
+        Args:
+            obj (ServiceType): Hizmet türü.
+
+        Returns:
+            str: Açıklama.
+        """
+        return service_type_service.localized(obj, 'description')
 
 
 class CareRequestSerializer(serializers.ModelSerializer):
     """Başvuru sahibinin kendi talebini oluşturması ve görüntülemesi için kullanılır."""
 
     service = serializers.PrimaryKeyRelatedField(
-        queryset=ServiceType.objects.filter(is_active=True), write_only=True,
+        queryset=ServiceType.objects.active(), write_only=True,
         help_text=api_descriptions.CARE_REQUEST_SERVICE_HELP_TEXT,
     )
     service_detail = ServiceTypeSerializer(source='service', read_only=True, help_text=_('Selected service type.'))
+    neighborhood = serializers.PrimaryKeyRelatedField(
+        queryset=Neighborhood.objects.active(), write_only=True,
+        help_text=api_descriptions.NEIGHBORHOOD_HELP_TEXT,
+    )
+    location = LocationSerializer(
+        source='neighborhood', read_only=True, allow_null=True,
+        help_text=_('Neighbourhood and district of the service address; null for applications created before '
+                    'locations were collected.'),
+    )
     consent = serializers.BooleanField(
         write_only=True,
         help_text=_('Must be <code>true</code>: the applicant accepts that the given personal data is processed '
@@ -48,7 +87,7 @@ class CareRequestSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'service', 'service_detail',
             'elder_full_name', 'elder_age', 'relationship', 'elder_notes',
-            'preferred_date', 'time_slot', 'city', 'district', 'address',
+            'preferred_date', 'time_slot', 'neighborhood', 'location', 'address',
             'contact_phone', 'alternate_contact_name', 'alternate_contact_phone',
             'consent', 'status', 'status_display', 'created_at',
         ]
@@ -62,9 +101,7 @@ class CareRequestSerializer(serializers.ModelSerializer):
             'preferred_date': {'help_text': _('Preferred service date in YYYY-MM-DD format. '
                                               'Cannot be in the past or too far in the future.')},
             'time_slot': {'help_text': _('Preferred part of the day.')},
-            'city': {'help_text': _('City of the service address.')},
-            'district': {'help_text': _('District of the service address.')},
-            'address': {'help_text': _('Open address where the service will be given.')},
+            'address': {'help_text': _('Street, building and flat number where the service will be given.')},
             'contact_phone': {'help_text': _('Phone number to reach the applicant. 10-15 digits; spaces, '
                                              'parentheses and dashes are removed.')},
             'alternate_contact_name': {'help_text': _('Optional second person to call. '
@@ -175,64 +212,8 @@ class CareRequestSerializer(serializers.ModelSerializer):
                 {'alternate_contact_name': gettext('Enter the name of the alternate contact.')},
             )
         request = self.context.get('request')
-        if request and self._has_open_duplicate(request.user, attrs['service'], attrs['elder_full_name']):
-            raise serializers.ValidationError({'service': self._duplicate_message(attrs['elder_full_name'])})
-        return attrs
-
-    @staticmethod
-    def _has_open_duplicate(applicant, service, elder_full_name):
-        """
-        Aynı yaşlı için aynı hizmette açık bir talep olup olmadığını söyler.
-
-        Args:
-            applicant (User): Başvuru sahibi.
-            service (ServiceType): Seçilen hizmet.
-            elder_full_name (str): Yaşlının adı soyadı; Türkçe harf ve büyük/küçük harf duyarsız karşılaştırılır.
-
-        Returns:
-            bool: Açık mükerrer talep varsa True.
-        """
-        return CareRequest.objects.filter(
-            applicant=applicant, service=service, elder_name_key=person_name_key(elder_full_name),
-            status__in=CareRequest.OPEN_STATUSES,
-        ).exists()
-
-    @staticmethod
-    def _duplicate_message(elder_full_name):
-        """
-        Mükerrer talep hata mesajını etkin dilde oluşturur.
-
-        Args:
-            elder_full_name (str): Yaşlının adı soyadı.
-
-        Returns:
-            str: Çevrilmiş hata mesajı.
-        """
-        return gettext(
-            'You already have an open request for this service for %(elder)s. '
-            'You can apply again when it is completed or cancelled.'
-        ) % {'elder': elder_full_name.strip()}
-
-    def create(self, validated_data):
-        """
-        Talebi onay zamanını kaydederek oluşturur; başvuru sahibi view tarafından verilir.
-
-        Args:
-            validated_data (dict[str, Any]): Doğrulanmış veriler ve `applicant`.
-
-        Returns:
-            CareRequest: Oluşturulan talep.
-
-        Raises:
-            serializers.ValidationError: Veritabanı mükerrer açık talep kısıtını ihlal ederse.
-        """
-        validated_data.pop('consent')
-        validated_data['consent_given_at'] = timezone.now()
-        try:
-            # Eşzamanlı iki istek doğrulamayı birlikte geçerse veritabanı kısıtı devreye girer.
-            with transaction.atomic():
-                return super().create(validated_data)
-        except IntegrityError as error:
+        if request and care_request_service.has_open_duplicate(request.user, attrs['service'], attrs['elder_full_name']):
             raise serializers.ValidationError(
-                {'service': [self._duplicate_message(validated_data['elder_full_name'])]},
-            ) from error
+                {'service': care_request_service.duplicate_message(attrs['elder_full_name'])},
+            )
+        return attrs

@@ -1,11 +1,16 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+
+import PreferenceControls from '@/components/common/PreferenceControls.vue'
 
 import BrandMark from './BrandMark.vue'
 
 defineProps({
   authenticated: { type: Boolean, required: true },
+  /** Yönetici oturumunda yönetim paneline bağlantı gösterilir. */
+  isAdmin: { type: Boolean, default: false },
 })
 
 const emit = defineEmits({
@@ -13,6 +18,7 @@ const emit = defineEmits({
   logout: null,
 })
 
+const { t } = useI18n()
 const route = useRoute()
 const menuOpen = ref(false)
 
@@ -21,44 +27,49 @@ watch(() => route.fullPath, () => {
   menuOpen.value = false
 })
 
-const SECTIONS = [
-  { hash: '#hizmetler', label: 'Hizmetler' },
-  { hash: '#nasil-isler', label: 'Nasıl işler?' },
-  { hash: '#sss', label: 'Sık sorulanlar' },
-]
+// Bölüm bağlantıları; etiketler etkin dile göre çözülür.
+const sections = computed(() => [
+  { hash: '#hizmetler', label: t('nav.sections.services') },
+  { hash: '#nasil-isler', label: t('nav.sections.how') },
+  { hash: '#sss', label: t('nav.sections.faq') },
+])
 </script>
 
 <template>
   <header class="site-header">
     <div class="container site-header__bar">
-      <RouterLink :to="{ name: 'landing' }" class="site-header__brand" aria-label="Yanımda ana sayfa">
+      <RouterLink :to="{ name: 'landing' }" class="site-header__brand" :aria-label="t('nav.homeLabel')">
         <BrandMark />
       </RouterLink>
 
-      <button
-        type="button"
-        class="site-header__toggle"
-        :aria-expanded="menuOpen ? 'true' : 'false'"
-        aria-controls="site-menu"
-        @click="menuOpen = !menuOpen"
-      >
-        <span class="site-header__toggle-lines" aria-hidden="true" />
-        {{ menuOpen ? 'Kapat' : 'Menü' }}
-      </button>
+      <div class="site-header__tools">
+        <PreferenceControls />
+        <button
+          type="button"
+          class="site-header__toggle"
+          :aria-expanded="menuOpen ? 'true' : 'false'"
+          aria-controls="site-menu"
+          @click="menuOpen = !menuOpen"
+        >
+          <span class="site-header__toggle-lines" aria-hidden="true" />
+          <span class="site-header__toggle-text">{{ menuOpen ? t('nav.close') : t('nav.menu') }}</span>
+        </button>
+      </div>
 
       <div id="site-menu" class="site-header__menu" :class="{ 'is-open': menuOpen }">
-        <nav class="site-header__sections" aria-label="Sayfa bölümleri">
-          <RouterLink v-for="section in SECTIONS" :key="section.hash" :to="{ name: 'landing', hash: section.hash }">
+        <nav class="site-header__sections" :aria-label="t('nav.sectionsLabel')">
+          <RouterLink v-for="section in sections" :key="section.hash" :to="{ name: 'landing', hash: section.hash }">
             {{ section.label }}
           </RouterLink>
         </nav>
-        <nav class="site-header__account" aria-label="Hesap">
+        <nav class="site-header__account" :aria-label="t('nav.accountLabel')">
           <template v-if="authenticated">
-            <RouterLink :to="{ name: 'request-list' }">Başvurularım</RouterLink>
-            <button type="button" class="site-header__logout" @click="emit('logout')">Çıkış yap</button>
+            <RouterLink v-if="isAdmin" :to="{ name: 'admin-dashboard' }">{{ t('nav.adminPanel') }}</RouterLink>
+            <RouterLink :to="{ name: 'request-list' }">{{ t('common.myRequests') }}</RouterLink>
+            <button type="button" class="site-header__logout" @click="emit('logout')">{{ t('nav.logout') }}</button>
           </template>
-          <RouterLink v-else :to="{ name: 'login' }">Giriş yap</RouterLink>
-          <RouterLink class="site-header__cta" :to="{ name: 'landing', hash: '#talep-formu' }">Talep bırakın</RouterLink>
+          <RouterLink v-else :to="{ name: 'login' }">{{ t('nav.login') }}</RouterLink>
+          <RouterLink class="site-header__cta" :to="{ name: 'landing', hash: '#talep-formu' }">{{ t('common.leaveRequest') }}</RouterLink>
         </nav>
       </div>
     </div>
@@ -71,7 +82,7 @@ const SECTIONS = [
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--color-line);
-  background: rgb(255 255 255 / 0.96);
+  background: var(--color-header-bg);
   backdrop-filter: blur(8px);
 }
 
@@ -80,13 +91,21 @@ const SECTIONS = [
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-2) var(--space-3);
   min-height: 4.5rem;
+  /* Logo ve düğmeler üst kenara yapışmaz. */
+  padding-block: var(--space-2);
 }
 
 .site-header__brand {
   color: var(--color-ink);
   text-decoration: none;
+}
+
+.site-header__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .site-header__toggle {
@@ -181,17 +200,42 @@ const SECTIONS = [
   padding: 0 var(--space-5);
   border-radius: 999px;
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 .site-header__menu .site-header__cta:hover {
   background: var(--color-primary-dark);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
-@media (min-width: 60rem) {
+/* Dar telefonda menü düğmesi yalnızca simgedir; logo, tercihler ve düğme tek satıra sığar. */
+@media (max-width: 26rem) {
+  .site-header__toggle {
+    padding: 0 var(--space-3);
+  }
+
+  .site-header__toggle-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Tam menü ancak tüm bağlantılar tek satıra sığdığında açılır; daha darda menü düğmesi kullanılır. */
+@media (min-width: 75rem) {
+  .site-header__bar {
+    flex-wrap: nowrap;
+  }
+
   .site-header__toggle {
     display: none;
+  }
+
+  .site-header__tools {
+    order: 3;
   }
 
   .site-header__menu,
@@ -201,15 +245,21 @@ const SECTIONS = [
     flex-basis: auto;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-6);
-    padding: 0 0 0 var(--space-7);
+    gap: var(--space-4);
+    padding: 0 0 0 var(--space-4);
   }
 
   .site-header__sections,
   .site-header__account {
     display: flex;
     align-items: center;
-    gap: var(--space-5);
+    gap: var(--space-3);
+  }
+
+  .site-header__menu a,
+  .site-header__logout {
+    font-size: 0.88em;
+    white-space: nowrap;
   }
 
   .site-header__menu .site-header__cta {

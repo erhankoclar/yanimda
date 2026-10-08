@@ -1,11 +1,17 @@
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <section aria-labelledby="not-found-title">
-    <h1 id="not-found-title">Sayfa bulunamadı</h1>
-    <p>Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.</p>
+    <h1 id="not-found-title">{{ t('notFound.title') }}</h1>
+    <p>{{ t('notFound.text') }}</p>
     <p>
-      <RouterLink :to="{ name: 'landing' }">Ana sayfaya dönün</RouterLink>
-      ya da
-      <RouterLink :to="{ name: 'request-list' }">başvurularınıza bakın</RouterLink>.
+      <RouterLink :to="{ name: 'landing' }">{{ t('notFound.home') }}</RouterLink>
+      {{ t('notFound.or') }}
+      <RouterLink :to="{ name: 'request-list' }">{{ t('notFound.requests') }}</RouterLink>.
     </p>
   </section>
 </template>

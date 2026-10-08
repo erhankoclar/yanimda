@@ -1,14 +1,13 @@
-"""care testlerinde ortak kullanılan veri oluşturma yardımcıları."""
+"""care testlerinde ortak kullanılan veri oluşturma yardımcıları; kayıtları factory-boy fabrikaları üretir."""
 
 from datetime import timedelta
-from itertools import count
 
-from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from apps.care.models import CareRequest, ServiceType
-
-_sequence = count(1)
+from apps.accounts.factories import UserFactory
+from apps.care.factories import CareRequestFactory, ServiceTypeFactory
+from apps.care.models import CareRequest
+from apps.geo.factories import NeighborhoodFactory
 
 
 def make_user(**overrides):
@@ -16,14 +15,12 @@ def make_user(**overrides):
     Benzersiz e-postalı standart kullanıcı oluşturur.
 
     Args:
-        **overrides (Any): create_user'a aktarılacak alanlar.
+        **overrides (Any): UserFactory alanlarını ezen değerler.
 
     Returns:
         User: Oluşturulan kullanıcı.
     """
-    number = next(_sequence)
-    data = {'email': f'kullanici{number}@example.com', 'password': 'Yanimda-Guclu-2026', **overrides}
-    return get_user_model().objects.create_user(**data)
+    return UserFactory(**overrides)
 
 
 def make_service(**overrides):
@@ -36,12 +33,7 @@ def make_service(**overrides):
     Returns:
         ServiceType: Oluşturulan hizmet türü.
     """
-    number = next(_sequence)
-    data = {
-        'name': f'Hizmet {number}', 'slug': f'hizmet-{number}', 'description': 'Açıklama',
-        'icon': 'companion', 'sort_order': number, **overrides,
-    }
-    return ServiceType.objects.create(**data)
+    return ServiceTypeFactory(**overrides)
 
 
 def care_request_data(**overrides):
@@ -52,7 +44,8 @@ def care_request_data(**overrides):
         **overrides (Any): Varsayılan alanları ezen değerler.
 
     Returns:
-        dict[str, Any]: Talep alanları.
+        dict[str, Any]: Talep alanları; `neighborhood` yeni oluşturulmuş bir Neighborhood nesnesidir
+        (API gövdesi için `.pk` kullanılmalıdır).
     """
     return {
         'elder_full_name': 'Fatma Yılmaz',
@@ -61,8 +54,7 @@ def care_request_data(**overrides):
         'elder_notes': 'Yürürken desteğe ihtiyaç duyuyor.',
         'preferred_date': timezone.localdate() + timedelta(days=3),
         'time_slot': CareRequest.TimeSlot.MORNING,
-        'city': 'Samsun',
-        'district': 'İlkadım',
+        'neighborhood': NeighborhoodFactory(),
         'address': 'Örnek Mah. Deneme Sok. No: 1',
         'contact_phone': '05551112233',
         **overrides,
@@ -81,8 +73,5 @@ def make_care_request(applicant=None, service=None, **overrides):
     Returns:
         CareRequest: Oluşturulan talep.
     """
-    data = care_request_data(**overrides)
-    data.setdefault('consent_given_at', timezone.now())
-    return CareRequest.objects.create(
-        applicant=applicant or make_user(), service=service or make_service(), **data,
-    )
+    related = {key: value for key, value in (('applicant', applicant), ('service', service)) if value is not None}
+    return CareRequestFactory(**related, **care_request_data(**overrides))

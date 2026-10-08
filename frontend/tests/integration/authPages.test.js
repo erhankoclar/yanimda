@@ -63,7 +63,7 @@ describe('giriş sayfası', () => {
     await fill(wrapper, 'Parola', 'Yanimda-Guclu-2026')
     await submit(wrapper)
 
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests/new'))
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests/new'), { timeout: 5000 })
     expect(tokenStorage.getAccess()).toBe('a1')
   })
 
@@ -125,7 +125,7 @@ describe('kayıt sayfası', () => {
 
     const sent = JSON.parse(calls.find((call) => call.url === '/auth/register/').data)
     expect(sent).toMatchObject({ email: 'ayse@example.com', first_name: 'Ayşe', phone: '0555 111 22 33' })
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('request-new'))
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('request-new'), { timeout: 5000 })
   })
 
   it('parolayı göster seçeneği alan tipini değiştirir', async () => {

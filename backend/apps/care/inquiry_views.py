@@ -3,8 +3,9 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import filters, generics, permissions
 
 from apps.care import api_descriptions
+from apps.care.filters import AdminServiceInquiryFilter
 from apps.care.inquiry_serializers import AdminServiceInquirySerializer, ServiceInquirySerializer
-from apps.care.models import ServiceInquiry
+from apps.care.services import inquiry_service
 from apps.care.throttles import InquiryCreateRateThrottle
 
 
@@ -22,6 +23,15 @@ class ServiceInquiryCreateView(generics.CreateAPIView):
     authentication_classes = []
     throttle_classes = [InquiryCreateRateThrottle]
 
+    def perform_create(self, serializer):
+        """
+        Doğrulanmış hızlı talebi servis üzerinden kaydeder.
+
+        Args:
+            serializer (ServiceInquirySerializer): Doğrulanmış serializer; yanıt için kaydedilen talep atanır.
+        """
+        serializer.instance = inquiry_service.create_inquiry(**serializer.validated_data)
+
 
 @extend_schema(
     tags=['admin'],
@@ -33,7 +43,36 @@ class AdminServiceInquiryListView(generics.ListAPIView):
 
     serializer_class = AdminServiceInquirySerializer
     permission_classes = [permissions.IsAdminUser]
-    queryset = ServiceInquiry.objects.select_related('service')
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['service']
+    filterset_class = AdminServiceInquiryFilter
     search_fields = ['full_name', 'email', 'message']
+
+    def get_queryset(self):
+        """
+        Hızlı talepleri servis üzerinden döndürür.
+
+        Returns:
+            QuerySet[ServiceInquiry]: En yeniden eskiye hızlı talepler.
+        """
+        return inquiry_service.list_for_admin()
+
+
+@extend_schema(
+    tags=['admin'],
+    summary=api_descriptions.ADMIN_INQUIRY_DETAIL_SUMMARY,
+    description=api_descriptions.ADMIN_INQUIRY_DETAIL_VIEW_DESCRIPTION,
+)
+class AdminServiceInquiryDetailView(generics.RetrieveAPIView):
+    __doc__ = api_descriptions.ADMIN_INQUIRY_DETAIL_VIEW_DESCRIPTION
+
+    serializer_class = AdminServiceInquirySerializer
+    permission_classes = [permissions.IsAdminUser]
+
+    def get_queryset(self):
+        """
+        Hızlı talepleri servis üzerinden döndürür; kayıt `pk` ile seçilir.
+
+        Returns:
+            QuerySet[ServiceInquiry]: Hızlı talepler.
+        """
+        return inquiry_service.list_for_admin()

@@ -1,17 +1,23 @@
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <section class="closing" aria-labelledby="closing-title">
     <div class="container">
       <div class="closing__card">
         <div class="closing__text">
-          <h2 id="closing-title">Hazır olduğunuzda buradayız</h2>
-          <p>Başvurunuzu yarıda bırakmanız gerekirse sorun değil; yazdıklarınız bu tarayıcı sekmesinde saklanır.</p>
-          <RouterLink class="closing__cta" :to="{ name: 'request-new' }">Başvuruya başla</RouterLink>
+          <h2 id="closing-title">{{ t('landing.closing.title') }}</h2>
+          <p>{{ t('landing.closing.text') }}</p>
+          <RouterLink class="closing__cta" :to="{ name: 'request-new' }">{{ t('common.startApplication') }}</RouterLink>
         </div>
         <div class="closing__media">
           <img
             class="closing__photo"
             src="/images/holding-hands.webp"
-            alt="Genç bir elin yaşlı bir eli şefkatle tuttuğu yakın çekim"
+            :alt="t('landing.closing.photoAlt')"
             width="900"
             height="1350"
             loading="lazy"
@@ -31,8 +37,8 @@
   display: grid;
   overflow: hidden;
   border-radius: 2rem;
-  background: var(--color-primary);
-  color: #fff;
+  background: var(--color-band-bg);
+  color: var(--color-band-ink);
 }
 
 .closing__text {
@@ -40,12 +46,12 @@
 }
 
 .closing h2 {
-  color: #fff;
+  color: var(--color-band-ink);
   font-size: clamp(2rem, 5vw, 2.75rem);
 }
 
 .closing p {
-  color: #dcebe7;
+  color: var(--color-band-soft);
   font-size: var(--text-lg);
 }
 
@@ -58,7 +64,7 @@
   padding: var(--space-3) var(--space-6);
   border-radius: 999px;
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
   font-weight: 700;
   text-decoration: none;
 }

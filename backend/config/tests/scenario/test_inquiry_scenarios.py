@@ -1,6 +1,7 @@
 from rest_framework.test import APIClient
 
 from apps.care.models import ServiceInquiry
+from apps.geo.factories import NeighborhoodFactory
 from config.tests.scenario.base import ScenarioTestCase
 
 
@@ -21,6 +22,7 @@ class QuickInquiryScenarioTests(ScenarioTestCase):
 
         response = visitor.post('/api/inquiries/', {
             'full_name': 'Deneme Kişi', 'email': 'ziyaretci@example.com', 'service': service_id,
+            'neighborhood': NeighborhoodFactory().pk,
             'message': 'Babam için hastane randevusuna eşlik istiyoruz.', 'consent': True, 'website': '',
         }, format='json')
 
@@ -41,9 +43,37 @@ class QuickInquiryScenarioTests(ScenarioTestCase):
         """
         response = APIClient().post('/api/inquiries/', {
             'full_name': 'Deneme Kişi', 'email': 'ziyaretci@example.com', 'service': self.companion.id,
+            'neighborhood': NeighborhoodFactory().pk,
             'message': 'Babam için hastane randevusuna eşlik istiyoruz.', 'consent': False,
         }, format='json')
 
         self.assertEqual(response.status_code, 400)
         self.assertNotIn('id', response.data)
         self.assertFalse(ServiceInquiry.objects.exists())
+
+    def test_dashboard_reflects_new_inquiries_and_applications(self):
+        """
+        Yeni hızlı talep ve başvurunun admin dashboard'una anında yansıdığını doğrular.
+
+        Senaryo:
+        - Ziyaretçi refakat için hızlı talep bırakır, Ayşe hastane eşliği için başvurur.
+        - Yönetici dashboard'u açar.
+
+        Beklenti:
+        - Toplam talep kartı 2, bekleyen başvuru 1 olmalı; ikisi de son kayıtlarda yer almalı;
+          refakat ve hastane çizgilerinin bugünkü değeri 1 olmalıdır.
+        """
+        APIClient().post('/api/inquiries/', {
+            'full_name': 'Deneme Kişi', 'email': 'ziyaretci@example.com', 'service': self.companion.id,
+            'neighborhood': NeighborhoodFactory().pk,
+            'message': 'Annem için haftada iki gün refakat istiyoruz.', 'consent': True,
+        }, format='json')
+        self.new_applicant().apply(self.hospital)
+
+        dashboard = self.admin.get('/api/admin/dashboard/', {'days': 7}).data
+
+        self.assertEqual(dashboard['cards']['total_demand']['value'], 2)
+        self.assertEqual(dashboard['cards']['open_requests']['value'], 1)
+        self.assertEqual({item['type'] for item in dashboard['recent']}, {'inquiry', 'request'})
+        today = {line['name']: line['counts'][-1] for line in dashboard['series']['datasets']}
+        self.assertEqual((today['Refakat'], today['Hastane eşliği']), (1, 1))

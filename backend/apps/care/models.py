@@ -2,37 +2,45 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from parler.models import TranslatableModel, TranslatedFields
 
+from apps.care.managers import CareRequestManager, ServiceInquiryManager, ServiceTypeManager
 from apps.care.text import person_name_key
 
 
-class ServiceType(models.Model):
+class ServiceType(TranslatableModel):
     """
     Başvuru sihirbazının ilk adımında seçilen hizmet türü.
 
     `icon` alanı frontend'deki ikon eşlemesinin anahtarıdır; ikon dosyası değildir.
     """
 
-    name = models.CharField(_('name'), max_length=100)
     slug = models.SlugField(_('slug'), max_length=100, unique=True)
-    description = models.CharField(_('description'), max_length=255)
+    # Sistemin sunduğu içerik olduğu için ad ve açıklama dil başına bir satırda tutulur;
+    # vatandaşın girdiği kayıtlar (başvuru, hızlı talep) çevrilmez.
+    translations = TranslatedFields(
+        name=models.CharField(_('name'), max_length=100),
+        description=models.CharField(_('description'), max_length=255),
+    )
     icon = models.CharField(_('icon key'), max_length=50)
     sort_order = models.PositiveSmallIntegerField(_('sort order'), default=0)
     is_active = models.BooleanField(_('active'), default=True)
 
+    objects = ServiceTypeManager()
+
     class Meta:
         verbose_name = _('service type')
         verbose_name_plural = _('service types')
-        ordering = ['sort_order', 'name']
+        ordering = ['sort_order', 'slug']
 
     def __str__(self):
         """
-        Hizmet türünün adını döndürür.
+        Hizmet türünün etkin dildeki adını döndürür; çeviri yoksa başka dildeki adı, o da yoksa slug'ı verir.
 
         Returns:
             str: Hizmet adı.
         """
-        return self.name
+        return self.safe_translation_getter('name', default=self.slug, any_language=True)
 
 
 class CareRequest(models.Model):
@@ -79,8 +87,12 @@ class CareRequest(models.Model):
     elder_notes = models.TextField(_('special notes'), blank=True)
     preferred_date = models.DateField(_('preferred date'))
     time_slot = models.CharField(_('time slot'), max_length=20, choices=TimeSlot.choices)
-    city = models.CharField(_('city'), max_length=50)
-    district = models.CharField(_('district'), max_length=50)
+    # Hizmet yalnızca İstanbul'da verilir; ilçe mahalleden gelir. Konum alanından önceki
+    # kayıtlarda boştur (eski il/ilçe metni adresin sonuna taşınmıştır).
+    neighborhood = models.ForeignKey(
+        'geo.Neighborhood', on_delete=models.PROTECT, related_name='care_requests',
+        null=True, blank=True, verbose_name=_('neighborhood'),
+    )
     address = models.TextField(_('address'))
     contact_phone = models.CharField(_('contact phone'), max_length=20)
     alternate_contact_name = models.CharField(_('alternate contact name'), max_length=150, blank=True)
@@ -92,6 +104,8 @@ class CareRequest(models.Model):
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
 
     OPEN_STATUSES = [Status.NEW, Status.REVIEWING, Status.ASSIGNED]
+
+    objects = CareRequestManager()
 
     class Meta:
         verbose_name = _('care request')
@@ -128,29 +142,6 @@ class CareRequest(models.Model):
             kwargs['update_fields'] = {*update_fields, 'elder_name_key'}
         super().save(*args, **kwargs)
 
-    def next_statuses(self):
-        """
-        Talebin mevcut durumundan geçilebilecek durumları döndürür.
-
-        Returns:
-            list[str]: Geçişe izin verilen durum değerleri; son durumlarda boş liste.
-        """
-        return list(self.STATUS_TRANSITIONS[self.status])
-
-    def can_change_status_to(self, new_status):
-        """
-        Mevcut durumdan verilen duruma geçilip geçilemeyeceğini söyler.
-
-        Aynı duruma "geçiş" her zaman serbesttir; böylece yalnızca not güncellenebilir.
-
-        Args:
-            new_status (str): Hedef durum değeri.
-
-        Returns:
-            bool: Geçişe izin veriliyorsa True.
-        """
-        return new_status == self.status or new_status in self.STATUS_TRANSITIONS[self.status]
-
     def __str__(self):
         """
         Talebin hizmet ve yaşlı adıyla okunabilir temsilini döndürür.
@@ -174,9 +165,16 @@ class ServiceInquiry(models.Model):
     service = models.ForeignKey(
         ServiceType, on_delete=models.PROTECT, related_name='inquiries', verbose_name=_('service'),
     )
+    # Konum alanından önceki hızlı taleplerde boştur.
+    neighborhood = models.ForeignKey(
+        'geo.Neighborhood', on_delete=models.PROTECT, related_name='inquiries',
+        null=True, blank=True, verbose_name=_('neighborhood'),
+    )
     message = models.TextField(_('description'))
     consent_given_at = models.DateTimeField(_('consent given at'))
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+
+    objects = ServiceInquiryManager()
 
     class Meta:
         verbose_name = _('service inquiry')

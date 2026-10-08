@@ -1,4 +1,4 @@
-"""Admin dashboard istatistiklerinin hesaplanması."""
+"""Admin özet istatistiklerinin (eski /api/admin/stats/) okuma servisi."""
 
 from datetime import timedelta
 
@@ -8,6 +8,7 @@ from django.db.models.functions import TruncDate
 from django.utils import timezone
 
 from apps.care.models import CareRequest, ServiceType
+from apps.care.services.service_type_service import localized
 
 DAILY_SERIES_DAYS = 14
 RECENT_DAYS = 7
@@ -32,7 +33,7 @@ def build_dashboard_stats():
         recent=Count('id', filter=Q(created_at__gte=now - timedelta(days=RECENT_DAYS))),
     )
     status_counts = dict(CareRequest.objects.values_list('status').annotate(count=Count('id')))
-    services = ServiceType.objects.annotate(request_count=Count('requests')).order_by('sort_order', 'name')
+    services = ServiceType.objects.prefetch_related('translations').annotate(request_count=Count('requests')).order_by('sort_order', 'slug')
     first_day = today - timedelta(days=DAILY_SERIES_DAYS - 1)
     daily_counts = dict(
         CareRequest.objects.filter(created_at__date__gte=first_day)
@@ -52,7 +53,7 @@ def build_dashboard_stats():
             for value, label in CareRequest.Status.choices
         ],
         'by_service': [
-            {'service_id': service.id, 'name': service.name, 'count': service.request_count}
+            {'service_id': service.id, 'name': localized(service, 'name'), 'count': service.request_count}
             for service in services
         ],
         'daily': [

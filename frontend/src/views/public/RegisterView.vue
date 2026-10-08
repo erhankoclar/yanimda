@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 import AuthShell from '@/components/public/AuthShell.vue'
@@ -13,6 +14,7 @@ import { safeRedirect } from '@/utils/safeRedirect'
 
 const FIELDS = ['first_name', 'last_name', 'email', 'phone', 'password']
 
+const { t } = useI18n()
 const auth = useAuthStore()
 const route = useRoute()
 const router = useRouter()
@@ -29,10 +31,10 @@ const showPassword = ref(false)
  * @returns {boolean} Form gönderilebilir durumdaysa true.
  */
 function validate() {
-  errors.first_name = form.first_name.trim() ? '' : 'Adınızı yazın.'
-  errors.last_name = form.last_name.trim() ? '' : 'Soyadınızı yazın.'
-  errors.email = form.email.trim() ? '' : 'E-posta adresinizi yazın.'
-  errors.password = form.password.length >= 8 ? '' : 'Parolanız en az 8 karakter olmalı.'
+  errors.first_name = form.first_name.trim() ? '' : t('validation.register.firstName')
+  errors.last_name = form.last_name.trim() ? '' : t('validation.register.lastName')
+  errors.email = form.email.trim() ? '' : t('validation.emailRequired')
+  errors.password = form.password.length >= 8 ? '' : t('validation.register.passwordMin')
   errors.phone = ''
   return FIELDS.every((field) => !errors[field])
 }
@@ -57,48 +59,48 @@ async function submit() {
 
 <template>
   <AuthShell title-id="register-title">
-    <h1 id="register-title">Kayıt olun</h1>
-    <p>Başvurularınızı takip edebilmeniz için kısa bir hesap oluşturalım.</p>
+    <h1 id="register-title">{{ t('auth.register.title') }}</h1>
+    <p>{{ t('auth.register.intro') }}</p>
 
     <form novalidate @submit.prevent="submit">
       <FormAlert :message="generalError" />
-      <BaseInput v-model="form.first_name" label="Adınız" autocomplete="given-name" required :error="errors.first_name" />
-      <BaseInput v-model="form.last_name" label="Soyadınız" autocomplete="family-name" required :error="errors.last_name" />
+      <BaseInput v-model="form.first_name" :label="t('auth.register.firstName')" autocomplete="given-name" required :error="errors.first_name" />
+      <BaseInput v-model="form.last_name" :label="t('auth.register.lastName')" autocomplete="family-name" required :error="errors.last_name" />
       <BaseInput
         v-model="form.email"
-        label="E-posta adresi"
+        :label="t('auth.register.email')"
         type="email"
         autocomplete="email"
         inputmode="email"
-        hint="Girişte bu adresi kullanacaksınız."
+        :hint="t('auth.register.emailHint')"
         required
         :error="errors.email"
       />
       <BaseInput
         v-model="form.phone"
-        label="Telefon"
+        :label="t('auth.register.phone')"
         type="tel"
         autocomplete="tel"
         inputmode="tel"
-        hint="Örnek: 0555 123 45 67"
+        :hint="t('auth.register.phoneHint')"
         :error="errors.phone"
       />
       <BaseInput
         v-model="form.password"
-        label="Parola"
+        :label="t('auth.register.password')"
         :type="showPassword ? 'text' : 'password'"
         autocomplete="new-password"
-        hint="En az 8 karakter. Yalnızca rakamlardan oluşmasın ve kolay tahmin edilmesin."
+        :hint="t('auth.register.passwordHint')"
         required
         :error="errors.password"
       />
-      <BaseCheckbox v-model="showPassword">Parolayı göster</BaseCheckbox>
-      <PrimaryButton type="submit" block :loading="submitting">Hesabımı oluştur</PrimaryButton>
+      <BaseCheckbox v-model="showPassword">{{ t('auth.register.showPassword') }}</BaseCheckbox>
+      <PrimaryButton type="submit" block :loading="submitting">{{ t('auth.register.submit') }}</PrimaryButton>
     </form>
 
     <p class="auth-page__switch">
-      Zaten hesabınız var mı?
-      <RouterLink :to="{ name: 'login', query: route.query }">Giriş yapın</RouterLink>
+      {{ t('auth.register.haveAccount') }}
+      <RouterLink :to="{ name: 'login', query: route.query }">{{ t('auth.register.login') }}</RouterLink>
     </p>
   </AuthShell>
 </template>

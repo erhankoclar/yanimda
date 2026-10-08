@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-07 20:11+0300\n"
+"POT-Creation-Date: 2026-10-08 13:18+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,15 +146,6 @@ msgstr ""
 msgid "Accounts"
 msgstr "Hesaplar"
 
-msgid "The email address is required."
-msgstr "E-posta adresi zorunludur."
-
-msgid "Superuser must have is_staff=True."
-msgstr "Süper kullanıcı için is_staff=True olmalıdır."
-
-msgid "Superuser must have is_superuser=True."
-msgstr "Süper kullanıcı için is_superuser=True olmalıdır."
-
 msgid "email address"
 msgstr "e-posta adresi"
 
@@ -208,6 +199,15 @@ msgstr "İletişim telefon numarası. İsteğe bağlı, en fazla 20 karakter."
 msgid "A user with this email address already exists."
 msgstr "Bu e-posta adresiyle kayıtlı bir kullanıcı zaten var."
 
+msgid "The email address is required."
+msgstr "E-posta adresi zorunludur."
+
+msgid "Superuser must have is_staff=True."
+msgstr "Süper kullanıcı için is_staff=True olmalıdır."
+
+msgid "Superuser must have is_superuser=True."
+msgstr "Süper kullanıcı için is_superuser=True olmalıdır."
+
 msgid "First and last name of the applicant."
 msgstr "Başvuru sahibinin adı ve soyadı."
 
@@ -225,6 +225,11 @@ msgstr "Talebi oluşturan başvuru sahibi."
 
 msgid "Requested service type."
 msgstr "Talep edilen hizmet türü."
+
+msgid ""
+"Neighbourhood and district of the service address; null for older "
+"applications."
+msgstr "Hizmet adresinin mahallesi ve ilçesi; eski başvurularda null."
 
 msgid "Translated label of the status."
 msgstr "Durumun çevrilmiş etiketi."
@@ -253,10 +258,6 @@ msgid ""
 "statuses."
 msgstr ""
 "Talebin mevcut durumundan geçebileceği durumlar. Son durumlarda boştur."
-
-#, python-format
-msgid "A request in \"%(current)s\" status cannot be moved to \"%(target)s\"."
-msgstr "\"%(current)s\" durumundaki bir talep \"%(target)s\" durumuna taşınamaz."
 
 msgid "Status value."
 msgstr "Durum değeri."
@@ -299,6 +300,84 @@ msgstr "Her hizmet türünün talep sayısı."
 
 msgid "Requests per day for the last 14 days, oldest first."
 msgstr "Son 14 günün günlük talep sayıları, eskiden yeniye."
+
+msgid "Value for this month until today."
+msgstr "Bu ayın başından bugüne değer."
+
+msgid "Value for the same days of the previous month."
+msgstr "Geçen ayın aynı günlerindeki değer."
+
+msgid "Rounded change in percent; null when the previous value is zero."
+msgstr "Yuvarlanmış yüzde değişim; önceki değer sıfırsa null."
+
+msgid "Applications that are new, reviewing or assigned."
+msgstr "Yeni, inceleniyor veya atandı durumundaki başvurular."
+
+msgid "Open applications that nobody has reviewed yet."
+msgstr "Henüz kimsenin incelemediği açık başvurular."
+
+msgid "Number of active service types."
+msgstr "Aktif hizmet türü sayısı."
+
+msgid "Service with the most inquiries and applications; null without data."
+msgstr "En çok hızlı talep ve başvuru alan hizmet; veri yoksa null."
+
+msgid "Quick inquiries and applications together."
+msgstr "Hızlı talepler ve başvurular birlikte."
+
+msgid "Applications waiting for the team."
+msgstr "Ekibi bekleyen başvurular."
+
+msgid "Quick inquiries from the landing page."
+msgstr "Ana sayfadan gelen hızlı talepler."
+
+msgid "Active service types."
+msgstr "Aktif hizmet türleri."
+
+msgid "Icon key of the service type."
+msgstr "Hizmet türünün ikon anahtarı."
+
+msgid "Count for every label, in the same order."
+msgstr "Her etiket için sayı, aynı sırayla."
+
+msgid "Length of one period."
+msgstr "Bir dönemin uzunluğu."
+
+msgid "Start date of every period, oldest first."
+msgstr "Her dönemin başlangıç tarihi, eskiden yeniye."
+
+msgid "One line per active service type."
+msgstr "Her aktif hizmet türü için bir çizgi."
+
+msgid "Quick inquiry or application."
+msgstr "Hızlı talep veya başvuru."
+
+msgid "Identifier of the quick inquiry or application."
+msgstr "Hızlı talebin veya başvurunun kimliği."
+
+msgid "Contact name for inquiries, elder name for applications."
+msgstr "Hızlı taleplerde ulaşılacak kişinin, başvurularda yaşlının adı."
+
+msgid "Creation time."
+msgstr "Oluşturulma zamanı."
+
+msgid "Application status; null for inquiries."
+msgstr "Başvuru durumu; hızlı taleplerde null."
+
+msgid "Summary cards."
+msgstr "Özet kartları."
+
+msgid "Service chart data."
+msgstr "Hizmet grafiği verisi."
+
+msgid "Latest quick inquiries and applications."
+msgstr "Son hızlı talepler ve başvurular."
+
+msgid "Oldest applications waiting for review."
+msgstr "İncelenmeyi bekleyen en eski başvurular."
+
+msgid "Application count of every status."
+msgstr "Her durumdaki başvuru sayısı."
 
 msgid "List services"
 msgstr "Hizmetleri listele"
@@ -384,22 +463,36 @@ msgstr ""
 "services_list\">Hizmetleri listele — <code>[].id</code></a> yanıtından "
 "kopyalayın."
 
+msgid ""
+"Identifier of the neighbourhood of the address in Istanbul. First choose a "
+"district from <a href=\"#operations-locations-geo_districts_list\">List "
+"districts — <code>[].id</code></a>, then copy the value from <a "
+"href=\"#operations-locations-geo_districts_neighborhoods_list\">List "
+"neighbourhoods of a district — <code>[].id</code></a>."
+msgstr ""
+"Adresin İstanbul'daki mahallesinin kimliği. Önce <a href=\"#operations-"
+"locations-geo_districts_list\">İlçeleri listele — <code>[].id</code></a> ile "
+"ilçe seçin, ardından değeri <a href=\"#operations-locations-"
+"geo_districts_neighborhoods_list\">İlçenin mahallelerini listele — "
+"<code>[].id</code></a> alanından alın."
+
 msgid "Admin: list requests"
 msgstr "Yönetim: talepleri listele"
 
 msgid ""
 "<p>Lists the care requests of all applicants for the admin panel. Only admin "
 "users can call it.</p><p>Results are paginated and newest first by default. "
-"They can be filtered by status, service, applicant and creation date range, "
-"searched by elder name, applicant email, city, district and phone, and "
-"ordered by creation time, preferred date or status.</p>"
+"They can be filtered by status, service, applicant, district, neighbourhood "
+"and creation date range, searched by elder name, applicant email, "
+"neighbourhood, district and phone, and ordered by creation time, preferred "
+"date or status.</p>"
 msgstr ""
-"<p>Admin paneli için tüm başvuru sahiplerinin hizmet taleplerini listeler. "
-"Yalnızca admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalıdır ve "
-"varsayılan olarak en yeniden eskiye sıralanır. Durum, hizmet, başvuru sahibi "
-"ve oluşturulma tarihi aralığına göre filtrelenebilir; yaşlı adı, başvuru "
-"sahibi e-postası, il, ilçe ve telefona göre aranabilir; oluşturulma zamanı, "
-"tercih edilen tarih veya duruma göre sıralanabilir.</p>"
+"<p>Admin paneli için tüm başvuru sahiplerinin başvurularını listeler. "
+"Yalnızca admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalanır ve "
+"varsayılan olarak en yeniden eskiye sıralanır. Duruma, hizmete, başvuru "
+"sahibine, ilçeye, mahalleye ve oluşturulma tarih aralığına göre süzülebilir; "
+"yaşlı adı, başvuru sahibi e-postası, mahalle, ilçe ve telefonla aranabilir; "
+"oluşturulma zamanı, tercih edilen tarih veya duruma göre sıralanabilir.</p>"
 
 msgid ""
 "Only requests of this service type. Copy the value from <a "
@@ -421,6 +514,33 @@ msgstr ""
 
 msgid "Only requests in this status."
 msgstr "Yalnızca bu durumdaki talepler."
+
+msgid ""
+"Only records whose neighbourhood is in this district. Copy the value from <a "
+"href=\"#operations-locations-geo_districts_list\">List districts — "
+"<code>[].id</code></a>."
+msgstr ""
+"Yalnızca mahallesi bu ilçede olan kayıtlar. Değeri <a href=\"#operations-"
+"locations-geo_districts_list\">İlçeleri listele — <code>[].id</code></a> "
+"alanından alın."
+
+msgid ""
+"Only records in this neighbourhood. Copy the value from <a "
+"href=\"#operations-locations-geo_districts_neighborhoods_list\">List "
+"neighbourhoods of a district — <code>[].id</code></a>."
+msgstr ""
+"Yalnızca bu mahalledeki kayıtlar. Değeri <a href=\"#operations-locations-"
+"geo_districts_neighborhoods_list\">İlçenin mahallelerini listele — "
+"<code>[].id</code></a> alanından alın."
+
+msgid ""
+"Only inquiries of this service type. Copy the value from <a "
+"href=\"#operations-services-services_list\">List services — "
+"<code>[].id</code></a>."
+msgstr ""
+"Yalnızca bu hizmet türündeki hızlı talepler. Değeri <a href=\"#operations-"
+"services-services_list\">Hizmetleri listele — <code>[].id</code></a> "
+"alanından alın."
 
 msgid "Only requests created on or after this date (YYYY-MM-DD)."
 msgstr "Yalnızca bu tarihte veya sonrasında oluşturulan talepler (YYYY-AA-GG)."
@@ -493,13 +613,6 @@ msgstr ""
 msgid "Send quick inquiry"
 msgstr "Hızlı talep gönder"
 
-#| msgid ""
-#| "<p>Creates a new applicant account. No authentication is "
-#| "required.</p><h3>Processing</h3><ol><li>The email is normalized to lower case"
-#| " and checked for uniqueness.</li><li>The password is checked against the "
-#| "password validators.</li><li>The account is created without admin "
-#| "rights.</li></ol><p>Requests are rate limited per IP address with the "
-#| "<code>accounts_register</code> scope.</p>"
 msgid ""
 "<p>Saves a service inquiry from the quick form on the landing page. No "
 "account or authentication is required.</p><h3>Processing</h3><ol><li>The name"
@@ -521,10 +634,6 @@ msgstr ""
 "doldurur.</li></ul><p>İstekler <code>care_inquiry_create</code> kapsamıyla IP"
 " adresi başına hız sınırına tabidir.</p>"
 
-#| msgid ""
-#| "Identifier of the selected active service type. Copy it from <a "
-#| "href=\"#operations-services-services_list\">List services — "
-#| "<code>[].id</code></a>."
 msgid ""
 "Identifier of the requested active service type. Copy it from <a "
 "href=\"#operations-services-services_list\">List services — "
@@ -534,35 +643,144 @@ msgstr ""
 "services_list\">Hizmetleri listele — <code>[].id</code></a> yanıtından "
 "kopyalayın."
 
-#| msgid "Admin: list users"
+#| msgid "Admin: list quick inquiries"
+msgid "Admin: quick inquiry details"
+msgstr "Yönetim: hızlı talep ayrıntısı"
+
+#| msgid ""
+#| "Only requests created by this user. Copy the value from <a "
+#| "href=\"#operations-admin-admin_users_list\">Admin: list users — "
+#| "<code>results[].id</code></a>."
+msgid ""
+"<p>Returns one quick inquiry with its full description and location. Only "
+"admin users can call it. The identifier comes from <a href=\"#operations-"
+"admin-admin_inquiries_list\">Admin: list quick inquiries</a> — "
+"<code>results[].id</code>.</p>"
+msgstr ""
+"<p>Bir hızlı talebi tam açıklaması ve konumuyla döndürür. Yalnızca admin "
+"kullanıcılar çağırabilir. Kimlik <a href=\"#operations-admin-"
+"admin_inquiries_list\">Yönetim: hızlı talepleri listele</a> — "
+"<code>results[].id</code> alanından alınır.</p>"
+
 msgid "Admin: list quick inquiries"
 msgstr "Yönetim: hızlı talepleri listele"
 
-#| msgid ""
-#| "<p>Lists all user accounts with their request counts. Only admin users can "
-#| "call it.</p><p>Results are paginated and newest first by default. They can be"
-#| " filtered by admin right and active state, searched by email, name and phone,"
-#| " and ordered by join date, email or request count.</p>"
 msgid ""
 "<p>Lists the inquiries sent from the quick form, newest first. Only admin "
-"users can call it.</p><p>Results are paginated, can be filtered by service "
-"and searched by name, email and description.</p>"
+"users can call it.</p><p>Results are paginated, can be filtered by service, "
+"district and neighbourhood and searched by name, email and description.</p>"
 msgstr ""
 "<p>Hızlı formdan gönderilen talepleri en yeniden eskiye listeler. Yalnızca "
-"admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalıdır; hizmete göre "
-"filtrelenebilir, ad, e-posta ve açıklamaya göre aranabilir.</p>"
+"admin kullanıcılar çağırabilir.</p><p>Sonuçlar sayfalanır; hizmete, ilçeye ve"
+" mahalleye göre süzülebilir, ad, e-posta ve açıklamayla aranabilir.</p>"
+
+msgid "Admin: dashboard"
+msgstr "Yönetim: gösterge paneli"
+
+msgid ""
+"<p>Returns everything the admin dashboard shows in one call. Only admin users"
+" can call it.</p><h3>Processing</h3><ol><li>Cards compare this month until "
+"today with the same days of the previous month. The change is "
+"<code>null</code> when the previous period is zero.</li><li>The series has "
+"one line per active service. It counts quick inquiries, applications or both "
+"and fills empty periods with zero; 90 days are grouped by week starting on "
+"Monday.</li><li>Recent items merge the latest quick inquiries and "
+"applications by creation time.</li><li>Pending items are the oldest new or "
+"reviewing applications.</li></ol>"
+msgstr ""
+"<p>Admin gösterge panelinin gösterdiği her şeyi tek çağrıda döndürür. "
+"Yalnızca admin kullanıcılar çağırabilir.</p><h3>İşleyiş</h3><ol><li>Kartlar "
+"bu ayın başından bugüne kadarki değeri geçen ayın aynı günleriyle kıyaslar. "
+"Önceki dönem sıfırsa değişim <code>null</code> olur.</li><li>Seride her aktif"
+" hizmet için bir çizgi vardır. Hızlı talepleri, başvuruları veya ikisini "
+"birden sayar ve boş dönemleri sıfırla doldurur; 90 gün pazartesi başlayan "
+"haftalara göre gruplanır.</li><li>Son kayıtlar, en son hızlı talepleri ve "
+"başvuruları oluşturulma zamanına göre birleştirir.</li><li>Bekleyen kayıtlar "
+"en eski yeni veya inceleniyor başvurulardır.</li></ol>"
+
+msgid "Number of days shown in the service chart: 7, 30 or 90. Defaults to 30."
+msgstr "Hizmet grafiğinde gösterilen gün sayısı: 7, 30 veya 90. Varsayılan 30."
+
+msgid ""
+"What the service chart counts: <code>all</code> (quick inquiries and "
+"applications), <code>inquiries</code> or <code>requests</code>. Defaults to "
+"<code>all</code>."
+msgstr ""
+"Hizmet grafiğinin saydığı kayıtlar: <code>all</code> (hızlı talepler ve "
+"başvurular), <code>inquiries</code> veya <code>requests</code>. Varsayılan "
+"<code>all</code>."
+
+msgid "Admin: thematic map counts"
+msgstr "Yönetim: tematik harita sayıları"
+
+msgid ""
+"<p>Returns how many quick inquiries and applications came from each district "
+"and neighbourhood of Istanbul, for the admin thematic map. Only admin users "
+"can call it.</p><h3>Processing</h3><ol><li>Records are counted in the "
+"database by neighbourhood and service; records without a location (created "
+"before locations were collected) are left out.</li><li>Every district is "
+"returned, also with zero; only neighbourhoods with at least one record are "
+"returned, most first.</li><li>Each area also carries <code>by_service</code>,"
+" so the map can switch between the total and a single service without another"
+" request.</li></ol><p>The records behind a number can be listed with <a "
+"href=\"#operations-admin-admin_requests_list\">Admin: list requests</a> and "
+"<a href=\"#operations-admin-admin_inquiries_list\">Admin: list quick "
+"inquiries</a> using the <code>district</code> or <code>neighborhood</code> "
+"filter.</p>"
+msgstr ""
+"<p>Admin tematik haritası için İstanbul'un her ilçesinden ve mahallesinden "
+"kaç hızlı talep ve başvuru geldiğini döndürür. Yalnızca admin kullanıcılar "
+"çağırabilir.</p><h3>İşleyiş</h3><ol><li>Kayıtlar veritabanında mahalle ve "
+"hizmete göre sayılır; konumu olmayan (konum sorulmaya başlanmadan önce "
+"oluşturulan) kayıtlar dışarıda kalır.</li><li>Tüm ilçeler sıfır olsa da "
+"döner; yalnızca en az bir kaydı olan mahalleler, çoktan aza "
+"döner.</li><li>Her alan <code>by_service</code> da taşır; harita ek istek "
+"atmadan toplam ile tek hizmet arasında geçebilir.</li></ol><p>Bir sayının "
+"arkasındaki kayıtlar <a href=\"#operations-admin-"
+"admin_requests_list\">Yönetim: talepleri listele</a> ve <a "
+"href=\"#operations-admin-admin_inquiries_list\">Yönetim: hızlı talepleri "
+"listele</a> servislerinde <code>district</code> veya "
+"<code>neighborhood</code> süzgeciyle listelenebilir.</p>"
+
+msgid ""
+"What is counted: <code>all</code> (quick inquiries and applications), "
+"<code>inquiries</code> or <code>requests</code>. Defaults to "
+"<code>all</code>."
+msgstr ""
+"Neyin sayılacağı: <code>all</code> (hızlı talepler ve başvurular), "
+"<code>inquiries</code> veya <code>requests</code>. Varsayılan "
+"<code>all</code>."
+
+msgid ""
+"Only records of the last 30, 90 or 365 days, including today. Leave empty for"
+" all records."
+msgstr ""
+"Yalnızca bugün dahil son 30, 90 veya 365 günün kayıtları. Tüm kayıtlar için "
+"boş bırakın."
+
+msgid "Only inquiries created on or after this date (YYYY-MM-DD)."
+msgstr ""
+"Yalnızca bu tarihte veya sonrasında oluşturulan hızlı talepler (YYYY-AA-GG)."
+
+msgid "Only inquiries created on or before this date (YYYY-MM-DD)."
+msgstr ""
+"Yalnızca bu tarihte veya öncesinde oluşturulan hızlı talepler (YYYY-AA-GG)."
 
 msgid "Care services"
 msgstr "Bakım hizmetleri"
 
-#| msgid ""
-#| "Internal note for the admin team. Never shown to the applicant. At most 2000 "
-#| "characters."
 msgid "Name and surname of the person to contact. At least 2 characters."
 msgstr "Ulaşılacak kişinin adı ve soyadı. En az 2 karakter."
 
 msgid "Email address to reply to. Stored in lower case."
 msgstr "Yanıt verilecek e-posta adresi. Küçük harfle saklanır."
+
+msgid ""
+"Neighbourhood and district of the person; null for inquiries left before "
+"locations were collected."
+msgstr ""
+"Kişinin mahallesi ve ilçesi; konum alınmaya başlanmadan önce bırakılan "
+"taleplerde null."
 
 msgid ""
 "Short description of the need, for example who needs support and when. "
@@ -571,9 +789,6 @@ msgstr ""
 "İhtiyacın kısa açıklaması, örneğin kimin ne zaman desteğe ihtiyacı olduğu. 10"
 " ile 2000 karakter arasında."
 
-#| msgid ""
-#| "Must be <code>true</code>: the applicant accepts that the given personal data"
-#| " is processed to plan the service. The acceptance time is stored."
 msgid ""
 "Must be <code>true</code>: the person accepts that the given data is used to "
 "answer the inquiry. The acceptance time is stored."
@@ -599,6 +814,9 @@ msgstr "Kişisel verilerin işlenmesini onaylamanız gerekir."
 
 msgid "The form could not be sent. Please try again."
 msgstr "Form gönderilemedi. Lütfen tekrar deneyin."
+
+msgid "Neighbourhood and district of the person; null for older inquiries."
+msgstr "Kişinin mahallesi ve ilçesi; eski taleplerde null."
 
 msgid "Creates or updates the default data of the care module."
 msgstr "Bakım modülünün varsayılan verilerini oluşturur veya günceller."
@@ -632,11 +850,98 @@ msgstr ""
 "Tüm bakım modülü varsayılan veri işlemleri tamamlandı. Oluşturulan: "
 "%(created)d, Güncellenen: %(updated)d."
 
-msgid "name"
-msgstr "ad"
+msgid ""
+"Creates fictional demo inquiries and applications for the last days. Runs "
+"only with DEBUG enabled."
+msgstr ""
+"Son günler için kurgusal demo hızlı talepleri ve başvuruları oluşturur. "
+"Yalnızca DEBUG açıkken çalışır."
+
+msgid "Number of past days to fill."
+msgstr "Doldurulacak geçmiş gün sayısı."
+
+msgid "Delete the existing demo data and create it again."
+msgstr "Mevcut demo verisini silip yeniden oluştur."
+
+msgid "Demo data can only be created when DEBUG is enabled."
+msgstr "Demo verisi yalnızca DEBUG açıkken oluşturulabilir."
+
+msgid "Existing demo data removal"
+msgstr "Mevcut demo verisinin silinmesi"
+
+msgid "Demo inquiries and applications"
+msgstr "Demo hızlı talepleri ve başvuruları"
+
+msgid "CARE DEMO DATA SETUP STARTED"
+msgstr "BAKIM DEMO VERİSİ KURULUMU BAŞLATILDI"
+
+#, python-format
+msgid "Care demo data setup failed: %(error)s"
+msgstr "Bakım demo verisi kurulumu başarısız oldu: %(error)s"
+
+#, python-format
+msgid ""
+"All care demo data operations completed. Created: %(created)d, Updated: "
+"%(updated)d."
+msgstr ""
+"Tüm bakım demo verisi işlemleri tamamlandı. Oluşturulan: %(created)d, "
+"Güncellenen: %(updated)d."
+
+#, python-format
+msgid "Removed rows: %(count)d."
+msgstr "Silinen satır: %(count)d."
+
+msgid ""
+"Identifier of the service type; the key used in <code>by_service</code>."
+msgstr ""
+"Hizmet türü kimliği; <code>by_service</code> içinde anahtar olarak "
+"kullanılır."
+
+msgid "Service name in the request language."
+msgstr "İstek dilindeki hizmet adı."
+
+msgid "Records of this service with a location."
+msgstr "Bu hizmetin konumlu kayıtları."
+
+msgid "District or neighbourhood identifier; used by the list filters."
+msgstr "İlçe veya mahalle kimliği; liste süzgeçlerinde kullanılır."
+
+msgid "OpenStreetMap relation id; matches the polygon in the boundary files."
+msgstr "OpenStreetMap ilişki kimliği; sınır dosyalarındaki poligonla eşleşir."
+
+msgid "Name of the area as written in Turkish."
+msgstr "Alanın Türkçe yazılışı."
+
+msgid "Records in the area."
+msgstr "Alandaki kayıtlar."
+
+msgid ""
+"Records per service: service id (as text) to count. Services without records "
+"are left out."
+msgstr ""
+"Hizmet başına kayıtlar: hizmet kimliğinden (metin olarak) sayıya eşleme. "
+"Kaydı olmayan hizmetler yer almaz."
+
+msgid "Identifier of the district the neighbourhood belongs to."
+msgstr "Mahallenin bağlı olduğu ilçenin kimliği."
+
+msgid "All counted records with a location in Istanbul."
+msgstr "İstanbul'da konumu olan tüm sayılan kayıtlar."
+
+msgid "Active services with their counts."
+msgstr "Sayılarıyla aktif hizmetler."
+
+msgid "Every district, also with zero records."
+msgstr "Kaydı sıfır olanlar dahil tüm ilçeler."
+
+msgid "Neighbourhoods with at least one record, most first."
+msgstr "En az bir kaydı olan mahalleler, çoktan aza."
 
 msgid "slug"
 msgstr "kısa ad"
+
+msgid "name"
+msgstr "ad"
 
 msgid "description"
 msgstr "açıklama"
@@ -722,11 +1027,8 @@ msgstr "tercih edilen tarih"
 msgid "time slot"
 msgstr "zaman aralığı"
 
-msgid "city"
-msgstr "il"
-
-msgid "district"
-msgstr "ilçe"
+msgid "neighborhood"
+msgstr "mahalle"
 
 msgid "address"
 msgstr "adres"
@@ -761,26 +1063,25 @@ msgstr "hizmet talebi"
 msgid "care requests"
 msgstr "hizmet talepleri"
 
-#| msgid "elder full name"
 msgid "full name"
 msgstr "ad soyad"
 
-#| msgid "service type"
 msgid "service inquiry"
 msgstr "hizmet talebi"
 
-#| msgid "service types"
 msgid "service inquiries"
 msgstr "hizmet talepleri"
 
-msgid "Service name shown on the card."
-msgstr "Kartta gösterilen hizmet adı."
+msgid ""
+"Service name shown on the card, in the request language (Accept-Language)."
+msgstr "Kartta gösterilen hizmet adı; istek dilinde (Accept-Language)."
+
+msgid ""
+"Short explanation shown under the service name, in the request language."
+msgstr "Hizmet adının altında gösterilen kısa açıklama; istek dilinde."
 
 msgid "Stable, URL safe service key."
 msgstr "Değişmeyen, URL'de kullanılabilir hizmet anahtarı."
-
-msgid "Short explanation shown under the service name."
-msgstr "Hizmet adının altında gösterilen kısa açıklama."
 
 msgid ""
 "Icon key mapped to an icon by the frontend, for example "
@@ -791,6 +1092,13 @@ msgstr ""
 
 msgid "Selected service type."
 msgstr "Seçilen hizmet türü."
+
+msgid ""
+"Neighbourhood and district of the service address; null for applications "
+"created before locations were collected."
+msgstr ""
+"Hizmet adresinin mahallesi ve ilçesi; konum alınmaya başlanmadan önce "
+"oluşturulan başvurularda null."
 
 msgid ""
 "Must be <code>true</code>: the applicant accepts that the given personal data"
@@ -825,14 +1133,8 @@ msgstr ""
 msgid "Preferred part of the day."
 msgstr "Tercih edilen gün dilimi."
 
-msgid "City of the service address."
-msgstr "Hizmet adresinin ili."
-
-msgid "District of the service address."
-msgstr "Hizmet adresinin ilçesi."
-
-msgid "Open address where the service will be given."
-msgstr "Hizmetin verileceği açık adres."
+msgid "Street, building and flat number where the service will be given."
+msgstr "Hizmetin verileceği sokak, bina ve daire numarası."
 
 msgid ""
 "Phone number to reach the applicant. 10-15 digits; spaces, parentheses and "
@@ -885,8 +1187,139 @@ msgstr ""
 "%(elder)s için bu hizmette zaten açık bir başvurunuz var. Başvuru "
 "tamamlandığında veya iptal edildiğinde yeniden başvurabilirsiniz."
 
+#, python-format
+msgid "A request in \"%(current)s\" status cannot be moved to \"%(target)s\"."
+msgstr "\"%(current)s\" durumundaki bir talep \"%(target)s\" durumuna taşınamaz."
+
 msgid "Enter a valid phone number."
 msgstr "Geçerli bir telefon numarası girin."
+
+#| msgid "The email address is required."
+msgid "This field is required."
+msgstr "Bu alan zorunludur."
+
+msgid "List districts"
+msgstr "İlçeleri listele"
+
+msgid ""
+"<p>Lists the districts of Istanbul, where the service is offered, in Turkish "
+"alphabetical order. No authentication is required.</p><p>The application and "
+"quick inquiry forms show these districts first; the neighbourhoods of the "
+"chosen district come from <a href=\"#operations-locations-"
+"geo_districts_neighborhoods_list\">List neighbourhoods of a district</a>.</p>"
+msgstr ""
+"<p>Hizmetin verildiği İstanbul'un ilçelerini Türkçe alfabe sırasıyla "
+"listeler. Kimlik doğrulama gerekmez.</p><p>Başvuru ve hızlı talep formları "
+"önce bu ilçeleri gösterir; seçilen ilçenin mahalleleri <a href=\"#operations-"
+"locations-geo_districts_neighborhoods_list\">İlçenin mahallelerini "
+"listele</a> servisinden gelir.</p>"
+
+msgid ""
+"<p>Lists the districts of Istanbul, where the service is offered, in Turkish "
+"alphabetical order. No authentication is required.</p><p>The application and "
+"quick inquiry forms show these districts first; the neighbourhoods of the "
+"chosen district come from the \"List neighbourhoods of a district\" "
+"service.</p>"
+msgstr ""
+"<p>Hizmetin verildiği İstanbul'un ilçelerini Türkçe alfabe sırasıyla "
+"listeler. Kimlik doğrulama gerekmez.</p><p>Başvuru ve hızlı talep formları "
+"önce bu ilçeleri gösterir; seçilen ilçenin mahalleleri \"İlçenin "
+"mahallelerini listele\" servisinden gelir.</p>"
+
+msgid "List neighbourhoods of a district"
+msgstr "İlçenin mahallelerini listele"
+
+msgid ""
+"<p>Lists the neighbourhoods of one district in Turkish alphabetical order. No"
+" authentication is required.</p><p>An unknown district returns an empty "
+"list.</p>"
+msgstr ""
+"<p>Bir ilçenin mahallelerini Türkçe alfabe sırasıyla listeler. Kimlik "
+"doğrulama gerekmez.</p><p>Bilinmeyen ilçe için boş liste döner.</p>"
+
+msgid ""
+"District identifier. Copy it from <a href=\"#operations-locations-"
+"geo_districts_list\">List districts</a> — <code>[].id</code>."
+msgstr ""
+"İlçe kimliği. <a href=\"#operations-locations-geo_districts_list\">İlçeleri "
+"listele</a> — <code>[].id</code> alanından alınır."
+
+msgid "Locations"
+msgstr "Konumlar"
+
+msgid ""
+"Creates or updates the default districts and neighbourhoods of the geo "
+"module."
+msgstr ""
+"geo modülünün varsayılan ilçe ve mahallelerini oluşturur veya günceller."
+
+msgid "Districts and neighbourhoods"
+msgstr "İlçeler ve mahalleler"
+
+msgid "GEO DEFAULT DATA SETUP STARTED"
+msgstr "KONUM VARSAYILAN VERİ KURULUMU BAŞLATILDI"
+
+#, python-format
+msgid "Geo default data setup failed: %(error)s"
+msgstr "Konum varsayılan veri kurulumu başarısız oldu: %(error)s"
+
+#, python-format
+msgid ""
+"All geo default data operations completed. Created: %(created)d, Updated: "
+"%(updated)d."
+msgstr ""
+"Tüm konum varsayılan veri işlemleri tamamlandı. Oluşturulan: %(created)d, "
+"Güncellenen: %(updated)d."
+
+msgid "OpenStreetMap id"
+msgstr "OpenStreetMap kimliği"
+
+msgid "district"
+msgstr "ilçe"
+
+msgid "districts"
+msgstr "ilçeler"
+
+msgid "neighborhoods"
+msgstr "mahalleler"
+
+msgid "District identifier; used to list its neighbourhoods."
+msgstr "İlçe kimliği; mahallelerini listelemek için kullanılır."
+
+msgid "District name as written in Turkish."
+msgstr "İlçenin Türkçe yazılışı."
+
+msgid "ASCII key of the district name."
+msgstr "İlçe adının ASCII anahtarı."
+
+msgid "OpenStreetMap relation id; matches the district polygon on the map."
+msgstr "OpenStreetMap ilişki kimliği; haritadaki ilçe poligonuyla eşleşir."
+
+msgid ""
+"Neighbourhood identifier; sent as the location of applications and inquiries."
+msgstr "Mahalle kimliği; başvuru ve hızlı taleplerin konumu olarak gönderilir."
+
+msgid "Neighbourhood name as written in Turkish."
+msgstr "Mahallenin Türkçe yazılışı."
+
+msgid ""
+"OpenStreetMap relation id; matches the neighbourhood polygon on the map."
+msgstr "OpenStreetMap ilişki kimliği; haritadaki mahalle poligonuyla eşleşir."
+
+msgid "Identifier of the place."
+msgstr "Yerin kimliği."
+
+msgid "Name of the place as written in Turkish."
+msgstr "Yerin Türkçe yazılışı."
+
+msgid "OpenStreetMap relation id; matches the polygon on the map."
+msgstr "OpenStreetMap ilişki kimliği; haritadaki poligonla eşleşir."
+
+msgid "District the neighbourhood belongs to."
+msgstr "Mahallenin bağlı olduğu ilçe."
+
+msgid "Neighbourhood of the service address."
+msgstr "Hizmet adresinin mahallesi."
 
 msgid "Turkish"
 msgstr "Türkçe"

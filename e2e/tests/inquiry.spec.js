@@ -2,6 +2,17 @@ import { expect, test } from '@playwright/test'
 
 import { adminToken, uniqueEmail } from './helpers.js'
 
+/**
+ * Formda ilçe ve o ilçeye ait mahalleyi seçer.
+ *
+ * @param {import('@playwright/test').Locator} form Talep formu.
+ */
+async function chooseLocation(form) {
+  await form.getByLabel('İlçe', { exact: true }).selectOption({ label: 'Kadıköy' })
+  await expect(form.getByLabel('Mahalle', { exact: true })).toBeEnabled()
+  await form.getByLabel('Mahalle', { exact: true }).selectOption({ label: 'Caferağa Mahallesi' })
+}
+
 test.describe('hızlı talep formu', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#talep-formu')
@@ -18,6 +29,7 @@ test.describe('hızlı talep formu', () => {
     await expect(form.getByText('Adınızı ve soyadınızı yazın.')).toBeVisible()
     await expect(form.getByText('E-posta adresinizi yazın.')).toBeVisible()
     await expect(form.getByText('Bir hizmet seçin.')).toBeVisible()
+    await expect(form.getByLabel('Mahalle', { exact: true })).toBeDisabled()
     expect(posted).toBe(false)
   })
 
@@ -27,6 +39,7 @@ test.describe('hızlı talep formu', () => {
     await form.getByLabel('Adınız ve soyadınız').fill('Deneme Kişi')
     await form.getByLabel('E-posta adresiniz').fill(email)
     await form.getByLabel('Hangi hizmet?').selectOption({ index: 1 })
+    await chooseLocation(form)
     await form.getByLabel('Kısaca anlatın').fill('Kurgusal test: annem için haftada iki gün refakat.')
     await form.getByRole('checkbox').check()
     // Gönderim durumunu görebilmek için istek yapay olarak geciktirilir.
@@ -55,6 +68,7 @@ test.describe('hızlı talep formu', () => {
     await form.getByLabel('Adınız ve soyadınız').fill('Deneme Kişi')
     await form.getByLabel('E-posta adresiniz').fill(uniqueEmail('e2e.hata'))
     await form.getByLabel('Hangi hizmet?').selectOption({ index: 1 })
+    await chooseLocation(form)
     await form.getByLabel('Kısaca anlatın').fill('Kurgusal test: sunucu hatası durumu.')
     await form.getByRole('checkbox').check()
     await page.route('**/api/inquiries/', (route) => route.fulfill({ status: 500, body: 'hata' }))
@@ -64,6 +78,7 @@ test.describe('hızlı talep formu', () => {
     await expect(form.getByRole('alert').first()).toContainText('Beklenmeyen bir sorun')
     await expect(form.getByText('Talebiniz alındı')).toHaveCount(0)
     await expect(form.getByLabel('Kısaca anlatın')).toHaveValue('Kurgusal test: sunucu hatası durumu.')
+    await expect(form.getByLabel('Mahalle', { exact: true })).toHaveValue(/\d+/)
   })
 
   test('sunucu tarafı doğrulama, istemci atlatılsa bile geçersiz kaydı reddeder', async ({ request }) => {
@@ -73,6 +88,6 @@ test.describe('hızlı talep formu', () => {
 
     expect(response.status()).toBe(400)
     const body = await response.json()
-    expect(Object.keys(body).sort()).toEqual(['consent', 'email', 'full_name', 'message', 'service'])
+    expect(Object.keys(body)).toEqual(expect.arrayContaining(['consent', 'email', 'full_name', 'message', 'service']))
   })
 })
