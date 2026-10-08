@@ -32,7 +32,9 @@ async function tokens() {
 }
 
 const pair = await tokens()
-const context = await browser.newContext({ baseURL: BASE, colorScheme: THEME })
+// Tam sayfa çekim görüntü alanını geçici büyütür; grafikler yeniden çizilirken animasyona yakalanmasın diye
+// hareket azaltma tercihi açılır (uygulama bu tercihte grafikleri animasyonsuz çizer).
+const context = await browser.newContext({ baseURL: BASE, colorScheme: THEME, reducedMotion: 'reduce' })
 await context.addInitScript(([access, refresh, locale]) => {
   if (access) {
     localStorage.setItem('yanimda.access', access)
@@ -50,7 +52,8 @@ for (const path of PATHS) {
     await page.goto(path, { waitUntil: 'networkidle' })
     for (const [width, height] of SIZES) {
       await page.setViewportSize({ width, height })
-      await page.waitForTimeout(400)
+      // Grafik gibi boyuta göre yeniden çizilen öğelerin animasyonu bitsin.
+      await page.waitForTimeout(900)
       if (CLICK && await page.locator(CLICK).first().isVisible()) {
         await page.locator(CLICK).first().click()
         await page.waitForTimeout(500)

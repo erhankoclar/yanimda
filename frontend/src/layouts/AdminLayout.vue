@@ -179,10 +179,22 @@ async function logout() {
   color: var(--admin-primary);
 }
 
-/* Dar ekranda tercih denetimleri ve kullanıcı alanı sığsın diye başlık küçülür. */
+/* Dar ekranda araçlar sığsın diye başlık kendi satırına, araçların altına iner. */
 @media (max-width: 30rem) {
+  .admin-layout__topbar {
+    flex-wrap: wrap;
+  }
+
+  .admin-layout__tools {
+    margin-left: auto;
+  }
+
   .admin-layout__title {
-    font-size: 1.05rem;
+    flex-basis: 100%;
+    order: 3;
+    padding: 0 0.25rem 0.25rem;
+    font-size: 1.15rem;
+    white-space: normal;
   }
 }
 
@@ -207,6 +219,8 @@ async function logout() {
 @media (min-width: 64rem) {
   .admin-layout {
     grid-template-columns: var(--admin-sidebar-width) minmax(0, 1fr);
+    /* Kenar çubuğu sütununun zemini sayfa boyunca sürer; uzun sayfada alt kısım boş kalmaz. */
+    background: linear-gradient(to right, var(--admin-surface) var(--admin-sidebar-width), var(--admin-bg) 0);
   }
 
   .admin-layout__sidebar {

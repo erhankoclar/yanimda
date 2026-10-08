@@ -262,6 +262,8 @@ Backend settings are read from environment variables. Example file: `backend/.en
 | `JWT_REFRESH_DAYS` | `7` | Refresh token lifetime (days) |
 | `CARE_MAX_PREFERRED_DAYS_AHEAD` | `90` | Maximum days ahead for the preferred date |
 | `DJANGO_SUPERUSER_EMAIL`, `DJANGO_SUPERUSER_PASSWORD` | — | When set, an admin account is created on start if missing |
+| `TEST_USER_PASSWORD` | `Yanimda-Guclu-2026` | Password the test factories set on fictional accounts |
+| `DEMO_USER_PASSWORD` | `Kurgusal-Demo-2026` | Password the `care_create_demo_data` command sets on demo accounts |
 
 ### Rate limits (throttles)
 
@@ -370,7 +372,10 @@ docker compose exec backend python manage.py makemigrations
 docker compose exec backend python manage.py migrate
 docker compose exec backend python manage.py care_create_defaults
 docker compose exec backend python manage.py createsuperuser
+docker compose exec backend python manage.py care_create_demo_data   # DEBUG only; --days 90, --reset
 ```
+
+`care_create_demo_data` creates fictional applicants, quick inquiries and applications spread over the last days so the dashboard has something to show. The records come from the factory-boy factories (`apps/*/factories.py`) and the names from Faker; every demo e-mail uses the reserved `demo.yanimda.example` domain and `--reset` deletes and recreates only those. It refuses to run when `DEBUG` is off.
 
 After adding a package, rebuild the image: `docker compose up -d --build -V frontend` (`-V` renews the old `node_modules` volume).
 

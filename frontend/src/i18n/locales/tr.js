@@ -1,6 +1,69 @@
 export default {
   admin: {
     brand: 'Yanımda Yönetim',
+    dashboard: {
+      cards: {
+        inquiries: 'Bu ayki hızlı talepler',
+        label: 'Özet kartlar',
+        openRequests: 'Bekleyen başvurular',
+        services: 'Aktif hizmetler',
+        totalDemand: 'Bu ayki toplam talep',
+      },
+      compare: {
+        decrease: 'azalış',
+        increase: 'artış',
+        noPrevious: 'Geçen ay aynı dönemde kayıt yoktu',
+        unchanged: 'Geçen ayın aynı dönemiyle aynı',
+        vsLastMonth: 'geçen aya göre',
+      },
+      notes: {
+        noDemand: 'Henüz talep gelmedi',
+        topService: 'En çok talep: {name}',
+        unreviewed: 'Hepsi incelendi | {count} tanesi henüz incelenmedi | {count} tanesi henüz incelenmedi',
+      },
+      pending: {
+        columns: {
+          elder: 'Yaşlı',
+          preferredDate: 'Tercih edilen gün',
+          service: 'Hizmet',
+          status: 'Durum',
+          waiting: 'Geldiği zaman',
+        },
+        empty: 'İncelenmeyi bekleyen başvuru yok.',
+        title: 'İşlem bekleyen başvurular',
+        viewAll: 'Tüm başvurular',
+      },
+      recent: {
+        empty: 'Henüz kayıt yok.',
+        title: 'Son gelenler',
+        types: {
+          inquiry: 'Hızlı talep',
+          request: 'Başvuru',
+        },
+      },
+      retry: 'Tekrar dene',
+      status: {
+        empty: 'Henüz başvuru yok.',
+        title: 'Başvuru durumları',
+        total: 'başvuru',
+      },
+      trend: {
+        dateColumn: 'Tarih',
+        days: '{count} gün',
+        empty: 'Seçilen aralıkta talep yok.',
+        rangeLabel: 'Zaman aralığı',
+        sourceLabel: 'Kaynak',
+        sources: {
+          all: 'Tümü',
+          inquiries: 'Hızlı talepler',
+          requests: 'Başvurular',
+        },
+        tableCaption: 'Hizmetlere göre talep sayıları',
+        title: 'Hizmetlere göre talepler',
+        weekColumn: 'Hafta başlangıcı',
+        weekOf: '{date} haftası',
+      },
+    },
     layout: {
       closeMenu: 'Menüyü kapat',
       logout: 'Çıkış yap',

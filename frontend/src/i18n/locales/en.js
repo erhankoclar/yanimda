@@ -1,6 +1,69 @@
 export default {
   admin: {
     brand: 'Yanımda Admin',
+    dashboard: {
+      cards: {
+        inquiries: 'Quick inquiries this month',
+        label: 'Summary cards',
+        openRequests: 'Open applications',
+        services: 'Active services',
+        totalDemand: 'Total demand this month',
+      },
+      compare: {
+        decrease: 'decrease',
+        increase: 'increase',
+        noPrevious: 'No records in the same period last month',
+        unchanged: 'Same as the same period last month',
+        vsLastMonth: 'vs last month',
+      },
+      notes: {
+        noDemand: 'No demand yet',
+        topService: 'Most requested: {name}',
+        unreviewed: 'All reviewed | {count} not reviewed yet | {count} not reviewed yet',
+      },
+      pending: {
+        columns: {
+          elder: 'Elder',
+          preferredDate: 'Preferred day',
+          service: 'Service',
+          status: 'Status',
+          waiting: 'Received',
+        },
+        empty: 'No applications are waiting for review.',
+        title: 'Applications waiting for action',
+        viewAll: 'All applications',
+      },
+      recent: {
+        empty: 'No records yet.',
+        title: 'Latest arrivals',
+        types: {
+          inquiry: 'Quick inquiry',
+          request: 'Application',
+        },
+      },
+      retry: 'Try again',
+      status: {
+        empty: 'No applications yet.',
+        title: 'Application statuses',
+        total: 'applications',
+      },
+      trend: {
+        dateColumn: 'Date',
+        days: '{count} days',
+        empty: 'No demand in the selected range.',
+        rangeLabel: 'Time range',
+        sourceLabel: 'Source',
+        sources: {
+          all: 'All',
+          inquiries: 'Quick inquiries',
+          requests: 'Applications',
+        },
+        tableCaption: 'Demand by service',
+        title: 'Demand by service',
+        weekColumn: 'Week starting',
+        weekOf: 'Week of {date}',
+      },
+    },
     layout: {
       closeMenu: 'Close menu',
       logout: 'Sign out',

@@ -154,3 +154,8 @@ SPECTACULAR_SETTINGS = {
         'filter': True,
     },
 }
+
+# Fabrikaların (testler) ve demo verisinin hesaplara yazdığı parolalar; koda gömülmez,
+# ortam değişkeniyle dışarıdan değiştirilebilir. Yalnızca kurgusal hesaplarda kullanılır.
+TEST_USER_PASSWORD = env.str('TEST_USER_PASSWORD', default='Yanimda-Guclu-2026')
+DEMO_USER_PASSWORD = env.str('DEMO_USER_PASSWORD', default='Kurgusal-Demo-2026')
