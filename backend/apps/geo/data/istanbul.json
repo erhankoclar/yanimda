@@ -1,0 +1,4134 @@
+{
+ "attribution": "© OpenStreetMap contributors, ODbL 1.0",
+ "districts": [
+  {
+   "osm_id": 963209,
+   "name": "Adalar",
+   "slug": "adalar",
+   "neighborhoods": [
+    {
+     "osm_id": 9460394,
+     "name": "Burgazada Mahallesi"
+    },
+    {
+     "osm_id": 9460395,
+     "name": "Heybeliada Mahallesi"
+    },
+    {
+     "osm_id": 9460393,
+     "name": "Kınalıada Mahallesi"
+    },
+    {
+     "osm_id": 9460397,
+     "name": "Maden Mahallesi"
+    },
+    {
+     "osm_id": 9460396,
+     "name": "Nizam Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766093,
+   "name": "Arnavutköy",
+   "slug": "arnavutkoy",
+   "neighborhoods": [
+    {
+     "osm_id": 9680713,
+     "name": "Adnan Menderes Mahallesi"
+    },
+    {
+     "osm_id": 6648717,
+     "name": "Anadolu Mahallesi"
+    },
+    {
+     "osm_id": 9680204,
+     "name": "Arnavutköy Merkez Mahallesi"
+    },
+    {
+     "osm_id": 6648277,
+     "name": "Atatürk Mahallesi"
+    },
+    {
+     "osm_id": 9680749,
+     "name": "Baklalı Mahallesi"
+    },
+    {
+     "osm_id": 9680133,
+     "name": "Balaban Mahallesi"
+    },
+    {
+     "osm_id": 6648854,
+     "name": "Bolluca Mahallesi"
+    },
+    {
+     "osm_id": 9680620,
+     "name": "Boyalık Mahallesi"
+    },
+    {
+     "osm_id": 9680508,
+     "name": "Boğazköy İstiklal Mahallesi"
+    },
+    {
+     "osm_id": 9680568,
+     "name": "Deliklikaya Mahallesi"
+    },
+    {
+     "osm_id": 9680774,
+     "name": "Dursunköy Mahallesi"
+    },
+    {
+     "osm_id": 9680532,
+     "name": "Durusu Mahallesi"
+    },
+    {
+     "osm_id": 9680712,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9680547,
+     "name": "Hacımaşlı Mahallesi"
+    },
+    {
+     "osm_id": 9680605,
+     "name": "Hadımköy Mahallesi"
+    },
+    {
+     "osm_id": 9680772,
+     "name": "Haraççı Mahallesi"
+    },
+    {
+     "osm_id": 9680598,
+     "name": "Hastane Mahallesi"
+    },
+    {
+     "osm_id": 6648841,
+     "name": "Hicret Mahallesi"
+    },
+    {
+     "osm_id": 9680170,
+     "name": "Karaburun Mahallesi"
+    },
+    {
+     "osm_id": 9680653,
+     "name": "Karlıbayır Mahallesi"
+    },
+    {
+     "osm_id": 9680709,
+     "name": "Mareşal Fevzi Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 6648907,
+     "name": "Mavigöl Mahallesi"
+    },
+    {
+     "osm_id": 9680710,
+     "name": "Mehmet Akif Ersoy Mahallesi"
+    },
+    {
+     "osm_id": 9680382,
+     "name": "Mustafa Kemal Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9680399,
+     "name": "Nene hatun Mahallesi"
+    },
+    {
+     "osm_id": 9680610,
+     "name": "Sazlıbosna Mahallesi"
+    },
+    {
+     "osm_id": 9680779,
+     "name": "Tayakadın Mahallesi"
+    },
+    {
+     "osm_id": 9680573,
+     "name": "Taşoluk Mahallesi"
+    },
+    {
+     "osm_id": 9680169,
+     "name": "Terkos Mahallesi"
+    },
+    {
+     "osm_id": 9620132,
+     "name": "Yassıören Mahallesi"
+    },
+    {
+     "osm_id": 9680662,
+     "name": "Yavuz Selim Mahallesi"
+    },
+    {
+     "osm_id": 9680778,
+     "name": "Yeniköy Mahallesi"
+    },
+    {
+     "osm_id": 9623215,
+     "name": "Yeşilbayır Mahallesi"
+    },
+    {
+     "osm_id": 6648205,
+     "name": "Yunus Emre Mahallesi"
+    },
+    {
+     "osm_id": 9680766,
+     "name": "Çilingir Mahallesi"
+    },
+    {
+     "osm_id": 9680567,
+     "name": "Ömerli Mahallesi"
+    },
+    {
+     "osm_id": 9680733,
+     "name": "İmrahor Mahallesi"
+    },
+    {
+     "osm_id": 9680656,
+     "name": "İslambey Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276672,
+   "name": "Ataşehir",
+   "slug": "atasehir",
+   "neighborhoods": [
+    {
+     "osm_id": 9397246,
+     "name": "Atatürk Mahallesi"
+    },
+    {
+     "osm_id": 9397186,
+     "name": "Aşıkveysel Mahallesi"
+    },
+    {
+     "osm_id": 9397234,
+     "name": "Barbaros Mahallesi"
+    },
+    {
+     "osm_id": 9397114,
+     "name": "Esatpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9286657,
+     "name": "Ferhatpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9286658,
+     "name": "Fetih Mahallesi"
+    },
+    {
+     "osm_id": 9287004,
+     "name": "Kayışdağı Mahallesi"
+    },
+    {
+     "osm_id": 8857261,
+     "name": "Küçükbakkalköy Mahallesi"
+    },
+    {
+     "osm_id": 9397264,
+     "name": "Mevlana Mahallesi"
+    },
+    {
+     "osm_id": 9397321,
+     "name": "Mimar Sinan Mahallesi"
+    },
+    {
+     "osm_id": 9397189,
+     "name": "Mustafa Kemal Mahallesi"
+    },
+    {
+     "osm_id": 9397322,
+     "name": "Yeni Çamlıca Mahallesi"
+    },
+    {
+     "osm_id": 9397171,
+     "name": "Yenisahra Mahallesi"
+    },
+    {
+     "osm_id": 9288091,
+     "name": "Yenişehir Mahallesi"
+    },
+    {
+     "osm_id": 9397085,
+     "name": "Örnek Mahallesi"
+    },
+    {
+     "osm_id": 9288097,
+     "name": "İnönü Mahallesi"
+    },
+    {
+     "osm_id": 3403828,
+     "name": "İçerenköy Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766094,
+   "name": "Avcılar",
+   "slug": "avcilar",
+   "neighborhoods": [
+    {
+     "osm_id": 9289098,
+     "name": "Ambarlı Mahallesi"
+    },
+    {
+     "osm_id": 9454022,
+     "name": "Cihangir Mahallesi"
+    },
+    {
+     "osm_id": 9447736,
+     "name": "Denizköşkler Mahallesi"
+    },
+    {
+     "osm_id": 8839337,
+     "name": "Firuzköy Mahallesi"
+    },
+    {
+     "osm_id": 9453999,
+     "name": "Gümüşpala Mahallesi"
+    },
+    {
+     "osm_id": 9454020,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9454014,
+     "name": "Mustafa Kemal Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9289128,
+     "name": "Tahtakale Mahallesi"
+    },
+    {
+     "osm_id": 9454000,
+     "name": "Yeşilkent Mahallesi"
+    },
+    {
+     "osm_id": 9454013,
+     "name": "Üniversite Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766095,
+   "name": "Bahçelievler",
+   "slug": "bahcelievler",
+   "neighborhoods": [
+    {
+     "osm_id": 6841016,
+     "name": "Bahçelievler Mahallesi"
+    },
+    {
+     "osm_id": 9437947,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9437995,
+     "name": "Fevzi Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 9437991,
+     "name": "Hürriyet Mahallesi"
+    },
+    {
+     "osm_id": 9437957,
+     "name": "Kocasinan Merkez Mahallesi"
+    },
+    {
+     "osm_id": 6841110,
+     "name": "Siyavuşpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9437877,
+     "name": "Soğanlı Mahallesi"
+    },
+    {
+     "osm_id": 9437993,
+     "name": "Yenibosna Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9437992,
+     "name": "Zafer Mahallesi"
+    },
+    {
+     "osm_id": 9437994,
+     "name": "Çobançeşme Mahallesi"
+    },
+    {
+     "osm_id": 9437990,
+     "name": "Şirinevler Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766096,
+   "name": "Bakırköy",
+   "slug": "bakirkoy",
+   "neighborhoods": [
+    {
+     "osm_id": 9449359,
+     "name": "Ataköy 1. Kısım Mahallesi"
+    },
+    {
+     "osm_id": 9449572,
+     "name": "Ataköy 2-5-6. Kısım Mahallesi"
+    },
+    {
+     "osm_id": 9449571,
+     "name": "Ataköy 3-4-11. Kısım Mahallesi"
+    },
+    {
+     "osm_id": 9449682,
+     "name": "Ataköy 7-8-9-10. Kısım Mahallesi"
+    },
+    {
+     "osm_id": 7404512,
+     "name": "Basınköy Mahallesi"
+    },
+    {
+     "osm_id": 9439860,
+     "name": "Cevizlik Mahallesi"
+    },
+    {
+     "osm_id": 9439829,
+     "name": "Kartaltepe Mahallesi"
+    },
+    {
+     "osm_id": 9439702,
+     "name": "Osmaniye Mahallesi"
+    },
+    {
+     "osm_id": 9439861,
+     "name": "Sakızağacı Mahallesi"
+    },
+    {
+     "osm_id": 9439859,
+     "name": "Yenimahalle Mahallesi"
+    },
+    {
+     "osm_id": 9449714,
+     "name": "Yeşilköy Mahallesi"
+    },
+    {
+     "osm_id": 9449760,
+     "name": "Yeşilyurt Mahallesi"
+    },
+    {
+     "osm_id": 9439884,
+     "name": "Zeytinlik Mahallesi"
+    },
+    {
+     "osm_id": 9439830,
+     "name": "Zuhuratbaba Mahallesi"
+    },
+    {
+     "osm_id": 9451432,
+     "name": "Şenlikköy Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766097,
+   "name": "Bayrampaşa",
+   "slug": "bayrampasa",
+   "neighborhoods": [
+    {
+     "osm_id": 9379510,
+     "name": "Altıntepsi Mahallesi"
+    },
+    {
+     "osm_id": 9379636,
+     "name": "Cevatpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9379598,
+     "name": "Kartaltepe Mahallesi"
+    },
+    {
+     "osm_id": 9379638,
+     "name": "Kocatepe Mahallesi"
+    },
+    {
+     "osm_id": 9379597,
+     "name": "Muratpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9379470,
+     "name": "Orta Mahallesi"
+    },
+    {
+     "osm_id": 9379509,
+     "name": "Terazidere Mahallesi"
+    },
+    {
+     "osm_id": 8863399,
+     "name": "Vatan Mahallesi"
+    },
+    {
+     "osm_id": 9379494,
+     "name": "Yenidoğan Mahallesi"
+    },
+    {
+     "osm_id": 9379637,
+     "name": "Yıldırım Mahallesi"
+    },
+    {
+     "osm_id": 9379589,
+     "name": "İsmet Paşa Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766098,
+   "name": "Bağcılar",
+   "slug": "bagcilar",
+   "neighborhoods": [
+    {
+     "osm_id": 9424008,
+     "name": "100. Yıl Mahallesi"
+    },
+    {
+     "osm_id": 9424082,
+     "name": "15 Temmuz Mahallesi"
+    },
+    {
+     "osm_id": 9424901,
+     "name": "Barbaros Mahallesi"
+    },
+    {
+     "osm_id": 8824112,
+     "name": "Bağlar Mahallesi"
+    },
+    {
+     "osm_id": 9424012,
+     "name": "Demirkapı Mahallesi"
+    },
+    {
+     "osm_id": 9424011,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9424081,
+     "name": "Fevzi Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 9424010,
+     "name": "Göztepe Mahallesi"
+    },
+    {
+     "osm_id": 8824111,
+     "name": "Güneşli Mahallesi"
+    },
+    {
+     "osm_id": 9424902,
+     "name": "Hürriyet Mahallesi"
+    },
+    {
+     "osm_id": 9424080,
+     "name": "Kemalpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9424884,
+     "name": "Kirazlı Mahallesi"
+    },
+    {
+     "osm_id": 9424886,
+     "name": "Kâzım Karabekir Mahallesi"
+    },
+    {
+     "osm_id": 9424009,
+     "name": "Mahmutbey Mahallesi"
+    },
+    {
+     "osm_id": 9423795,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9424887,
+     "name": "Sancaktepe Mahallesi"
+    },
+    {
+     "osm_id": 9424883,
+     "name": "Yavuz Selim Mahallesi"
+    },
+    {
+     "osm_id": 9423794,
+     "name": "Yenigün Mahallesi"
+    },
+    {
+     "osm_id": 9424874,
+     "name": "Yenimahalle Mahallesi"
+    },
+    {
+     "osm_id": 9423797,
+     "name": "Yıldıztepe Mahallesi"
+    },
+    {
+     "osm_id": 9424888,
+     "name": "Çınar Mahallesi"
+    },
+    {
+     "osm_id": 9424885,
+     "name": "İnönü Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766099,
+   "name": "Başakşehir",
+   "slug": "basaksehir",
+   "neighborhoods": [
+    {
+     "osm_id": 9475439,
+     "name": "Altınşehir Mahallesi"
+    },
+    {
+     "osm_id": 9475458,
+     "name": "Bahçeşehir 1. Kısım Mahallesi"
+    },
+    {
+     "osm_id": 9475457,
+     "name": "Bahçeşehir 2. Kısım Mahallesi"
+    },
+    {
+     "osm_id": 9461411,
+     "name": "Başak Mahallesi"
+    },
+    {
+     "osm_id": 9461575,
+     "name": "Başakşehir Mahallesi"
+    },
+    {
+     "osm_id": 9461576,
+     "name": "Güvercintepe Mahallesi"
+    },
+    {
+     "osm_id": 9475447,
+     "name": "Kayabaşı Mahallesi"
+    },
+    {
+     "osm_id": 9461512,
+     "name": "Ziya Gökalp Mahallesi"
+    },
+    {
+     "osm_id": 9461611,
+     "name": "İkitelli OSB Mahallesi"
+    },
+    {
+     "osm_id": 9475448,
+     "name": "Şahintepe Mahallesi"
+    },
+    {
+     "osm_id": 9446484,
+     "name": "Şamlar Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276910,
+   "name": "Beykoz",
+   "slug": "beykoz",
+   "neighborhoods": [
+    {
+     "osm_id": 9493958,
+     "name": "Acarlar Mahallesi"
+    },
+    {
+     "osm_id": 9489001,
+     "name": "Akbaba Mahallesi"
+    },
+    {
+     "osm_id": 9479839,
+     "name": "Alibahadır Mahallesi"
+    },
+    {
+     "osm_id": 9578449,
+     "name": "Anadolu Hisarı Mahallesi"
+    },
+    {
+     "osm_id": 9488998,
+     "name": "Anadolu Kavağı Mahallesi"
+    },
+    {
+     "osm_id": 9488959,
+     "name": "Anadolufeneri Mahallesi"
+    },
+    {
+     "osm_id": 9577603,
+     "name": "Baklacı Mahallesi"
+    },
+    {
+     "osm_id": 9479745,
+     "name": "Bozhane Mahallesi"
+    },
+    {
+     "osm_id": 9479804,
+     "name": "Cumhuriyetköy Mahallesi"
+    },
+    {
+     "osm_id": 9489253,
+     "name": "Dereseki Mahallesi"
+    },
+    {
+     "osm_id": 9489133,
+     "name": "Elmalı Mahallesi"
+    },
+    {
+     "osm_id": 9577627,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9463334,
+     "name": "Göksu Mahallesi"
+    },
+    {
+     "osm_id": 9479806,
+     "name": "Göllü Mahallesi"
+    },
+    {
+     "osm_id": 9479917,
+     "name": "Görele Mahallesi"
+    },
+    {
+     "osm_id": 9577538,
+     "name": "Göztepe Mahallesi"
+    },
+    {
+     "osm_id": 9493939,
+     "name": "Gümüşsuyu Mahallesi"
+    },
+    {
+     "osm_id": 9578450,
+     "name": "Kanlıca Mahallesi"
+    },
+    {
+     "osm_id": 9578568,
+     "name": "Kavacık Mahallesi"
+    },
+    {
+     "osm_id": 9488961,
+     "name": "Kaynarca Mahallesi"
+    },
+    {
+     "osm_id": 9479744,
+     "name": "Kılıçlı Mahallesi"
+    },
+    {
+     "osm_id": 9479970,
+     "name": "Mahmutşevketpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9489100,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9489323,
+     "name": "Ortaçeşme Mahallesi"
+    },
+    {
+     "osm_id": 9493991,
+     "name": "Paşabahçe Mahallesi"
+    },
+    {
+     "osm_id": 9479807,
+     "name": "Paşamandıra Mahallesi"
+    },
+    {
+     "osm_id": 9479803,
+     "name": "Polonezköy Mahallesi"
+    },
+    {
+     "osm_id": 9488997,
+     "name": "Poyrazköy Mahallesi"
+    },
+    {
+     "osm_id": 9479808,
+     "name": "Riva Mahallesi"
+    },
+    {
+     "osm_id": 9577636,
+     "name": "Rüzgarlıbahçe Mahallesi"
+    },
+    {
+     "osm_id": 9494014,
+     "name": "Soğuksu Mahallesi"
+    },
+    {
+     "osm_id": 9488999,
+     "name": "Tokatköy Mahallesi"
+    },
+    {
+     "osm_id": 9493908,
+     "name": "Yalıköy Mahallesi"
+    },
+    {
+     "osm_id": 9644016,
+     "name": "Yavuz Selim Mahallesi"
+    },
+    {
+     "osm_id": 9577570,
+     "name": "Yeni Mahalle Mahallesi"
+    },
+    {
+     "osm_id": 9489219,
+     "name": "Zerzavatçı Mahallesi"
+    },
+    {
+     "osm_id": 9489348,
+     "name": "Çamlıbahçe Mahallesi"
+    },
+    {
+     "osm_id": 9644018,
+     "name": "Çavuşbaşı Çiftlik Mahallesi"
+    },
+    {
+     "osm_id": 9644017,
+     "name": "Çengeldere Mahallesi"
+    },
+    {
+     "osm_id": 9578496,
+     "name": "Çiğdem Mahallesi"
+    },
+    {
+     "osm_id": 9578464,
+     "name": "Çubuklu Mahallesi"
+    },
+    {
+     "osm_id": 9489220,
+     "name": "Örnekköy Mahallesi"
+    },
+    {
+     "osm_id": 9479805,
+     "name": "Öğümce Mahallesi"
+    },
+    {
+     "osm_id": 9493940,
+     "name": "İncirköy Mahallesi"
+    },
+    {
+     "osm_id": 9479743,
+     "name": "İshaklı Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766100,
+   "name": "Beylikdüzü",
+   "slug": "beylikduzu",
+   "neighborhoods": [
+    {
+     "osm_id": 9397726,
+     "name": "Adnan Kahveci Mahallesi"
+    },
+    {
+     "osm_id": 9445707,
+     "name": "Barış Mahallesi"
+    },
+    {
+     "osm_id": 14056989,
+     "name": "Beylikdüzü Organize Sanayi Bölgesi"
+    },
+    {
+     "osm_id": 9397784,
+     "name": "Büyükşehir Mahallesi"
+    },
+    {
+     "osm_id": 9397785,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9397727,
+     "name": "Dereağzı Mahallesi"
+    },
+    {
+     "osm_id": 9289261,
+     "name": "Gürpınar Mahallesi"
+    },
+    {
+     "osm_id": 9445745,
+     "name": "Kavaklı Mahallesi"
+    },
+    {
+     "osm_id": 9397725,
+     "name": "Marmara Mahallesi"
+    },
+    {
+     "osm_id": 9445744,
+     "name": "Sahil Mahallesi"
+    },
+    {
+     "osm_id": 9293239,
+     "name": "Yakuplu Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1765892,
+   "name": "Beyoğlu",
+   "slug": "beyoglu",
+   "neighborhoods": [
+    {
+     "osm_id": 7968243,
+     "name": "Arap Cami Mahallesi"
+    },
+    {
+     "osm_id": 7980978,
+     "name": "Asmalı Mescit Mahallesi"
+    },
+    {
+     "osm_id": 7980980,
+     "name": "Bedrettin Mahallesi"
+    },
+    {
+     "osm_id": 7968240,
+     "name": "Bereketzade Mahallesi"
+    },
+    {
+     "osm_id": 7982472,
+     "name": "Bostan Mahallesi"
+    },
+    {
+     "osm_id": 7982475,
+     "name": "Bülbül Mahallesi"
+    },
+    {
+     "osm_id": 8040975,
+     "name": "Camiikebir Mahallesi"
+    },
+    {
+     "osm_id": 7982394,
+     "name": "Cihangir Mahallesi"
+    },
+    {
+     "osm_id": 7968241,
+     "name": "Emekyemez Mahallesi"
+    },
+    {
+     "osm_id": 7980979,
+     "name": "Evliya Çelebi Mahallesi"
+    },
+    {
+     "osm_id": 8041158,
+     "name": "Fetihtepe Mahallesi"
+    },
+    {
+     "osm_id": 7980976,
+     "name": "Firuzağa Mahallesi"
+    },
+    {
+     "osm_id": 7982395,
+     "name": "Gümüşsuyu Mahallesi"
+    },
+    {
+     "osm_id": 8040978,
+     "name": "Hacıahmet Mahallesi"
+    },
+    {
+     "osm_id": 7980654,
+     "name": "Hacımimi Mahallesi"
+    },
+    {
+     "osm_id": 8041155,
+     "name": "Halıcıoğlu Mahallesi"
+    },
+    {
+     "osm_id": 7982478,
+     "name": "Hüseyinağa Mahallesi"
+    },
+    {
+     "osm_id": 8040974,
+     "name": "Kadı Mehmet Efendi Mahallesi"
+    },
+    {
+     "osm_id": 7982473,
+     "name": "Kalyoncu Kulluğu Mahallesi"
+    },
+    {
+     "osm_id": 7982479,
+     "name": "Kamer Hatun Mahallesi"
+    },
+    {
+     "osm_id": 8041035,
+     "name": "Kaptanpaşa Mahallesi"
+    },
+    {
+     "osm_id": 7982393,
+     "name": "Katip Mustafa Çelebi Mahallesi"
+    },
+    {
+     "osm_id": 7968242,
+     "name": "Kemankeş Karamustafa Paşa Mahallesi"
+    },
+    {
+     "osm_id": 8041036,
+     "name": "Keçeci Piri Mahallesi"
+    },
+    {
+     "osm_id": 7982476,
+     "name": "Kocatepe Mahallesi"
+    },
+    {
+     "osm_id": 8041037,
+     "name": "Kulaksız Mahallesi"
+    },
+    {
+     "osm_id": 7982482,
+     "name": "Kuloğlu Mahallesi"
+    },
+    {
+     "osm_id": 8040976,
+     "name": "Küçük Piyale Mahallesi"
+    },
+    {
+     "osm_id": 7980975,
+     "name": "Kılıçali Paşa Mahallesi"
+    },
+    {
+     "osm_id": 7980655,
+     "name": "Müeyyedzade Mahallesi"
+    },
+    {
+     "osm_id": 8041156,
+     "name": "Piri Paşa Mahallesi"
+    },
+    {
+     "osm_id": 8041159,
+     "name": "Piyalepaşa Mahallesi"
+    },
+    {
+     "osm_id": 7982397,
+     "name": "Pürtelaş Hasan Efendi Mahallesi"
+    },
+    {
+     "osm_id": 8040979,
+     "name": "Sururi Mehmet Efendi Mahallesi"
+    },
+    {
+     "osm_id": 8041154,
+     "name": "Sütlüce Mahallesi"
+    },
+    {
+     "osm_id": 7980977,
+     "name": "Tomtom Mahallesi"
+    },
+    {
+     "osm_id": 7982480,
+     "name": "Yahya Kahya Mahallesi"
+    },
+    {
+     "osm_id": 7982471,
+     "name": "Yenişehir Mahallesi"
+    },
+    {
+     "osm_id": 7982481,
+     "name": "Çatma Mescit Mahallesi"
+    },
+    {
+     "osm_id": 7982474,
+     "name": "Çukur Mahallesi"
+    },
+    {
+     "osm_id": 7982396,
+     "name": "Ömer Avni Mahallesi"
+    },
+    {
+     "osm_id": 8041157,
+     "name": "Örnektepe Mahallesi"
+    },
+    {
+     "osm_id": 8040977,
+     "name": "İstiklal Mahallesi"
+    },
+    {
+     "osm_id": 7980653,
+     "name": "Şahkulu Mahallesi"
+    },
+    {
+     "osm_id": 7982477,
+     "name": "Şehit Muhtar Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1765893,
+   "name": "Beşiktaş",
+   "slug": "besiktas",
+   "neighborhoods": [
+    {
+     "osm_id": 9327673,
+     "name": "Abbasağa Mahallesi"
+    },
+    {
+     "osm_id": 9340899,
+     "name": "Akat Mahallesi"
+    },
+    {
+     "osm_id": 9338586,
+     "name": "Arnavutköy Mahallesi"
+    },
+    {
+     "osm_id": 9335348,
+     "name": "Balmumcu Mahallesi"
+    },
+    {
+     "osm_id": 9343684,
+     "name": "Bebek Mahallesi"
+    },
+    {
+     "osm_id": 9327672,
+     "name": "Cihannüma Mahallesi"
+    },
+    {
+     "osm_id": 9335349,
+     "name": "Dikilitaş Mahallesi"
+    },
+    {
+     "osm_id": 9343698,
+     "name": "Etiler Mahallesi"
+    },
+    {
+     "osm_id": 9335346,
+     "name": "Gayrettepe Mahallesi"
+    },
+    {
+     "osm_id": 9340873,
+     "name": "Konaklar Mahallesi"
+    },
+    {
+     "osm_id": 9340106,
+     "name": "Kuruçeşme Mahallesi"
+    },
+    {
+     "osm_id": 9338584,
+     "name": "Kültür Mahallesi"
+    },
+    {
+     "osm_id": 9338580,
+     "name": "Levazım Mahallesi"
+    },
+    {
+     "osm_id": 9340882,
+     "name": "Levent Mahallesi"
+    },
+    {
+     "osm_id": 9335638,
+     "name": "Mecidiye Mahallesi"
+    },
+    {
+     "osm_id": 9327636,
+     "name": "Muradiye Mahallesi"
+    },
+    {
+     "osm_id": 9338583,
+     "name": "Nisbetiye Mahallesi"
+    },
+    {
+     "osm_id": 9335689,
+     "name": "Ortaköy Mahallesi"
+    },
+    {
+     "osm_id": 9327671,
+     "name": "Sinanpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9327651,
+     "name": "Türkali Mahallesi"
+    },
+    {
+     "osm_id": 9338582,
+     "name": "Ulus Mahallesi"
+    },
+    {
+     "osm_id": 9296001,
+     "name": "Vişnezade Mahallesi"
+    },
+    {
+     "osm_id": 9335350,
+     "name": "Yıldız Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1275387,
+   "name": "Büyükçekmece",
+   "slug": "buyukcekmece",
+   "neighborhoods": [
+    {
+     "osm_id": 9463650,
+     "name": "19 Mayıs Mahallesi"
+    },
+    {
+     "osm_id": 9314634,
+     "name": "Ahmediye Mahallesi"
+    },
+    {
+     "osm_id": 9463624,
+     "name": "Alkent 2000 Mahallesi"
+    },
+    {
+     "osm_id": 9464130,
+     "name": "Atatürk Mahallesi"
+    },
+    {
+     "osm_id": 9460298,
+     "name": "Bahçelievler Mahallesi"
+    },
+    {
+     "osm_id": 9460103,
+     "name": "Celaliye Mahallesi"
+    },
+    {
+     "osm_id": 9464129,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9464083,
+     "name": "Dizdariye Mahallesi"
+    },
+    {
+     "osm_id": 9463578,
+     "name": "Ekinoba Mahallesi"
+    },
+    {
+     "osm_id": 9464113,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9460363,
+     "name": "Güzelce Mahallesi"
+    },
+    {
+     "osm_id": 9463590,
+     "name": "Hürriyet Mahallesi"
+    },
+    {
+     "osm_id": 9460117,
+     "name": "Kamiloba Mahallesi"
+    },
+    {
+     "osm_id": 9463608,
+     "name": "Karaağaç Mahallesi"
+    },
+    {
+     "osm_id": 9460130,
+     "name": "Kumburgaz Mahallesi"
+    },
+    {
+     "osm_id": 9463576,
+     "name": "Mimaroba Mahallesi"
+    },
+    {
+     "osm_id": 9460377,
+     "name": "Mimarsinan Mahallesi"
+    },
+    {
+     "osm_id": 9460378,
+     "name": "Murat Çesme Mahallesi"
+    },
+    {
+     "osm_id": 9464095,
+     "name": "Pınartepe Mahallesi"
+    },
+    {
+     "osm_id": 9463567,
+     "name": "Sinanoba Mahallesi"
+    },
+    {
+     "osm_id": 9460313,
+     "name": "Türkoba Mahallesi"
+    },
+    {
+     "osm_id": 9463584,
+     "name": "Ulus Mahallesi"
+    },
+    {
+     "osm_id": 9460292,
+     "name": "Yenimahalle Mahallesi"
+    },
+    {
+     "osm_id": 9463636,
+     "name": "Çakmaklı Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766101,
+   "name": "Esenler",
+   "slug": "esenler",
+   "neighborhoods": [
+    {
+     "osm_id": 13276411,
+     "name": "15 Temmuz Mahallesi"
+    },
+    {
+     "osm_id": 9423103,
+     "name": "Atışalanı Mahallesi"
+    },
+    {
+     "osm_id": 9423101,
+     "name": "Birlik Mahallesi"
+    },
+    {
+     "osm_id": 9318611,
+     "name": "Davutpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9422081,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9421907,
+     "name": "Fevzi Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 9422082,
+     "name": "Kazım Karabekir Mahallesi"
+    },
+    {
+     "osm_id": 9423100,
+     "name": "Kemer Mahallesi"
+    },
+    {
+     "osm_id": 9422033,
+     "name": "Menderes Mahallesi"
+    },
+    {
+     "osm_id": 9421908,
+     "name": "Mimar Sinan Mahallesi"
+    },
+    {
+     "osm_id": 9318612,
+     "name": "Namık Kemal Mahallesi"
+    },
+    {
+     "osm_id": 9422004,
+     "name": "Nine Hatun Mahallesi"
+    },
+    {
+     "osm_id": 9423122,
+     "name": "Oruçreis Mahallesi"
+    },
+    {
+     "osm_id": 9422209,
+     "name": "Tuna Mahallesi"
+    },
+    {
+     "osm_id": 9423121,
+     "name": "Turgut Reis Mahallesi"
+    },
+    {
+     "osm_id": 9318613,
+     "name": "Yavuz Selim Mahallesi"
+    },
+    {
+     "osm_id": 9309109,
+     "name": "Çifte Havuzlar Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766102,
+   "name": "Esenyurt",
+   "slug": "esenyurt",
+   "neighborhoods": [
+    {
+     "osm_id": 9642968,
+     "name": "Akevler Mahallesi 7 sokak"
+    },
+    {
+     "osm_id": 9620409,
+     "name": "Akçaburgaz Mahallesi"
+    },
+    {
+     "osm_id": 8796814,
+     "name": "Akşemseddin Mahallesi"
+    },
+    {
+     "osm_id": 9472573,
+     "name": "Ardıçlı Mahallesi"
+    },
+    {
+     "osm_id": 9642514,
+     "name": "Atatürk Mahallesi"
+    },
+    {
+     "osm_id": 9472571,
+     "name": "Aşık Veysel Mahallesi"
+    },
+    {
+     "osm_id": 9642577,
+     "name": "Balıkyolu Mahallesi"
+    },
+    {
+     "osm_id": 9642751,
+     "name": "Barbaros Hayrettin Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9642813,
+     "name": "Battalgazi Mahallesi"
+    },
+    {
+     "osm_id": 9642749,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9472572,
+     "name": "Esenkent Mahallesi"
+    },
+    {
+     "osm_id": 9642966,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9642513,
+     "name": "Gökevler Mahallesi"
+    },
+    {
+     "osm_id": 9642765,
+     "name": "Güzelyurt Mahallesi"
+    },
+    {
+     "osm_id": 9642816,
+     "name": "Hürriyet Mahallesi"
+    },
+    {
+     "osm_id": 9620430,
+     "name": "Koza Mahallesi"
+    },
+    {
+     "osm_id": 9642969,
+     "name": "Mehmet Akif Ersoy Mahallesi"
+    },
+    {
+     "osm_id": 9642893,
+     "name": "Mehterçeşme Mahallesi"
+    },
+    {
+     "osm_id": 9642964,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9642748,
+     "name": "Mevlana Mahallesi"
+    },
+    {
+     "osm_id": 9642610,
+     "name": "Namık Kemal Mahallesi"
+    },
+    {
+     "osm_id": 9642815,
+     "name": "Necip Fazıl Kısakürek Mahallesi"
+    },
+    {
+     "osm_id": 9620429,
+     "name": "Orhan Gazi Mahallesi"
+    },
+    {
+     "osm_id": 9620439,
+     "name": "Osmangazi Mahallesi"
+    },
+    {
+     "osm_id": 9642750,
+     "name": "Piri Reis Mahallesi"
+    },
+    {
+     "osm_id": 9642812,
+     "name": "Pınar Mahallesi"
+    },
+    {
+     "osm_id": 9642612,
+     "name": "Saadetdere Mahallesi"
+    },
+    {
+     "osm_id": 9642646,
+     "name": "Selahaddin Eyyubi Mahallesi"
+    },
+    {
+     "osm_id": 9642576,
+     "name": "Sultaniye Mahallesi"
+    },
+    {
+     "osm_id": 9620447,
+     "name": "Süleymaniye Mahallesi"
+    },
+    {
+     "osm_id": 9642967,
+     "name": "Talatpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9642611,
+     "name": "Turgut Özal Mahallesi"
+    },
+    {
+     "osm_id": 9620448,
+     "name": "Yenikent Mahallesi"
+    },
+    {
+     "osm_id": 9642894,
+     "name": "Yeşilkent Mahallesi"
+    },
+    {
+     "osm_id": 9642530,
+     "name": "Yunus Emre Mahallesi"
+    },
+    {
+     "osm_id": 9642609,
+     "name": "Zafer Mahallesi"
+    },
+    {
+     "osm_id": 9642645,
+     "name": "Çınar Mahallesi"
+    },
+    {
+     "osm_id": 9642644,
+     "name": "Örnek Mahallesi"
+    },
+    {
+     "osm_id": 9642965,
+     "name": "Üçevler Mahallesi"
+    },
+    {
+     "osm_id": 9642531,
+     "name": "İncirtepe Mahallesi"
+    },
+    {
+     "osm_id": 9642578,
+     "name": "İnönü Mahallesi"
+    },
+    {
+     "osm_id": 9642817,
+     "name": "İstiklal Mahallesi"
+    },
+    {
+     "osm_id": 9642814,
+     "name": "Şehitler Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766103,
+   "name": "Eyüpsultan",
+   "slug": "eyupsultan",
+   "neighborhoods": [
+    {
+     "osm_id": 13986753,
+     "name": "5. Levent Mahallesi"
+    },
+    {
+     "osm_id": 9677588,
+     "name": "Akpınar Mahallesi"
+    },
+    {
+     "osm_id": 9381869,
+     "name": "Akşemsettin Mahallesi"
+    },
+    {
+     "osm_id": 9357083,
+     "name": "Alibeyköy Mahallesi"
+    },
+    {
+     "osm_id": 9677587,
+     "name": "Ağaçlı Mahallesi"
+    },
+    {
+     "osm_id": 9381516,
+     "name": "Defterdar Mahallesi"
+    },
+    {
+     "osm_id": 9381569,
+     "name": "Düğmeciler Mahallesi"
+    },
+    {
+     "osm_id": 9356990,
+     "name": "Emniyettepe Mahallesi"
+    },
+    {
+     "osm_id": 9381849,
+     "name": "Esentepe Mahallesi"
+    },
+    {
+     "osm_id": 9677558,
+     "name": "Göktürk Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9357003,
+     "name": "Güzeltepe Mahallesi"
+    },
+    {
+     "osm_id": 9677566,
+     "name": "Işıklar Mahallesi"
+    },
+    {
+     "osm_id": 9381850,
+     "name": "Karadolap Mahallesi"
+    },
+    {
+     "osm_id": 9381554,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9675979,
+     "name": "Mimar Sinan Mahallesi"
+    },
+    {
+     "osm_id": 9677347,
+     "name": "Mithatpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9381520,
+     "name": "Nişancı Mahallesi"
+    },
+    {
+     "osm_id": 9677573,
+     "name": "Odayeri Mahallesi"
+    },
+    {
+     "osm_id": 9677564,
+     "name": "Pirinççi Mahallesi"
+    },
+    {
+     "osm_id": 9381669,
+     "name": "Rami Cuma Mahallesi"
+    },
+    {
+     "osm_id": 9381765,
+     "name": "Rami Yeni Mahallesi"
+    },
+    {
+     "osm_id": 9381807,
+     "name": "Sakarya Mahallesi"
+    },
+    {
+     "osm_id": 9381555,
+     "name": "Silahtarağa Mahallesi"
+    },
+    {
+     "osm_id": 9381694,
+     "name": "Topçular Mahallesi"
+    },
+    {
+     "osm_id": 9381851,
+     "name": "Yeşilpınar Mahallesi"
+    },
+    {
+     "osm_id": 9677586,
+     "name": "Çiftalan Mahallesi"
+    },
+    {
+     "osm_id": 9381855,
+     "name": "Çırçır Mahallesi"
+    },
+    {
+     "osm_id": 9677569,
+     "name": "İhsaniye Mahallesi"
+    },
+    {
+     "osm_id": 9381563,
+     "name": "İslambey Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766104,
+   "name": "Fatih",
+   "slug": "fatih",
+   "neighborhoods": [
+    {
+     "osm_id": 7648822,
+     "name": "Aksaray Mahallesi"
+    },
+    {
+     "osm_id": 7648817,
+     "name": "Akşemsettin Mahallesi"
+    },
+    {
+     "osm_id": 7648853,
+     "name": "Alemdar Mahallesi"
+    },
+    {
+     "osm_id": 7648818,
+     "name": "Ali Kuşçu Mahallesi"
+    },
+    {
+     "osm_id": 2464768,
+     "name": "Atikali Mahallesi"
+    },
+    {
+     "osm_id": 2463274,
+     "name": "Ayvansaray Mahallesi"
+    },
+    {
+     "osm_id": 7648834,
+     "name": "Balabanağa Mahallesi"
+    },
+    {
+     "osm_id": 2463371,
+     "name": "Balat Mahallesi"
+    },
+    {
+     "osm_id": 7648840,
+     "name": "Beyazıt Mahallesi"
+    },
+    {
+     "osm_id": 7648852,
+     "name": "Binbirdirek Mahallesi"
+    },
+    {
+     "osm_id": 7648855,
+     "name": "Cankurtaran Mahallesi"
+    },
+    {
+     "osm_id": 7648814,
+     "name": "Cerrahpaşa Mahallesi"
+    },
+    {
+     "osm_id": 7648819,
+     "name": "Cibali Mahallesi"
+    },
+    {
+     "osm_id": 7648831,
+     "name": "Demirtaş Mahallesi"
+    },
+    {
+     "osm_id": 2463390,
+     "name": "Derviş Ali Mahallesi"
+    },
+    {
+     "osm_id": 7648847,
+     "name": "Emin Sinan Mahallesi"
+    },
+    {
+     "osm_id": 7648828,
+     "name": "Hacı Kadın Mahallesi"
+    },
+    {
+     "osm_id": 7648815,
+     "name": "Haseki Sultan Mahallesi"
+    },
+    {
+     "osm_id": 7648849,
+     "name": "Hobyar Mahallesi"
+    },
+    {
+     "osm_id": 7648829,
+     "name": "Hoca Gıyasettin Mahallesi"
+    },
+    {
+     "osm_id": 7648854,
+     "name": "Hocapaşa Mahallesi"
+    },
+    {
+     "osm_id": 2468219,
+     "name": "Hırka-i Şerif Mahallesi"
+    },
+    {
+     "osm_id": 7648826,
+     "name": "Kalenderhane Mahallesi"
+    },
+    {
+     "osm_id": 2468218,
+     "name": "Karagümrük Mahallesi"
+    },
+    {
+     "osm_id": 7648823,
+     "name": "Katip Kasım Mahallesi"
+    },
+    {
+     "osm_id": 7648825,
+     "name": "Kemalpaşa Mahallesi"
+    },
+    {
+     "osm_id": 7648812,
+     "name": "Koca Mustafapaşa Mahallesi"
+    },
+    {
+     "osm_id": 7648851,
+     "name": "Küçük Ayasofya Mahallesi"
+    },
+    {
+     "osm_id": 7648838,
+     "name": "Mercan Mahallesi"
+    },
+    {
+     "osm_id": 7648824,
+     "name": "Mesihpaşa Mahallesi"
+    },
+    {
+     "osm_id": 7648808,
+     "name": "Mevlanakapı Mahallesi"
+    },
+    {
+     "osm_id": 7648843,
+     "name": "Mimar Hayrettin Mahallesi"
+    },
+    {
+     "osm_id": 7648841,
+     "name": "Mimar Kemalettin Mahallesi"
+    },
+    {
+     "osm_id": 7648848,
+     "name": "Molla Fenari Mahallesi"
+    },
+    {
+     "osm_id": 7648816,
+     "name": "Molla Gürani Mahallesi"
+    },
+    {
+     "osm_id": 7648827,
+     "name": "Molla Hüsrev Mahallesi"
+    },
+    {
+     "osm_id": 7648845,
+     "name": "Muhsine Hatun Mahallesi"
+    },
+    {
+     "osm_id": 7648835,
+     "name": "Nişanca Mahallesi"
+    },
+    {
+     "osm_id": 7648837,
+     "name": "Rüstempaşa Mahallesi"
+    },
+    {
+     "osm_id": 7648842,
+     "name": "Saraç İshak Mahallesi"
+    },
+    {
+     "osm_id": 7648832,
+     "name": "Sarıdemir Mahallesi"
+    },
+    {
+     "osm_id": 7648809,
+     "name": "Seyyid Ömer Mahallesi"
+    },
+    {
+     "osm_id": 7648810,
+     "name": "Silivrikapı Mahallesi"
+    },
+    {
+     "osm_id": 7648850,
+     "name": "Sultan Ahmet Mahallesi"
+    },
+    {
+     "osm_id": 8111527,
+     "name": "Sururi Mahallesi"
+    },
+    {
+     "osm_id": 7648833,
+     "name": "Süleymaniye Mahallesi"
+    },
+    {
+     "osm_id": 7648811,
+     "name": "Sümbül Efendi Mahallesi"
+    },
+    {
+     "osm_id": 7648836,
+     "name": "Tahtakale Mahallesi"
+    },
+    {
+     "osm_id": 7648839,
+     "name": "Taya Hatun Mahallesi"
+    },
+    {
+     "osm_id": 2468242,
+     "name": "Topkapı Mahallesi"
+    },
+    {
+     "osm_id": 7648830,
+     "name": "Yavuz Sinan Mahallesi"
+    },
+    {
+     "osm_id": 2464918,
+     "name": "Yavuz Sultan Selim Mahallesi"
+    },
+    {
+     "osm_id": 7648813,
+     "name": "Yedikule Mahallesi"
+    },
+    {
+     "osm_id": 7648820,
+     "name": "Zeyrek Mahallesi"
+    },
+    {
+     "osm_id": 7648821,
+     "name": "İskenderpaşa Mahallesi"
+    },
+    {
+     "osm_id": 6868850,
+     "name": "Şehremini Mahallesi"
+    },
+    {
+     "osm_id": 7648846,
+     "name": "Şehsuvar Bey Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766105,
+   "name": "Gaziosmanpaşa",
+   "slug": "gaziosmanpasa",
+   "neighborhoods": [
+    {
+     "osm_id": 9388925,
+     "name": "Barbaros Hayrettin Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9387822,
+     "name": "Bağlarbaşı Mahallesi"
+    },
+    {
+     "osm_id": 9389050,
+     "name": "Fevzi Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 9388951,
+     "name": "Hürriyet Mahallesi"
+    },
+    {
+     "osm_id": 9388924,
+     "name": "Karadeniz Mahallesi"
+    },
+    {
+     "osm_id": 9389046,
+     "name": "Karayolları Mahallesi"
+    },
+    {
+     "osm_id": 9381933,
+     "name": "Karlıtepe Mahallesi"
+    },
+    {
+     "osm_id": 9389063,
+     "name": "Kazım Karabekir Mahallesi"
+    },
+    {
+     "osm_id": 9387789,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9389048,
+     "name": "Mevlana Mahallesi"
+    },
+    {
+     "osm_id": 9381914,
+     "name": "Pazariçi Mahallesi"
+    },
+    {
+     "osm_id": 9387779,
+     "name": "Sarıgöl Mahallesi"
+    },
+    {
+     "osm_id": 9388940,
+     "name": "Yeni Mahalle Mahallesi"
+    },
+    {
+     "osm_id": 9381934,
+     "name": "Yenidoğan Mahallesi"
+    },
+    {
+     "osm_id": 9381909,
+     "name": "Yıldıztabya Mahallesi"
+    },
+    {
+     "osm_id": 9388968,
+     "name": "Şemsipaşa Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766106,
+   "name": "Güngören",
+   "slug": "gungoren",
+   "neighborhoods": [
+    {
+     "osm_id": 9391449,
+     "name": "Abdurrahman Nafiz Gürman Mahallesi"
+    },
+    {
+     "osm_id": 9393126,
+     "name": "Akıncılar Mahallesi"
+    },
+    {
+     "osm_id": 9393066,
+     "name": "Gençosman Mahallesi"
+    },
+    {
+     "osm_id": 9393147,
+     "name": "Güneştepe Mahallesi"
+    },
+    {
+     "osm_id": 9393094,
+     "name": "Güven Mahallesi"
+    },
+    {
+     "osm_id": 9309043,
+     "name": "Haznedar Mahallesi"
+    },
+    {
+     "osm_id": 9393125,
+     "name": "Mareşal Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 9391461,
+     "name": "Mehmet Nesih Özmen Mahallesi"
+    },
+    {
+     "osm_id": 9393153,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9393065,
+     "name": "Sanayi Mahallesi"
+    },
+    {
+     "osm_id": 9391469,
+     "name": "Tozkoparan Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276548,
+   "name": "Kadıköy",
+   "slug": "kadikoy",
+   "neighborhoods": [
+    {
+     "osm_id": 9444949,
+     "name": "19 Mayıs Mahallesi"
+    },
+    {
+     "osm_id": 9443987,
+     "name": "Acıbadem Mahallesi"
+    },
+    {
+     "osm_id": 9286607,
+     "name": "Bostancı Mahallesi"
+    },
+    {
+     "osm_id": 9444910,
+     "name": "Caddebostan Mahallesi"
+    },
+    {
+     "osm_id": 9441032,
+     "name": "Caferağa Mahallesi"
+    },
+    {
+     "osm_id": 9444876,
+     "name": "Dumlupınar Mahallesi"
+    },
+    {
+     "osm_id": 9444950,
+     "name": "Erenköy Mahallesi"
+    },
+    {
+     "osm_id": 9444099,
+     "name": "Eğitim Mahallesi"
+    },
+    {
+     "osm_id": 9444841,
+     "name": "Fenerbahçe Mahallesi"
+    },
+    {
+     "osm_id": 9444828,
+     "name": "Feneryolu Mahallesi"
+    },
+    {
+     "osm_id": 9444116,
+     "name": "Fikirtepe Mahallesi"
+    },
+    {
+     "osm_id": 9444892,
+     "name": "Göztepe Mahallesi"
+    },
+    {
+     "osm_id": 9441339,
+     "name": "Hasanpaşa Mahallesi"
+    },
+    {
+     "osm_id": 8852697,
+     "name": "Kozyatağı Mahallesi"
+    },
+    {
+     "osm_id": 9441078,
+     "name": "Koşuyolu Mahallesi"
+    },
+    {
+     "osm_id": 9444902,
+     "name": "Merdivenköy Mahallesi"
+    },
+    {
+     "osm_id": 9426227,
+     "name": "Osmanağa Mahallesi"
+    },
+    {
+     "osm_id": 9286639,
+     "name": "Rasimpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9444927,
+     "name": "Sahrayıcedit Mahallesi"
+    },
+    {
+     "osm_id": 9286614,
+     "name": "Suadiye Mahallesi"
+    },
+    {
+     "osm_id": 9444034,
+     "name": "Zühtüpaşa Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276013,
+   "name": "Kartal",
+   "slug": "kartal",
+   "neighborhoods": [
+    {
+     "osm_id": 9285966,
+     "name": "Atalar Mahallesi"
+    },
+    {
+     "osm_id": 9285980,
+     "name": "Cevizli Mahallesi"
+    },
+    {
+     "osm_id": 9286337,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9286068,
+     "name": "Esentepe Mahallesi"
+    },
+    {
+     "osm_id": 9286428,
+     "name": "Gümüşpınar Mahallesi"
+    },
+    {
+     "osm_id": 9286454,
+     "name": "Hürriyet Mahallesi"
+    },
+    {
+     "osm_id": 9286104,
+     "name": "Karlıktepe Mahallesi"
+    },
+    {
+     "osm_id": 9285742,
+     "name": "Kordonboyu Mahallesi"
+    },
+    {
+     "osm_id": 9285741,
+     "name": "Orhantepe Mahallesi"
+    },
+    {
+     "osm_id": 9286355,
+     "name": "Orta Mahallesi"
+    },
+    {
+     "osm_id": 9286043,
+     "name": "Petrol İş Mahallesi"
+    },
+    {
+     "osm_id": 9286388,
+     "name": "Soğanlık Yeni Mahallesi"
+    },
+    {
+     "osm_id": 9286262,
+     "name": "Topselvi Mahalesi"
+    },
+    {
+     "osm_id": 9286485,
+     "name": "Uğur Mumcu Mahallesi"
+    },
+    {
+     "osm_id": 9286522,
+     "name": "Yakacık Yeni Mahallesi"
+    },
+    {
+     "osm_id": 9286009,
+     "name": "Yakacık Çarşı Mahallesi"
+    },
+    {
+     "osm_id": 9286269,
+     "name": "Yalı Mahallesi"
+    },
+    {
+     "osm_id": 9286088,
+     "name": "Yukarı Mahallesi"
+    },
+    {
+     "osm_id": 9286238,
+     "name": "Yunus Mahallesi"
+    },
+    {
+     "osm_id": 9286195,
+     "name": "Çavuşoğlu Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1765894,
+   "name": "Kâğıthane",
+   "slug": "kagithane",
+   "neighborhoods": [
+    {
+     "osm_id": 9363037,
+     "name": "Emniyetevleri Mahallesi"
+    },
+    {
+     "osm_id": 9363158,
+     "name": "Gültepe Mahallesi"
+    },
+    {
+     "osm_id": 9354260,
+     "name": "Gürsel Mahallesi"
+    },
+    {
+     "osm_id": 9362930,
+     "name": "Hamidiye Mahallesi"
+    },
+    {
+     "osm_id": 9363201,
+     "name": "Harmantepe Mahallesi"
+    },
+    {
+     "osm_id": 9363232,
+     "name": "Hürriyet Mahallesi"
+    },
+    {
+     "osm_id": 8902002,
+     "name": "Mehmet Akif Ersoy Mahallesi"
+    },
+    {
+     "osm_id": 9354239,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9354273,
+     "name": "Nurtepe Mahallesi"
+    },
+    {
+     "osm_id": 9363127,
+     "name": "Ortabayır Mahallesi"
+    },
+    {
+     "osm_id": 9362961,
+     "name": "Seyrantepe Mahallesi"
+    },
+    {
+     "osm_id": 9362979,
+     "name": "Sultan Selim Mahallesi"
+    },
+    {
+     "osm_id": 9354191,
+     "name": "Talatpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9363133,
+     "name": "Telsizler Mahallesi"
+    },
+    {
+     "osm_id": 9363203,
+     "name": "Yahya Kemal Mahallesi"
+    },
+    {
+     "osm_id": 8824054,
+     "name": "Yeşilce Mahallesi"
+    },
+    {
+     "osm_id": 8796660,
+     "name": "Çağlayan Mahallesi"
+    },
+    {
+     "osm_id": 9363124,
+     "name": "Çeliktepe Mahallesi"
+    },
+    {
+     "osm_id": 9363036,
+     "name": "Şirintepe Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 7786498,
+   "name": "Küçükçekmece",
+   "slug": "kucukcekmece",
+   "neighborhoods": [
+    {
+     "osm_id": 7786499,
+     "name": "Atakent Mahallesi"
+    },
+    {
+     "osm_id": 7786500,
+     "name": "Atatürk Mahallesi"
+    },
+    {
+     "osm_id": 7786485,
+     "name": "Beşyol Mahallesi"
+    },
+    {
+     "osm_id": 7786481,
+     "name": "Cennet Mahallesi"
+    },
+    {
+     "osm_id": 7786489,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 7786497,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 7786480,
+     "name": "Fevzi Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 7786484,
+     "name": "Gültepe Mahallesi"
+    },
+    {
+     "osm_id": 7786495,
+     "name": "Halkalı Merkez Mahallesi"
+    },
+    {
+     "osm_id": 7786491,
+     "name": "Kanarya Mahallesi"
+    },
+    {
+     "osm_id": 7786486,
+     "name": "Kartaltepe Mahallesi"
+    },
+    {
+     "osm_id": 7786487,
+     "name": "Kemalpaşa Mahallesi"
+    },
+    {
+     "osm_id": 7786501,
+     "name": "Mehmet Akif Mahallesi"
+    },
+    {
+     "osm_id": 7786488,
+     "name": "Sultan Murat Mahallesi"
+    },
+    {
+     "osm_id": 7786492,
+     "name": "Söğütlü Çeşme Mahallesi"
+    },
+    {
+     "osm_id": 7786490,
+     "name": "Tevfikbey Mahallesi"
+    },
+    {
+     "osm_id": 7786496,
+     "name": "Yarımburgaz Mahallesi"
+    },
+    {
+     "osm_id": 7786482,
+     "name": "Yeni Mahalle Mahallesi"
+    },
+    {
+     "osm_id": 7786483,
+     "name": "Yeşilova Mahallesi"
+    },
+    {
+     "osm_id": 7786493,
+     "name": "İnönü Mahallesi"
+    },
+    {
+     "osm_id": 7786494,
+     "name": "İstasyon Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276407,
+   "name": "Maltepe",
+   "slug": "maltepe",
+   "neighborhoods": [
+    {
+     "osm_id": 9445347,
+     "name": "Altayçeşme Mahallesi"
+    },
+    {
+     "osm_id": 9387083,
+     "name": "Altıntepe Mahallesi"
+    },
+    {
+     "osm_id": 9445147,
+     "name": "Aydınevler Mahallesi"
+    },
+    {
+     "osm_id": 9445460,
+     "name": "Bağlarbaşı Mahallesi"
+    },
+    {
+     "osm_id": 9445177,
+     "name": "Başıbüyük Mahallesi"
+    },
+    {
+     "osm_id": 9445218,
+     "name": "Büyükbakkalköy Mahallesi"
+    },
+    {
+     "osm_id": 9445507,
+     "name": "Cevizli Mahallesi"
+    },
+    {
+     "osm_id": 9445548,
+     "name": "Esenkent Mahallesi"
+    },
+    {
+     "osm_id": 9445332,
+     "name": "Feyzullah Mahallesi"
+    },
+    {
+     "osm_id": 9441153,
+     "name": "Fındıklı Mahallesi"
+    },
+    {
+     "osm_id": 9445356,
+     "name": "Girne Mahallesi"
+    },
+    {
+     "osm_id": 9445486,
+     "name": "Gülensu Mahallesi"
+    },
+    {
+     "osm_id": 9445549,
+     "name": "Gülsuyu Mahallesi"
+    },
+    {
+     "osm_id": 9445120,
+     "name": "Küçükyalı Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9445317,
+     "name": "Yalı Mahallesi"
+    },
+    {
+     "osm_id": 9445445,
+     "name": "Zümrütevler Mahallesi"
+    },
+    {
+     "osm_id": 9445274,
+     "name": "Çınar Mahallesi"
+    },
+    {
+     "osm_id": 9445299,
+     "name": "İdealtepe Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276011,
+   "name": "Pendik",
+   "slug": "pendik",
+   "neighborhoods": [
+    {
+     "osm_id": 9042591,
+     "name": "Ahmet Yesevi Mahallesi"
+    },
+    {
+     "osm_id": 9218332,
+     "name": "Bahçelievler Mahallesi"
+    },
+    {
+     "osm_id": 9432150,
+     "name": "Ballıca Mahallesi"
+    },
+    {
+     "osm_id": 9218100,
+     "name": "Batı Mahallesi"
+    },
+    {
+     "osm_id": 9218075,
+     "name": "Doğu Mahallesi"
+    },
+    {
+     "osm_id": 9220784,
+     "name": "Dumlupınar Mahallesi"
+    },
+    {
+     "osm_id": 9432149,
+     "name": "Emirli Mahallesi"
+    },
+    {
+     "osm_id": 9268920,
+     "name": "Ertuğrul Gazi Mahallesi"
+    },
+    {
+     "osm_id": 9219466,
+     "name": "Esenler Mahallesi"
+    },
+    {
+     "osm_id": 9078093,
+     "name": "Esenyalı Mahallesi"
+    },
+    {
+     "osm_id": 9042592,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9219471,
+     "name": "Fevzi Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 8894351,
+     "name": "Göçbeyli Mahallesi"
+    },
+    {
+     "osm_id": 9268783,
+     "name": "Güllü Bağlar Mahallesi"
+    },
+    {
+     "osm_id": 9078111,
+     "name": "Güzelyalı Mahallesi"
+    },
+    {
+     "osm_id": 9432146,
+     "name": "Harmandere Mahallesi"
+    },
+    {
+     "osm_id": 9219465,
+     "name": "Kavakpınar Mahallesi"
+    },
+    {
+     "osm_id": 9218021,
+     "name": "Kaynarca Mahallesi"
+    },
+    {
+     "osm_id": 9432145,
+     "name": "Kurna Mahallesi"
+    },
+    {
+     "osm_id": 9432148,
+     "name": "Kurtdoğmuş Mahallesi"
+    },
+    {
+     "osm_id": 9432147,
+     "name": "Kurtköy Mahallesi"
+    },
+    {
+     "osm_id": 9078094,
+     "name": "Orhangazi Mahallesi"
+    },
+    {
+     "osm_id": 9268907,
+     "name": "Orta Mahallesi"
+    },
+    {
+     "osm_id": 8800853,
+     "name": "Ramazanoğlu Mahallesi"
+    },
+    {
+     "osm_id": 9268730,
+     "name": "Sanayi Mahallesi"
+    },
+    {
+     "osm_id": 9218298,
+     "name": "Sapan Bağları Mahallesi"
+    },
+    {
+     "osm_id": 9269124,
+     "name": "Sülüntepe Mahallesi"
+    },
+    {
+     "osm_id": 9268910,
+     "name": "Velibaba Mahallesi"
+    },
+    {
+     "osm_id": 9268921,
+     "name": "Yayalar Mahallesi"
+    },
+    {
+     "osm_id": 9218331,
+     "name": "Yeni Mahallesi"
+    },
+    {
+     "osm_id": 9363902,
+     "name": "Yenişehir Mahallesi"
+    },
+    {
+     "osm_id": 9218225,
+     "name": "Yeşilbağlar Mahallesi"
+    },
+    {
+     "osm_id": 9361618,
+     "name": "Çamlık Mahallesi"
+    },
+    {
+     "osm_id": 9219444,
+     "name": "Çamçeşme Mahallesi"
+    },
+    {
+     "osm_id": 8866766,
+     "name": "Çınardere Mahallesi"
+    },
+    {
+     "osm_id": 9268801,
+     "name": "Şeyhli Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276014,
+   "name": "Sancaktepe",
+   "slug": "sancaktepe",
+   "neighborhoods": [
+    {
+     "osm_id": 9623145,
+     "name": "Abdurrahmangazi Mahallesi"
+    },
+    {
+     "osm_id": 9480875,
+     "name": "Akpınar Mahallesi"
+    },
+    {
+     "osm_id": 9623005,
+     "name": "Atatürk Mahallesi"
+    },
+    {
+     "osm_id": 9480877,
+     "name": "Emek Mahallesi"
+    },
+    {
+     "osm_id": 9623018,
+     "name": "Eyüp Sultan Mahallesi"
+    },
+    {
+     "osm_id": 9466595,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9623096,
+     "name": "Hilal Mahallesi"
+    },
+    {
+     "osm_id": 9620523,
+     "name": "Kemal Türkler Mahallesi"
+    },
+    {
+     "osm_id": 9480879,
+     "name": "Meclis Mahallesi"
+    },
+    {
+     "osm_id": 9623146,
+     "name": "Merve Mahallesi"
+    },
+    {
+     "osm_id": 9623105,
+     "name": "Mevlana Mahallesi"
+    },
+    {
+     "osm_id": 9623052,
+     "name": "Osmangazi Mahallesi"
+    },
+    {
+     "osm_id": 1276035,
+     "name": "Paşaköy Mahallesi"
+    },
+    {
+     "osm_id": 9623102,
+     "name": "Safa Mahallesi"
+    },
+    {
+     "osm_id": 9495280,
+     "name": "Sarıgazi Mahallesi"
+    },
+    {
+     "osm_id": 9480886,
+     "name": "Veysel Karani Mahallesi"
+    },
+    {
+     "osm_id": 9623060,
+     "name": "Yenidoğan Mahallesi"
+    },
+    {
+     "osm_id": 9623078,
+     "name": "Yunus Emre Mahallesi"
+    },
+    {
+     "osm_id": 9620521,
+     "name": "İnönü Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1765895,
+   "name": "Sarıyer",
+   "slug": "sariyer",
+   "neighborhoods": [
+    {
+     "osm_id": 9644506,
+     "name": "Ayazağa Mahallesi"
+    },
+    {
+     "osm_id": 9644665,
+     "name": "Bahçeköy Kemer Mahallesi"
+    },
+    {
+     "osm_id": 9644695,
+     "name": "Bahçeköy Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9644696,
+     "name": "Bahçeköy Yeni Mahalle"
+    },
+    {
+     "osm_id": 9343795,
+     "name": "Baltalimanı Mahallesi"
+    },
+    {
+     "osm_id": 9644824,
+     "name": "Büyükdere Mahallesi"
+    },
+    {
+     "osm_id": 9644714,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9644572,
+     "name": "Darüşşafaka Mahallesi"
+    },
+    {
+     "osm_id": 9645153,
+     "name": "Demirciköy Mahallesi"
+    },
+    {
+     "osm_id": 9345828,
+     "name": "Emirgan Mahallesi"
+    },
+    {
+     "osm_id": 9343796,
+     "name": "Fatih Sultan Mehmet Mahallesi"
+    },
+    {
+     "osm_id": 9644592,
+     "name": "Ferahevler Mahallesi"
+    },
+    {
+     "osm_id": 9645159,
+     "name": "Garipçe Mahallesi"
+    },
+    {
+     "osm_id": 9475338,
+     "name": "Gümüşdere Mahallesi"
+    },
+    {
+     "osm_id": 9644504,
+     "name": "Huzur Mahallesi"
+    },
+    {
+     "osm_id": 9644728,
+     "name": "Kazım Karabekir Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9644763,
+     "name": "Kireçburnu Mahallesi"
+    },
+    {
+     "osm_id": 9644785,
+     "name": "Kocataş Mahallesi"
+    },
+    {
+     "osm_id": 9645135,
+     "name": "Kumköy (Kilyos) Mahallesi"
+    },
+    {
+     "osm_id": 9475337,
+     "name": "Kısırkaya Mahallesi"
+    },
+    {
+     "osm_id": 9577224,
+     "name": "Maden Mahallesi"
+    },
+    {
+     "osm_id": 9644505,
+     "name": "Maslak Mahallesi"
+    },
+    {
+     "osm_id": 9644954,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9644656,
+     "name": "PTT Evleri Mahallesi"
+    },
+    {
+     "osm_id": 9644555,
+     "name": "Poligon Mahallesi"
+    },
+    {
+     "osm_id": 9644556,
+     "name": "Pınar Mahallesi"
+    },
+    {
+     "osm_id": 9345829,
+     "name": "Reşitpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9645160,
+     "name": "Rumelifeneri Mahallesi"
+    },
+    {
+     "osm_id": 9343740,
+     "name": "Rumelihisarı Mahallesi"
+    },
+    {
+     "osm_id": 9645141,
+     "name": "Rumelikavağı Mahallesi"
+    },
+    {
+     "osm_id": 9644762,
+     "name": "Tarabya Mahallesi"
+    },
+    {
+     "osm_id": 9645050,
+     "name": "Uskumruköy Mahallesi"
+    },
+    {
+     "osm_id": 9644953,
+     "name": "Yeni Mahalle"
+    },
+    {
+     "osm_id": 9644764,
+     "name": "Yeniköy Mahallesi"
+    },
+    {
+     "osm_id": 9645084,
+     "name": "Zekeriyaköy Mahallesi"
+    },
+    {
+     "osm_id": 9644584,
+     "name": "Çamlıtepe Mahallesi"
+    },
+    {
+     "osm_id": 9644790,
+     "name": "Çayırbaşı Mahallesi"
+    },
+    {
+     "osm_id": 9644648,
+     "name": "İstinye Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1275379,
+   "name": "Silivri",
+   "slug": "silivri",
+   "neighborhoods": [
+    {
+     "osm_id": 9643897,
+     "name": "Akören Mahallesi"
+    },
+    {
+     "osm_id": 9643347,
+     "name": "Alibey Mahallesi"
+    },
+    {
+     "osm_id": 9643322,
+     "name": "Alipaşa Mahallesi"
+    },
+    {
+     "osm_id": 9643904,
+     "name": "Bekirli Mahallesi"
+    },
+    {
+     "osm_id": 9682312,
+     "name": "Beyciler Mahallesi"
+    },
+    {
+     "osm_id": 9682646,
+     "name": "Büyük Kılıçlı Mahallesi"
+    },
+    {
+     "osm_id": 9682262,
+     "name": "Büyük Sinekli Mahallesi"
+    },
+    {
+     "osm_id": 9682224,
+     "name": "Büyük Çavuşlu Mahallesi"
+    },
+    {
+     "osm_id": 9643200,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9670364,
+     "name": "Danamandıra Mahallesi"
+    },
+    {
+     "osm_id": 9679437,
+     "name": "Değirmenköy Fevzipaşa Mahallesi"
+    },
+    {
+     "osm_id": 9682004,
+     "name": "Değirmenköy İsmetpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9643348,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9643867,
+     "name": "Fener Mahallesi"
+    },
+    {
+     "osm_id": 9643210,
+     "name": "Gazitepe Mahallesi"
+    },
+    {
+     "osm_id": 6670488,
+     "name": "Gümüşyaka Mahallesi"
+    },
+    {
+     "osm_id": 9643220,
+     "name": "Kadıköy Mahallesi"
+    },
+    {
+     "osm_id": 9643188,
+     "name": "Kavaklı Hürriyet Mahallesi"
+    },
+    {
+     "osm_id": 9643199,
+     "name": "Kavaklı İstiklal Mahallesi"
+    },
+    {
+     "osm_id": 9682749,
+     "name": "Kurfallı Mahallesi"
+    },
+    {
+     "osm_id": 9643888,
+     "name": "Küçük Kılıçlı Mahallesi"
+    },
+    {
+     "osm_id": 9682263,
+     "name": "Küçük Sinekli Mahallesi"
+    },
+    {
+     "osm_id": 9643345,
+     "name": "Mimar Sinan Mahallesi"
+    },
+    {
+     "osm_id": 9643178,
+     "name": "Ortaköy Mahallesi"
+    },
+    {
+     "osm_id": 9643346,
+     "name": "Piri Mehmet Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9670918,
+     "name": "Sayalar Mahallesi"
+    },
+    {
+     "osm_id": 9531780,
+     "name": "Selimpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9669360,
+     "name": "Semizkumlar Mahallesi"
+    },
+    {
+     "osm_id": 9682647,
+     "name": "Seymen Mahallesi"
+    },
+    {
+     "osm_id": 9643323,
+     "name": "Yeni Mahalle"
+    },
+    {
+     "osm_id": 9681982,
+     "name": "Yolçatı Mahallesi"
+    },
+    {
+     "osm_id": 9682023,
+     "name": "Çanta Balaban Mahallesi"
+    },
+    {
+     "osm_id": 9682747,
+     "name": "Çanta Sancaktepe Mahallesi"
+    },
+    {
+     "osm_id": 9682058,
+     "name": "Çayırdere Mahallesi"
+    },
+    {
+     "osm_id": 9681983,
+     "name": "Çeltik Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276012,
+   "name": "Sultanbeyli",
+   "slug": "sultanbeyli",
+   "neighborhoods": [
+    {
+     "osm_id": 7666489,
+     "name": "Abdurrahmangazi Mahallesi"
+    },
+    {
+     "osm_id": 7666495,
+     "name": "Adil Mahallesi"
+    },
+    {
+     "osm_id": 7772852,
+     "name": "Ahmet Yesevi Mahallesi"
+    },
+    {
+     "osm_id": 7666491,
+     "name": "Akşemsettin Mahallesi"
+    },
+    {
+     "osm_id": 7666496,
+     "name": "Battalgazi Mahallesi"
+    },
+    {
+     "osm_id": 7666487,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 8320926,
+     "name": "Hamidiye Mahallesi"
+    },
+    {
+     "osm_id": 7666490,
+     "name": "Hasanpaşa Mahallesi"
+    },
+    {
+     "osm_id": 7666492,
+     "name": "Mecidiye Mahallesi"
+    },
+    {
+     "osm_id": 7666488,
+     "name": "Mehmet Akif Mahallesi"
+    },
+    {
+     "osm_id": 7666497,
+     "name": "Mimar Sinan Mahallesi"
+    },
+    {
+     "osm_id": 7666484,
+     "name": "Necip Fazıl Mahallesi"
+    },
+    {
+     "osm_id": 7666485,
+     "name": "Orhangazi Mahallesi"
+    },
+    {
+     "osm_id": 7666493,
+     "name": "Turgut Reis Mahallesi"
+    },
+    {
+     "osm_id": 7666486,
+     "name": "Yavuz Selim Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766108,
+   "name": "Sultangazi",
+   "slug": "sultangazi",
+   "neighborhoods": [
+    {
+     "osm_id": 9390752,
+     "name": "50. Yıl Mahallesi"
+    },
+    {
+     "osm_id": 9389916,
+     "name": "75. Yıl Mahallesi"
+    },
+    {
+     "osm_id": 9390851,
+     "name": "Cebeci Mahallesi"
+    },
+    {
+     "osm_id": 9389934,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9389950,
+     "name": "Esentepe Mahallesi"
+    },
+    {
+     "osm_id": 9390946,
+     "name": "Eski Habipler Mahallesi"
+    },
+    {
+     "osm_id": 8832577,
+     "name": "Gazi Mahallesi"
+    },
+    {
+     "osm_id": 9391290,
+     "name": "Habibler Mahallesi"
+    },
+    {
+     "osm_id": 9390850,
+     "name": "Malkoçoğlu Mahallesi"
+    },
+    {
+     "osm_id": 9390800,
+     "name": "Sultançiftliği Mahallesi"
+    },
+    {
+     "osm_id": 9390753,
+     "name": "Uğur Mumcu Mahallesi"
+    },
+    {
+     "osm_id": 9391277,
+     "name": "Yayla Mahallesi"
+    },
+    {
+     "osm_id": 8832578,
+     "name": "Yunus Emre Mahallesi"
+    },
+    {
+     "osm_id": 8832576,
+     "name": "Zübeyde Hanım Mahallesi"
+    },
+    {
+     "osm_id": 9390849,
+     "name": "İsmetpaşa Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276010,
+   "name": "Tuzla",
+   "slug": "tuzla",
+   "neighborhoods": [
+    {
+     "osm_id": 8766844,
+     "name": "Akfırat Mahallesi"
+    },
+    {
+     "osm_id": 8766278,
+     "name": "Anadolu Mahallesi"
+    },
+    {
+     "osm_id": 8766077,
+     "name": "Aydınlı Mahallesi"
+    },
+    {
+     "osm_id": 8767843,
+     "name": "Aydıntepe Mahallesi"
+    },
+    {
+     "osm_id": 8767105,
+     "name": "Cami Mahallesi"
+    },
+    {
+     "osm_id": 8767841,
+     "name": "Evliya Çelebi Mahallesi"
+    },
+    {
+     "osm_id": 8766279,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 8766082,
+     "name": "Mescit Mahallesi"
+    },
+    {
+     "osm_id": 8766897,
+     "name": "Mimar Sinan Mahallesi"
+    },
+    {
+     "osm_id": 8766277,
+     "name": "Orhanlı Mahallesi"
+    },
+    {
+     "osm_id": 8766663,
+     "name": "Orta Mahallesi"
+    },
+    {
+     "osm_id": 8767167,
+     "name": "Postane Mahallesi"
+    },
+    {
+     "osm_id": 8766662,
+     "name": "Tepeören Mahallesi"
+    },
+    {
+     "osm_id": 8767114,
+     "name": "Yayla Mahallesi"
+    },
+    {
+     "osm_id": 8767043,
+     "name": "İstasyon Mahallesi"
+    },
+    {
+     "osm_id": 8767842,
+     "name": "İçmeler Mahallesi"
+    },
+    {
+     "osm_id": 8766896,
+     "name": "Şifa Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1766109,
+   "name": "Zeytinburnu",
+   "slug": "zeytinburnu",
+   "neighborhoods": [
+    {
+     "osm_id": 7965031,
+     "name": "Beştelsiz Mahallesi"
+    },
+    {
+     "osm_id": 7965521,
+     "name": "Gökalp Mahallesi"
+    },
+    {
+     "osm_id": 7965519,
+     "name": "Kazlıçeşme Mahallesi"
+    },
+    {
+     "osm_id": 7964540,
+     "name": "Maltepe Mahallesi"
+    },
+    {
+     "osm_id": 7964551,
+     "name": "Merkezefendi Mahallesi"
+    },
+    {
+     "osm_id": 7965522,
+     "name": "Nuripaşa Mahallesi"
+    },
+    {
+     "osm_id": 7964967,
+     "name": "Seyitnizam Mahallesi"
+    },
+    {
+     "osm_id": 7965524,
+     "name": "Sümer Mahallesi"
+    },
+    {
+     "osm_id": 7965030,
+     "name": "Telsiz Mahallesi"
+    },
+    {
+     "osm_id": 7965525,
+     "name": "Veliefendi Mahallesi"
+    },
+    {
+     "osm_id": 7965520,
+     "name": "Yenidoğan Mahallesi"
+    },
+    {
+     "osm_id": 7965523,
+     "name": "Yeşiltepe Mahallesi"
+    },
+    {
+     "osm_id": 7965032,
+     "name": "Çırpıcı Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1275389,
+   "name": "Çatalca",
+   "slug": "catalca",
+   "neighborhoods": [
+    {
+     "osm_id": 9533419,
+     "name": "Akalan Mahallesi"
+    },
+    {
+     "osm_id": 9619874,
+     "name": "Atatürk Mahallesi"
+    },
+    {
+     "osm_id": 9619158,
+     "name": "Aydınlar Mahallesi"
+    },
+    {
+     "osm_id": 9467293,
+     "name": "Bahşayiş Mahallesi"
+    },
+    {
+     "osm_id": 9618065,
+     "name": "Başak Mahallesi"
+    },
+    {
+     "osm_id": 9618395,
+     "name": "Belgrat Mahallesi"
+    },
+    {
+     "osm_id": 9617980,
+     "name": "Celepköy Mahallesi"
+    },
+    {
+     "osm_id": 9536741,
+     "name": "Dağyenice Mahallesi"
+    },
+    {
+     "osm_id": 9531489,
+     "name": "Elbasan Mahallesi"
+    },
+    {
+     "osm_id": 9619872,
+     "name": "Fatih Mahallesi"
+    },
+    {
+     "osm_id": 9483017,
+     "name": "Ferhatpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9531810,
+     "name": "Gökçeali Mahallesi"
+    },
+    {
+     "osm_id": 9618269,
+     "name": "Gümüşpınar Mahallesi"
+    },
+    {
+     "osm_id": 9619871,
+     "name": "Hallaçlı Mahallesi"
+    },
+    {
+     "osm_id": 9618275,
+     "name": "Hisarbeyli Mahallesi"
+    },
+    {
+     "osm_id": 9533391,
+     "name": "Kabakça Mahallesi"
+    },
+    {
+     "osm_id": 9483212,
+     "name": "Kaleiçi Mahallesi"
+    },
+    {
+     "osm_id": 9586433,
+     "name": "Kalfa Mahallesi"
+    },
+    {
+     "osm_id": 9619392,
+     "name": "Karacaköy Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9618736,
+     "name": "Karamandere Mahallesi"
+    },
+    {
+     "osm_id": 9533733,
+     "name": "Kestanelik Mahallesi"
+    },
+    {
+     "osm_id": 9533888,
+     "name": "Kızılcaali Mahallesi"
+    },
+    {
+     "osm_id": 9460089,
+     "name": "Muratbey Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9471951,
+     "name": "Nakkaş Mahallesi"
+    },
+    {
+     "osm_id": 9533706,
+     "name": "Oklalı Mahallesi"
+    },
+    {
+     "osm_id": 9618646,
+     "name": "Ormanlı Mahallesi"
+    },
+    {
+     "osm_id": 9531481,
+     "name": "Ovayenice Mahallesi"
+    },
+    {
+     "osm_id": 9533502,
+     "name": "Subaşı Mahallesi"
+    },
+    {
+     "osm_id": 9619873,
+     "name": "Yalıköy Mahallesi"
+    },
+    {
+     "osm_id": 9619159,
+     "name": "Yaylacık Mahallesi"
+    },
+    {
+     "osm_id": 9536790,
+     "name": "Yazlık Mahallesi"
+    },
+    {
+     "osm_id": 9530301,
+     "name": "Çakıl Mahallesi"
+    },
+    {
+     "osm_id": 9533923,
+     "name": "Çanakça Mahallesi"
+    },
+    {
+     "osm_id": 9618406,
+     "name": "Çiftlikköy"
+    },
+    {
+     "osm_id": 9533881,
+     "name": "Örcünlü Mahallesi"
+    },
+    {
+     "osm_id": 9617957,
+     "name": "Örencik Mahallesi"
+    },
+    {
+     "osm_id": 9536586,
+     "name": "İhsaniye Mahallesi"
+    },
+    {
+     "osm_id": 9531802,
+     "name": "İnceğiz Mahallesi"
+    },
+    {
+     "osm_id": 9483660,
+     "name": "İzzettin Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276034,
+   "name": "Çekmeköy",
+   "slug": "cekmekoy",
+   "neighborhoods": [
+    {
+     "osm_id": 9644306,
+     "name": "Alemdağ Mahallesi"
+    },
+    {
+     "osm_id": 9525823,
+     "name": "Aydınlar Mahallesi"
+    },
+    {
+     "osm_id": 9526221,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9620544,
+     "name": "Ekşioğlu Mahallesi"
+    },
+    {
+     "osm_id": 9526222,
+     "name": "Güngören Mahallesi"
+    },
+    {
+     "osm_id": 9463512,
+     "name": "Hamidiye Mahallesi"
+    },
+    {
+     "osm_id": 9679582,
+     "name": "Hüseyinli Mahallesi"
+    },
+    {
+     "osm_id": 9481748,
+     "name": "Kirazlıdere Mahallesi"
+    },
+    {
+     "osm_id": 9679693,
+     "name": "Koçullu Mahallesi"
+    },
+    {
+     "osm_id": 9463491,
+     "name": "Mehmet Akif Mahallesi"
+    },
+    {
+     "osm_id": 9481740,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9464444,
+     "name": "Mimar Sinan Mahallesi"
+    },
+    {
+     "osm_id": 9679518,
+     "name": "Nişantepe Mahallesi"
+    },
+    {
+     "osm_id": 9679498,
+     "name": "Reşadiye Mahallesi"
+    },
+    {
+     "osm_id": 9526165,
+     "name": "Soğukpınar Mahallesi"
+    },
+    {
+     "osm_id": 9526253,
+     "name": "Sultançiftliği Mahallesi"
+    },
+    {
+     "osm_id": 9679639,
+     "name": "Sırapınar Mahallesi"
+    },
+    {
+     "osm_id": 9289278,
+     "name": "Taşdelen Mahallesi"
+    },
+    {
+     "osm_id": 9463508,
+     "name": "Çamlık Mahallesi"
+    },
+    {
+     "osm_id": 9679470,
+     "name": "Çatalmeşe Mahallesi"
+    },
+    {
+     "osm_id": 9679694,
+     "name": "Ömerli Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276890,
+   "name": "Ümraniye",
+   "slug": "umraniye",
+   "neighborhoods": [
+    {
+     "osm_id": 9462548,
+     "name": "Adem Yavuz Mahallesi"
+    },
+    {
+     "osm_id": 9462981,
+     "name": "Altınşehir Mahallesi"
+    },
+    {
+     "osm_id": 9462897,
+     "name": "Armağanevler Mahallesi"
+    },
+    {
+     "osm_id": 9462888,
+     "name": "Atakent Mahallesi"
+    },
+    {
+     "osm_id": 9462770,
+     "name": "Atatürk Mahallesi"
+    },
+    {
+     "osm_id": 9462528,
+     "name": "Aşağı Dudullu Mahallesi"
+    },
+    {
+     "osm_id": 9462984,
+     "name": "Cemil Meriç Mahallesi"
+    },
+    {
+     "osm_id": 14601477,
+     "name": "Dudullu OSB Mahallesi"
+    },
+    {
+     "osm_id": 9462671,
+     "name": "Dumlupınar Mahallesi"
+    },
+    {
+     "osm_id": 9462686,
+     "name": "Elmalıkent Mahallesi"
+    },
+    {
+     "osm_id": 9462845,
+     "name": "Esenevler Mahallesi"
+    },
+    {
+     "osm_id": 9462498,
+     "name": "Esenkent Mahallesi"
+    },
+    {
+     "osm_id": 9462467,
+     "name": "Esenşehir Mahallesi"
+    },
+    {
+     "osm_id": 9462835,
+     "name": "Fatih Sultan Mehmet Mahallesi"
+    },
+    {
+     "osm_id": 9462890,
+     "name": "Finanskent Mahallesi"
+    },
+    {
+     "osm_id": 9462597,
+     "name": "Hekimbaşı Mahallesi"
+    },
+    {
+     "osm_id": 9462535,
+     "name": "Huzur Mahallesi"
+    },
+    {
+     "osm_id": 9462968,
+     "name": "Ihlamurkuyu Mahallesi"
+    },
+    {
+     "osm_id": 9462638,
+     "name": "Kazım Karabekir Mahallesi"
+    },
+    {
+     "osm_id": 9462497,
+     "name": "Madenler Mahallesi"
+    },
+    {
+     "osm_id": 9462977,
+     "name": "Mehmet Akif Mahallesi"
+    },
+    {
+     "osm_id": 9462821,
+     "name": "Namık Kemal Mahallesi"
+    },
+    {
+     "osm_id": 9462526,
+     "name": "Necip Fazıl Mahallesi"
+    },
+    {
+     "osm_id": 9462585,
+     "name": "Parseller Mahallesi"
+    },
+    {
+     "osm_id": 9462905,
+     "name": "Site Mahallesi"
+    },
+    {
+     "osm_id": 9462693,
+     "name": "Tantavi Mahallesi"
+    },
+    {
+     "osm_id": 9462938,
+     "name": "Tatlısu Mahallesi"
+    },
+    {
+     "osm_id": 9462967,
+     "name": "Tepeüstü Mahallesi"
+    },
+    {
+     "osm_id": 9462625,
+     "name": "Topağacı Mahallesi"
+    },
+    {
+     "osm_id": 9462798,
+     "name": "Yamanevler Mahallesi"
+    },
+    {
+     "osm_id": 9308676,
+     "name": "Yukarı Dudullu Mahallesi"
+    },
+    {
+     "osm_id": 9462941,
+     "name": "Çakmak Mahallesi"
+    },
+    {
+     "osm_id": 9462915,
+     "name": "Çamlık Mahallesi"
+    },
+    {
+     "osm_id": 9462650,
+     "name": "İnkılap Mahallesi"
+    },
+    {
+     "osm_id": 9462868,
+     "name": "İstiklal Mahallesi"
+    },
+    {
+     "osm_id": 9308675,
+     "name": "Şerifali Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1276889,
+   "name": "Üsküdar",
+   "slug": "uskudar",
+   "neighborhoods": [
+    {
+     "osm_id": 9463391,
+     "name": "Acıbadem Mahallesi"
+    },
+    {
+     "osm_id": 9463238,
+     "name": "Ahmediye Mahallesi"
+    },
+    {
+     "osm_id": 9463396,
+     "name": "Altunizade Mahallesi"
+    },
+    {
+     "osm_id": 9463235,
+     "name": "Aziz Mahmut Hüdayi Mahallesi"
+    },
+    {
+     "osm_id": 9463420,
+     "name": "Bahçelievler Mahallesi"
+    },
+    {
+     "osm_id": 9463280,
+     "name": "Barbaros Mahallesi"
+    },
+    {
+     "osm_id": 9463364,
+     "name": "Beylerbeyi Mahallesi"
+    },
+    {
+     "osm_id": 3866467,
+     "name": "Bulgurlu Mahallesi"
+    },
+    {
+     "osm_id": 9463387,
+     "name": "Burhaniye Mahallesi"
+    },
+    {
+     "osm_id": 3866327,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9463410,
+     "name": "Ferah Mahallesi"
+    },
+    {
+     "osm_id": 9463417,
+     "name": "Güzeltepe Mahallesi"
+    },
+    {
+     "osm_id": 9463324,
+     "name": "Kandilli Mahallesi"
+    },
+    {
+     "osm_id": 9463407,
+     "name": "Kirazlıtepe Mahallesi"
+    },
+    {
+     "osm_id": 9463388,
+     "name": "Kuleli Mahallesi"
+    },
+    {
+     "osm_id": 9463313,
+     "name": "Kuzguncuk Mahallesi"
+    },
+    {
+     "osm_id": 9463397,
+     "name": "Küplüce Mahallesi"
+    },
+    {
+     "osm_id": 9463385,
+     "name": "Küçük Çamlıca Mahallesi"
+    },
+    {
+     "osm_id": 9463416,
+     "name": "Küçüksu Mahallesi"
+    },
+    {
+     "osm_id": 3866468,
+     "name": "Kısıklı Mahallesi"
+    },
+    {
+     "osm_id": 9463414,
+     "name": "Mehmet Akif Ersoy Mahallesi"
+    },
+    {
+     "osm_id": 9463242,
+     "name": "Mimar Sinan Mahallesi"
+    },
+    {
+     "osm_id": 9463285,
+     "name": "Muratreis Mahallesi"
+    },
+    {
+     "osm_id": 9463224,
+     "name": "Salacak Mahallesi"
+    },
+    {
+     "osm_id": 9463286,
+     "name": "Selami Ali Mahallesi"
+    },
+    {
+     "osm_id": 9441289,
+     "name": "Selimiye Mahallesi"
+    },
+    {
+     "osm_id": 9463258,
+     "name": "Sultantepe Mahallesi"
+    },
+    {
+     "osm_id": 9463281,
+     "name": "Valide-i Atik Mahallesi"
+    },
+    {
+     "osm_id": 9463421,
+     "name": "Yavuztürk Mahallesi"
+    },
+    {
+     "osm_id": 9463276,
+     "name": "Zeynep Kamil Mahallesi"
+    },
+    {
+     "osm_id": 9463376,
+     "name": "Çengelköy Mahallesi"
+    },
+    {
+     "osm_id": 3866328,
+     "name": "Ünalan Mahallesi"
+    },
+    {
+     "osm_id": 9463333,
+     "name": "İcadiye Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1275310,
+   "name": "Şile",
+   "slug": "sile",
+   "neighborhoods": [
+    {
+     "osm_id": 9064777,
+     "name": "Ahmetli Mahallesi"
+    },
+    {
+     "osm_id": 8906049,
+     "name": "Akçakese Mahallesi"
+    },
+    {
+     "osm_id": 9399740,
+     "name": "Alacalı Mahallesi"
+    },
+    {
+     "osm_id": 9399761,
+     "name": "Avcıkoru Mahallesi"
+    },
+    {
+     "osm_id": 8996428,
+     "name": "Ağaçdere Mahallesi"
+    },
+    {
+     "osm_id": 8894398,
+     "name": "Ağva Merkez Mahallesi"
+    },
+    {
+     "osm_id": 8917831,
+     "name": "Balibey Mahallesi"
+    },
+    {
+     "osm_id": 8900397,
+     "name": "Bozgoca Mahallesi"
+    },
+    {
+     "osm_id": 8894395,
+     "name": "Bucaklı Mahallesi"
+    },
+    {
+     "osm_id": 9399866,
+     "name": "Bıçkıdere Mahallesi"
+    },
+    {
+     "osm_id": 9065274,
+     "name": "Darlık Mahallesi"
+    },
+    {
+     "osm_id": 9064976,
+     "name": "Değirmen Çayırı Mahallesi"
+    },
+    {
+     "osm_id": 9399760,
+     "name": "Doğancılı Mahallesi"
+    },
+    {
+     "osm_id": 9066804,
+     "name": "Erenler Mahallesi"
+    },
+    {
+     "osm_id": 9399909,
+     "name": "Esenceli Mahallesi"
+    },
+    {
+     "osm_id": 8894396,
+     "name": "Geredeli Mahallesi"
+    },
+    {
+     "osm_id": 8894729,
+     "name": "Gökmaşlı Mahallesi"
+    },
+    {
+     "osm_id": 8894728,
+     "name": "Göksu Mahallesi"
+    },
+    {
+     "osm_id": 8894397,
+     "name": "Göçe Mahallesi"
+    },
+    {
+     "osm_id": 8918298,
+     "name": "Hacı Kasım Mahallesi"
+    },
+    {
+     "osm_id": 8897385,
+     "name": "Hacıllı Mahallesi"
+    },
+    {
+     "osm_id": 9064925,
+     "name": "Hasanlı Mahallesi"
+    },
+    {
+     "osm_id": 8906089,
+     "name": "Kabakoz Mahallesi"
+    },
+    {
+     "osm_id": 1275322,
+     "name": "Kadıköy Mahallesi"
+    },
+    {
+     "osm_id": 8894466,
+     "name": "Kalem Mahallesi"
+    },
+    {
+     "osm_id": 8906003,
+     "name": "Karabeyli Mahallesi"
+    },
+    {
+     "osm_id": 8900398,
+     "name": "Karacaköy Mahallesi"
+    },
+    {
+     "osm_id": 9395063,
+     "name": "Karakiraz Mahallesi"
+    },
+    {
+     "osm_id": 9066780,
+     "name": "Karamandere Mahallesi"
+    },
+    {
+     "osm_id": 9399878,
+     "name": "Kervansaray Mahallesi"
+    },
+    {
+     "osm_id": 9066783,
+     "name": "Korucu Mahallesi"
+    },
+    {
+     "osm_id": 9064755,
+     "name": "Kumbaba Mahallesi"
+    },
+    {
+     "osm_id": 8894445,
+     "name": "Kurfallı Mahallesi"
+    },
+    {
+     "osm_id": 9395077,
+     "name": "Kurna Mahallesi"
+    },
+    {
+     "osm_id": 9399910,
+     "name": "Kömürlük Mahallesi"
+    },
+    {
+     "osm_id": 9399640,
+     "name": "Kızılcaköy Mahallesi"
+    },
+    {
+     "osm_id": 9064778,
+     "name": "Meşrutiyet Mahallesi"
+    },
+    {
+     "osm_id": 9065275,
+     "name": "Oruçoğlu Mahallesi"
+    },
+    {
+     "osm_id": 8996776,
+     "name": "Osmanköy Mahallesi"
+    },
+    {
+     "osm_id": 9066781,
+     "name": "Ovacık Mahallesi"
+    },
+    {
+     "osm_id": 9400038,
+     "name": "Sahilköy Mahallesi"
+    },
+    {
+     "osm_id": 9066788,
+     "name": "Satmazlı Mahallesi"
+    },
+    {
+     "osm_id": 9399739,
+     "name": "Sofular Mahallesi"
+    },
+    {
+     "osm_id": 8905922,
+     "name": "Sortullu Mahallesi"
+    },
+    {
+     "osm_id": 8894447,
+     "name": "Soğullu Mahallesi"
+    },
+    {
+     "osm_id": 9064974,
+     "name": "Teke Mahallesi"
+    },
+    {
+     "osm_id": 9065276,
+     "name": "Ulupelit Mahallesi"
+    },
+    {
+     "osm_id": 9064975,
+     "name": "Yaka Mahallesi"
+    },
+    {
+     "osm_id": 9027455,
+     "name": "Yaylalı Mahallesi"
+    },
+    {
+     "osm_id": 9064926,
+     "name": "Yazımanayır Mahallesi"
+    },
+    {
+     "osm_id": 9027454,
+     "name": "Yeniköy Mahallesi"
+    },
+    {
+     "osm_id": 9399808,
+     "name": "Yeşilvadi Mahallesi"
+    },
+    {
+     "osm_id": 8894727,
+     "name": "Çataklı Mahallesi"
+    },
+    {
+     "osm_id": 8939333,
+     "name": "Çavuş Mahallesi"
+    },
+    {
+     "osm_id": 9027503,
+     "name": "Çayırbaşı Mahallesi"
+    },
+    {
+     "osm_id": 1275323,
+     "name": "Çelebi Mahallesi"
+    },
+    {
+     "osm_id": 9064892,
+     "name": "Çengilli Mahallesi"
+    },
+    {
+     "osm_id": 9399929,
+     "name": "Üvezli Mahallesi"
+    },
+    {
+     "osm_id": 8939334,
+     "name": "İmrendere Mahallesi"
+    },
+    {
+     "osm_id": 8900415,
+     "name": "İmrenli Mahallesi"
+    },
+    {
+     "osm_id": 8894446,
+     "name": "İsaköy Mahallesi"
+    },
+    {
+     "osm_id": 8897352,
+     "name": "Şuayipli Mahallesi"
+    }
+   ]
+  },
+  {
+   "osm_id": 1765896,
+   "name": "Şişli",
+   "slug": "sisli",
+   "neighborhoods": [
+    {
+     "osm_id": 9324445,
+     "name": "19 Mayıs Mahallesi"
+    },
+    {
+     "osm_id": 9320236,
+     "name": "Bozkurt Mahallesi"
+    },
+    {
+     "osm_id": 9324438,
+     "name": "Cumhuriyet Mahallesi"
+    },
+    {
+     "osm_id": 9321930,
+     "name": "Duatepe Mahallesi"
+    },
+    {
+     "osm_id": 9319943,
+     "name": "Ergenekon Mahallesi"
+    },
+    {
+     "osm_id": 9327603,
+     "name": "Esentepe Mahallesi"
+    },
+    {
+     "osm_id": 9320234,
+     "name": "Eskişehir Mahallesi"
+    },
+    {
+     "osm_id": 9320291,
+     "name": "Feriköy Mahallesi"
+    },
+    {
+     "osm_id": 9327583,
+     "name": "Fulya Mahallesi"
+    },
+    {
+     "osm_id": 9327610,
+     "name": "Gülbahar Mahallesi"
+    },
+    {
+     "osm_id": 9324450,
+     "name": "Halaskargazi Mahallesi"
+    },
+    {
+     "osm_id": 9321912,
+     "name": "Halide Edip Adıvar Mahallesi"
+    },
+    {
+     "osm_id": 9321890,
+     "name": "Halil Rıfat Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9319824,
+     "name": "Harbiye Mahallesi"
+    },
+    {
+     "osm_id": 9321891,
+     "name": "Kaptanpaşa Mahallesi"
+    },
+    {
+     "osm_id": 9441320,
+     "name": "Kuştepe Mahallesi"
+    },
+    {
+     "osm_id": 9321888,
+     "name": "Mahmut Şevket Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9327605,
+     "name": "Mecidiyeköy Mahallesi"
+    },
+    {
+     "osm_id": 9324437,
+     "name": "Merkez Mahallesi"
+    },
+    {
+     "osm_id": 9324472,
+     "name": "Meşrutiyet Mahallesi"
+    },
+    {
+     "osm_id": 9321929,
+     "name": "Paşa Mahallesi"
+    },
+    {
+     "osm_id": 9324473,
+     "name": "Teşvikiye Mahallesi"
+    },
+    {
+     "osm_id": 9322001,
+     "name": "Yayla Mahallesi"
+    },
+    {
+     "osm_id": 9319855,
+     "name": "İnönü Mahallesi"
+    },
+    {
+     "osm_id": 9324375,
+     "name": "İzzetpaşa Mahallesi"
+    }
+   ]
+  }
+ ]
+}
