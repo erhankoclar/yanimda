@@ -32,14 +32,17 @@ function validate() {
   return !errors.email && !errors.password
 }
 
-/** Giriş yapar ve kullanıcıyı geldiği sayfaya (yoksa başvurularına) gönderir. */
+/**
+ * Giriş yapar; kullanıcıyı geldiği sayfaya, yoksa yöneticiyi yönetim paneline, başvuru sahibini
+ * başvurularına gönderir.
+ */
 async function submit() {
   generalError.value = ''
   if (!validate()) return
   submitting.value = true
   try {
     await auth.login(form.email, form.password)
-    await router.replace(safeRedirect(route.query.redirect, '/requests'))
+    await router.replace(safeRedirect(route.query.redirect, auth.isAdmin ? '/admin/dashboard' : '/requests'))
   } catch (error) {
     generalError.value = error?.response?.status === 401
       ? t('auth.login.invalid')

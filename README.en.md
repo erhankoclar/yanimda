@@ -224,6 +224,9 @@ new ──► reviewing ──► assigned ──► completed
 - Admin APIs and pages are open only to `is_staff` users. Django's own admin site is not used and not exposed.
 - Dashboard: total, open and last 7 days application counts; active applicant count; counts for every status and every service (including zeros); a daily series for the last 14 days.
 - **Demand map** (`/admin/map`): a thematic map of Istanbul. From far away the city total is a single bubble; zooming in opens district and then neighbourhood counts (neighbourhood is the most detailed level). Areas are shaded with a single-hue intensity scale whose legend classes come from the data distribution. The total or a single service, the source (quick inquiry / application) and the period can be chosen. The ranking beside it shows the places with the most and with no demand; clicking a number, an area or a row lists that place's records in a side panel.
+- **Admin sign-in:** `/admin/login` or the site's public login page. Signing in with an admin account on the public page opens the admin panel directly, and while signed in the site header shows an "Admin panel" link. A non-admin account signing in on the admin page is warned and signed out.
+- **Lists:** quick inquiries (search, service and district filters; details panel and "reply by email"), applications (search, status, service, district, date range; sorting) and users (search, role, account status; sorting). Filters, page and sorting live in the address bar, so the back button and shared links open the same list.
+- **Application details:** the status changes only to the allowed next statuses, after a confirmation; the admin note is written here.
 - User management is read-only for now.
 
 ## API
@@ -298,7 +301,7 @@ The frontend uses `VITE_API_PROXY_TARGET` (default `http://localhost:8000`) and 
 
 Tests are grouped by type and the full set runs as a regression check before every change. Tests run **inside the Docker containers, on PostgreSQL**.
 
-### Backend (169 tests)
+### Backend (301 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
@@ -316,7 +319,7 @@ docker compose exec backend sh run_tests.sh security     # one type
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (170 tests)
+### Frontend (444 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
@@ -324,6 +327,7 @@ docker compose exec backend sh run_tests.sh unit scenario
 | `component` | `tests/component` | Component behaviour (e.g. session aware menu) |
 | `integration` | `tests/integration` | HTTP client and token refresh, auth store, routing |
 | `security` | `tests/security` | Route guards, tokens never sent to other origins, open redirects |
+| `regression` | `tests/regression` | Found bugs not coming back (e.g. staff reaching the admin panel from the public login, detail route patterns) |
 | `accessibility` | `tests/accessibility` | axe-core audit, skip link, landmarks |
 
 ```bash
@@ -331,9 +335,9 @@ docker compose exec frontend npx vitest run
 docker compose exec frontend npx vitest run tests/security
 ```
 
-### End to end (Playwright, 18 tests)
+### End to end (Playwright, 40 tests)
 
-The tests in `e2e/` run against the running stack (real frontend, backend and PostgreSQL) on phone and desktop viewports: sending, success and error states of the quick form and the stored record found in the database, server validation when the client is bypassed, registration + five step application + duplicate rejection, and checks for horizontal overflow and console errors.
+The tests in `e2e/` run against the running stack (real frontend, backend and PostgreSQL) on phone and desktop viewports: sending, success and error states of the quick form and the stored record found in the database, server validation when the client is bypassed, registration + five step application (with district and neighbourhood choice) + duplicate rejection, admin sign-in (from the admin and the public login page), a quick inquiry showing up on the dashboard and in the list, an admin status change reaching the applicant (without the admin note), the demand map, and checks for horizontal overflow and console errors.
 
 ```bash
 docker compose up -d --wait
@@ -423,7 +427,6 @@ Production notes:
 
 ## Known gaps
 
-- **The admin lists are not built yet.** The dashboard and the demand map are ready; the quick inquiries, applications and users pages only contain a heading for now (their APIs are ready and tested).
 - The map basemap comes from OpenFreeMap's free service; if it cannot be reached the map does not open; the ranking and record lists keep working independently of it.
 - No email notification is sent for quick inquiries; they are stored and visible through the admin API.
 - Applications cannot be edited or cancelled online.

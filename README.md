@@ -224,6 +224,9 @@ yeni ──► inceleniyor ──► atandı ──► tamamlandı
 - Admin API'leri ve sayfaları yalnızca `is_staff` kullanıcılara açıktır. Django'nun kendi yönetim paneli kullanılmaz ve yayında değildir.
 - Gösterge paneli: toplam, açık ve son 7 günlük başvuru sayısı; aktif başvuru sahibi sayısı; her durumun ve her hizmetin sayısı (sıfırlar dahil); son 14 günün günlük serisi.
 - **Talep haritası** (`/admin/map`): İstanbul'un tematik haritası. Uzaktan bakınca il toplamı tek balon olarak görünür; yakınlaştıkça önce ilçe, sonra mahalle sayıları açılır (en ayrıntılı düzey mahalledir). Alanlar sayıya göre tek tonlu yoğunluk rengiyle boyanır; lejant sınıfları verinin dağılımından hesaplanır. Toplam ya da tek hizmet, kaynak (hızlı talep / başvuru) ve dönem seçilebilir. Yandaki sıralama en çok ve hiç talep gelmeyen yerleri gösterir; bir sayıya, alana ya da satıra tıklayınca o yerin kayıtları yan panelde listelenir.
+- **Admin girişi:** `/admin/login` ya da sitenin genel giriş sayfası. Yönetici hesabıyla genel girişten girilince doğrudan yönetim paneli açılır; oturum açıkken sitenin üst barında "Yönetim paneli" bağlantısı görünür. Yönetici olmayan hesap admin girişinden girerse uyarılır ve oturumu kapatılır.
+- **Listeler:** Hızlı talepler (arama, hizmet ve ilçe süzgeci; ayrıntı paneli ve "e-posta ile yanıtla"), başvurular (arama, durum, hizmet, ilçe, tarih aralığı; sıralama) ve kullanıcılar (arama, rol, hesap durumu; sıralama). Süzgeçler, sayfa ve sıralama adres çubuğunda tutulur; geri tuşu ve paylaşılan bağlantı aynı listeyi açar.
+- **Başvuru detayı:** Durum yalnızca izin verilen sonraki durumlara, onay penceresiyle değiştirilir; yönetici notu buradan yazılır.
 - Kullanıcı yönetimi şimdilik salt okunurdur.
 
 ## API
@@ -298,7 +301,7 @@ Frontend için `VITE_API_PROXY_TARGET` (varsayılan `http://localhost:8000`) ve 
 
 Testler türlerine göre klasörlenmiştir ve her değişiklikten önce tamamı regresyon olarak çalıştırılır. Testler **Docker konteynerlerinde, PostgreSQL üzerinde** çalışır.
 
-### Backend (169 test)
+### Backend (301 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |
@@ -316,7 +319,7 @@ docker compose exec backend sh run_tests.sh security     # tek tür
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (170 test)
+### Frontend (444 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |
@@ -324,6 +327,7 @@ docker compose exec backend sh run_tests.sh unit scenario
 | `component` | `tests/component` | Bileşen davranışı (ör. oturuma göre menü) |
 | `integration` | `tests/integration` | HTTP istemcisi ve token yenileme, auth store, yönlendirme |
 | `security` | `tests/security` | Route guard'ları, token'ın dış adrese gitmemesi, açık yönlendirme |
+| `regression` | `tests/regression` | Bulunmuş hataların geri gelmemesi (ör. yöneticinin genel girişten panele gitmesi, detay adres düzenleri) |
 | `accessibility` | `tests/accessibility` | axe-core denetimi, içeriğe geç bağlantısı, sayfa bölgeleri |
 
 ```bash
@@ -331,9 +335,9 @@ docker compose exec frontend npx vitest run
 docker compose exec frontend npx vitest run tests/security
 ```
 
-### Uçtan uca (Playwright, 18 test)
+### Uçtan uca (Playwright, 40 test)
 
-`e2e/` klasöründeki testler çalışan yığına (gerçek frontend, backend ve PostgreSQL) karşı telefon ve masaüstü görünümlerinde koşar: hızlı formun gönderiliyor/başarı/hata durumları ve kaydın veritabanında bulunması, istemci atlatıldığında sunucu doğrulaması, kayıt + 5 adımlı başvuru + mükerrer başvurunun reddi, yatay taşma ve konsol hatası kontrolü.
+`e2e/` klasöründeki testler çalışan yığına (gerçek frontend, backend ve PostgreSQL) karşı telefon ve masaüstü görünümlerinde koşar: hızlı formun gönderiliyor/başarı/hata durumları ve kaydın veritabanında bulunması, istemci atlatıldığında sunucu doğrulaması, kayıt + 5 adımlı başvuru (ilçe ve mahalle seçimiyle) + mükerrer başvurunun reddi, admin girişi (admin ve genel giriş sayfasından), hızlı talebin gösterge paneli ve listede görünmesi, admin'in durum değiştirmesinin başvuru sahibine yansıması (yönetici notu gösterilmeden), talep haritası, yatay taşma ve konsol hatası kontrolü.
 
 ```bash
 docker compose up -d --wait
@@ -423,7 +427,6 @@ Kök dizindeki `Dockerfile` Vue sitesini derler ve Django API ile birlikte tek b
 
 ## Bilinen eksikler
 
-- **Admin listeleri henüz yapılmadı.** Gösterge paneli ve talep haritası hazır; hızlı talepler, başvurular ve kullanıcılar sayfaları şimdilik yalnızca başlık içerir (API'leri hazır ve test edildi).
 - Harita altlığı OpenFreeMap'in ücretsiz hizmetinden gelir; hizmete erişilemezse harita açılmaz; sıralama listesi ve kayıt listeleri haritadan bağımsız çalışmayı sürdürür.
 - Hızlı talep gelince e-posta bildirimi gönderilmez; talepler kaydedilir ve admin API'sinden görülür.
 - Başvurular internetten düzenlenemez veya iptal edilemez.

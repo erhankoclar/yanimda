@@ -71,3 +71,15 @@ export function formatRelativeTime(iso, now = new Date()) {
   }
   return ''
 }
+
+/**
+ * ISO tarih-saati kısa tarih ve saat olarak yazar (ör. "8 Eki 2026 14:05").
+ *
+ * @param {string} iso ISO tarih-saat.
+ * @returns {string} Biçimlenmiş metin; boşsa boş.
+ */
+export function formatDateTime(iso) {
+  if (!iso) return ''
+  return new Intl.DateTimeFormat(intlLocale(), { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+    .format(new Date(iso))
+}

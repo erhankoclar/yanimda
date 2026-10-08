@@ -88,14 +88,15 @@ const year = new Date().getFullYear()
 }
 
 .site-footer__bottom {
-  padding-top: var(--space-4);
   padding-bottom: var(--space-5);
-  border-top: 1px solid rgb(255 255 255 / 0.15);
   font-size: var(--text-sm);
 }
 
+/* Ayırıcı çizgi kapsayıcının iç boşluğuna değil metnin genişliğine uyar. */
 .site-footer__bottom p {
   margin: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid rgb(255 255 255 / 0.15);
 }
 
 @media (min-width: 48rem) {

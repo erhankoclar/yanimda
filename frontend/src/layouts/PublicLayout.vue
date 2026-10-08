@@ -26,7 +26,7 @@ async function logout() {
 <template>
   <div class="public-layout" data-layout="public">
     <a class="skip-link" href="#main-content">{{ t('common.skipToContent') }}</a>
-    <SiteHeader :authenticated="auth.isAuthenticated" @logout="logout" />
+    <SiteHeader :authenticated="auth.isAuthenticated" :is-admin="auth.isAdmin" @logout="logout" />
     <main
       id="main-content"
       class="site-main"

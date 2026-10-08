@@ -55,3 +55,24 @@ class AdminServiceInquiryListView(generics.ListAPIView):
             QuerySet[ServiceInquiry]: En yeniden eskiye hızlı talepler.
         """
         return inquiry_service.list_for_admin()
+
+
+@extend_schema(
+    tags=['admin'],
+    summary=api_descriptions.ADMIN_INQUIRY_DETAIL_SUMMARY,
+    description=api_descriptions.ADMIN_INQUIRY_DETAIL_VIEW_DESCRIPTION,
+)
+class AdminServiceInquiryDetailView(generics.RetrieveAPIView):
+    __doc__ = api_descriptions.ADMIN_INQUIRY_DETAIL_VIEW_DESCRIPTION
+
+    serializer_class = AdminServiceInquirySerializer
+    permission_classes = [permissions.IsAdminUser]
+
+    def get_queryset(self):
+        """
+        Hızlı talepleri servis üzerinden döndürür; kayıt `pk` ile seçilir.
+
+        Returns:
+            QuerySet[ServiceInquiry]: Hızlı talepler.
+        """
+        return inquiry_service.list_for_admin()

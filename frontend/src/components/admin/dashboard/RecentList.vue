@@ -43,8 +43,8 @@ function targetOf(item) {
         <RouterLink :to="targetOf(item)" class="recent__item" :data-recent="`${item.type}-${item.id}`">
           <span class="recent__icon"><ServiceIcon :name="item.service.icon" /></span>
           <span class="recent__text">
-            <span class="recent__title">{{ item.title }}</span>
-            <span class="recent__service">{{ item.service.name }}</span>
+            <span class="recent__title" :title="item.title">{{ item.title }}</span>
+            <span class="recent__service" :title="item.service.name">{{ item.service.name }}</span>
             <span class="recent__meta">
               <span class="recent__type" :class="`recent__type--${item.type}`">{{ t(`admin.dashboard.recent.types.${item.type}`) }}</span>
               <time :datetime="item.created_at" :data-locale="locale">{{ formatRelativeTime(item.created_at) }}</time>

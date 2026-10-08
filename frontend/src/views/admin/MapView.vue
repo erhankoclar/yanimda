@@ -86,10 +86,11 @@ function openArea(area) {
         <span class="map-page__total-label">{{ t('admin.map.totalLabel') }}</span>
       </div>
       <div class="map-page__filters">
-        <label class="visually-hidden" for="map-service">{{ t('admin.map.service') }}</label>
+        <label id="map-service-label" class="visually-hidden" for="map-service">{{ t('admin.map.service') }}</label>
         <Select
           v-model="serviceValue"
           inputId="map-service"
+          ariaLabelledby="map-service-label"
           :options="serviceOptions"
           optionLabel="label"
           optionValue="value"
@@ -228,8 +229,14 @@ function openArea(area) {
 
 .map-page__legend {
   position: absolute;
-  bottom: 2rem;
+  bottom: 3.25rem;
   left: 0.75rem;
+}
+
+@media (min-width: 48rem) {
+  .map-page__legend {
+    bottom: 2rem;
+  }
 }
 
 .map-page__hint {
@@ -247,7 +254,7 @@ function openArea(area) {
 }
 
 .map-page__ranking {
-  max-height: 30rem;
+  min-height: 0;
 }
 
 .map-page__note {

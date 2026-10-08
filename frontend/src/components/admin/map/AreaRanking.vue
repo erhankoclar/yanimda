@@ -80,12 +80,20 @@ const emptyDistricts = computed(() => (level.value === 'district'
 
 .ranking__list {
   display: grid;
+  align-content: start;
   gap: 0.15rem;
-  flex: 1;
   margin: 0 -0.5rem;
   padding: 0;
-  overflow-y: auto;
   list-style: none;
+}
+
+/* Geniş ekranda panel harita yüksekliğindedir; liste kendi içinde kayar. */
+@media (min-width: 75rem) {
+  .ranking__list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
 }
 
 .ranking__row {

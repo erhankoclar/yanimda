@@ -28,7 +28,11 @@ export default defineConfig({
     include: ['tests/{unit,component,integration,security,regression,accessibility}/**/*.test.js'],
     restoreMocks: true,
     setupFiles: ['tests/setup.js'],
-    // jsdom'daki axe taramaları paralel yük altında 5 sn varsayılanını aşabiliyor.
-    testTimeout: 15000,
+    // jsdom'daki axe taramaları ve soğuk önbellekte bir dosyanın ilk testi (tembel parçaların ilk
+    // derlenmesi) yük altında uzun sürebiliyor.
+    testTimeout: 30000,
+    // Paket büyüdükçe tam paralel çalışmada tembel admin parçalarının ilk derlenmesi zaman aşımına
+    // düşebiliyordu; eş zamanlı test dosyası sayısı sınırlanarak sonuç kararlı tutulur.
+    maxWorkers: 3,
   },
 })

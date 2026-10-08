@@ -148,6 +148,13 @@ INQUIRY_SERVICE_HELP_TEXT = _(
     '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
 )
 
+ADMIN_INQUIRY_DETAIL_SUMMARY = _('Admin: quick inquiry details')
+ADMIN_INQUIRY_DETAIL_VIEW_DESCRIPTION = _(
+    '<p>Returns one quick inquiry with its full description and location. Only admin users can call it. '
+    'The identifier comes from <a href="#operations-admin-admin_inquiries_list">Admin: list quick inquiries</a> '
+    '— <code>results[].id</code>.</p>'
+)
+
 ADMIN_INQUIRY_LIST_SUMMARY = _('Admin: list quick inquiries')
 ADMIN_INQUIRY_LIST_VIEW_DESCRIPTION = _(
     '<p>Lists the inquiries sent from the quick form, newest first. Only admin users can call it.</p>'
