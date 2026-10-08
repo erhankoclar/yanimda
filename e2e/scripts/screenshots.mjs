@@ -50,7 +50,8 @@ for (const path of PATHS) {
     await page.goto(path, { waitUntil: 'networkidle' })
     for (const [width, height] of SIZES) {
       await page.setViewportSize({ width, height })
-      await page.waitForTimeout(400)
+      // Grafik gibi boyuta göre yeniden çizilen öğelerin animasyonu bitsin.
+      await page.waitForTimeout(900)
       if (CLICK && await page.locator(CLICK).first().isVisible()) {
         await page.locator(CLICK).first().click()
         await page.waitForTimeout(500)

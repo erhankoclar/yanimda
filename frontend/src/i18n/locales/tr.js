@@ -21,7 +21,31 @@ export default {
         topService: 'En çok talep: {name}',
         unreviewed: 'Hepsi incelendi | {count} tanesi henüz incelenmedi | {count} tanesi henüz incelenmedi',
       },
+      recent: {
+        empty: 'Henüz kayıt yok.',
+        title: 'Son gelenler',
+        types: {
+          inquiry: 'Hızlı talep',
+          request: 'Başvuru',
+        },
+      },
       retry: 'Tekrar dene',
+      trend: {
+        dateColumn: 'Tarih',
+        days: '{count} gün',
+        empty: 'Seçilen aralıkta talep yok.',
+        rangeLabel: 'Zaman aralığı',
+        sourceLabel: 'Kaynak',
+        sources: {
+          all: 'Tümü',
+          inquiries: 'Hızlı talepler',
+          requests: 'Başvurular',
+        },
+        tableCaption: 'Hizmetlere göre talep sayıları',
+        title: 'Hizmetlere göre talepler',
+        weekColumn: 'Hafta başlangıcı',
+        weekOf: '{date} haftası',
+      },
     },
     layout: {
       closeMenu: 'Menüyü kapat',

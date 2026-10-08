@@ -21,7 +21,31 @@ export default {
         topService: 'Most requested: {name}',
         unreviewed: 'All reviewed | {count} not reviewed yet | {count} not reviewed yet',
       },
+      recent: {
+        empty: 'No records yet.',
+        title: 'Latest arrivals',
+        types: {
+          inquiry: 'Quick inquiry',
+          request: 'Application',
+        },
+      },
       retry: 'Try again',
+      trend: {
+        dateColumn: 'Date',
+        days: '{count} days',
+        empty: 'No demand in the selected range.',
+        rangeLabel: 'Time range',
+        sourceLabel: 'Source',
+        sources: {
+          all: 'All',
+          inquiries: 'Quick inquiries',
+          requests: 'Applications',
+        },
+        tableCaption: 'Demand by service',
+        title: 'Demand by service',
+        weekColumn: 'Week starting',
+        weekOf: 'Week of {date}',
+      },
     },
     layout: {
       closeMenu: 'Close menu',

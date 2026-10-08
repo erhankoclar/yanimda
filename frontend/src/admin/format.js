@@ -35,3 +35,39 @@ export function changeInfo(percent) {
   const text = new Intl.NumberFormat(intlLocale(), { style: 'percent', maximumFractionDigits: 0 }).format(Math.abs(percent) / 100)
   return { trend, text }
 }
+
+/**
+ * `YYYY-MM-DD` tarihini kısa gün-ay biçiminde yazar (ör. "6 Eki" / "6 Oct").
+ *
+ * @param {string} iso Tarih.
+ * @returns {string} Kısa tarih.
+ */
+export function formatShortDate(iso) {
+  const [year, month, day] = iso.split('-').map(Number)
+  return new Intl.DateTimeFormat(intlLocale(), { day: 'numeric', month: 'short' }).format(new Date(year, month - 1, day))
+}
+
+// Göreli zaman için eşikler: bir dakikadan az "şimdi", sonra dakika, saat, gün.
+const RELATIVE_STEPS = [
+  { unit: 'minute', seconds: 60, limit: 60 },
+  { unit: 'hour', seconds: 3600, limit: 24 },
+  { unit: 'day', seconds: 86400, limit: Infinity },
+]
+
+/**
+ * Zamanı şimdiye göre göreli yazar (ör. "12 dakika önce" / "12 minutes ago").
+ *
+ * @param {string} iso ISO tarih-saat.
+ * @param {Date} [now] Karşılaştırma anı; testler için verilebilir.
+ * @returns {string} Göreli zaman.
+ */
+export function formatRelativeTime(iso, now = new Date()) {
+  const seconds = Math.max(0, (now.getTime() - new Date(iso).getTime()) / 1000)
+  const formatter = new Intl.RelativeTimeFormat(intlLocale(), { numeric: 'auto' })
+  if (seconds < 60) return formatter.format(0, 'second')
+  for (const step of RELATIVE_STEPS) {
+    const value = Math.floor(seconds / step.seconds)
+    if (value < step.limit) return formatter.format(-value, step.unit)
+  }
+  return ''
+}

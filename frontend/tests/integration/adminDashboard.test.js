@@ -7,6 +7,24 @@ import { dashboardResponse } from '../helpers/dashboard'
 import { ADMIN, restoreApi, routeHandler, useFakeApi } from '../helpers/fakeApi'
 import { mountApp } from '../helpers/mountApp'
 
+// Chart.js jsdom'da canvas çizemez; Chart bileşeni aldığı veriyi kaydeden bir taklitle değiştirilir.
+const chart = vi.hoisted(() => ({ props: null }))
+vi.mock('primevue/chart', async () => {
+  const { h } = await import('vue')
+  return {
+    default: {
+      name: 'Chart',
+      props: ['type', 'data', 'options'],
+      setup(props) {
+        return () => {
+          chart.props = props
+          return h('canvas', { 'data-chart': props.type })
+        }
+      },
+    },
+  }
+})
+
 let wrapper
 
 afterEach(() => {
@@ -87,5 +105,84 @@ describe('gösterge paneli kartları', () => {
     expect(dashboardCalls(calls)).toHaveLength(2)
     expect(card('total-demand').get('.stat-card__title').text()).toBe('Total demand this month')
     expect(card('total-demand').get('.stat-card__value').text()).toBe('1,250')
+  })
+})
+
+describe('hizmet trend grafiği', () => {
+  /**
+   * Grafik başlığındaki seçicide verilen metinli düğmeye basar.
+   *
+   * @param {string} label Düğme metni.
+   */
+  async function choose(label) {
+    const button = wrapper.get('.trend').findAll('button').find((item) => item.text() === label)
+    await button.trigger('click')
+    await flushPromises()
+  }
+
+  it('her hizmet için bir çizgi çizer', async () => {
+    await openDashboard(() => [200, dashboardResponse()])
+
+    expect(wrapper.find('.trend [data-chart="line"]').exists()).toBe(true)
+    expect(chart.props.data.datasets.map((dataset) => dataset.label)).toEqual(['Evde bakım', 'Alışveriş desteği'])
+  })
+
+  it('aralık ve kaynak seçimi paneli yeni parametrelerle yeniden ister', async () => {
+    const calls = await openDashboard(() => [200, dashboardResponse()])
+
+    await choose('90 gün')
+    await choose('Başvurular')
+
+    const params = dashboardCalls(calls).map((call) => call.params)
+    expect(params).toContainEqual({ days: 90, source: 'all' })
+    expect(params.at(-1)).toEqual({ days: 90, source: 'requests' })
+  })
+
+  it('haftalık seride ipucu başlığı haftayı belirtir ve tablo sütunu hafta başlangıcıdır', async () => {
+    const response = dashboardResponse()
+    response.series.bucket = 'week'
+    await openDashboard(() => [200, response])
+
+    expect(chart.props.options.plugins.tooltip.callbacks.title([{ label: '6 Eki' }])).toBe('6 Eki haftası')
+    expect(wrapper.get('.trend table thead th').text()).toBe('Hafta başlangıcı')
+  })
+
+  it('grafiği göremeyenler için aynı veriyi tabloda verir', async () => {
+    await openDashboard(() => [200, dashboardResponse()])
+
+    const rows = wrapper.findAll('.trend table tbody tr')
+    expect(rows).toHaveLength(3)
+    expect(rows[2].text()).toContain('8 Eki')
+    expect(rows[2].findAll('td').map((cell) => cell.text())).toEqual(['2', '1'])
+  })
+
+  it('seçilen aralıkta hiç kayıt yoksa grafik yerine bilgi gösterir', async () => {
+    const response = dashboardResponse()
+    response.series.datasets.forEach((dataset) => dataset.counts.fill(0))
+    await openDashboard(() => [200, response])
+
+    expect(wrapper.find('.trend [data-chart]').exists()).toBe(false)
+    expect(wrapper.get('.trend__empty').text()).toBe('Seçilen aralıkta talep yok.')
+  })
+})
+
+describe('son gelenler', () => {
+  it('kayıtları türleri ve hizmetleriyle listeler, ilgili admin sayfasına bağlar', async () => {
+    await openDashboard(() => [200, dashboardResponse()])
+
+    const request = wrapper.get('[data-recent="request-21"]')
+    const inquiry = wrapper.get('[data-recent="inquiry-5"]')
+    expect(request.text()).toContain('Fatma Demir')
+    expect(request.text()).toContain('Başvuru')
+    expect(request.attributes('href')).toBe('/admin/requests/21')
+    expect(inquiry.text()).toContain('Hızlı talep')
+    expect(inquiry.text()).toContain('Alışveriş desteği')
+    expect(inquiry.attributes('href')).toBe('/admin/inquiries?id=5')
+  })
+
+  it('kayıt yoksa boş durum metni gösterir', async () => {
+    await openDashboard(() => [200, dashboardResponse({ recent: [] })])
+
+    expect(wrapper.get('.recent__empty').text()).toBe('Henüz kayıt yok.')
   })
 })

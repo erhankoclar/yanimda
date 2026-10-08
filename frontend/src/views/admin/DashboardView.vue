@@ -5,9 +5,11 @@ import { useI18n } from 'vue-i18n'
 
 import { useDashboard } from '@/admin/useDashboard'
 import DashboardStats from '@/components/admin/dashboard/DashboardStats.vue'
+import RecentList from '@/components/admin/dashboard/RecentList.vue'
+import ServiceTrendChart from '@/components/admin/dashboard/ServiceTrendChart.vue'
 
 const { t } = useI18n()
-const { data, loading, error, load } = useDashboard()
+const { days, source, data, loading, error, load } = useDashboard()
 </script>
 
 <template>
@@ -18,6 +20,11 @@ const { data, loading, error, load } = useDashboard()
     </Message>
 
     <DashboardStats :cards="data?.cards ?? null" :loading="loading" />
+
+    <div class="dashboard__row dashboard__row--trend">
+      <ServiceTrendChart v-model:days="days" v-model:source="source" :series="data?.series ?? null" :loading="loading" />
+      <RecentList :items="data?.recent ?? null" />
+    </div>
   </div>
 </template>
 
@@ -32,5 +39,18 @@ const { data, loading, error, load } = useDashboard()
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.dashboard__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+/* Geniş ekranda grafik 3/4, son gelenler 1/4 genişlik alır. */
+@media (min-width: 75rem) {
+  .dashboard__row--trend {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
 }
 </style>

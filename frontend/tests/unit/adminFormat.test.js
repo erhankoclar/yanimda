@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { changeInfo, formatNumber } from '@/admin/format'
+import { changeInfo, formatNumber, formatRelativeTime, formatShortDate } from '@/admin/format'
 import { i18n } from '@/i18n'
 
 afterEach(() => {
@@ -28,5 +28,26 @@ describe('admin sayı biçimleri', () => {
   it('değişim yoksa düz, önceki dönem boşsa kıyassız sonuç verir', () => {
     expect(changeInfo(0)).toEqual({ trend: 'flat', text: '%0' })
     expect(changeInfo(null)).toEqual({ trend: 'none', text: '' })
+  })
+
+  it('tarihi kısa gün-ay biçiminde yazar', () => {
+    expect(formatShortDate('2026-10-06')).toBe('6 Eki')
+
+    i18n.global.locale.value = 'en'
+
+    expect(formatShortDate('2026-10-06')).toBe('6 Oct')
+  })
+
+  it('zamanı şimdiye göre dakika, saat ve gün olarak yazar', () => {
+    const now = new Date('2026-10-08T12:00:00Z')
+
+    expect(formatRelativeTime('2026-10-08T11:59:30Z', now)).toBe('şimdi')
+    expect(formatRelativeTime('2026-10-08T11:48:00Z', now)).toBe('12 dakika önce')
+    expect(formatRelativeTime('2026-10-08T09:00:00Z', now)).toBe('3 saat önce')
+    expect(formatRelativeTime('2026-10-03T12:00:00Z', now)).toBe('5 gün önce')
+
+    i18n.global.locale.value = 'en'
+
+    expect(formatRelativeTime('2026-10-08T11:48:00Z', now)).toBe('12 minutes ago')
   })
 })
