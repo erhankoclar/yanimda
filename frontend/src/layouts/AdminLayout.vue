@@ -1,6 +1,8 @@
 <script setup>
 import Button from 'primevue/button'
+import ConfirmDialog from 'primevue/confirmdialog'
 import Drawer from 'primevue/drawer'
+import Toast from 'primevue/toast'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -82,6 +84,9 @@ async function logout() {
       <main class="admin-layout__content">
         <RouterView />
       </main>
+      <!-- Bildirimler ve onay pencereleri tüm admin sayfalarında ortaktır. -->
+      <Toast position="bottom-right" />
+      <ConfirmDialog />
     </div>
   </div>
 </template>

@@ -224,6 +224,9 @@ yeni ──► inceleniyor ──► atandı ──► tamamlandı
 - Admin API'leri ve sayfaları yalnızca `is_staff` kullanıcılara açıktır. Django'nun kendi yönetim paneli kullanılmaz ve yayında değildir.
 - Gösterge paneli: toplam, açık ve son 7 günlük başvuru sayısı; aktif başvuru sahibi sayısı; her durumun ve her hizmetin sayısı (sıfırlar dahil); son 14 günün günlük serisi.
 - **Talep haritası** (`/admin/map`): İstanbul'un tematik haritası. Uzaktan bakınca il toplamı tek balon olarak görünür; yakınlaştıkça önce ilçe, sonra mahalle sayıları açılır (en ayrıntılı düzey mahalledir). Alanlar sayıya göre tek tonlu yoğunluk rengiyle boyanır; lejant sınıfları verinin dağılımından hesaplanır. Toplam ya da tek hizmet, kaynak (hızlı talep / başvuru) ve dönem seçilebilir. Yandaki sıralama en çok ve hiç talep gelmeyen yerleri gösterir; bir sayıya, alana ya da satıra tıklayınca o yerin kayıtları yan panelde listelenir.
+- **Admin girişi:** `/admin/login` ya da sitenin genel giriş sayfası. Yönetici hesabıyla genel girişten girilince doğrudan yönetim paneli açılır; oturum açıkken sitenin üst barında "Yönetim paneli" bağlantısı görünür. Yönetici olmayan hesap admin girişinden girerse uyarılır ve oturumu kapatılır.
+- **Listeler:** Hızlı talepler (arama, hizmet ve ilçe süzgeci; ayrıntı paneli ve "e-posta ile yanıtla"), başvurular (arama, durum, hizmet, ilçe, tarih aralığı; sıralama) ve kullanıcılar (arama, rol, hesap durumu; sıralama). Süzgeçler, sayfa ve sıralama adres çubuğunda tutulur; geri tuşu ve paylaşılan bağlantı aynı listeyi açar.
+- **Başvuru detayı:** Durum yalnızca izin verilen sonraki durumlara, onay penceresiyle değiştirilir; yönetici notu buradan yazılır.
 - Kullanıcı yönetimi şimdilik salt okunurdur.
 
 ## API
@@ -423,7 +426,6 @@ Kök dizindeki `Dockerfile` Vue sitesini derler ve Django API ile birlikte tek b
 
 ## Bilinen eksikler
 
-- **Admin listeleri henüz yapılmadı.** Gösterge paneli ve talep haritası hazır; hızlı talepler, başvurular ve kullanıcılar sayfaları şimdilik yalnızca başlık içerir (API'leri hazır ve test edildi).
 - Harita altlığı OpenFreeMap'in ücretsiz hizmetinden gelir; hizmete erişilemezse harita açılmaz; sıralama listesi ve kayıt listeleri haritadan bağımsız çalışmayı sürdürür.
 - Hızlı talep gelince e-posta bildirimi gönderilmez; talepler kaydedilir ve admin API'sinden görülür.
 - Başvurular internetten düzenlenemez veya iptal edilemez.

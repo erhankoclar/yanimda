@@ -24,6 +24,8 @@ export const adminApi = {
   updateRequest: (id, changes) => http.patch(`/admin/requests/${id}/`, changes).then(data),
   /** @param {Record<string, any>} [params] Arama, hizmet ve sayfa. */
   inquiries: (params = {}) => http.get('/admin/inquiries/', { params }).then(data),
+  /** @param {number|string} id Hızlı talep kimliği. */
+  inquiry: (id) => http.get(`/admin/inquiries/${id}/`).then(data),
   /** @param {Record<string, any>} [params] Arama, filtre, sıralama ve sayfa. */
   users: (params = {}) => http.get('/admin/users/', { params }).then(data),
   /** @param {number|string} id Kullanıcı kimliği. */

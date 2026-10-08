@@ -96,3 +96,136 @@
   justify-content: flex-end;
   padding: 1rem;
 }
+
+/* Liste ekranları (hızlı talepler, başvurular, kullanıcılar) için ortak düzen. */
+.admin-shell .admin-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-shell .admin-list__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.85rem;
+}
+
+.admin-shell .admin-list__search {
+  flex: 1 1 18rem;
+}
+
+.admin-shell .admin-list__select {
+  flex: 0 1 13rem;
+  min-width: 10rem;
+}
+
+/* Çok süzgeçli listelerde arama kendi satırındadır; seçimler alt satırda eşit genişlikte durur. */
+.admin-shell .admin-list__filters--stacked .admin-list__search {
+  flex-basis: 100%;
+}
+
+.admin-shell .admin-list__filters--stacked .admin-list__select {
+  flex: 1 1 10rem;
+}
+
+.admin-shell .admin-list__table {
+  padding: 0.5rem;
+  overflow-x: auto;
+}
+
+.admin-shell .admin-list__table .p-datatable-tbody > tr {
+  cursor: pointer;
+}
+
+.admin-shell .admin-list__table td {
+  vertical-align: top;
+}
+
+.admin-shell .admin-list__error .p-message-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-shell .admin-list__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-shell .admin-list__link:hover,
+.admin-shell .admin-list__link:focus-visible {
+  color: var(--admin-primary);
+  text-decoration: underline;
+}
+
+.admin-shell .admin-list__sub {
+  display: block;
+  color: var(--admin-ink-soft);
+  font-size: 0.82rem;
+}
+
+.admin-shell .admin-list__service {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.admin-shell .admin-list__service .service-icon {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--admin-primary);
+}
+
+.admin-shell .admin-list__wrap {
+  min-width: 14rem;
+}
+
+/* Uzun açıklamalar iki satırda kesilir; tamamı çekmecede okunur. */
+.admin-shell .admin-list__preview {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: var(--admin-ink-soft);
+}
+
+.admin-shell .admin-list__empty {
+  margin: 0;
+  padding: 1.5rem 0;
+  color: var(--admin-ink-soft);
+  text-align: center;
+}
+
+/* Durum ve rol etiketleri tek satırda kalır; tablo hücresinde ikiye bölünmez. */
+.admin-shell .p-tag {
+  white-space: nowrap;
+}
+
+/* "Kişi atandı" mor tonlu pastel etiket; diğer durumlarla aynı yoğunlukta. */
+.admin-shell .status-tag--assigned {
+  background: color-mix(in srgb, #a46bc0 16%, transparent);
+  color: #7a3f96;
+}
+
+:root[data-theme='dark'] .admin-shell .status-tag--assigned {
+  background: color-mix(in srgb, #a46bc0 24%, transparent);
+  color: #d9b8e8;
+}
+
+/* Dar ekranda tablolar sütunları ezmek yerine kendi kutusunda yatay kayar. */
+.admin-shell .admin-list__table .p-datatable-table,
+.admin-shell .pending__table .p-datatable-table {
+  min-width: 46rem;
+}
+
+.admin-shell .admin-list__table .p-datatable-paginator-bottom {
+  border: 0;
+}

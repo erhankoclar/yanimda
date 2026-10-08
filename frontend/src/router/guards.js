@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/auth'
  *
  * - `requiresAdmin`: admin olmayanlar admin girişine yönlenir.
  * - `requiresAuth`: oturumsuz kullanıcılar girişe yönlenir.
- * - `guestOnly`: oturumu açık kullanıcılar ilgili ana sayfaya yönlenir.
+ * - `guestOnly`: oturumu açık kullanıcılar ilgili ana sayfaya yönlenir (yönetici her zaman yönetim paneline).
  *
  * @param {import('vue-router').Router} router Uygulama router'ı.
  * @param {import('pinia').Pinia} pinia Store'ların bağlı olduğu Pinia örneği.
@@ -25,7 +25,8 @@ export function installGuards(router, pinia) {
       if (to.meta.area === 'admin') {
         return auth.isAdmin ? { name: 'admin-dashboard' } : true
       }
-      return { name: 'request-list' }
+      // Yönetici genel giriş sayfasına gelirse doğrudan yönetim paneline gider.
+      return auth.isAdmin ? { name: 'admin-dashboard' } : { name: 'request-list' }
     }
     return true
   })

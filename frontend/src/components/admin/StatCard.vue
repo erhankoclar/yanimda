@@ -109,6 +109,8 @@ const trendLabel = computed(() => ({
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  /* Başlık iki satıra kaysa da yan kartlardaki sayılar aynı hizada kalır. */
+  min-height: 2.75rem;
 }
 
 .stat-card__chip {

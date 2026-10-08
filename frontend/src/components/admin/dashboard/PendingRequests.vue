@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 import { formatRelativeTime, formatShortDate } from '@/admin/format'
-import { statusSeverity } from '@/admin/status'
+import { statusClass, statusSeverity } from '@/admin/status'
 import ServiceIcon from '@/components/public/ServiceIcon.vue'
 import { statusLabel } from '@/constants/care'
 
@@ -77,7 +77,7 @@ function openRow(event) {
       </Column>
       <Column :header="t('admin.dashboard.pending.columns.status')">
         <template #body="{ data }">
-          <Tag :value="statusLabel(data.status)" :severity="statusSeverity(data.status)" />
+          <Tag :value="statusLabel(data.status)" :severity="statusSeverity(data.status)" :class="statusClass(data.status)" />
         </template>
       </Column>
     </DataTable>

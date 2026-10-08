@@ -228,8 +228,14 @@ function openArea(area) {
 
 .map-page__legend {
   position: absolute;
-  bottom: 2rem;
+  bottom: 3.25rem;
   left: 0.75rem;
+}
+
+@media (min-width: 48rem) {
+  .map-page__legend {
+    bottom: 2rem;
+  }
 }
 
 .map-page__hint {
@@ -247,7 +253,7 @@ function openArea(area) {
 }
 
 .map-page__ranking {
-  max-height: 30rem;
+  min-height: 0;
 }
 
 .map-page__note {

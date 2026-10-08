@@ -224,6 +224,9 @@ new ──► reviewing ──► assigned ──► completed
 - Admin APIs and pages are open only to `is_staff` users. Django's own admin site is not used and not exposed.
 - Dashboard: total, open and last 7 days application counts; active applicant count; counts for every status and every service (including zeros); a daily series for the last 14 days.
 - **Demand map** (`/admin/map`): a thematic map of Istanbul. From far away the city total is a single bubble; zooming in opens district and then neighbourhood counts (neighbourhood is the most detailed level). Areas are shaded with a single-hue intensity scale whose legend classes come from the data distribution. The total or a single service, the source (quick inquiry / application) and the period can be chosen. The ranking beside it shows the places with the most and with no demand; clicking a number, an area or a row lists that place's records in a side panel.
+- **Admin sign-in:** `/admin/login` or the site's public login page. Signing in with an admin account on the public page opens the admin panel directly, and while signed in the site header shows an "Admin panel" link. A non-admin account signing in on the admin page is warned and signed out.
+- **Lists:** quick inquiries (search, service and district filters; details panel and "reply by email"), applications (search, status, service, district, date range; sorting) and users (search, role, account status; sorting). Filters, page and sorting live in the address bar, so the back button and shared links open the same list.
+- **Application details:** the status changes only to the allowed next statuses, after a confirmation; the admin note is written here.
 - User management is read-only for now.
 
 ## API
@@ -423,7 +426,6 @@ Production notes:
 
 ## Known gaps
 
-- **The admin lists are not built yet.** The dashboard and the demand map are ready; the quick inquiries, applications and users pages only contain a heading for now (their APIs are ready and tested).
 - The map basemap comes from OpenFreeMap's free service; if it cannot be reached the map does not open; the ranking and record lists keep working independently of it.
 - No email notification is sent for quick inquiries; they are stored and visible through the admin API.
 - Applications cannot be edited or cancelled online.

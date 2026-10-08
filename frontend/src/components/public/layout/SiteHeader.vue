@@ -9,6 +9,8 @@ import BrandMark from './BrandMark.vue'
 
 defineProps({
   authenticated: { type: Boolean, required: true },
+  /** Yönetici oturumunda yönetim paneline bağlantı gösterilir. */
+  isAdmin: { type: Boolean, default: false },
 })
 
 const emit = defineEmits({
@@ -50,7 +52,7 @@ const sections = computed(() => [
           @click="menuOpen = !menuOpen"
         >
           <span class="site-header__toggle-lines" aria-hidden="true" />
-          {{ menuOpen ? t('nav.close') : t('nav.menu') }}
+          <span class="site-header__toggle-text">{{ menuOpen ? t('nav.close') : t('nav.menu') }}</span>
         </button>
       </div>
 
@@ -62,6 +64,7 @@ const sections = computed(() => [
         </nav>
         <nav class="site-header__account" :aria-label="t('nav.accountLabel')">
           <template v-if="authenticated">
+            <RouterLink v-if="isAdmin" :to="{ name: 'admin-dashboard' }">{{ t('nav.adminPanel') }}</RouterLink>
             <RouterLink :to="{ name: 'request-list' }">{{ t('common.myRequests') }}</RouterLink>
             <button type="button" class="site-header__logout" @click="emit('logout')">{{ t('nav.logout') }}</button>
           </template>
@@ -88,8 +91,10 @@ const sections = computed(() => [
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-2) var(--space-3);
   min-height: 4.5rem;
+  /* Logo ve düğmeler üst kenara yapışmaz. */
+  padding-block: var(--space-2);
 }
 
 .site-header__brand {
@@ -203,7 +208,28 @@ const sections = computed(() => [
   color: var(--color-on-primary);
 }
 
-@media (min-width: 60rem) {
+/* Dar telefonda menü düğmesi yalnızca simgedir; logo, tercihler ve düğme tek satıra sığar. */
+@media (max-width: 26rem) {
+  .site-header__toggle {
+    padding: 0 var(--space-3);
+  }
+
+  .site-header__toggle-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Tam menü ancak tüm bağlantılar tek satıra sığdığında açılır; daha darda menü düğmesi kullanılır. */
+@media (min-width: 75rem) {
+  .site-header__bar {
+    flex-wrap: nowrap;
+  }
+
   .site-header__toggle {
     display: none;
   }
@@ -219,15 +245,21 @@ const sections = computed(() => [
     flex-basis: auto;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-6);
-    padding: 0 0 0 var(--space-7);
+    gap: var(--space-4);
+    padding: 0 0 0 var(--space-4);
   }
 
   .site-header__sections,
   .site-header__account {
     display: flex;
     align-items: center;
-    gap: var(--space-5);
+    gap: var(--space-3);
+  }
+
+  .site-header__menu a,
+  .site-header__logout {
+    font-size: 0.88em;
+    white-space: nowrap;
   }
 
   .site-header__menu .site-header__cta {

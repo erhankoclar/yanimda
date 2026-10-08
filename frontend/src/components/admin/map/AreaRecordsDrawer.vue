@@ -9,7 +9,7 @@ import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { formatNumber, formatRelativeTime } from '@/admin/format'
-import { statusSeverity } from '@/admin/status'
+import { statusClass, statusSeverity } from '@/admin/status'
 import { adminApi } from '@/api/admin'
 import ServiceIcon from '@/components/public/ServiceIcon.vue'
 import { statusLabel } from '@/constants/care'
@@ -129,7 +129,7 @@ watch(() => [visible.value, props.area, props.serviceId, props.days, activeKind.
             </span>
             <time :datetime="item.created_at" class="area-drawer__time">{{ formatRelativeTime(item.created_at) }}</time>
           </span>
-          <Tag v-if="activeKind === 'requests'" :value="statusLabel(item.status)" :severity="statusSeverity(item.status)" />
+          <Tag v-if="activeKind === 'requests'" :value="statusLabel(item.status)" :severity="statusSeverity(item.status)" :class="statusClass(item.status)" />
         </RouterLink>
       </li>
     </ul>
