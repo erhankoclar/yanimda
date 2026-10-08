@@ -12,6 +12,7 @@
   --admin-primary: #1f5f55;
   --admin-primary-tint: #e3efeb;
   --admin-accent: #f29e4c;
+  --admin-accent-ink: #8a4b0c;
   --admin-success: #1f7a4d;
   --admin-danger: #b3261e;
   --admin-radius: 0.9rem;
@@ -37,6 +38,7 @@
   --admin-primary: #6cc3b0;
   --admin-primary-tint: #1e3a33;
   --admin-accent: #f2a65c;
+  --admin-accent-ink: #f5c896;
   --admin-success: #6fcf97;
   --admin-danger: #f29186;
   --admin-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);

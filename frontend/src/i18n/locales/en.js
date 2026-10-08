@@ -1,6 +1,28 @@
 export default {
   admin: {
     brand: 'Yanımda Admin',
+    dashboard: {
+      cards: {
+        inquiries: 'Quick inquiries this month',
+        label: 'Summary cards',
+        openRequests: 'Open applications',
+        services: 'Active services',
+        totalDemand: 'Total demand this month',
+      },
+      compare: {
+        decrease: 'decrease',
+        increase: 'increase',
+        noPrevious: 'No records in the same period last month',
+        unchanged: 'Same as the same period last month',
+        vsLastMonth: 'vs last month',
+      },
+      notes: {
+        noDemand: 'No demand yet',
+        topService: 'Most requested: {name}',
+        unreviewed: 'All reviewed | {count} not reviewed yet | {count} not reviewed yet',
+      },
+      retry: 'Try again',
+    },
     layout: {
       closeMenu: 'Close menu',
       logout: 'Sign out',

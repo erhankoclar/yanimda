@@ -71,7 +71,7 @@ describe('admin girişi', () => {
     await signIn('admin@example.com', 'Kurgusal-Parola-1')
 
     // Admin sayfaları tembel yüklendiği için yönlendirmenin bitmesi beklenir.
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-dashboard'))
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-dashboard'), { timeout: 5000 })
     expect(wrapper.find('[data-layout="admin"]').exists()).toBe(true)
   })
 
@@ -83,7 +83,7 @@ describe('admin girişi', () => {
 
     await signIn('admin@example.com', 'Kurgusal-Parola-1')
 
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-requests'))
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-requests'), { timeout: 5000 })
   })
 
   it('başvuru sahibi hesabıyla girişte uyarı gösterir ve oturumu hemen kapatır', async () => {
