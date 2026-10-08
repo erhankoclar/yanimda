@@ -37,8 +37,8 @@ const { t } = useI18n()
   display: grid;
   overflow: hidden;
   border-radius: 2rem;
-  background: var(--color-primary);
-  color: #fff;
+  background: var(--color-band-bg);
+  color: var(--color-band-ink);
 }
 
 .closing__text {
@@ -46,12 +46,12 @@ const { t } = useI18n()
 }
 
 .closing h2 {
-  color: #fff;
+  color: var(--color-band-ink);
   font-size: clamp(2rem, 5vw, 2.75rem);
 }
 
 .closing p {
-  color: #dcebe7;
+  color: var(--color-band-soft);
   font-size: var(--text-lg);
 }
 
@@ -64,7 +64,7 @@ const { t } = useI18n()
   padding: var(--space-3) var(--space-6);
   border-radius: 999px;
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
   font-weight: 700;
   text-decoration: none;
 }

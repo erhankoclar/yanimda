@@ -21,6 +21,11 @@
   --color-danger-tint: #fbe9e7;
   --color-on-primary: #ffffff;
   --color-header-bg: rgb(255 255 255 / 0.96);
+  /* Koyu zeminli vurgu bantları (kapanış çağrısı) ve turuncu düğmenin yazısı. */
+  --color-band-bg: #1f5f55;
+  --color-band-ink: #ffffff;
+  --color-band-soft: #dcebe7;
+  --color-on-accent: #1b1206;
 
   --font-body: 'Atkinson Hyperlegible Next', 'Segoe UI', system-ui, sans-serif;
   --font-display: 'Bricolage Grotesque', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
@@ -78,6 +83,10 @@
   --color-danger-tint: #3b1d1a;
   --color-on-primary: #0c1f1b;
   --color-header-bg: rgb(18 32 28 / 0.94);
+  --color-band-bg: #1e3a33;
+  --color-band-ink: #e6eeeb;
+  --color-band-soft: #b7cfc8;
+  --color-on-accent: #1b1206;
   --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
 }
 

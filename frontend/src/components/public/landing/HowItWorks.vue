@@ -94,7 +94,7 @@ const steps = computed(() => STEP_KEYS.map((key) => ({
   height: 2.75rem;
   border-radius: 50%;
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
   font-family: var(--font-display);
   font-weight: 800;
 }
