@@ -12,6 +12,7 @@ from django.utils.translation import gettext
 from apps.care.models import CareRequest, ServiceInquiry
 from apps.care.services import demo_data_service, service_type_service
 from apps.care.tests.factories import make_service
+from apps.geo.factories import NeighborhoodFactory
 
 STAR_LINE = '*' * 78
 DASH_LINE = '-' * 78
@@ -39,6 +40,8 @@ class CareCreateDemoDataTests(TestCase):
     def setUpTestData(cls):
         """Demo verisinin dağıtılacağı varsayılan hizmetleri kurar."""
         service_type_service.create_default_service_types()
+        for _index in range(6):
+            NeighborhoodFactory()
 
     def test_creates_fictional_applicants_inquiries_and_requests(self):
         """
@@ -60,6 +63,24 @@ class CareCreateDemoDataTests(TestCase):
         self.assertGreater(ServiceInquiry.objects.count(), 0)
         self.assertFalse(ServiceInquiry.objects.exclude(email__endswith=DEMO_SUFFIX).exists())
         self.assertGreater(CareRequest.objects.count(), 0)
+
+    def test_every_record_gets_a_neighborhood(self):
+        """
+        Komutun ürettiği her başvuru ve hızlı talebe veritabanındaki bir mahalle atadığını doğrular.
+
+        Senaryo:
+        - Mahalleler setUpTestData'da yüklüyken komut çalıştırılır.
+
+        Beklenti:
+        - Mahallesiz kayıt kalmamalı; kayıtlar birden fazla mahalleye dağılmalıdır.
+        """
+        run_command('--days', '30')
+
+        self.assertTrue(CareRequest.objects.exists())
+        self.assertTrue(ServiceInquiry.objects.exists())
+        self.assertFalse(CareRequest.objects.filter(neighborhood__isnull=True).exists())
+        self.assertFalse(ServiceInquiry.objects.filter(neighborhood__isnull=True).exists())
+        self.assertGreater(CareRequest.objects.values('neighborhood').distinct().count(), 1)
 
     def test_spreads_records_over_the_requested_days(self):
         """
@@ -223,4 +244,25 @@ class CareCreateDemoDataGuardTests(TestCase):
             run_command()
 
         self.assertFalse(get_user_model().objects.exists())
+        self.assertFalse(ServiceInquiry.objects.exists())
+
+
+@override_settings(DEBUG=True)
+class CareCreateDemoDataWithoutLocationsTests(TestCase):
+    def test_creates_nothing_without_neighborhoods(self):
+        """
+        Veritabanında mahalle yokken komutun hiçbir kayıt üretmediğini doğrular (sınır durumu).
+
+        Senaryo:
+        - Hizmetler yüklüdür ama mahalle yoktur; komut çalıştırılır.
+
+        Beklenti:
+        - Kullanıcı, başvuru ve hızlı talep oluşmamalıdır.
+        """
+        service_type_service.create_default_service_types()
+
+        run_command('--days', '7')
+
+        self.assertFalse(get_user_model().objects.exists())
+        self.assertFalse(CareRequest.objects.exists())
         self.assertFalse(ServiceInquiry.objects.exists())

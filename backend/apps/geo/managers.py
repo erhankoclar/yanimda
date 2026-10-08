@@ -20,6 +20,17 @@ class DistrictQuerySet(models.QuerySet):
 
 
 class NeighborhoodQuerySet(models.QuerySet):
+    def active(self):
+        """
+        Başvuru ve hızlı talep formlarında seçilebilen mahalleleri döndürür.
+
+        Şu an tüm mahalleler seçilebilir; ileride hizmet dışı bırakılan mahalleler burada süzülür.
+
+        Returns:
+            NeighborhoodQuerySet: Seçilebilir mahalleler.
+        """
+        return self.all()
+
     def in_district(self, district_id):
         """
         Bir ilçenin mahallelerini Türkçe alfabe sırasıyla döndürür.

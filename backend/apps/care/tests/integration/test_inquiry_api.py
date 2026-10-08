@@ -6,6 +6,7 @@ from rest_framework.test import APITestCase
 
 from apps.care.models import ServiceInquiry
 from apps.care.tests.factories import make_service, make_user
+from apps.geo.factories import NeighborhoodFactory
 
 
 class InquiryApiTestCase(APITestCase):
@@ -13,6 +14,7 @@ class InquiryApiTestCase(APITestCase):
         """Throttle sayaçlarını sıfırlar ve aktif bir hizmet hazırlar."""
         cache.clear()
         self.service = make_service()
+        self.neighborhood = NeighborhoodFactory()
         self.url = reverse('care:inquiry-create')
 
     def payload(self, **overrides):
@@ -29,6 +31,7 @@ class InquiryApiTestCase(APITestCase):
             'full_name': 'Deneme Kişi',
             'email': 'deneme@example.com',
             'service': self.service.id,
+            'neighborhood': self.neighborhood.id,
             'message': 'Annem için haftada iki gün refakat desteği istiyoruz.',
             'consent': True,
             'website': '',
@@ -65,12 +68,12 @@ class InquiryCreateApiTests(InquiryApiTestCase):
         - Boş gövde gönderilir.
 
         Beklenti:
-        - 400 dönmeli; ad, e-posta, hizmet, açıklama ve onay alanlarında hata olmalı, kayıt oluşmamalıdır.
+        - 400 dönmeli; ad, e-posta, hizmet, mahalle, açıklama ve onay alanlarında hata olmalı, kayıt oluşmamalıdır.
         """
         response = self.client.post(self.url, {}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(set(response.data), {'full_name', 'email', 'service', 'message', 'consent'})
+        self.assertEqual(set(response.data), {'full_name', 'email', 'service', 'neighborhood', 'message', 'consent'})
         self.assertFalse(ServiceInquiry.objects.exists())
 
     def test_rejects_invalid_values(self):

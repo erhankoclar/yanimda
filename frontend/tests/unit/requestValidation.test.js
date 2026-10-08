@@ -11,8 +11,8 @@ const valid = {
   relationship: 'parent',
   preferred_date: '2026-10-10',
   time_slot: 'morning',
-  city: 'Samsun',
-  district: 'İlkadım',
+  district: 5,
+  neighborhood: 11,
   address: 'Örnek Mah. No: 1',
   contact_phone: '0555 111 22 33',
   alternate_contact_name: '',
@@ -46,9 +46,13 @@ describe('validateStep', () => {
   })
 
   it('adres alanları boş bırakılamaz', () => {
-    const errors = validateStep(2, { ...valid, city: ' ', district: '', address: '' }, TODAY)
+    const errors = validateStep(2, { ...valid, district: '', neighborhood: '', address: '' }, TODAY)
 
-    expect(Object.keys(errors).sort()).toEqual(['address', 'city', 'district'])
+    expect(Object.keys(errors).sort()).toEqual(['address', 'district'])
+  })
+
+  it('ilçe seçili ama mahalle seçilmemişse mahalle hatası verir', () => {
+    expect(Object.keys(validateStep(2, { ...valid, neighborhood: '' }, TODAY))).toEqual(['neighborhood'])
   })
 
   it('ikinci kişinin adı ve telefonu birlikte istenir', () => {
@@ -75,7 +79,7 @@ describe('isValidPhone', () => {
 
 describe('stepOfFields', () => {
   it('sunucu hatasının ait olduğu ilk adımı bulur', () => {
-    expect(stepOfFields({ contact_phone: 'x', city: 'y' })).toBe(2)
+    expect(stepOfFields({ contact_phone: 'x', neighborhood: 'y' })).toBe(2)
     expect(stepOfFields({ service: 'mükerrer' })).toBe(0)
     expect(stepOfFields({ bilinmeyen: 'x' })).toBe(4)
   })

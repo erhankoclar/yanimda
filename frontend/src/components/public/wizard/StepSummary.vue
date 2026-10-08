@@ -1,19 +1,28 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import BaseCheckbox from '../BaseCheckbox.vue'
+
+import { useLocations } from '@/composables/useLocations'
 
 import { RELATIONSHIP_OPTIONS, TIME_SLOT_OPTIONS, optionLabel } from '@/constants/care'
 import { formatLongDate } from '@/utils/dates'
 
 const { t } = useI18n()
+const { districtName, neighborhoodName, loadDistricts, loadNeighborhoods } = useLocations()
 
 const props = defineProps({
   form: { type: Object, required: true },
   errors: { type: Object, required: true },
   /** Seçilen hizmetin adı. */
   serviceName: { type: String, default: '' },
+})
+
+// Özet, sayfa yenilenip taslaktan doğrudan açıldığında da ilçe ve mahalle adlarını gösterebilsin.
+onMounted(() => {
+  loadDistricts().catch(() => {})
+  if (props.form.district) loadNeighborhoods(Number(props.form.district)).catch(() => {})
 })
 
 const emit = defineEmits({
@@ -40,7 +49,8 @@ const sections = computed(() => [
     rows: [
       [t('wizard.summary.rows.date'), formatLongDate(props.form.preferred_date)],
       [t('wizard.summary.rows.time'), optionLabel(TIME_SLOT_OPTIONS, props.form.time_slot)],
-      [t('wizard.summary.rows.address'), `${props.form.address}, ${props.form.district} / ${props.form.city}`],
+      [t('wizard.summary.rows.location'), `${neighborhoodName(props.form.district, props.form.neighborhood)}, ${districtName(props.form.district)}`],
+      [t('wizard.summary.rows.address'), props.form.address],
     ],
   },
   {

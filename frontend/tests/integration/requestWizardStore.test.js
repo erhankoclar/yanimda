@@ -21,8 +21,8 @@ function fillAll(wizard) {
     relationship: 'parent',
     preferred_date: isoDateAfter(3),
     time_slot: 'morning',
-    city: 'Samsun',
-    district: 'İlkadım',
+    district: 5,
+    neighborhood: 11,
     address: 'Örnek Mah. No: 1',
     contact_phone: '0555 111 22 33',
     consent: true,
@@ -68,6 +68,29 @@ describe('başvuru sihirbazı store', () => {
     expect(restored.form.elder_full_name).toBe('Fatma')
   })
 
+  it('eski taslaktaki il ve ilçe metni yeni forma taşınmaz', () => {
+    window.sessionStorage.setItem(DRAFT_KEY, JSON.stringify({
+      step: 2, form: { elder_full_name: 'Fatma', city: 'Samsun', district: 'İlkadım' },
+    }))
+    const wizard = useRequestWizardStore()
+
+    wizard.start()
+
+    expect(wizard.form).not.toHaveProperty('city')
+    expect(wizard.form.elder_full_name).toBe('Fatma')
+  })
+
+  it('konum seçilmeden konum adımı geçilemez ve ilçe ile mahalle hatası yazılır', () => {
+    const wizard = useRequestWizardStore()
+    fillAll(wizard)
+    Object.assign(wizard.form, { district: '', neighborhood: '' })
+    wizard.step = 2
+
+    expect(wizard.next()).toBe(false)
+
+    expect(wizard.errors).toHaveProperty('district')
+  })
+
   it('özetten yalnızca önceki adımlara dönülebilir', () => {
     const wizard = useRequestWizardStore()
     fillAll(wizard)
@@ -87,7 +110,9 @@ describe('başvuru sihirbazı store', () => {
 
     expect(created).toEqual({ id: 15 })
     const payload = JSON.parse(calls[0].data)
-    expect(payload).toMatchObject({ service: 7, elder_age: 78, consent: true, city: 'Samsun' })
+    expect(payload).toMatchObject({ service: 7, elder_age: 78, consent: true, neighborhood: 11 })
+    expect(payload).not.toHaveProperty('district')
+    expect(payload).not.toHaveProperty('city')
     expect(wizard.step).toBe(0)
     expect(wizard.form.elder_full_name).toBe('')
     expect(window.sessionStorage.getItem(DRAFT_KEY)).toBeNull()

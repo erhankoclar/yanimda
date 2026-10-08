@@ -7,7 +7,7 @@ import { isoDateAfter, toIsoDate } from './dates'
 export const STEP_FIELDS = [
   ['service'],
   ['elder_full_name', 'elder_age', 'relationship', 'elder_notes'],
-  ['preferred_date', 'time_slot', 'city', 'district', 'address'],
+  ['preferred_date', 'time_slot', 'district', 'neighborhood', 'address'],
   ['contact_phone', 'alternate_contact_name', 'alternate_contact_phone'],
   ['consent'],
 ]
@@ -56,8 +56,8 @@ export function validateStep(step, form, today = new Date()) {
       errors.preferred_date = t('validation.request.dateFar', { days: MAX_PREFERRED_DAYS_AHEAD })
     }
     if (!form.time_slot) errors.time_slot = t('validation.request.timeSlot')
-    if (!text('city')) errors.city = t('validation.request.city')
-    if (!text('district')) errors.district = t('validation.request.district')
+    if (!form.district) errors.district = t('validation.location.district')
+    else if (!form.neighborhood) errors.neighborhood = t('validation.location.neighborhood')
     if (!text('address')) errors.address = t('validation.request.address')
   }
   if (step === 3) {

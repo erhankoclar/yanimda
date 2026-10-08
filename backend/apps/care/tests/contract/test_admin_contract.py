@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase
 from apps.care.tests.factories import make_care_request, make_user
 
 ADMIN_ROW_FIELDS = {
-    'id', 'applicant', 'service', 'elder_full_name', 'elder_age', 'city', 'district',
+    'id', 'applicant', 'service', 'elder_full_name', 'elder_age', 'location',
     'preferred_date', 'time_slot', 'time_slot_display', 'contact_phone', 'status', 'status_display', 'created_at',
 }
 
@@ -92,7 +92,7 @@ class AdminResponseContractTests(APITestCase):
 
         row = self.client.get(reverse('care-admin:inquiry-list')).data['results'][0]
 
-        self.assertEqual(set(row), {'id', 'full_name', 'email', 'service', 'message', 'consent_given_at', 'created_at'})
+        self.assertEqual(set(row), {'id', 'full_name', 'email', 'service', 'location', 'message', 'consent_given_at', 'created_at'})
 
     def test_dashboard_shape(self):
         """

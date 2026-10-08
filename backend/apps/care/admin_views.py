@@ -53,7 +53,7 @@ class AdminCareRequestListView(AdminCareRequestQuerysetMixin, generics.ListAPIVi
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = AdminCareRequestFilter
     search_fields = [
-        'elder_full_name', 'applicant__email', 'city', 'district', 'contact_phone',
+        'elder_full_name', 'applicant__email', 'neighborhood__name', 'neighborhood__district__name', 'contact_phone',
     ]
     ordering_fields = ['created_at', 'preferred_date', 'status']
     ordering = ['-created_at']

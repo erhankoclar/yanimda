@@ -55,6 +55,7 @@ class CareRequestApiTestCase(APITestCase):
         """
         data = care_request_data()
         data['preferred_date'] = data['preferred_date'].isoformat()
+        data['neighborhood'] = data['neighborhood'].pk
         return {**data, 'service': self.service.id, 'consent': True, **overrides}
 
     def create(self, **overrides):

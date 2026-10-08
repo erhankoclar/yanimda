@@ -3,6 +3,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import filters, generics, permissions
 
 from apps.care import api_descriptions
+from apps.care.filters import AdminServiceInquiryFilter
 from apps.care.inquiry_serializers import AdminServiceInquirySerializer, ServiceInquirySerializer
 from apps.care.services import inquiry_service
 from apps.care.throttles import InquiryCreateRateThrottle
@@ -43,7 +44,7 @@ class AdminServiceInquiryListView(generics.ListAPIView):
     serializer_class = AdminServiceInquirySerializer
     permission_classes = [permissions.IsAdminUser]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['service']
+    filterset_class = AdminServiceInquiryFilter
     search_fields = ['full_name', 'email', 'message']
 
     def get_queryset(self):

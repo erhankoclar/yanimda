@@ -14,6 +14,7 @@ const props = defineProps({
   hint: { type: String, default: '' },
   error: { type: String, default: '' },
   required: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
@@ -32,6 +33,7 @@ const { inputId, hintId, errorId, describedBy } = useFieldIds(() => props)
       v-model="model"
       class="field__control"
       :required="required"
+      :disabled="disabled"
       :aria-invalid="error ? 'true' : 'false'"
       :aria-describedby="describedBy"
     >

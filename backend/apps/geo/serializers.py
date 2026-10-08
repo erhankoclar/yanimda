@@ -31,3 +31,18 @@ class NeighborhoodSerializer(serializers.ModelSerializer):
             'name': {'help_text': _('Neighbourhood name as written in Turkish.')},
             'osm_id': {'help_text': _('OpenStreetMap relation id; matches the neighbourhood polygon on the map.')},
         }
+
+
+class PlaceSerializer(serializers.Serializer):
+    """Bir ilçe veya mahallenin kimliği, adı ve harita kimliği."""
+
+    id = serializers.IntegerField(help_text=_('Identifier of the place.'))
+    name = serializers.CharField(help_text=_('Name of the place as written in Turkish.'))
+    osm_id = serializers.IntegerField(help_text=_('OpenStreetMap relation id; matches the polygon on the map.'))
+
+
+class LocationSerializer(serializers.Serializer):
+    """Bir mahalleden türetilen konum: mahalle ve bağlı olduğu ilçe."""
+
+    district = PlaceSerializer(help_text=_('District the neighbourhood belongs to.'))
+    neighborhood = PlaceSerializer(source='*', help_text=_('Neighbourhood of the service address.'))

@@ -11,11 +11,12 @@ import BaseInput from '../BaseInput.vue'
 import BaseSelect from '../BaseSelect.vue'
 import BaseTextarea from '../BaseTextarea.vue'
 import FormAlert from '../FormAlert.vue'
+import LocationFields from '../LocationFields.vue'
 import PrimaryButton from '../PrimaryButton.vue'
 
 const { t } = useI18n()
 
-const FIELDS = ['full_name', 'email', 'service', 'message', 'consent']
+const FIELDS = ['full_name', 'email', 'service', 'district', 'neighborhood', 'message', 'consent']
 
 const props = defineProps({
   services: { type: Array, required: true },
@@ -29,7 +30,10 @@ const props = defineProps({
  * @returns {Record<string, any>} Form alanları.
  */
 function emptyForm() {
-  return { full_name: '', email: '', service: props.initialService ?? '', message: '', consent: false, website: '' }
+  return {
+    full_name: '', email: '', service: props.initialService ?? '', district: '', neighborhood: '',
+    message: '', consent: false, website: '',
+  }
 }
 
 const form = reactive(emptyForm())
@@ -60,7 +64,10 @@ async function submit() {
   }
   status.value = 'submitting'
   try {
-    const result = await inquiriesApi.create({ ...form, service: Number(form.service) })
+    const payload = { ...form, service: Number(form.service), neighborhood: Number(form.neighborhood) }
+    // İlçe, mahalleden türetildiği için sunucuya gönderilmez.
+    delete payload.district
+    const result = await inquiriesApi.create(payload)
     if (!result?.id) throw new Error('Sunucu kayıt numarası döndürmedi.')
     saved.value = result
     status.value = 'success'
@@ -135,6 +142,7 @@ async function focusFirstError() {
               required
               :error="errors.service"
             />
+            <LocationFields v-model:district="form.district" v-model:neighborhood="form.neighborhood" :errors="errors" />
             <BaseTextarea
               v-model="form.message"
               :label="t('landing.inquiry.message')"

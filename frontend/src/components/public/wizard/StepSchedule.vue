@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import BaseInput from '../BaseInput.vue'
 import BaseSelect from '../BaseSelect.vue'
 import BaseTextarea from '../BaseTextarea.vue'
+import LocationFields from '../LocationFields.vue'
 
 import { MAX_PREFERRED_DAYS_AHEAD, TIME_SLOT_OPTIONS, localizedOptions } from '@/constants/care'
 import { isoDateAfter, toIsoDate } from '@/utils/dates'
@@ -42,10 +43,7 @@ const maxDate = isoDateAfter(MAX_PREFERRED_DAYS_AHEAD)
       required
       :error="errors.time_slot"
     />
-    <div class="step-schedule__row">
-      <BaseInput v-model="form.city" :label="t('wizard.schedule.city')" autocomplete="address-level1" required :error="errors.city" />
-      <BaseInput v-model="form.district" :label="t('wizard.schedule.district')" autocomplete="address-level2" required :error="errors.district" />
-    </div>
+    <LocationFields v-model:district="form.district" v-model:neighborhood="form.neighborhood" :errors="errors" />
     <BaseTextarea
       v-model="form.address"
       :label="t('wizard.schedule.address')"
@@ -57,15 +55,3 @@ const maxDate = isoDateAfter(MAX_PREFERRED_DAYS_AHEAD)
   </div>
 </template>
 
-<style scoped>
-.step-schedule__row {
-  display: grid;
-  gap: 0 var(--space-4);
-}
-
-@media (min-width: 36rem) {
-  .step-schedule__row {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-</style>

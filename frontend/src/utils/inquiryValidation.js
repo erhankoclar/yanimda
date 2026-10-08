@@ -9,7 +9,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 /**
  * Hızlı talep formunu sunucu kurallarıyla aynı şekilde doğrular.
  *
- * @param {{ full_name: string, email: string, service: number | null | '', message: string, consent: boolean }} form Form verisi.
+ * @param {{ full_name: string, email: string, service: number | null | '', district: number | '', neighborhood: number | '', message: string, consent: boolean }} form Form verisi.
  * @returns {Record<string, string>} Alan adından hata mesajına eşleme; geçerliyse boş nesne.
  */
 export function validateInquiry(form) {
@@ -21,6 +21,8 @@ export function validateInquiry(form) {
   if (!form.email.trim()) errors.email = t('validation.emailRequired')
   else if (!EMAIL_PATTERN.test(form.email.trim())) errors.email = t('validation.inquiry.emailInvalid')
   if (!form.service) errors.service = t('validation.inquiry.service')
+  if (!form.district) errors.district = t('validation.location.district')
+  else if (!form.neighborhood) errors.neighborhood = t('validation.location.neighborhood')
   if (message.length < INQUIRY_MESSAGE_MIN) {
     errors.message = t('validation.inquiry.messageMin', { min: INQUIRY_MESSAGE_MIN })
   } else if (message.length > INQUIRY_MESSAGE_MAX) {

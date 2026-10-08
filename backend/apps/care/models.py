@@ -87,8 +87,12 @@ class CareRequest(models.Model):
     elder_notes = models.TextField(_('special notes'), blank=True)
     preferred_date = models.DateField(_('preferred date'))
     time_slot = models.CharField(_('time slot'), max_length=20, choices=TimeSlot.choices)
-    city = models.CharField(_('city'), max_length=50)
-    district = models.CharField(_('district'), max_length=50)
+    # Hizmet yalnızca İstanbul'da verilir; ilçe mahalleden gelir. Konum alanından önceki
+    # kayıtlarda boştur (eski il/ilçe metni adresin sonuna taşınmıştır).
+    neighborhood = models.ForeignKey(
+        'geo.Neighborhood', on_delete=models.PROTECT, related_name='care_requests',
+        null=True, blank=True, verbose_name=_('neighborhood'),
+    )
     address = models.TextField(_('address'))
     contact_phone = models.CharField(_('contact phone'), max_length=20)
     alternate_contact_name = models.CharField(_('alternate contact name'), max_length=150, blank=True)
@@ -160,6 +164,11 @@ class ServiceInquiry(models.Model):
     email = models.EmailField(_('email address'))
     service = models.ForeignKey(
         ServiceType, on_delete=models.PROTECT, related_name='inquiries', verbose_name=_('service'),
+    )
+    # Konum alanından önceki hızlı taleplerde boştur.
+    neighborhood = models.ForeignKey(
+        'geo.Neighborhood', on_delete=models.PROTECT, related_name='inquiries',
+        null=True, blank=True, verbose_name=_('neighborhood'),
     )
     message = models.TextField(_('description'))
     consent_given_at = models.DateTimeField(_('consent given at'))

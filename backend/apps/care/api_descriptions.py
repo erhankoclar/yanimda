@@ -50,12 +50,19 @@ CARE_REQUEST_SERVICE_HELP_TEXT = _(
     '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
 )
 
+NEIGHBORHOOD_HELP_TEXT = _(
+    'Identifier of the neighbourhood of the address in Istanbul. First choose a district from '
+    '<a href="#operations-locations-geo_districts_list">List districts — <code>[].id</code></a>, then copy the '
+    'value from <a href="#operations-locations-geo_districts_neighborhoods_list">List neighbourhoods of a district '
+    '— <code>[].id</code></a>.'
+)
+
 ADMIN_REQUEST_LIST_SUMMARY = _('Admin: list requests')
 ADMIN_REQUEST_LIST_VIEW_DESCRIPTION = _(
     '<p>Lists the care requests of all applicants for the admin panel. Only admin users can call it.</p>'
     '<p>Results are paginated and newest first by default. They can be filtered by status, service, '
-    'applicant and creation date range, searched by elder name, applicant email, city, district and phone, '
-    'and ordered by creation time, preferred date or status.</p>'
+    'applicant, district, neighbourhood and creation date range, searched by elder name, applicant email, '
+    'neighbourhood, district and phone, and ordered by creation time, preferred date or status.</p>'
 )
 
 ADMIN_FILTER_SERVICE_HELP_TEXT = _(
@@ -67,6 +74,19 @@ ADMIN_FILTER_APPLICANT_HELP_TEXT = _(
     '<a href="#operations-admin-admin_users_list">Admin: list users — <code>results[].id</code></a>.'
 )
 ADMIN_FILTER_STATUS_HELP_TEXT = _('Only requests in this status.')
+ADMIN_FILTER_DISTRICT_HELP_TEXT = _(
+    'Only records whose neighbourhood is in this district. Copy the value from '
+    '<a href="#operations-locations-geo_districts_list">List districts — <code>[].id</code></a>.'
+)
+ADMIN_FILTER_NEIGHBORHOOD_HELP_TEXT = _(
+    'Only records in this neighbourhood. Copy the value from '
+    '<a href="#operations-locations-geo_districts_neighborhoods_list">List neighbourhoods of a district — '
+    '<code>[].id</code></a>.'
+)
+ADMIN_INQUIRY_FILTER_SERVICE_HELP_TEXT = _(
+    'Only inquiries of this service type. Copy the value from '
+    '<a href="#operations-services-services_list">List services — <code>[].id</code></a>.'
+)
 ADMIN_FILTER_CREATED_FROM_HELP_TEXT = _('Only requests created on or after this date (YYYY-MM-DD).')
 ADMIN_FILTER_CREATED_TO_HELP_TEXT = _('Only requests created on or before this date (YYYY-MM-DD).')
 
@@ -131,7 +151,8 @@ INQUIRY_SERVICE_HELP_TEXT = _(
 ADMIN_INQUIRY_LIST_SUMMARY = _('Admin: list quick inquiries')
 ADMIN_INQUIRY_LIST_VIEW_DESCRIPTION = _(
     '<p>Lists the inquiries sent from the quick form, newest first. Only admin users can call it.</p>'
-    '<p>Results are paginated, can be filtered by service and searched by name, email and description.</p>'
+    '<p>Results are paginated, can be filtered by service, district and neighbourhood and searched by name, '
+    'email and description.</p>'
 )
 
 ADMIN_DASHBOARD_SUMMARY = _('Admin: dashboard')

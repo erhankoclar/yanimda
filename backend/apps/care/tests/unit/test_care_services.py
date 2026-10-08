@@ -4,6 +4,7 @@ from apps.care.exceptions import DuplicateOpenRequestError, InvalidStatusTransit
 from apps.care.models import CareRequest, ServiceInquiry
 from apps.care.services import care_request_service, inquiry_service, service_type_service
 from apps.care.tests.factories import care_request_data, make_care_request, make_service, make_user
+from apps.geo.factories import NeighborhoodFactory
 
 
 class CareRequestServiceTests(TestCase):
@@ -76,13 +77,23 @@ class CareRequestServiceTests(TestCase):
 
 class InquiryAndServiceTypeServiceTests(TestCase):
     def test_create_inquiry_stores_consent_time_and_drops_honeypot(self):
-        """Hızlı talep servisinin onay zamanını kaydettiğini ve tuzak alanını saklamadığını doğrular."""
+        """
+        Hızlı talep servisinin onay zamanını kaydedip mahallesiyle kaydettiğini ve tuzak alanını saklamadığını doğrular.
+
+        Senaryo:
+        - Servis geçerli verilerle ve bir mahalle nesnesiyle çağrılır.
+
+        Beklenti:
+        - Talep onay zamanı ve mahalle bilgisiyle kaydedilmelidir.
+        """
+        neighborhood = NeighborhoodFactory()
         inquiry = inquiry_service.create_inquiry(
             full_name='Deneme', email='d@example.com', service=make_service(), message='Kurgusal açıklama',
-            consent=True, website='',
+            consent=True, website='', neighborhood=neighborhood,
         )
 
         self.assertTrue(ServiceInquiry.objects.filter(pk=inquiry.pk, consent_given_at__isnull=False).exists())
+        self.assertEqual(inquiry.neighborhood, neighborhood)
 
     def test_list_active_services_hides_inactive_in_order(self):
         """Aktif hizmet listesinin pasifleri gizleyip sıra numarasına göre döndüğünü doğrular."""

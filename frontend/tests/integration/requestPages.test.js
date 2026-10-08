@@ -84,9 +84,21 @@ describe('başvuru detay sayfası', () => {
 
     expect(wrapper.get('h1').text()).toBe('Refakat ve sohbet')
     expect(wrapper.text()).toContain('Fatma Yılmaz, 78 yaşında')
-    expect(wrapper.text()).toContain('Örnek Mah. No: 1, İlkadım / Samsun')
+    expect(wrapper.text()).toContain('Caferağa Mahallesi, Kadıköy')
+    expect(wrapper.text()).toContain('Örnek Mah. No: 1')
     expect(wrapper.get('[aria-current="step"]').text()).toContain('İnceleniyor')
     expect(wrapper.find('.request-detail__success').exists()).toBe(false)
+  })
+
+  it('konumu olmayan eski başvuruda mahalle satırında "Yok" gösterir ve adresi ayrı tutar', async () => {
+    signedIn({ 'GET /requests/21/': () => [200, makeRequest({ location: null })] })
+
+    ;({ wrapper } = await mountApp('/requests/21'))
+
+    const rows = wrapper.findAll('dt').map((term) => term.text())
+    const location = wrapper.findAll('dd')[rows.indexOf('Mahalle ve ilçe')]
+    expect(location.text()).toBe('Yok')
+    expect(wrapper.text()).toContain('Örnek Mah. No: 1')
   })
 
   it('sihirbazdan gelindiyse başvurunun alındığını ve aranacağı numarayı söyler', async () => {
