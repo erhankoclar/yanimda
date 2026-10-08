@@ -28,6 +28,9 @@ async function fillValid() {
   await fill('Adınız ve soyadınız', 'Deneme Kişi')
   await fill('E-posta adresiniz', 'deneme@example.com')
   await wrapper.get('#talep-formu select').setValue(4)
+  await fill('İlçe', 5)
+  await flushPromises()
+  await fill('Mahalle', 11)
   await fill('Kısaca anlatın', 'Babam için hastane randevusuna eşlik istiyoruz.')
   await wrapper.get('#talep-formu input[type="checkbox"]').setValue(true)
 }
@@ -43,7 +46,7 @@ describe('hızlı talep formu', () => {
     ;({ wrapper } = await mountApp('/'))
 
     const labels = wrapper.get('#talep-formu').findAll('label').map((label) => label.text())
-    ;['Adınız ve soyadınız', 'E-posta adresiniz', 'Hangi hizmet?', 'Kısaca anlatın'].forEach((label) => {
+    ;['Adınız ve soyadınız', 'E-posta adresiniz', 'Hangi hizmet?', 'İlçe', 'Mahalle', 'Kısaca anlatın'].forEach((label) => {
       expect(labels.some((text) => text.startsWith(label)), label).toBe(true)
     })
     expect(wrapper.get('#talep-formu select').findAll('option').map((option) => option.text()))
@@ -58,7 +61,7 @@ describe('hızlı talep formu', () => {
     await flushPromises()
 
     expect(calls.filter((call) => call.url === '/inquiries/')).toHaveLength(0)
-    expect(wrapper.get('#talep-formu').findAll('[aria-invalid="true"]').length).toBeGreaterThanOrEqual(4)
+    expect(wrapper.get('#talep-formu').findAll('[aria-invalid="true"]').length).toBeGreaterThanOrEqual(5)
     expect(successShown()).toBe(false)
   })
 
@@ -89,7 +92,7 @@ describe('hızlı talep formu', () => {
     expect(success.text()).toContain('#42')
     const sent = JSON.parse(calls.find((call) => call.url === '/inquiries/').data)
     expect(sent).toEqual({
-      full_name: 'Deneme Kişi', email: 'deneme@example.com', service: 4,
+      full_name: 'Deneme Kişi', email: 'deneme@example.com', service: 4, neighborhood: 11,
       message: 'Babam için hastane randevusuna eşlik istiyoruz.', consent: true, website: '',
     })
   })
@@ -126,6 +129,55 @@ describe('hızlı talep formu', () => {
     const email = wrapper.get('#talep-formu input[type="email"]')
     expect(email.attributes('aria-invalid')).toBe('true')
     expect(wrapper.get('#talep-formu').text()).toContain('Geçerli bir e-posta adresi girin.')
+    expect(successShown()).toBe(false)
+  })
+
+  it('ilçe ve mahalle seçilmeden istek göndermez, sırayla ilçe ve mahalle hatasını gösterir', async () => {
+    const calls = useFakeApi(routeHandler({ 'GET /services/': () => [200, SERVICES] }))
+    ;({ wrapper } = await mountApp('/'))
+    await fillValid()
+    await fill('İlçe', '')
+
+    await submit()
+    await flushPromises()
+
+    expect(calls.filter((call) => call.url === '/inquiries/')).toHaveLength(0)
+    expect(wrapper.get('#talep-formu').text()).toContain('İlçe seçin.')
+
+    await fill('İlçe', 5)
+    await flushPromises()
+    await submit()
+    await flushPromises()
+
+    expect(calls.filter((call) => call.url === '/inquiries/')).toHaveLength(0)
+    expect(wrapper.get('#talep-formu').text()).toContain('Mahalle seçin.')
+  })
+
+  it('mahalle kimliğini sayı olarak gönderir ve ilçeyi göndermez', async () => {
+    const calls = useFakeApi(routeHandler({ 'GET /services/': () => [200, SERVICES], 'POST /inquiries/': () => [201, { id: 8 }] }))
+    ;({ wrapper } = await mountApp('/'))
+    await fillValid()
+
+    await submit()
+    await flushPromises()
+
+    const sent = JSON.parse(calls.find((call) => call.url === '/inquiries/').data)
+    expect(sent.neighborhood).toBe(11)
+    expect(sent).not.toHaveProperty('district')
+  })
+
+  it('sunucunun mahalle hatasını mahalle alanının altında gösterir', async () => {
+    useFakeApi(routeHandler({
+      'GET /services/': () => [200, SERVICES],
+      'POST /inquiries/': () => [400, { neighborhood: ['Geçerli bir mahalle seçin.'] }],
+    }))
+    ;({ wrapper } = await mountApp('/'))
+    await fillValid()
+
+    await submit()
+    await flushPromises()
+
+    expect(wrapper.get('#talep-formu').text()).toContain('Geçerli bir mahalle seçin.')
     expect(successShown()).toBe(false)
   })
 

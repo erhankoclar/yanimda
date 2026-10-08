@@ -79,7 +79,7 @@ def list_for_applicant(applicant):
     Returns:
         QuerySet[CareRequest]: Kullanıcının başvuruları.
     """
-    return CareRequest.objects.filter(applicant=applicant).select_related('service').prefetch_related('service__translations')
+    return CareRequest.objects.filter(applicant=applicant).select_related('service', 'neighborhood__district').prefetch_related('service__translations')
 
 
 def list_for_admin():
@@ -89,7 +89,7 @@ def list_for_admin():
     Returns:
         QuerySet[CareRequest]: Tüm başvurular.
     """
-    return CareRequest.objects.select_related('service', 'applicant').prefetch_related('service__translations')
+    return CareRequest.objects.select_related('service', 'applicant', 'neighborhood__district').prefetch_related('service__translations')
 
 
 def next_statuses(care_request):

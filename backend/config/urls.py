@@ -9,6 +9,7 @@ from config.spa import spa_index
 urlpatterns = [
     path('api/auth/', include('apps.accounts.urls')),
     path('api/', include('apps.care.urls')),
+    path('api/geo/', include('apps.geo.urls')),
     path('api/admin/', include('apps.care.admin_urls')),
     path('api/admin/', include('apps.accounts.admin_urls')),
 ]

@@ -7,7 +7,7 @@ from apps.care.tests.factories import make_care_request, make_service, make_user
 
 REQUEST_FIELDS = {
     'id', 'service_detail', 'elder_full_name', 'elder_age', 'relationship', 'elder_notes',
-    'preferred_date', 'time_slot', 'city', 'district', 'address', 'contact_phone',
+    'preferred_date', 'time_slot', 'location', 'address', 'contact_phone',
     'alternate_contact_name', 'alternate_contact_phone', 'status', 'status_display', 'created_at',
 }
 

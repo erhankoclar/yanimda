@@ -7,6 +7,7 @@ from django.utils import timezone
 from apps.accounts.factories import UserFactory
 from apps.care.factories import CareRequestFactory, ServiceTypeFactory
 from apps.care.models import CareRequest
+from apps.geo.factories import NeighborhoodFactory
 
 
 def make_user(**overrides):
@@ -43,7 +44,8 @@ def care_request_data(**overrides):
         **overrides (Any): Varsayılan alanları ezen değerler.
 
     Returns:
-        dict[str, Any]: Talep alanları.
+        dict[str, Any]: Talep alanları; `neighborhood` yeni oluşturulmuş bir Neighborhood nesnesidir
+        (API gövdesi için `.pk` kullanılmalıdır).
     """
     return {
         'elder_full_name': 'Fatma Yılmaz',
@@ -52,8 +54,7 @@ def care_request_data(**overrides):
         'elder_notes': 'Yürürken desteğe ihtiyaç duyuyor.',
         'preferred_date': timezone.localdate() + timedelta(days=3),
         'time_slot': CareRequest.TimeSlot.MORNING,
-        'city': 'Samsun',
-        'district': 'İlkadım',
+        'neighborhood': NeighborhoodFactory(),
         'address': 'Örnek Mah. Deneme Sok. No: 1',
         'contact_phone': '05551112233',
         **overrides,

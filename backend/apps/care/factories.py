@@ -8,9 +8,7 @@ from django.utils import timezone
 
 from apps.accounts.factories import UserFactory
 from apps.care.models import CareRequest, ServiceInquiry, ServiceType
-
-# Faker'ın tr_TR adres sağlayıcısı İngilizce şehir adlarına düştüğü için şehirler buradan seçilir.
-CITIES = ['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Samsun', 'Antalya', 'Eskişehir', 'Trabzon']
+from apps.geo.factories import NeighborhoodFactory
 
 
 class BackdatedFactory(factory.django.DjangoModelFactory):
@@ -79,6 +77,7 @@ class ServiceInquiryFactory(BackdatedFactory):
     full_name = factory.LazyAttribute(lambda inquiry: f'{inquiry.first_name} {inquiry.last_name}')
     email = factory.Sequence(lambda number: f'talep{number}@example.com')
     service = factory.SubFactory(ServiceTypeFactory)
+    neighborhood = factory.SubFactory(NeighborhoodFactory)
     message = factory.Faker('random_element', elements=[
         'Haftada iki gün birkaç saatlik destek arıyoruz.',
         'Annem için kısa süreli yardım gerekiyor, ayrıntıları konuşmak isteriz.',
@@ -107,8 +106,7 @@ class CareRequestFactory(BackdatedFactory):
     elder_notes = ''
     preferred_date = factory.LazyFunction(lambda: timezone.localdate() + timedelta(days=3))
     time_slot = factory.Faker('random_element', elements=CareRequest.TimeSlot.values)
-    city = factory.Faker('random_element', elements=CITIES)
-    district = 'Merkez'
+    neighborhood = factory.SubFactory(NeighborhoodFactory)
     address = factory.Sequence(lambda number: f'Kurgu Sok. No: {number}')
     contact_phone = '05550000000'
     consent_given_at = factory.LazyFunction(timezone.now)

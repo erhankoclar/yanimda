@@ -23,8 +23,9 @@ function emptyForm() {
     elder_notes: '',
     preferred_date: '',
     time_slot: '',
-    city: '',
+    // İlçe yalnızca mahalle listesini süzmek içindir; sunucuya mahalle kimliği gider.
     district: '',
+    neighborhood: '',
     address: '',
     contact_phone: '',
     alternate_contact_name: '',
@@ -78,7 +79,9 @@ export const useRequestWizardStore = defineStore('requestWizard', () => {
   function start({ serviceId = null, phone = '' } = {}) {
     const draft = readDraft()
     if (draft?.form) {
-      Object.assign(form, emptyForm(), draft.form)
+      // Eski sürümlerden kalan alanlar (ör. serbest metin il) yeni forma taşınmaz.
+      const known = Object.fromEntries(Object.entries(draft.form).filter(([key]) => key in emptyForm()))
+      Object.assign(form, emptyForm(), known)
       step.value = Math.min(Math.max(draft.step ?? 0, 0), WIZARD_STEPS.length - 1)
     }
     if (serviceId) {
@@ -138,7 +141,9 @@ export const useRequestWizardStore = defineStore('requestWizard', () => {
     if (!validateCurrent()) return null
     submitting.value = true
     try {
-      const payload = { ...form, elder_age: Number(form.elder_age) }
+      const payload = { ...form, elder_age: Number(form.elder_age), neighborhood: Number(form.neighborhood) }
+      // İlçe, mahalleden türetildiği için sunucuya gönderilmez.
+      delete payload.district
       const created = await requestsApi.create(payload)
       reset()
       return created

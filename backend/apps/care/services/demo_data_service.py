@@ -12,6 +12,7 @@ from django.utils import timezone
 from apps.accounts.factories import UserFactory
 from apps.care.factories import CareRequestFactory, ServiceInquiryFactory
 from apps.care.models import CareRequest, ServiceInquiry, ServiceType
+from apps.geo.models import Neighborhood
 
 # Demo kayıtları bu ayrılmış (gerçek olmayan) alan adındaki e-postalarla işaretlenir.
 DEMO_EMAIL_DOMAIN = 'demo.yanimda.example'
@@ -79,6 +80,30 @@ def _status_for_age(age_days, rng):
     return rng.choices([CareRequest.Status.NEW, CareRequest.Status.REVIEWING], weights=[2, 1])[0]
 
 
+def _neighborhood_picker(rng):
+    """
+    Mahalle seçen bir fonksiyon hazırlar; ilçelere farklı ağırlık verilerek haritada yoğunluk farkı oluşur.
+
+    Args:
+        rng (random.Random): Rastgele sayı üreteci.
+
+    Returns:
+        Callable[[], Neighborhood]: Her çağrıda ağırlıklı ilçeden rastgele bir mahalle döndüren fonksiyon.
+    """
+    by_district = {}
+    for neighborhood in Neighborhood.objects.order_by('district_id', 'id'):
+        by_district.setdefault(neighborhood.district_id, []).append(neighborhood)
+    districts = list(by_district)
+    weights = [rng.choice([1, 1, 2, 3, 5, 8, 13]) for _district in districts]
+
+    def pick():
+        """Ağırlıklı bir ilçe ve içinden bir mahalle seçer."""
+        district = rng.choices(districts, weights=weights)[0]
+        return rng.choice(by_district[district])
+
+    return pick
+
+
 def _create_applicants():
     """
     Kurgusal başvuru sahibi hesaplarını üretir; ad ve soyadı fabrikadaki Faker verir,
@@ -97,7 +122,7 @@ def _create_applicants():
     ]
 
 
-def _create_inquiries(days, today, services, weights, rng):
+def _create_inquiries(days, today, services, weights, rng, pick_neighborhood):
     """
     Her gün için hafta içi daha yoğun olacak şekilde hızlı talepler üretir.
 
@@ -107,6 +132,7 @@ def _create_inquiries(days, today, services, weights, rng):
         services (list[ServiceType]): Aktif hizmetler.
         weights (list[int]): Hizmetlerin seçilme ağırlıkları.
         rng (random.Random): Rastgele sayı üreteci.
+        pick_neighborhood (Callable[[], Neighborhood]): Mahalle seçici.
 
     Returns:
         int: Oluşturulan hızlı talep sayısı.
@@ -121,6 +147,7 @@ def _create_inquiries(days, today, services, weights, rng):
             ServiceInquiryFactory(
                 email=f'talep{count}@{DEMO_EMAIL_DOMAIN}',
                 service=rng.choices(services, weights=weights)[0],
+                neighborhood=pick_neighborhood(),
                 created_at=_moment(day, rng),
             )
     return count
@@ -150,7 +177,7 @@ def _create_request(**fields):
     return None
 
 
-def _create_requests(days, today, services, weights, applicants, rng):
+def _create_requests(days, today, services, weights, applicants, rng, pick_neighborhood):
     """
     Başvuru sahiplerine dağıtılmış, yaşına göre durumu değişen başvurular üretir.
 
@@ -163,6 +190,7 @@ def _create_requests(days, today, services, weights, applicants, rng):
         weights (list[int]): Hizmetlerin seçilme ağırlıkları.
         applicants (list[User]): Demo başvuru sahipleri.
         rng (random.Random): Rastgele sayı üreteci.
+        pick_neighborhood (Callable[[], Neighborhood]): Mahalle seçici.
 
     Returns:
         int: Oluşturulan başvuru sayısı.
@@ -176,6 +204,7 @@ def _create_requests(days, today, services, weights, applicants, rng):
                 applicant=rng.choice(applicants),
                 service=rng.choices(services, weights=weights)[0],
                 preferred_date=day + timedelta(days=rng.randint(2, 14)),
+                neighborhood=pick_neighborhood(),
                 status=_status_for_age(offset, rng),
                 created_at=_moment(day, rng),
             )
@@ -202,7 +231,8 @@ def create_demo_data(days=90, seed=2026, today=None):
     if demo_data_exists():
         return {'created': 0, 'updated': 0}
     services = list(ServiceType.objects.active())
-    if not services:
+    # Hizmetler ve konumlar varsayılan veri komutlarıyla yüklenmemişse üretilecek bir şey yoktur.
+    if not services or not Neighborhood.objects.exists():
         return {'created': 0, 'updated': 0}
     today = today or timezone.localdate()
     rng = random.Random(seed)
@@ -210,7 +240,8 @@ def create_demo_data(days=90, seed=2026, today=None):
     # İlk hizmetler daha çok talep görür; grafikte çizgiler birbirinden ayrışır.
     weights = [len(services) - index + 1 for index in range(len(services))]
     with transaction.atomic():
+        pick_neighborhood = _neighborhood_picker(rng)
         applicants = _create_applicants()
-        inquiries = _create_inquiries(days, today, services, weights, rng)
-        requests = _create_requests(days, today, services, weights, applicants, rng)
+        inquiries = _create_inquiries(days, today, services, weights, rng, pick_neighborhood)
+        requests = _create_requests(days, today, services, weights, applicants, rng, pick_neighborhood)
     return {'created': len(applicants) + inquiries + requests, 'updated': 0}

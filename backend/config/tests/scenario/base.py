@@ -9,6 +9,7 @@ from django.utils import timezone
 from rest_framework.test import APIClient, APITestCase
 
 from apps.care.models import ServiceType
+from apps.geo.factories import NeighborhoodFactory
 
 PASSWORD = settings.TEST_USER_PASSWORD
 
@@ -75,7 +76,7 @@ class Actor:
         payload = {
             'service': service.id, 'elder_full_name': 'Fatma Yılmaz', 'elder_age': 78, 'relationship': 'parent',
             'preferred_date': (timezone.localdate() + timedelta(days=3)).isoformat(), 'time_slot': 'morning',
-            'city': 'Samsun', 'district': 'İlkadım', 'address': 'Örnek Mah. No: 1',
+            'neighborhood': NeighborhoodFactory().pk, 'address': 'Örnek Mah. No: 1',
             'contact_phone': '05551112233', 'consent': True,
         }
         return self.client.post('/api/requests/', {**payload, **overrides}, format='json')

@@ -8,6 +8,7 @@ from rest_framework.throttling import SimpleRateThrottle
 
 from apps.care.factories import ServiceInquiryFactory
 from apps.care.models import CareRequest
+from apps.geo.factories import NeighborhoodFactory
 from apps.care.tests.factories import care_request_data, make_care_request, make_service, make_user
 from apps.care.throttles import CareRequestCreateRateThrottle
 
@@ -84,6 +85,64 @@ class CareNPlusOneTests(APITestCase):
                 ServiceInquiryFactory(service=make_bilingual_service())
 
         self.assert_constant_list(reverse('care-admin:inquiry-list'), grow)
+
+    def test_admin_inquiry_list_with_locations_has_no_n_plus_one(self):
+        """
+        Admin hızlı talep listesinde konum için N+1 sorgu oluşmadığını doğrular.
+
+        Senaryo:
+        - Tek mahalleli talepte sorgu sayısı ölçülür; her biri farklı ilçe ve mahalleli 9 talep daha eklenir.
+
+        Beklenti:
+        - Sorgu sayısı Türkçe ve İngilizce isteklerde değişmemelidir.
+        """
+        self.client.force_authenticate(make_user(is_staff=True))
+        ServiceInquiryFactory(service=make_bilingual_service())
+
+        def grow():
+            for _index in range(9):
+                ServiceInquiryFactory(service=make_bilingual_service(), neighborhood=NeighborhoodFactory())
+
+        self.assert_constant_list(reverse('care-admin:inquiry-list'), grow)
+
+    def test_admin_request_list_with_locations_has_no_n_plus_one(self):
+        """
+        Admin başvuru listesinde konum için N+1 sorgu oluşmadığını doğrular.
+
+        Senaryo:
+        - Tek başvuruda sorgu sayısı ölçülür; her biri farklı ilçe ve mahalleli 9 başvuru daha eklenir.
+
+        Beklenti:
+        - Sorgu sayısı Türkçe ve İngilizce isteklerde değişmemelidir.
+        """
+        self.client.force_authenticate(make_user(is_staff=True))
+        make_care_request(service=make_bilingual_service())
+
+        def grow():
+            for _index in range(9):
+                make_care_request(service=make_bilingual_service(), neighborhood=NeighborhoodFactory())
+
+        self.assert_constant_list(reverse('care-admin:request-list'), grow)
+
+    def test_applicant_request_list_with_locations_has_no_n_plus_one(self):
+        """
+        Başvuru sahibinin kendi listesinde konum için N+1 sorgu oluşmadığını doğrular.
+
+        Senaryo:
+        - Kullanıcının tek başvurusunda sorgu sayısı ölçülür; farklı mahalleli 9 başvuru daha eklenir.
+
+        Beklenti:
+        - Sorgu sayısı Türkçe ve İngilizce isteklerde değişmemelidir.
+        """
+        user = make_user()
+        self.client.force_authenticate(user)
+        make_care_request(applicant=user, service=make_bilingual_service())
+
+        def grow():
+            for _index in range(9):
+                make_care_request(applicant=user, service=make_bilingual_service(), neighborhood=NeighborhoodFactory())
+
+        self.assert_constant_list(reverse('care:request-list'), grow)
 
     def test_applicant_request_detail_has_no_n_plus_one(self):
         """
@@ -167,6 +226,7 @@ class CareNPlusOneTests(APITestCase):
         def payload():
             data = care_request_data(elder_full_name=f'Yaşlı {next(counter)}', service=make_bilingual_service().pk, consent=True)
             data['preferred_date'] = data['preferred_date'].isoformat()
+            data['neighborhood'] = data['neighborhood'].pk
             return data
 
         with patch.dict(SimpleRateThrottle.THROTTLE_RATES, {CareRequestCreateRateThrottle.scope: '1000/minute'}):
@@ -184,7 +244,7 @@ class CareNPlusOneTests(APITestCase):
         Admin talep listesinde arama, filtre ve sıralamanın N+1 sorgu oluşturmadığını doğrular.
 
         Senaryo:
-        - Aranan şehirdeki 1 talepte `search`, `status`, `service` ve `ordering` parametreleriyle ölçüm yapılır.
+        - Aranan mahalledeki 1 talepte `search`, `status`, `service` ve `ordering` parametreleriyle ölçüm yapılır.
         - Farklı kullanıcılarla eşleşen 9 talep daha eklenip tekrar ölçülür.
 
         Beklenti:
@@ -193,7 +253,7 @@ class CareNPlusOneTests(APITestCase):
         self.client.force_authenticate(make_user(is_staff=True))
         service = make_bilingual_service()
         url = reverse('care-admin:request-list')
-        make_care_request(service=service, city='Samsun')
+        make_care_request(service=service, neighborhood=NeighborhoodFactory(name='Samsun Mahallesi'))
         cases = (
             {'search': 'Samsun'},
             {'search': 'example.com'},
@@ -202,7 +262,7 @@ class CareNPlusOneTests(APITestCase):
         )
         baselines = [[self.measure('get', url, params, **extra) for extra in self.LANGUAGES] for params in cases]
         for _index in range(9):
-            make_care_request(service=service, city='Samsun')
+            make_care_request(service=service, neighborhood=NeighborhoodFactory(name='Samsun Mahallesi'))
         for params, expected in zip(cases, baselines):
             grown = [self.measure('get', url, params, **extra) for extra in self.LANGUAGES]
             self.assertEqual(grown, expected, params)

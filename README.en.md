@@ -154,7 +154,10 @@ The frontend forwards `/api` requests to the backend through the Vite proxy; the
 | Backend | Python 3.12, Django 5.2, Django REST Framework, Simple JWT (with token blacklist), drf-spectacular, django-filter, django-environ |
 | Database | PostgreSQL 17 (SQLite is not used) |
 | Frontend | Vue 3 (`<script setup>`), Vue Router, Pinia, axios, Vite |
-| Admin UI | PrimeVue (admin side only, in separately loaded bundles) |
+| Admin UI | PrimeVue (admin side only, in separately loaded bundles), Chart.js |
+| Map | MapLibre GL JS, OpenFreeMap basemap, OpenStreetMap district/neighbourhood boundaries |
+| Content translation | django-parler (only the service types the system provides) |
+| Test and demo data | factory-boy + Faker |
 | Tests | Django test runner, Vitest + Vue Test Utils + axe-core, screenshot checks with the Playwright image |
 
 ### Two separate interfaces
@@ -197,6 +200,7 @@ The frontend forwards `/api` requests to the backend through the Vite proxy; the
 - The elder's age must be between 40 and 120.
 - Phone numbers must have 10–15 digits; spaces, parentheses and dashes are removed before saving.
 - An alternate contact name and phone must be given together.
+- **Location:** The service is offered only in Istanbul. The district and neighbourhood are chosen from lists (OpenStreetMap boundaries, 39 districts, 964 neighbourhoods); the address field holds the street, building and flat. The quick inquiry form asks for the district and neighbourhood too. Records created before locations were collected have their old city/district text appended to the address and are not on the map.
 - Only active services can be requested. Old applications of a retired service remain visible.
 - **Duplicate application rule:** The same user cannot open a new application for **the same service and the same elder** while one is open (new / reviewing / assigned). They can apply again after it is completed or cancelled. The same person may apply for their mother and father separately, or for different services for the same elder. Elder names are compared ignoring case, extra spaces and the Turkish **I/İ/ı/i** variants ("FATMA YILMAZ" = "fatma yilmaz"). The rule is also enforced by a partial unique database constraint, so two simultaneous requests are blocked as well.
 - Users see **only their own** applications; another user's application responds with not found (404).
@@ -219,6 +223,7 @@ new ──► reviewing ──► assigned ──► completed
 
 - Admin APIs and pages are open only to `is_staff` users. Django's own admin site is not used and not exposed.
 - Dashboard: total, open and last 7 days application counts; active applicant count; counts for every status and every service (including zeros); a daily series for the last 14 days.
+- **Demand map** (`/admin/map`): a thematic map of Istanbul. From far away the city total is a single bubble; zooming in opens district and then neighbourhood counts (neighbourhood is the most detailed level). Areas are shaded with a single-hue intensity scale whose legend classes come from the data distribution. The total or a single service, the source (quick inquiry / application) and the period can be chosen. The ranking beside it shows the places with the most and with no demand; clicking a number, an area or a row lists that place's records in a side panel.
 - User management is read-only for now.
 
 ## API
@@ -418,7 +423,8 @@ Production notes:
 
 ## Known gaps
 
-- **The admin panel screens were not built.** The admin APIs (requests, status updates, statistics, users, quick inquiries) are ready and tested; the Vue admin pages only contain a heading for now.
+- **The admin lists are not built yet.** The dashboard and the demand map are ready; the quick inquiries, applications and users pages only contain a heading for now (their APIs are ready and tested).
+- The map basemap comes from OpenFreeMap's free service; if it cannot be reached the map does not open; the ranking and record lists keep working independently of it.
 - No email notification is sent for quick inquiries; they are stored and visible through the admin API.
 - Applications cannot be edited or cancelled online.
 - The contact phone and opening hours are placeholders.
@@ -432,6 +438,22 @@ Production notes:
 - Photos: stock photos under the Pexels license; sources are listed in `frontend/public/images/CREDITS.md`.
 - Fonts: Atkinson Hyperlegible Next and Bricolage Grotesque via Google Fonts (SIL Open Font License).
 - Open source libraries used: `backend/requirements.txt`, `frontend/package.json` and `e2e/package.json`.
+
+### External sources
+
+| Source | Used for | Licence | Link |
+| --- | --- | --- | --- |
+| OpenStreetMap district and neighbourhood boundaries | Location choices and map polygons (`frontend/public/geo`, `backend/apps/geo/data`) | ODbL 1.0, attribution: © OpenStreetMap contributors | https://www.openstreetmap.org/copyright |
+| Overpass API | Downloading the boundaries (only `scripts/geo/build_istanbul_boundaries.py`) | Service; data ODbL | https://overpass-api.de |
+| OpenFreeMap | Admin map basemap (`positron` and `dark` styles, no key); no availability guarantee | Service; data OpenMapTiles + OpenStreetMap | https://openfreemap.org |
+| MapLibre GL JS 6.13.0 | Admin thematic map | BSD-3-Clause | https://maplibre.org |
+| osmtogeojson 3.0.0-beta.5 | Converting OSM data to GeoJSON (boundary script only, via `npx`) | MIT | https://github.com/tyrasd/osmtogeojson |
+| mapshaper 0.6.102 | Simplifying boundaries and label points (boundary script only, via `npx`) | MPL-2.0 | https://github.com/mbloch/mapshaper |
+| django-parler 2.4 | Per-language translations of service type names and descriptions | Apache-2.0 | https://github.com/django-parler/django-parler |
+| factory-boy 3.3.3 + Faker 40.41.0 | Test data and the fictional data of `care_create_demo_data` | MIT | https://factoryboy.readthedocs.io |
+| PrimeVue 4.5.5, PrimeIcons 7.0.0 | Admin UI | MIT | https://primevue.org |
+| Chart.js 4.5.1 | Dashboard charts | MIT | https://www.chartjs.org |
+| vue-i18n 11 | Turkish/English UI | MIT | https://vue-i18n.intlify.dev |
 
 ## Troubleshooting
 

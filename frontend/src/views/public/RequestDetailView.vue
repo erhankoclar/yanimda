@@ -30,7 +30,9 @@ const rows = computed(() => {
     [t('requests.detail.elder'), t('requests.detail.elderValue', { name: item.elder_full_name, age: item.elder_age })],
     [t('requests.detail.relationship'), optionLabel(RELATIONSHIP_OPTIONS, item.relationship)],
     [t('requests.detail.date'), `${formatLongDate(item.preferred_date)}, ${optionLabel(TIME_SLOT_OPTIONS, item.time_slot)}`],
-    [t('requests.detail.address'), `${item.address}, ${item.district} / ${item.city}`],
+    // Konum alanından önceki kayıtlarda mahalle yoktur.
+    [t('requests.detail.location'), item.location ? `${item.location.neighborhood.name}, ${item.location.district.name}` : t('common.none')],
+    [t('requests.detail.address'), item.address],
     [t('requests.detail.phone'), item.contact_phone],
     [t('requests.detail.alternate'), item.alternate_contact_name ? `${item.alternate_contact_name}, ${item.alternate_contact_phone}` : t('common.none')],
     [t('requests.detail.notes'), item.elder_notes || t('common.none')],

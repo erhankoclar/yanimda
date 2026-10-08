@@ -1,6 +1,7 @@
 from rest_framework.test import APIClient
 
 from apps.care.models import ServiceInquiry
+from apps.geo.factories import NeighborhoodFactory
 from config.tests.scenario.base import ScenarioTestCase
 
 
@@ -21,6 +22,7 @@ class QuickInquiryScenarioTests(ScenarioTestCase):
 
         response = visitor.post('/api/inquiries/', {
             'full_name': 'Deneme Kişi', 'email': 'ziyaretci@example.com', 'service': service_id,
+            'neighborhood': NeighborhoodFactory().pk,
             'message': 'Babam için hastane randevusuna eşlik istiyoruz.', 'consent': True, 'website': '',
         }, format='json')
 
@@ -41,6 +43,7 @@ class QuickInquiryScenarioTests(ScenarioTestCase):
         """
         response = APIClient().post('/api/inquiries/', {
             'full_name': 'Deneme Kişi', 'email': 'ziyaretci@example.com', 'service': self.companion.id,
+            'neighborhood': NeighborhoodFactory().pk,
             'message': 'Babam için hastane randevusuna eşlik istiyoruz.', 'consent': False,
         }, format='json')
 
@@ -62,6 +65,7 @@ class QuickInquiryScenarioTests(ScenarioTestCase):
         """
         APIClient().post('/api/inquiries/', {
             'full_name': 'Deneme Kişi', 'email': 'ziyaretci@example.com', 'service': self.companion.id,
+            'neighborhood': NeighborhoodFactory().pk,
             'message': 'Annem için haftada iki gün refakat istiyoruz.', 'consent': True,
         }, format='json')
         self.new_applicant().apply(self.hospital)

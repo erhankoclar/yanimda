@@ -119,13 +119,13 @@ describe('admin yerleşimi', () => {
     expect(headings[0].text()).toBe('Kullanıcılar')
   })
 
-  it('menüde dört bölümü listeler ve detay sayfasında kendi bölümünü etkin gösterir', async () => {
+  it('menüde beş bölümü listeler ve detay sayfasında kendi bölümünü etkin gösterir', async () => {
     signedInAsAdmin()
     ;({ wrapper } = await mountApp('/admin/requests/7'))
 
     const sidebar = wrapper.get('.admin-layout__sidebar')
     const links = sidebar.findAll('.admin-nav__link')
-    expect(links.map((link) => link.text())).toEqual(['Gösterge paneli', 'Hızlı talepler', 'Başvurular', 'Kullanıcılar'])
+    expect(links.map((link) => link.text())).toEqual(['Gösterge paneli', 'Hızlı talepler', 'Başvurular', 'Talep haritası', 'Kullanıcılar'])
     const active = sidebar.findAll('.admin-nav__link.is-active')
     expect(active).toHaveLength(1)
     expect(active[0].text()).toBe('Başvurular')

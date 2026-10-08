@@ -7,6 +7,7 @@ from apps.care import api_descriptions
 from apps.care.models import CareRequest
 from apps.care.serializers import ServiceTypeSerializer
 from apps.care.services import care_request_service
+from apps.geo.serializers import LocationSerializer
 
 
 class ApplicantSummarySerializer(serializers.ModelSerializer):
@@ -30,6 +31,10 @@ class AdminCareRequestListSerializer(serializers.ModelSerializer):
 
     applicant = ApplicantSummarySerializer(read_only=True, help_text=_('Applicant who created the request.'))
     service = ServiceTypeSerializer(read_only=True, help_text=_('Requested service type.'))
+    location = LocationSerializer(
+        source='neighborhood', read_only=True, allow_null=True,
+        help_text=_('Neighbourhood and district of the service address; null for older applications.'),
+    )
     status_display = serializers.CharField(
         source='get_status_display', read_only=True, help_text=_('Translated label of the status.'),
     )
@@ -40,7 +45,7 @@ class AdminCareRequestListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CareRequest
         fields = [
-            'id', 'applicant', 'service', 'elder_full_name', 'elder_age', 'city', 'district',
+            'id', 'applicant', 'service', 'elder_full_name', 'elder_age', 'location',
             'preferred_date', 'time_slot', 'time_slot_display', 'contact_phone',
             'status', 'status_display', 'created_at',
         ]

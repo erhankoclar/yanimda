@@ -3,6 +3,7 @@
 set -e
 
 python manage.py migrate --noinput
+python manage.py geo_create_defaults
 python manage.py care_create_defaults
 
 if [ -n "$DJANGO_SUPERUSER_EMAIL" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then

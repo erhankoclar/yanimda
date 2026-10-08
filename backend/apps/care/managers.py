@@ -53,7 +53,7 @@ class CreatedAtQuerySet(models.QuerySet):
         Returns:
             QuerySet: Sıralı kayıtlar.
         """
-        return self.select_related('service').prefetch_related('service__translations').order_by('-created_at')
+        return self.select_related('service', 'neighborhood__district').prefetch_related('service__translations').order_by('-created_at')
 
 
 class CareRequestQuerySet(CreatedAtQuerySet):
@@ -74,7 +74,7 @@ class CareRequestQuerySet(CreatedAtQuerySet):
             CareRequestQuerySet: Bekleyen başvurular.
         """
         statuses = [self.model.Status.NEW, self.model.Status.REVIEWING]
-        return self.filter(status__in=statuses).select_related('service').prefetch_related('service__translations').order_by('created_at')
+        return self.filter(status__in=statuses).select_related('service', 'neighborhood__district').prefetch_related('service__translations').order_by('created_at')
 
 
 class ServiceInquiryQuerySet(CreatedAtQuerySet):

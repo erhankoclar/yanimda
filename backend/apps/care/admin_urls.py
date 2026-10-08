@@ -7,12 +7,14 @@ from apps.care.admin_views import (
     AdminDashboardView,
 )
 from apps.care.inquiry_views import AdminServiceInquiryListView
+from apps.care.map_views import AdminMapView
 
 app_name = 'care-admin'
 
 urlpatterns = [
     path('dashboard/', AdminDashboardView.as_view(), name='dashboard'),
     path('stats/', AdminDashboardStatsView.as_view(), name='stats'),
+    path('map/', AdminMapView.as_view(), name='map'),
     path('requests/', AdminCareRequestListView.as_view(), name='request-list'),
     path('inquiries/', AdminServiceInquiryListView.as_view(), name='inquiry-list'),
     path('requests/<int:pk>/', AdminCareRequestDetailView.as_view(), name='request-detail'),

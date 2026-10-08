@@ -10,7 +10,7 @@ import { mountApp } from '../helpers/mountApp'
 
 const FORM = {
   service: 3, elder_full_name: 'Fatma Yılmaz', elder_age: '78', relationship: 'parent',
-  preferred_date: isoDateAfter(3), time_slot: 'morning', city: 'Samsun', district: 'İlkadım',
+  preferred_date: isoDateAfter(3), time_slot: 'morning', district: 5, neighborhood: 11,
   address: 'No: 1', contact_phone: '05551112233',
 }
 
@@ -35,6 +35,25 @@ describe('başvuru sihirbazı erişilebilirliği', () => {
     await wrapper.get('form').trigger('submit')
     await flushPromises()
 
+    expect(await axeViolations(wrapper.element)).toEqual([])
+  })
+
+  it('konum adımı ilçe ve mahalle seçiliyken ve mahalle kapalıyken axe ihlali içermez', async () => {
+    tokenStorage.set({ access: 'a1', refresh: 'r1' })
+    useFakeApi(routeHandler({
+      'GET /auth/me/': () => [200, APPLICANT],
+      'GET /services/': () => [200, [{ id: 3, name: 'Refakat', slug: 'r', description: 'd', icon: 'companion' }]],
+    }))
+    window.sessionStorage.setItem('yanimda.requestDraft', JSON.stringify({ step: 2, form: {} }))
+    ;({ wrapper } = await mountApp('/requests/new'))
+    expect(wrapper.findAll('select')[2].attributes('disabled')).toBeDefined()
+    expect(await axeViolations(wrapper.element)).toEqual([])
+
+    await wrapper.findAll('select')[1].setValue(5)
+    await flushPromises()
+    await wrapper.findAll('select')[2].setValue(11)
+
+    expect(wrapper.findAll('select')[2].attributes('disabled')).toBeUndefined()
     expect(await axeViolations(wrapper.element)).toEqual([])
   })
 

@@ -24,6 +24,30 @@ export function useFakeApi(handler) {
   return calls
 }
 
+export const DISTRICTS = [
+  { id: 5, name: 'Kadıköy', slug: 'kadikoy', osm_id: 1005 },
+  { id: 6, name: 'Üsküdar', slug: 'uskudar', osm_id: 1006 },
+]
+
+export const NEIGHBORHOODS = {
+  5: [{ id: 11, name: 'Caferağa Mahallesi', osm_id: 2011 }, { id: 12, name: 'Moda Mahallesi', osm_id: 2012 }],
+  6: [{ id: 21, name: 'Altunizade Mahallesi', osm_id: 2021 }],
+}
+
+/**
+ * İlçe ve mahalle uç noktalarını sabit verilerle yanıtlar.
+ *
+ * @param {import('axios').InternalAxiosRequestConfig} config İstek ayarları.
+ * @returns {[number, any] | null} Yanıt; istek konum uç noktası değilse null.
+ */
+export function geoResponse(config) {
+  if (config.method !== 'get') return null
+  const url = config.url.split('?')[0]
+  if (url === '/geo/districts/') return [200, DISTRICTS]
+  const match = url.match(/^\/geo\/districts\/(\d+)\/neighborhoods\/$/)
+  return match ? [200, NEIGHBORHOODS[match[1]] ?? []] : null
+}
+
 /**
  * Testlerin varsayılan sahte API'si: hizmet listesi boş döner, diğer her istek 404'tür.
  * Hiçbir test gerçek ağa çıkmaz.
@@ -33,6 +57,8 @@ export function useFakeApi(handler) {
  */
 export function defaultHandler(config) {
   if (config.method === 'get' && config.url === '/services/') return [200, []]
+  const geo = geoResponse(config)
+  if (geo) return geo
   return [404, { detail: 'Not found.' }]
 }
 
@@ -51,7 +77,7 @@ export function routeHandler(routes) {
   return (config) => {
     const key = `${config.method.toUpperCase()} ${config.url.split('?')[0]}`
     const responder = routes[key]
-    return responder ? responder(config) : [404, { detail: 'Not found.' }]
+    return responder ? responder(config) : geoResponse(config) ?? [404, { detail: 'Not found.' }]
   }
 }
 

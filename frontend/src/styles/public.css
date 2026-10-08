@@ -243,6 +243,14 @@
   background: var(--color-danger-tint);
 }
 
+/* Önce başka bir seçim gereken alanlar (ör. ilçe seçilmeden mahalle) soluk ve tıklanamaz görünür. */
+.public-layout .field__control:disabled {
+  border-color: var(--color-line);
+  background: var(--color-mist);
+  color: var(--color-ink-soft);
+  cursor: not-allowed;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .public-layout *,
   .public-layout *::before,
