@@ -244,7 +244,7 @@ All endpoints live under `/api/`. Use Swagger for detailed field descriptions an
 | GET | `/api/admin/users/{id}/` | Admin | User detail |
 | GET | `/api/schema/`, `/api/docs/`, `/api/redoc/` | Anyone (only with `API_DOCS_ENABLED`) | OpenAPI schema and docs |
 
-Lists are paginated by 20: `{count, next, previous, results}`. Error messages are returned in Turkish or English depending on the request language (`Accept-Language`).
+Lists are paginated by 20: `{count, next, previous, results}`. Error messages are returned in Turkish or English depending on the request language (`Accept-Language`). Service type names and descriptions, which the system provides, are stored with [django-parler](https://github.com/django-parler/django-parler) as one row per language and follow the same header; a language without a translation falls back to Turkish. Applications and quick inquiries entered by citizens are not translated and are stored as entered.
 
 ## Configuration
 

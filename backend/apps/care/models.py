@@ -2,24 +2,26 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from parler.models import TranslatableModel, TranslatedFields
 
 from apps.care.managers import CareRequestManager, ServiceInquiryManager, ServiceTypeManager
 from apps.care.text import person_name_key
 
 
-class ServiceType(models.Model):
+class ServiceType(TranslatableModel):
     """
     Başvuru sihirbazının ilk adımında seçilen hizmet türü.
 
     `icon` alanı frontend'deki ikon eşlemesinin anahtarıdır; ikon dosyası değildir.
     """
 
-    name = models.CharField(_('name'), max_length=100)
     slug = models.SlugField(_('slug'), max_length=100, unique=True)
-    description = models.CharField(_('description'), max_length=255)
-    # İngilizce arayüz için karşılıklar; boşsa Türkçe metin gösterilir.
-    name_en = models.CharField(_('name (English)'), max_length=100, blank=True)
-    description_en = models.CharField(_('description (English)'), max_length=255, blank=True)
+    # Sistemin sunduğu içerik olduğu için ad ve açıklama dil başına bir satırda tutulur;
+    # vatandaşın girdiği kayıtlar (başvuru, hızlı talep) çevrilmez.
+    translations = TranslatedFields(
+        name=models.CharField(_('name'), max_length=100),
+        description=models.CharField(_('description'), max_length=255),
+    )
     icon = models.CharField(_('icon key'), max_length=50)
     sort_order = models.PositiveSmallIntegerField(_('sort order'), default=0)
     is_active = models.BooleanField(_('active'), default=True)
@@ -29,16 +31,16 @@ class ServiceType(models.Model):
     class Meta:
         verbose_name = _('service type')
         verbose_name_plural = _('service types')
-        ordering = ['sort_order', 'name']
+        ordering = ['sort_order', 'slug']
 
     def __str__(self):
         """
-        Hizmet türünün adını döndürür.
+        Hizmet türünün etkin dildeki adını döndürür; çeviri yoksa başka dildeki adı, o da yoksa slug'ı verir.
 
         Returns:
             str: Hizmet adı.
         """
-        return self.name
+        return self.safe_translation_getter('name', default=self.slug, any_language=True)
 
 
 class CareRequest(models.Model):

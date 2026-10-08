@@ -133,10 +133,19 @@ class CareQueryCountTests(APITestCase):
 
         self.assertEqual(len(grown.captured_queries), len(baseline.captured_queries))
 
-    def test_service_list_uses_single_query(self):
-        """Hizmet listesinin hizmet sayısından bağımsız tek sorguyla döndüğünü doğrular."""
-        for _index in range(5):
-            make_service()
+    def test_service_list_query_count_is_constant(self):
+        """
+        Hizmet listesinin sorgu sayısının hizmet sayısından bağımsız olduğunu doğrular.
 
-        with self.assertNumQueries(1):
-            self.client.get(reverse('care:service-list'))
+        Senaryo:
+        - Önce 2, sonra 7 hizmet varken liste istenir.
+
+        Beklenti:
+        - Her iki durumda da 2 sorgu çalışmalıdır: hizmetler ve tek seferde yüklenen çevirileri.
+        """
+        for count in (2, 5):
+            for _index in range(count):
+                make_service()
+
+            with self.assertNumQueries(2):
+                self.client.get(reverse('care:service-list'))

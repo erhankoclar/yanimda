@@ -3,6 +3,7 @@
 from datetime import timedelta
 
 import factory
+from django.conf import settings
 from django.utils import timezone
 
 from apps.accounts.factories import UserFactory
@@ -45,10 +46,17 @@ class BackdatedFactory(factory.django.DjangoModelFactory):
 
 
 class ServiceTypeFactory(factory.django.DjangoModelFactory):
-    """Benzersiz slug'lı aktif hizmet türü üretir."""
+    """
+    Benzersiz slug'lı aktif hizmet türü üretir.
+
+    Ad ve açıklama, o an etkin dilden bağımsız olarak varsayılan dilin (Türkçe) çevirisine yazılır;
+    başka dil satırı gerekiyorsa `set_current_language` ile ayrıca eklenir.
+    """
 
     class Meta:
         model = ServiceType
+
+    _current_language = factory.LazyFunction(lambda: settings.PARLER_DEFAULT_LANGUAGE_CODE)
 
     name = factory.Sequence(lambda number: f'Hizmet {number}')
     slug = factory.Sequence(lambda number: f'hizmet-{number}')

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'drf_spectacular',
     'django_filters',
+    'parler',
     'apps.accounts',
     'apps.care',
 ]
@@ -92,6 +93,18 @@ LANGUAGES = [
     ('en', _('English')),
 ]
 LOCALE_PATHS = [BASE_DIR / 'locale']
+
+# Kullanıcıya gösterilen içerik çevirileri (ör. hizmet adları) django-parler ile tutulur:
+# her dil çeviri tablosunda bir satırdır. Etkin dil Django'nun dilinden (Accept-Language) gelir,
+# çevirisi olmayan dilde Türkçeye düşülür.
+PARLER_DEFAULT_LANGUAGE_CODE = 'tr'
+PARLER_LANGUAGES = {
+    None: tuple({'code': code} for code, _name in LANGUAGES),
+    'default': {'fallbacks': ['tr'], 'hide_untranslated': False},
+}
+# Çeviriler sorgularda önceden yüklendiği için parler'in önbelleği kapalıdır; önbellek, çeviri
+# değiştirildiğinde başka süreçlerde ve testlerde bayat metin gösterebiliyordu.
+PARLER_ENABLE_CACHING = False
 TIME_ZONE = 'Europe/Istanbul'
 USE_I18N = True
 USE_TZ = True
