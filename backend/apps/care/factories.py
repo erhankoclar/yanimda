@@ -63,7 +63,12 @@ class ServiceInquiryFactory(BackdatedFactory):
     class Meta:
         model = ServiceInquiry
 
-    full_name = factory.Faker('name', locale='tr_TR')
+    class Params:
+        # Faker'ın tr_TR `name` sağlayıcısı unvan ve dört parçalı ad üretebildiği için ad ve soyad ayrı üretilir.
+        first_name = factory.Faker('first_name', locale='tr_TR')
+        last_name = factory.Faker('last_name', locale='tr_TR')
+
+    full_name = factory.LazyAttribute(lambda inquiry: f'{inquiry.first_name} {inquiry.last_name}')
     email = factory.Sequence(lambda number: f'talep{number}@example.com')
     service = factory.SubFactory(ServiceTypeFactory)
     message = factory.Faker('random_element', elements=[
@@ -83,7 +88,12 @@ class CareRequestFactory(BackdatedFactory):
 
     applicant = factory.SubFactory(UserFactory)
     service = factory.SubFactory(ServiceTypeFactory)
-    elder_full_name = factory.Faker('name', locale='tr_TR')
+    class Params:
+        # Unvansız, iki parçalı yaşlı adı için ad ve soyad ayrı üretilir.
+        elder_first_name = factory.Faker('first_name', locale='tr_TR')
+        elder_last_name = factory.Faker('last_name', locale='tr_TR')
+
+    elder_full_name = factory.LazyAttribute(lambda request: f'{request.elder_first_name} {request.elder_last_name}')
     elder_age = factory.Faker('random_int', min=62, max=94)
     relationship = factory.Faker('random_element', elements=CareRequest.Relationship.values)
     elder_notes = ''
