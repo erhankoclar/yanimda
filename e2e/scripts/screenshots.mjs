@@ -7,6 +7,8 @@ const SESSION = process.env.SHOT_SESSION || 'none'
 const PATHS = (process.env.SHOT_PATHS || '/').split(' ').filter(Boolean)
 const THEME = process.env.SHOT_THEME === 'dark' ? 'dark' : 'light'
 const LOCALE = process.env.SHOT_LOCALE || ''
+// Çekimden önce tıklanacak öğe (ör. mobil menü düğmesi); görünmüyorsa atlanır.
+const CLICK = process.env.SHOT_CLICK || ''
 const SIZES = [[390, 844], [820, 1180], [1366, 900]]
 const ADMIN = { email: process.env.E2E_ADMIN_EMAIL || 'admin@yanimda.local', password: process.env.E2E_ADMIN_PASSWORD || 'Yanimda-Admin-2026' }
 
@@ -49,10 +51,16 @@ for (const path of PATHS) {
     for (const [width, height] of SIZES) {
       await page.setViewportSize({ width, height })
       await page.waitForTimeout(400)
+      if (CLICK && await page.locator(CLICK).first().isVisible()) {
+        await page.locator(CLICK).first().click()
+        await page.waitForTimeout(500)
+      }
       const file = `/shots/${slug}-${width}.png`
       await page.screenshot({ path: file, fullPage: true })
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
       console.log(`SHOT ${path} ${width}px ${file} yatay-tasma=${overflow > 0 ? overflow + 'px' : 'yok'}`)
+      // Açılan katman bir sonraki genişliğe taşınmasın diye sayfa yeniden yüklenir.
+      if (CLICK) await page.reload({ waitUntil: 'networkidle' })
     }
   } catch (error) {
     console.log(`ERROR ${path} ${error.message}`)
