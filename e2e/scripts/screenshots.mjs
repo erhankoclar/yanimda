@@ -9,6 +9,8 @@ const THEME = process.env.SHOT_THEME === 'dark' ? 'dark' : 'light'
 const LOCALE = process.env.SHOT_LOCALE || ''
 // Çekimden önce tıklanacak öğe (ör. mobil menü düğmesi); görünmüyorsa atlanır.
 const CLICK = process.env.SHOT_CLICK || ''
+// Aynı öğeye kaç kez tıklanacağı (ör. haritayı birkaç kademe yakınlaştırmak için).
+const CLICK_TIMES = Math.max(1, Number(process.env.SHOT_CLICK_TIMES) || 1)
 const SIZES = [[390, 844], [820, 1180], [1366, 900]]
 const ADMIN = { email: process.env.E2E_ADMIN_EMAIL || 'admin@yanimda.local', password: process.env.E2E_ADMIN_PASSWORD || 'Yanimda-Admin-2026' }
 
@@ -55,8 +57,10 @@ for (const path of PATHS) {
       // Grafik gibi boyuta göre yeniden çizilen öğelerin animasyonu bitsin.
       await page.waitForTimeout(900)
       if (CLICK && await page.locator(CLICK).first().isVisible()) {
-        await page.locator(CLICK).first().click()
-        await page.waitForTimeout(500)
+        for (let index = 0; index < CLICK_TIMES; index += 1) {
+          await page.locator(CLICK).first().click()
+          await page.waitForTimeout(500)
+        }
       }
       const file = `/shots/${slug}-${width}.png`
       await page.screenshot({ path: file, fullPage: true })
