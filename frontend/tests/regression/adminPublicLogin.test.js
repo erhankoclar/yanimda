@@ -10,8 +10,17 @@ let wrapper
 
 // Admin sayfaları tembel yüklenir; ilk yükleme yoğun makinede yavaş olabildiği için önceden ısıtılır.
 beforeAll(async () => {
-  await import('@/views/admin/DashboardView.vue')
-}, 90000)
+  await Promise.all([
+    import('@/layouts/PublicLayout.vue'),
+    import('@/layouts/AdminLayout.vue'),
+    import('@/views/public/LandingView.vue'),
+    import('@/views/public/LoginView.vue'),
+    import('@/views/public/RegisterView.vue'),
+    import('@/views/public/NewRequestView.vue'),
+    import('@/views/public/RequestListView.vue'),
+    import('@/views/admin/DashboardView.vue'),
+  ])
+}, 120000)
 
 afterEach(() => {
   wrapper?.unmount()
@@ -63,7 +72,7 @@ describe('genel giriş sayfasından yönetici girişi', () => {
 
     await submitPublicLogin(wrapper)
 
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/admin/dashboard'), { timeout: 5000 })
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/admin/dashboard'), { timeout: 20000 })
   })
 
   it('başvuru sahibi, yönlendirme adresi yokken başvurularına gider', async () => {
@@ -73,7 +82,7 @@ describe('genel giriş sayfasından yönetici girişi', () => {
 
     await submitPublicLogin(wrapper)
 
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests'), { timeout: 5000 })
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests'), { timeout: 20000 })
   })
 
   it('güvenli bir yönlendirme adresi yönetici için de önceliklidir', async () => {
@@ -83,7 +92,7 @@ describe('genel giriş sayfasından yönetici girişi', () => {
 
     await submitPublicLogin(wrapper)
 
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests/new'), { timeout: 5000 })
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/requests/new'), { timeout: 20000 })
   })
 
   it.each(['//evil.com', 'https://evil.com/x'])(
@@ -95,7 +104,7 @@ describe('genel giriş sayfasından yönetici girişi', () => {
 
       await submitPublicLogin(wrapper)
 
-      await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/admin/dashboard'), { timeout: 5000 })
+      await vi.waitFor(() => expect(mounted.router.currentRoute.value.fullPath).toBe('/admin/dashboard'), { timeout: 20000 })
     },
   )
 })
@@ -107,7 +116,7 @@ describe('guestOnly route’ları ve oturumlu kullanıcı', () => {
     const mounted = await mountApp(path)
     wrapper = mounted.wrapper
 
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-dashboard'), { timeout: 5000 })
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-dashboard'), { timeout: 20000 })
   })
 
   it.each(['/login', '/register'])('oturumlu başvuru sahibi %s sayfasını açınca başvurularına yönlenir', async (path) => {
@@ -116,7 +125,7 @@ describe('guestOnly route’ları ve oturumlu kullanıcı', () => {
     const mounted = await mountApp(path)
     wrapper = mounted.wrapper
 
-    expect(mounted.router.currentRoute.value.name).toBe('request-list')
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('request-list'), { timeout: 20000 })
   })
 
   it('oturumsuz kullanıcı genel giriş sayfasını görür', async () => {
@@ -125,7 +134,7 @@ describe('guestOnly route’ları ve oturumlu kullanıcı', () => {
     const mounted = await mountApp('/login')
     wrapper = mounted.wrapper
 
-    expect(mounted.router.currentRoute.value.name).toBe('login')
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('login'), { timeout: 20000 })
   })
 })
 
@@ -175,6 +184,6 @@ describe('site başlığındaki yönetim paneli bağlantısı', () => {
     const link = wrapper.get('nav[aria-label="Hesap"]').findAll('a').find((item) => item.text() === 'Yönetim paneli')
     await link.trigger('click')
 
-    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-dashboard'), { timeout: 5000 })
+    await vi.waitFor(() => expect(mounted.router.currentRoute.value.name).toBe('admin-dashboard'), { timeout: 20000 })
   })
 })

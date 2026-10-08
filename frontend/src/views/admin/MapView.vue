@@ -86,10 +86,11 @@ function openArea(area) {
         <span class="map-page__total-label">{{ t('admin.map.totalLabel') }}</span>
       </div>
       <div class="map-page__filters">
-        <label class="visually-hidden" for="map-service">{{ t('admin.map.service') }}</label>
+        <label id="map-service-label" class="visually-hidden" for="map-service">{{ t('admin.map.service') }}</label>
         <Select
           v-model="serviceValue"
           inputId="map-service"
+          ariaLabelledby="map-service-label"
           :options="serviceOptions"
           optionLabel="label"
           optionValue="value"

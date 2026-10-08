@@ -54,12 +54,14 @@ const hasChanges = computed(() => Object.keys(changes.value).length > 0)
 
     <form class="status-panel__form" novalidate @submit.prevent="emit('save', changes)">
       <div class="status-panel__field">
-        <label for="status-next">{{ t('admin.requestDetail.nextStatus') }}</label>
+        <!-- PrimeVue Select'in odaklanan öğesi combobox rollü bir span'dir; etiket ona aria-labelledby ile bağlanır. -->
+        <label id="status-next-label" for="status-next">{{ t('admin.requestDetail.nextStatus') }}</label>
         <p v-if="isFinal" class="status-panel__hint">{{ t('admin.requestDetail.finalStatus') }}</p>
         <Select
           v-else
           v-model="form.status"
           inputId="status-next"
+          ariaLabelledby="status-next-label"
           :options="nextOptions"
           optionLabel="label"
           optionValue="value"
