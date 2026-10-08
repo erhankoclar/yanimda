@@ -301,7 +301,7 @@ The frontend uses `VITE_API_PROXY_TARGET` (default `http://localhost:8000`) and 
 
 Tests are grouped by type and the full set runs as a regression check before every change. Tests run **inside the Docker containers, on PostgreSQL**.
 
-### Backend (169 tests)
+### Backend (301 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
@@ -319,7 +319,7 @@ docker compose exec backend sh run_tests.sh security     # one type
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (170 tests)
+### Frontend (444 tests)
 
 | Type | Folder | What it checks |
 | --- | --- | --- |
@@ -327,6 +327,7 @@ docker compose exec backend sh run_tests.sh unit scenario
 | `component` | `tests/component` | Component behaviour (e.g. session aware menu) |
 | `integration` | `tests/integration` | HTTP client and token refresh, auth store, routing |
 | `security` | `tests/security` | Route guards, tokens never sent to other origins, open redirects |
+| `regression` | `tests/regression` | Found bugs not coming back (e.g. staff reaching the admin panel from the public login, detail route patterns) |
 | `accessibility` | `tests/accessibility` | axe-core audit, skip link, landmarks |
 
 ```bash
@@ -334,9 +335,9 @@ docker compose exec frontend npx vitest run
 docker compose exec frontend npx vitest run tests/security
 ```
 
-### End to end (Playwright, 18 tests)
+### End to end (Playwright, 40 tests)
 
-The tests in `e2e/` run against the running stack (real frontend, backend and PostgreSQL) on phone and desktop viewports: sending, success and error states of the quick form and the stored record found in the database, server validation when the client is bypassed, registration + five step application + duplicate rejection, and checks for horizontal overflow and console errors.
+The tests in `e2e/` run against the running stack (real frontend, backend and PostgreSQL) on phone and desktop viewports: sending, success and error states of the quick form and the stored record found in the database, server validation when the client is bypassed, registration + five step application (with district and neighbourhood choice) + duplicate rejection, admin sign-in (from the admin and the public login page), a quick inquiry showing up on the dashboard and in the list, an admin status change reaching the applicant (without the admin note), the demand map, and checks for horizontal overflow and console errors.
 
 ```bash
 docker compose up -d --wait

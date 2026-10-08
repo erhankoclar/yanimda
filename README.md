@@ -301,7 +301,7 @@ Frontend için `VITE_API_PROXY_TARGET` (varsayılan `http://localhost:8000`) ve 
 
 Testler türlerine göre klasörlenmiştir ve her değişiklikten önce tamamı regresyon olarak çalıştırılır. Testler **Docker konteynerlerinde, PostgreSQL üzerinde** çalışır.
 
-### Backend (169 test)
+### Backend (301 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |
@@ -319,7 +319,7 @@ docker compose exec backend sh run_tests.sh security     # tek tür
 docker compose exec backend sh run_tests.sh unit scenario
 ```
 
-### Frontend (170 test)
+### Frontend (444 test)
 
 | Tür | Klasör | Ne sınar |
 | --- | --- | --- |
@@ -327,6 +327,7 @@ docker compose exec backend sh run_tests.sh unit scenario
 | `component` | `tests/component` | Bileşen davranışı (ör. oturuma göre menü) |
 | `integration` | `tests/integration` | HTTP istemcisi ve token yenileme, auth store, yönlendirme |
 | `security` | `tests/security` | Route guard'ları, token'ın dış adrese gitmemesi, açık yönlendirme |
+| `regression` | `tests/regression` | Bulunmuş hataların geri gelmemesi (ör. yöneticinin genel girişten panele gitmesi, detay adres düzenleri) |
 | `accessibility` | `tests/accessibility` | axe-core denetimi, içeriğe geç bağlantısı, sayfa bölgeleri |
 
 ```bash
@@ -334,9 +335,9 @@ docker compose exec frontend npx vitest run
 docker compose exec frontend npx vitest run tests/security
 ```
 
-### Uçtan uca (Playwright, 18 test)
+### Uçtan uca (Playwright, 40 test)
 
-`e2e/` klasöründeki testler çalışan yığına (gerçek frontend, backend ve PostgreSQL) karşı telefon ve masaüstü görünümlerinde koşar: hızlı formun gönderiliyor/başarı/hata durumları ve kaydın veritabanında bulunması, istemci atlatıldığında sunucu doğrulaması, kayıt + 5 adımlı başvuru + mükerrer başvurunun reddi, yatay taşma ve konsol hatası kontrolü.
+`e2e/` klasöründeki testler çalışan yığına (gerçek frontend, backend ve PostgreSQL) karşı telefon ve masaüstü görünümlerinde koşar: hızlı formun gönderiliyor/başarı/hata durumları ve kaydın veritabanında bulunması, istemci atlatıldığında sunucu doğrulaması, kayıt + 5 adımlı başvuru (ilçe ve mahalle seçimiyle) + mükerrer başvurunun reddi, admin girişi (admin ve genel giriş sayfasından), hızlı talebin gösterge paneli ve listede görünmesi, admin'in durum değiştirmesinin başvuru sahibine yansıması (yönetici notu gösterilmeden), talep haritası, yatay taşma ve konsol hatası kontrolü.
 
 ```bash
 docker compose up -d --wait
