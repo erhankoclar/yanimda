@@ -48,7 +48,15 @@ class AdminServiceInquiryFilter(django_filters.FilterSet):
     neighborhood = django_filters.NumberFilter(
         field_name='neighborhood_id', help_text=api_descriptions.ADMIN_FILTER_NEIGHBORHOOD_HELP_TEXT,
     )
+    created_from = django_filters.DateFilter(
+        field_name='created_at', lookup_expr='date__gte',
+        help_text=api_descriptions.ADMIN_FILTER_CREATED_FROM_INQUIRY_HELP_TEXT,
+    )
+    created_to = django_filters.DateFilter(
+        field_name='created_at', lookup_expr='date__lte',
+        help_text=api_descriptions.ADMIN_FILTER_CREATED_TO_INQUIRY_HELP_TEXT,
+    )
 
     class Meta:
         model = ServiceInquiry
-        fields = ['service', 'district', 'neighborhood']
+        fields = ['service', 'district', 'neighborhood', 'created_from', 'created_to']

@@ -16,6 +16,7 @@ const ITEMS = [
   { name: 'admin-dashboard', icon: 'pi pi-th-large', labelKey: 'admin.nav.dashboard', routes: ['admin-dashboard'] },
   { name: 'admin-inquiries', icon: 'pi pi-inbox', labelKey: 'admin.nav.inquiries', routes: ['admin-inquiries'] },
   { name: 'admin-requests', icon: 'pi pi-file-edit', labelKey: 'admin.nav.requests', routes: ['admin-requests', 'admin-request-detail'] },
+  { name: 'admin-map', icon: 'pi pi-map', labelKey: 'admin.nav.map', routes: ['admin-map'] },
   { name: 'admin-users', icon: 'pi pi-users', labelKey: 'admin.nav.users', routes: ['admin-users', 'admin-user-detail'] },
 ]
 

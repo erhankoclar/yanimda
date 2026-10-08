@@ -27,6 +27,7 @@ export const routes = [
       { path: '', redirect: { name: 'admin-dashboard' } },
       { path: 'dashboard', name: 'admin-dashboard', component: () => import('@/views/admin/DashboardView.vue'), meta: { titleKey: 'admin.titles.dashboard' } },
       { path: 'inquiries', name: 'admin-inquiries', component: () => import('@/views/admin/InquiriesView.vue'), meta: { titleKey: 'admin.titles.inquiries' } },
+      { path: 'map', name: 'admin-map', component: () => import('@/views/admin/MapView.vue'), meta: { titleKey: 'admin.titles.map' } },
       { path: 'users', name: 'admin-users', component: () => import('@/views/admin/UsersView.vue'), meta: { titleKey: 'admin.titles.users' } },
       { path: 'users/:id(\\d+)', name: 'admin-user-detail', component: () => import('@/views/admin/UserDetailView.vue'), props: true, meta: { titleKey: 'admin.titles.userDetail' } },
       { path: 'requests', name: 'admin-requests', component: () => import('@/views/admin/RequestsView.vue'), meta: { titleKey: 'admin.titles.requests' } },

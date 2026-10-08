@@ -173,3 +173,31 @@ ADMIN_DASHBOARD_SOURCE_HELP_TEXT = _(
     'What the service chart counts: <code>all</code> (quick inquiries and applications), '
     '<code>inquiries</code> or <code>requests</code>. Defaults to <code>all</code>.'
 )
+
+ADMIN_MAP_SUMMARY = _('Admin: thematic map counts')
+ADMIN_MAP_VIEW_DESCRIPTION = _(
+    '<p>Returns how many quick inquiries and applications came from each district and neighbourhood of '
+    'Istanbul, for the admin thematic map. Only admin users can call it.</p>'
+    '<h3>Processing</h3>'
+    '<ol>'
+    '<li>Records are counted in the database by neighbourhood and service; records without a location '
+    '(created before locations were collected) are left out.</li>'
+    '<li>Every district is returned, also with zero; only neighbourhoods with at least one record are returned, '
+    'most first.</li>'
+    '<li>Each area also carries <code>by_service</code>, so the map can switch between the total and a single '
+    'service without another request.</li>'
+    '</ol>'
+    '<p>The records behind a number can be listed with '
+    '<a href="#operations-admin-admin_requests_list">Admin: list requests</a> and '
+    '<a href="#operations-admin-admin_inquiries_list">Admin: list quick inquiries</a> using the '
+    '<code>district</code> or <code>neighborhood</code> filter.</p>'
+)
+ADMIN_MAP_SOURCE_HELP_TEXT = _(
+    'What is counted: <code>all</code> (quick inquiries and applications), <code>inquiries</code> or '
+    '<code>requests</code>. Defaults to <code>all</code>.'
+)
+ADMIN_MAP_DAYS_HELP_TEXT = _(
+    'Only records of the last 30, 90 or 365 days, including today. Leave empty for all records.'
+)
+ADMIN_FILTER_CREATED_FROM_INQUIRY_HELP_TEXT = _('Only inquiries created on or after this date (YYYY-MM-DD).')
+ADMIN_FILTER_CREATED_TO_INQUIRY_HELP_TEXT = _('Only inquiries created on or before this date (YYYY-MM-DD).')

@@ -154,7 +154,10 @@ Frontend, `/api` isteklerini Vite proxy'si ile backend'e iletir; tarayıcı yaln
 | Backend | Python 3.12, Django 5.2, Django REST Framework, Simple JWT (token kara listesi ile), drf-spectacular, django-filter, django-environ |
 | Veritabanı | PostgreSQL 17 (SQLite kullanılmaz) |
 | Frontend | Vue 3 (`<script setup>`), Vue Router, Pinia, axios, Vite |
-| Admin arayüzü | PrimeVue (yalnızca admin tarafında, ayrı yüklenen paketlerde) |
+| Admin arayüzü | PrimeVue (yalnızca admin tarafında, ayrı yüklenen paketlerde), Chart.js |
+| Harita | MapLibre GL JS, OpenFreeMap altlığı, OpenStreetMap ilçe/mahalle sınırları |
+| İçerik çevirisi | django-parler (yalnızca sistemin sunduğu hizmet türleri) |
+| Test ve demo verisi | factory-boy + Faker |
 | Testler | Django test runner, Vitest + Vue Test Utils + axe-core, Playwright imajı ile ekran görüntüsü kontrolleri |
 
 ### İki ayrı arayüz
@@ -197,6 +200,7 @@ Frontend, `/api` isteklerini Vite proxy'si ile backend'e iletir; tarayıcı yaln
 - Yaşlının yaşı 40–120 arasında olmalıdır.
 - Telefonlar 10–15 rakam olmalıdır; boşluk, parantez ve tireler temizlenerek saklanır.
 - Alternatif kişi adı ve telefonu birlikte verilmelidir.
+- **Konum:** Hizmet yalnızca İstanbul'da verilir. İlçe ve mahalle listeden seçilir (OpenStreetMap sınırları, 39 ilçe, 964 mahalle); adres alanına sokak, bina ve daire yazılır. Hızlı talep formunda da ilçe ve mahalle sorulur. Konum alınmaya başlanmadan önceki kayıtlarda il/ilçe metni adresin sonuna taşınmıştır ve haritada yer almaz.
 - Yalnızca aktif hizmetlere başvurulabilir. Yayından kaldırılan hizmetin eski başvuruları görünmeye devam eder.
 - **Mükerrer başvuru engeli:** Aynı kullanıcı, **aynı yaşlı için aynı hizmete** açık (yeni / inceleniyor / atandı) bir başvurusu varken yenisini açamaz. Talep tamamlanınca veya iptal edilince tekrar başvurabilir. Aynı kişi annesi ve babası için ayrı ayrı veya aynı yaşlı için farklı hizmetlere başvurabilir. Yaşlı adı büyük/küçük harf, fazla boşluk ve Türkçe **I/İ/ı/i** farklarından bağımsız karşılaştırılır ("FATMA YILMAZ" = "fatma yilmaz"). Kural veritabanında kısmi benzersizlik kısıtıyla da korunur; aynı anda gelen iki istek de engellenir.
 - Kullanıcı yalnızca **kendi** başvurularını görür; başkasının başvurusu "bulunamadı" (404) döner.
@@ -219,6 +223,7 @@ yeni ──► inceleniyor ──► atandı ──► tamamlandı
 
 - Admin API'leri ve sayfaları yalnızca `is_staff` kullanıcılara açıktır. Django'nun kendi yönetim paneli kullanılmaz ve yayında değildir.
 - Gösterge paneli: toplam, açık ve son 7 günlük başvuru sayısı; aktif başvuru sahibi sayısı; her durumun ve her hizmetin sayısı (sıfırlar dahil); son 14 günün günlük serisi.
+- **Talep haritası** (`/admin/map`): İstanbul'un tematik haritası. Uzaktan bakınca il toplamı tek balon olarak görünür; yakınlaştıkça önce ilçe, sonra mahalle sayıları açılır (en ayrıntılı düzey mahalledir). Alanlar sayıya göre tek tonlu yoğunluk rengiyle boyanır; lejant sınıfları verinin dağılımından hesaplanır. Toplam ya da tek hizmet, kaynak (hızlı talep / başvuru) ve dönem seçilebilir. Yandaki sıralama en çok ve hiç talep gelmeyen yerleri gösterir; bir sayıya, alana ya da satıra tıklayınca o yerin kayıtları yan panelde listelenir.
 - Kullanıcı yönetimi şimdilik salt okunurdur.
 
 ## API
@@ -418,7 +423,8 @@ Kök dizindeki `Dockerfile` Vue sitesini derler ve Django API ile birlikte tek b
 
 ## Bilinen eksikler
 
-- **Admin panel ekranları yapılmadı.** Admin API'leri (talepler, durum güncelleme, istatistikler, kullanıcılar, hızlı talepler) hazır ve test edildi; Vue tarafındaki admin sayfaları şimdilik yalnızca başlık içerir.
+- **Admin listeleri henüz yapılmadı.** Gösterge paneli ve talep haritası hazır; hızlı talepler, başvurular ve kullanıcılar sayfaları şimdilik yalnızca başlık içerir (API'leri hazır ve test edildi).
+- Harita altlığı OpenFreeMap'in ücretsiz hizmetinden gelir; hizmete erişilemezse harita açılmaz; sıralama listesi ve kayıt listeleri haritadan bağımsız çalışmayı sürdürür.
 - Hızlı talep gelince e-posta bildirimi gönderilmez; talepler kaydedilir ve admin API'sinden görülür.
 - Başvurular internetten düzenlenemez veya iptal edilemez.
 - İletişim telefonu ve çalışma saatleri yer tutucudur.
@@ -432,6 +438,22 @@ Kök dizindeki `Dockerfile` Vue sitesini derler ve Django API ile birlikte tek b
 - Fotoğraflar: Pexels lisanslı stok fotoğraflar; kaynakları `frontend/public/images/CREDITS.md` dosyasında.
 - Yazı tipleri: Google Fonts üzerinden Atkinson Hyperlegible Next ve Bricolage Grotesque (SIL Open Font License).
 - Kullanılan açık kaynak kütüphaneler: `backend/requirements.txt`, `frontend/package.json` ve `e2e/package.json`.
+
+### Dış kaynaklar
+
+| Kaynak | Ne için | Lisans | Bağlantı |
+| --- | --- | --- | --- |
+| OpenStreetMap ilçe ve mahalle sınırları | Konum seçimi ve harita poligonları (`frontend/public/geo`, `backend/apps/geo/data`) | ODbL 1.0, atıf: © OpenStreetMap katkıcıları | https://www.openstreetmap.org/copyright |
+| Overpass API | Sınırların indirilmesi (yalnızca `scripts/geo/build_istanbul_boundaries.py`) | Hizmet; veri ODbL | https://overpass-api.de |
+| OpenFreeMap | Admin haritasının altlığı (`positron` ve `dark` stilleri, anahtarsız); kesintisiz çalışma garantisi yoktur | Hizmet; veri OpenMapTiles + OpenStreetMap | https://openfreemap.org |
+| MapLibre GL JS 6.13.0 | Admin tematik haritası | BSD-3-Clause | https://maplibre.org |
+| osmtogeojson 3.0.0-beta.5 | OSM verisini GeoJSON'a çevirme (yalnızca sınır betiği, `npx`) | MIT | https://github.com/tyrasd/osmtogeojson |
+| mapshaper 0.6.102 | Sınırları sadeleştirme ve etiket noktaları (yalnızca sınır betiği, `npx`) | MPL-2.0 | https://github.com/mbloch/mapshaper |
+| django-parler 2.4 | Hizmet türü ad ve açıklamalarının dil başına çevirisi | Apache-2.0 | https://github.com/django-parler/django-parler |
+| factory-boy 3.3.3 + Faker 40.41.0 | Test verisi ve `care_create_demo_data` kurgusal verisi | MIT | https://factoryboy.readthedocs.io |
+| PrimeVue 4.5.5, PrimeIcons 7.0.0 | Admin arayüzü | MIT | https://primevue.org |
+| Chart.js 4.5.1 | Gösterge paneli grafikleri | MIT | https://www.chartjs.org |
+| vue-i18n 11 | Türkçe/İngilizce arayüz | MIT | https://vue-i18n.intlify.dev |
 
 ## Sorun giderme
 
