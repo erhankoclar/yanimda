@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-08 07:46+0300\n"
+"POT-Creation-Date: 2026-10-08 09:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -738,23 +738,17 @@ msgstr "Demo verisi yalnızca DEBUG açıkken oluşturulabilir."
 msgid "Existing demo data removal"
 msgstr "Mevcut demo verisinin silinmesi"
 
-#| msgid "Latest quick inquiries and applications."
 msgid "Demo inquiries and applications"
 msgstr "Demo hızlı talepleri ve başvuruları"
 
-#| msgid "CARE DEFAULT DATA SETUP STARTED"
 msgid "CARE DEMO DATA SETUP STARTED"
 msgstr "BAKIM DEMO VERİSİ KURULUMU BAŞLATILDI"
 
 #, python-format
-#| msgid "Care default data setup failed: %(error)s"
 msgid "Care demo data setup failed: %(error)s"
 msgstr "Bakım demo verisi kurulumu başarısız oldu: %(error)s"
 
 #, python-format
-#| msgid ""
-#| "All care default data operations completed. Created: %(created)d, Updated: "
-#| "%(updated)d."
 msgid ""
 "All care demo data operations completed. Created: %(created)d, Updated: "
 "%(updated)d."
@@ -766,20 +760,14 @@ msgstr ""
 msgid "Removed rows: %(count)d."
 msgstr "Silinen satır: %(count)d."
 
-msgid "name"
-msgstr "ad"
-
 msgid "slug"
 msgstr "kısa ad"
 
+msgid "name"
+msgstr "ad"
+
 msgid "description"
 msgstr "açıklama"
-
-msgid "name (English)"
-msgstr "ad (İngilizce)"
-
-msgid "description (English)"
-msgstr "açıklama (İngilizce)"
 
 msgid "icon key"
 msgstr "ikon anahtarı"
@@ -1030,6 +1018,126 @@ msgstr "\"%(current)s\" durumundaki bir talep \"%(target)s\" durumuna taşınama
 
 msgid "Enter a valid phone number."
 msgstr "Geçerli bir telefon numarası girin."
+
+#| msgid "List services"
+msgid "List districts"
+msgstr "İlçeleri listele"
+
+msgid ""
+"<p>Lists the districts of Istanbul, where the service is offered, in Turkish "
+"alphabetical order. No authentication is required.</p><p>The application and "
+"quick inquiry forms show these districts first; the neighbourhoods of the "
+"chosen district come from <a href=\"#operations-locations-"
+"geo_districts_neighborhoods_list\">List neighbourhoods of a district</a>.</p>"
+msgstr ""
+"<p>Hizmetin verildiği İstanbul'un ilçelerini Türkçe alfabe sırasıyla "
+"listeler. Kimlik doğrulama gerekmez.</p><p>Başvuru ve hızlı talep formları "
+"önce bu ilçeleri gösterir; seçilen ilçenin mahalleleri <a href=\"#operations-"
+"locations-geo_districts_neighborhoods_list\">İlçenin mahallelerini "
+"listele</a> servisinden gelir.</p>"
+
+msgid ""
+"<p>Lists the districts of Istanbul, where the service is offered, in Turkish "
+"alphabetical order. No authentication is required.</p><p>The application and "
+"quick inquiry forms show these districts first; the neighbourhoods of the "
+"chosen district come from the \"List neighbourhoods of a district\" "
+"service.</p>"
+msgstr ""
+"<p>Hizmetin verildiği İstanbul'un ilçelerini Türkçe alfabe sırasıyla "
+"listeler. Kimlik doğrulama gerekmez.</p><p>Başvuru ve hızlı talep formları "
+"önce bu ilçeleri gösterir; seçilen ilçenin mahalleleri \"İlçenin "
+"mahallelerini listele\" servisinden gelir.</p>"
+
+msgid "List neighbourhoods of a district"
+msgstr "İlçenin mahallelerini listele"
+
+msgid ""
+"<p>Lists the neighbourhoods of one district in Turkish alphabetical order. No"
+" authentication is required.</p><p>An unknown district returns an empty "
+"list.</p>"
+msgstr ""
+"<p>Bir ilçenin mahallelerini Türkçe alfabe sırasıyla listeler. Kimlik "
+"doğrulama gerekmez.</p><p>Bilinmeyen ilçe için boş liste döner.</p>"
+
+#| msgid ""
+#| "Identifier of the user. Copy it from <a href=\"#operations-admin-"
+#| "admin_users_list\">Admin: list users — <code>results[].id</code></a>."
+msgid ""
+"District identifier. Copy it from <a href=\"#operations-locations-"
+"geo_districts_list\">List districts</a> — <code>[].id</code>."
+msgstr ""
+"İlçe kimliği. <a href=\"#operations-locations-geo_districts_list\">İlçeleri "
+"listele</a> — <code>[].id</code> alanından alınır."
+
+msgid "Locations"
+msgstr "Konumlar"
+
+#| msgid "Creates or updates the default data of the care module."
+msgid ""
+"Creates or updates the default districts and neighbourhoods of the geo "
+"module."
+msgstr ""
+"geo modülünün varsayılan ilçe ve mahallelerini oluşturur veya günceller."
+
+msgid "Districts and neighbourhoods"
+msgstr "İlçeler ve mahalleler"
+
+#| msgid "CARE DEFAULT DATA SETUP STARTED"
+msgid "GEO DEFAULT DATA SETUP STARTED"
+msgstr "KONUM VARSAYILAN VERİ KURULUMU BAŞLATILDI"
+
+#, python-format
+#| msgid "Care default data setup failed: %(error)s"
+msgid "Geo default data setup failed: %(error)s"
+msgstr "Konum varsayılan veri kurulumu başarısız oldu: %(error)s"
+
+#, python-format
+#| msgid ""
+#| "All care default data operations completed. Created: %(created)d, Updated: "
+#| "%(updated)d."
+msgid ""
+"All geo default data operations completed. Created: %(created)d, Updated: "
+"%(updated)d."
+msgstr ""
+"Tüm konum varsayılan veri işlemleri tamamlandı. Oluşturulan: %(created)d, "
+"Güncellenen: %(updated)d."
+
+msgid "OpenStreetMap id"
+msgstr "OpenStreetMap kimliği"
+
+#| msgid "district"
+msgid "districts"
+msgstr "ilçeler"
+
+msgid "neighborhood"
+msgstr "mahalle"
+
+msgid "neighborhoods"
+msgstr "mahalleler"
+
+msgid "District identifier; used to list its neighbourhoods."
+msgstr "İlçe kimliği; mahallelerini listelemek için kullanılır."
+
+msgid "District name as written in Turkish."
+msgstr "İlçenin Türkçe yazılışı."
+
+#| msgid "Icon key of the service type."
+msgid "ASCII key of the district name."
+msgstr "İlçe adının ASCII anahtarı."
+
+msgid "OpenStreetMap relation id; matches the district polygon on the map."
+msgstr "OpenStreetMap ilişki kimliği; haritadaki ilçe poligonuyla eşleşir."
+
+msgid ""
+"Neighbourhood identifier; sent as the location of applications and inquiries."
+msgstr "Mahalle kimliği; başvuru ve hızlı taleplerin konumu olarak gönderilir."
+
+msgid "Neighbourhood name as written in Turkish."
+msgstr "Mahallenin Türkçe yazılışı."
+
+msgid ""
+"OpenStreetMap relation id; matches the neighbourhood polygon on the map."
+msgstr "OpenStreetMap ilişki kimliği; haritadaki mahalle poligonuyla eşleşir."
 
 msgid "Turkish"
 msgstr "Türkçe"

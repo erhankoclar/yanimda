@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_filters',
     'parler',
     'apps.accounts',
+    'apps.geo',
     'apps.care',
 ]
 

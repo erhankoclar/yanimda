@@ -5,6 +5,7 @@ set -e
 
 python manage.py compilemessages -l tr --ignore ".venv" >/dev/null
 python manage.py migrate --noinput
+python manage.py geo_create_defaults
 python manage.py care_create_defaults
 
 # Yalnızca yerel geliştirme için: e-posta ve parola verilmişse ve hesap yoksa admin oluşturulur.
